@@ -1,0 +1,71 @@
+﻿@model DataAccess.Models.UserModel
+@using DataAccess
+@{
+    var list = new DataAccess.Repository.ProfileTemplateRepository().GetAllTemplates("BharatTouch/EditProfile/_selectProfileTemplate.cshtml");
+    var UserUrlCode = Url.RequestContext.RouteData.Values["code"].NullToString();
+    var CompanyUrlCode = Url.RequestContext.RouteData.Values["company"].NullToString();//codeorname
+
+    if (CompanyUrlCode != null && CompanyUrlCode != "")
+    {
+        UserUrlCode = CompanyUrlCode + "/" + UserUrlCode;
+    }
+}
+
+@if (list != null)
+{
+<div class="php-email-form">
+    <style>
+        .templateNameTag {
+            height: 116px !important;
+            padding-top: 10px !important;
+        }
+
+        .text-theme:hover {
+            color: var(--bharattouch-theme-color) !important;
+        }
+
+    </style>
+    <input type="hidden" value="@Model.ProfileTemplateId" id="selectedProfileTemplateId" />
+    <div class="row">
+        @foreach (var item in list)
+        {
+
+            <div class="col-lg-4 col-md-6" style="background-color:none">
+                <div class="d-flex flex-column">
+                    <div class="teamplayer">
+                        <img src="@((item.TemplateImagePath != null && item.TemplateImagePath.NullToString() != "") ? Url.Content(item.TemplateImagePath) : "")" style="max-height: 500px; max-width: 100%; min-height: 100px; object-fit: cover; " alt="@item.TemplateName">
+
+                        <div class="name_tag templateNameTag">
+                            <strong class="text-theme">@item.TemplateName</strong>
+                            <p class="p-2">
+                                @item.TemplateDescription
+                            </p>
+                        </div>
+                    </div>
+                    @*bi bi-aspect-ratio      for preview*@
+                    <a class="btn share-btn mt-2 mb-2 mx-3 " href="/preview_profile/@UserUrlCode/@item.ProfileTemplateId" target="_blank">
+                        <i class="bi bi-eye"></i> Preview
+                    </a>
+                    <span id="selectProfileTemplateLoader" class="lds-dual-ring-blue"></span>
+                    @if (Model.ProfileTemplateId == item.ProfileTemplateId)
+                    {
+                        <div class="form-group ml-2 d-flex" style=" align-items: end; justify-content: center;">
+                            <input type="radio" name="rdProfileTemplate" id="template_@item.ProfileTemplateId" checked />
+                            <label for="template_@item.ProfileTemplateId" class="ml-2">Selected</label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group ml-2 d-flex" style=" align-items: end; justify-content: center;">
+                            <input type="radio" name="rdProfileTemplate" id="template_@item.ProfileTemplateId" />
+                            <label for="template_@item.ProfileTemplateId" class="ml-2">Select</label>
+                        </div>
+                    }
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+
+}

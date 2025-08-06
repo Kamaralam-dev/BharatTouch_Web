@@ -1,0 +1,62 @@
+﻿@model DataAccess.Models.BlogModel
+@using BharatTouch.CommonHelper
+@using DataAccess
+@{
+    int companyId = BharatTouch.CommonHelper.Utility.GetCookie("CompanyId_auth").ToIntOrZero();
+
+    bool disableCompanyManagedSections = companyId > 0;
+}
+
+<div id="divBlogShowHide">
+    @using (Html.BeginForm("SaveBlog", "Users", FormMethod.Post, new { id = "upsertBlogForm", @class = "php-email-form", @enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(t => t.BlogId)
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="name"><span style="color:red;">*</span>Title</label>
+                @Html.TextBoxFor(t => t.BlogTitle, new { @class = "form-control required-left", @placeholder = "" })
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="name"><span style="color:red;">*</span>Category</label>
+                @Html.TextBoxFor(t => t.BlogCategory, new { @class = "form-control required-left", @placeholder = "" })
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="name"><span style="color:red;">*</span>Blog Url</label>
+                @Html.TextBoxFor(t => t.BlogUrl, new { @class = "form-control required-left", @placeholder = "" })
+            </div>
+        </div>
+        <div class="form-row">
+
+            <div class="form-group col-md-6">
+                <button class="btn btn-secondary btn-block" id="btnCancelBlog" type="button">Cancel</button>
+            </div>
+            <div class="form-group col-md-6">
+
+                <button class="btn-block share-btn" type="submit"><div class="lds-dual-ring"></div>&nbsp;@((Model == null || Model.BlogId == 0) ? "Add" : "Update") Blog</button>
+
+            </div>
+        </div>
+
+    }
+</div>
+
+<script>
+        debugger;
+        $(document).ready(function () {
+            if (@companyId > 0) {
+                //$('#BlogTitle').prop('disabled', true);
+                //$('#BlogCategory').prop('disabled', true);
+                //$('#BlogUrl').prop('disabled', true);
+                $("#divBlogShowHide").hide();
+            }
+            else {
+                $("#divBlogShowHide").show();
+            }
+        });
+
+</script>
+

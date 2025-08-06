@@ -1,0 +1,185 @@
+﻿
+div:where(.swal2-container) {
+    z-index: 10000;
+}
+
+.container-user {
+    font-family: sans-serif;
+    background-color: #f8f9fa; /* Light grey background */
+    padding: 10px;
+}
+
+.row-user {
+    display: flex;
+}
+
+/* User Tabs Styling */
+.user-tabs-user .nav-pills-user {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-tabs-user .nav-link-user {
+    color: #495057; /* Default tab text color */
+    border-radius: 0 !important; /* Override Bootstrap rounded corners */
+    padding: 4px 20px;
+    border-bottom: 1px solid #eee; /* Light border between tabs */
+}
+
+    .user-tabs-user .nav-link-user:last-child {
+        border-bottom: none; /* Remove border from last tab */
+    }
+
+    .user-tabs-user .nav-link-user.active-user {
+        background-color: #e9ecef; /* Active tab background color */
+        color: #000; /* Active tab text color */
+        border-right: 3px solid #007bff; /* Example accent color, adjust as needed */
+    }
+
+    .user-tabs-user .nav-link-user i {
+        margin-right: 8px;
+    }
+
+.user-tabs-user {
+    font-size: 12px
+}
+
+.user-content-area-user {
+    font-size: 12px
+}
+
+/* User Content Area Styling */
+.user-content-area-user {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+/* Header Section */
+.user-header-section-user {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.user-avatar-section-user {
+    margin-right: 20px;
+}
+
+.user-avatar-circle-user {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #5cb85c; /* Green background for avatar */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    text-transform: uppercase;
+}
+
+.user-details-header-user {
+}
+
+.user-name-header-user {
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+.user-employee-id-header-user {
+    font-size: 14px;
+    color: #6c757d; /* Grey color */
+    margin-bottom: 10px;
+}
+
+.user-contact-info-header-user p {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #495057;
+}
+
+.user-contact-info-header-user i {
+    margin-right: 5px;
+}
+
+/* Data Sections */
+.user-data-section-user {
+}
+
+.user-data-block-user {
+    margin-bottom: 20px;
+}
+
+.user-data-block-title-user {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #343a40; /* Dark grey title color */
+}
+
+.user-data-table-user {
+    width: 100%;
+}
+
+.user-data-row-user {
+    display: flex;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+    .user-data-row-user:last-child {
+        border-bottom: none;
+    }
+
+.user-data-label-user {
+    width: 30%; /* Adjust label width */
+    font-weight: bold;
+    color: #495057;
+}
+
+.user-data-value-user {
+    width: 70%; /* Adjust value width */
+    color: #495057;
+}
+
+/* Availability Section */
+.user-availability-section-user {
+}
+
+.user-availability-header-user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.user-availability-title-user {
+    font-size: 18px;
+    color: #343a40;
+}
+
+.user-availability-settings-user i {
+    font-size: 18px;
+    color: #6c757d;
+    cursor: pointer;
+}
+
+.user-availability-content-user {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #fef0ef; /* Light red background for warning */
+    border-color: #f5c6cb; /* Light red border for warning */
+    color: #842029; /* Dark red text for warning */
+}
+
+    .user-availability-content-user i {
+        margin-right: 8px;
+    }
+
+

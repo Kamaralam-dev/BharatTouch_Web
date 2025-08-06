@@ -1,0 +1,315 @@
+﻿.camera-icon-layout-pic {
+    position: absolute; /* Position overlay over profile picture */
+    top: 50px;
+    right: 17px;
+    background-color: rgb(0 0 0 / 79%); /* Semi-transparent black background */
+    color: white; /* Icon color */
+    width: 20px; /* Size of the overlay area */
+    height: 20px; /* Size of the overlay area */
+    border-radius: 50%; /* Make it circular */
+    display: flex; /* Center the icon inside */
+    justify-content: center;
+    align-items: center;
+    cursor: pointer; /* Indicate it's interactive (optional) */
+}
+
+    .camera-icon-layout-pic i { /* Style the icon itself */
+        font-size: 16px; /* Size of the camera icon */
+        /* You can add more styles here if needed */
+    }
+
+.modal {
+    z-index: 9999 !important;
+}
+
+.sharecircle a {
+    background: #ffab00;
+    color: #ffffff;
+}
+
+.sharecircle a {
+    background: #ffab00;
+    border-radius: 75px;
+    display: inline-block;
+    padding: 11px 15px 10px 10px;
+    color: #fff;
+}
+
+.sharecircle svg {
+    width: 31px;
+}
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+.share-3 svg, .sharecircle svg, .share-inline svg {
+    color: #000;
+}
+
+.share-icon-wrap {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.82);
+    z-index: 9999;
+    text-align: left;
+    overflow-y: scroll;
+}
+
+    .share-icon-wrap .share-options {
+        font-size: 18px;
+        position: relative;
+        /*top: 8px;*/
+    }
+
+    .share-icon-wrap .close {
+        color: #fff;
+        position: absolute;
+        right: 18px;
+        top: 0px;
+        padding: 8px;
+        cursor: pointer;
+        z-index: 51;
+        opacity: 1;
+        font-size: 32px;
+    }
+
+    .share-icon-wrap .close {
+        color: #fff;
+        position: absolute;
+        right: 18px;
+        top: 0px;
+        padding: 8px;
+        cursor: pointer;
+        z-index: 51;
+        opacity: 1;
+        font-size: 32px;
+    }
+
+    .share-icon-wrap span.share-item {
+        display: inline-block;
+        width: 80%;
+        margin: 16px 4%;
+    }
+
+    .share-icon-wrap a {
+        color: #fff;
+    }
+
+.shareico {
+    font-size: 54px;
+    width: 164px;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+    margin-right: 24px;
+    cursor: pointer;
+}
+
+
+.imagesliders-slider img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+}
+
+.myteam-item img {
+    height: 400px;
+}
+
+.myyoutube-item {
+    text-align: center;
+}
+
+.ck-editor__editable {
+    min-height: 400px;
+}
+
+
+.teamplayer {
+    float: left;
+    /*width: 200px;
+    height: 200px;*/
+    border: 1px solid #999;
+    overflow: hidden;
+    /*margin-left: 20px;
+    margin-top: 20px;*/
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    position: relative;
+    cursor: pointer;
+    padding: 0px !important;
+    margin: 3px;
+}
+
+    .teamplayer img {
+        width: 100%;
+    }
+
+    .teamplayer .name_tag {
+        position: absolute;
+        left: 0;
+        bottom: -22px;
+        opacity: 0.8;
+        background-color: #333;
+        height: 68px;
+        line-height: 20px;
+        color: #fff;
+        width: 100%;
+        text-align: center;
+        font-weight: normal;
+        /*padding: 5px 0;*/
+        -webkit-transition: 0.2s ease-in-out;
+        -moz-transition: 0.2s ease-in-out;
+        -ms-transition: 0.2s ease-in-out;
+        -o-transition: 0.2s ease-in-out;
+        transition: 0.2s ease-in-out;
+        font-size: 15px;
+    }
+
+.resume .resume-item {
+    padding: 0 0 20px 20px;
+    margin-top: -2px;
+    border-left: 2px solid #1f5297;
+    position: relative;
+}
+
+    .resume .resume-item::before {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-radius: 50px;
+        left: -9px;
+        top: 0;
+        background: #fff;
+        border: 2px solid #1f5297;
+    }
+
+    .resume .resume-item h5 {
+        font-size: 16px;
+        background: #e4edf9;
+        padding: 5px 15px;
+        display: inline-block;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .resume .resume-item h4 {
+        line-height: 26px;
+        font-size: 18px;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-family: "Poppins", sans-serif;
+        color: #050d18;
+        margin-bottom: 10px;
+    }
+
+.section-title h2 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    position: relative;
+    color: #173b6c;
+}
+
+    .section-title h2::after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 50px;
+        height: 3px;
+        background: #149ddd;
+        bottom: 0;
+        left: 0;
+    }
+
+.cropper-view-box {
+    outline: 3px dashed #39f !important;
+}
+
+
+.share-btn {
+    display: inline-block;
+    background: #4154f1;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 0px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+    .share-btn:hover {
+        background: #6776f4;
+        color: white;
+    }
+
+/*loader*/
+.lds-dual-ring {
+    display: none;
+    /*width: 80px;
+    height: 80px;*/
+}
+
+    .lds-dual-ring:after {
+        content: " ";
+        display: block;
+        width: 16px;
+        height: 16px;
+        margin: 0px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        border-color: #fff transparent #fff transparent;
+        animation: lds-dual-ring 1.2s linear infinite;
+        padding: 0px;
+    }
+
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/*loader-blue*/
+.lds-dual-ring-blue {
+    display: none;
+    /*width: 80px;
+    height: 80px;*/
+}
+
+    .lds-dual-ring-blue:after {
+        content: " ";
+        display: block;
+        width: 16px;
+        height: 16px;
+        margin: 0px;
+        border-radius: 50%;
+        border: 2px solid #149ddd;
+        border-color: #149ddd transparent #149ddd transparent !important;
+        animation: lds-dual-ring 1.2s linear infinite;
+        padding: 0px;
+    }
+
+@keyframes lds-dual-ring-blue {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

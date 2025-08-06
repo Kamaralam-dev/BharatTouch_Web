@@ -1,0 +1,47 @@
+﻿
+@model int
+@{
+    int totalRows = 0;
+    var testimonials = new DataAccess.Repository.CLientTestimonialRepository().GetClientTestimonialBy_UserId(Model, out totalRows, "BharatTouch/EditProfile/_clientTestimonial.cshtml");
+
+}
+
+
+@if (totalRows > 0)
+{
+    <div class="row">
+        @foreach (var item in testimonials)
+        {
+            var isExitPic = false;
+            try
+            {
+                isExitPic = !string.IsNullOrWhiteSpace(item.PicOfClient) && System.IO.File.Exists(Server.MapPath(item.PicOfClient));
+            }
+            catch (Exception ex) { }
+            var picPath = isExitPic ? item.PicOfClient : "/FormAssets/img/blank-profile-picture.jpg";
+
+            <div class="col-lg-3 col-md-6 d-flex flex-column" style="background-color:none">
+                <div class="teamplayer">
+                    <img src="@Url.Content(picPath)" style="max-height: 230px; max-width: 100%; min-height: 100px; height: 230px; object-fit: cover;" alt="@item.ClientName">
+                    <div class="name_tag">
+                        @item.ClientName
+                        <br />
+                        @item.CompanyName
+                    </div>
+
+                </div>
+                <div class="d-flex gap-1 justify-content-center">
+                    <a style="color:white;" class="btnClientTestimonialEdit btn btn-primary btn-sm" data-id="@item.Client_Id"> Edit</a>
+                    <a style="color:white;" class="btnClientTestimonialDelete btn btn-danger btn-sm ml-2" data-id="@item.Client_Id"> Delete</a>
+                </div>
+            </div>
+        }
+    </div>
+}
+@*else
+{
+    <div class="text-center">
+        <h4 style="text-transform: unset; color: black; font-weight: 600;"><a>No Data Found</a> </h4>
+    </div>
+}*@
+

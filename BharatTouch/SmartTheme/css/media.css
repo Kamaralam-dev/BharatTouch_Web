@@ -1,0 +1,1022 @@
+@media only screen and (max-width: 1365px) {
+    .choose-card img {
+        width: 100%;
+    }
+    .our-instant-image img {
+        margin-top: -96px;
+    }
+    .our-card-text {
+        width: 56%;
+    }
+    .our-effort .our-card-image {
+        width: 45%;
+    }
+    .our-major .our-instant-image img {
+        margin-top: -73px;
+    }
+    .our-unlimited  .our-card-text {
+        width: 49%;
+    }
+    .our-app .our-instant-image img {
+        margin-top: -98px;
+    }
+    .img-b {
+        width: 89%;
+    }
+    .referral-inner-con {
+        gap: 0;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .referral-left-con, .referral-right-con{
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .navigation-main-outer li {
+        margin: 0 18px;
+    }
+    .title-44 {        font-size: 40px;        line-height: 52px;    }
+    .title-25 {
+        font-size: 25px;
+        line-height: 52px;
+    }
+    .testimonial-slider .slick-slide {        margin: 0 5px;    }
+    .testimonial-slider-con{   padding: 15px 15px;   }
+    .testimonial-right-con {        padding-left: 40px;    }
+    .testimonial-slider-outer.testimonial-slider {        margin-top: 15px;    }
+    .testimonial-top-left img { width: 50px;   height: 50px;   }
+    .testimonial-top-left strong {   font-size: 18px;   line-height: 22px;   }
+    .testimonial-top-right img {        width: 30px;    }
+    .testimonial-rating img {  width: 16px;   }
+    .testimonial-rating {  padding: 12px 0 15px;   }
+    .faq-main-outer-panel h2 span {  font-size: 16px;      }
+    .gettouch-left-con h3 {  font-size: 20px;    line-height: 30px;   }
+    .banner-sec .container::before {        width: 887px;        height: 756px;    }
+}
+@media only screen and (max-width: 1200px) {
+    .navbar-expand-lg .navbar-nav {
+        gap: 15px;
+    }
+    .banner-sec {
+        padding: 60px 0 80px;
+    }
+    .title-61 {
+        font-size: 43px;
+        line-height: 48px;
+    }
+    .banner-image img {
+        width: 100%;
+    }
+    .logo-image img {
+        width: 65%;
+        margin: 20px;
+    }
+    .title-44 {
+        font-size: 37px;
+    }
+    .our-card-text {
+        width: 100%;
+    }
+    .our-card-image {
+        padding: 10px 0px 0 0;
+        width: 100%;
+        text-align: center;
+    }
+    .our-effort .our-card-image {
+        width: 100%;
+    }
+    .our-effort .our-card-text {
+        width: 100%;
+        padding: 13px 32px 33px 25px;
+    }
+    .our-unlimited .our-card-image img {
+        margin-left: 0;
+    }
+    .our-unlimited  .our-card-text {
+        width: 100%;
+        padding: 19px 25px 0px 25px;
+    }
+    .our-unlimited  .our-card-image {
+        padding: 0;
+        width: 100%;
+    }
+    .price-title h2 {
+        font-size: 30px;
+    }
+    .price-title img {
+        width: 100%;
+    }
+    .testimonial-main-con {
+        padding: 65px 0 70px;
+    }
+    .testimonial-right-con {
+        width: 100%;
+        padding-left: 0;
+    }
+    .testimonial-left-con {
+        width: 100%;
+    }
+    .referral-inner-con {
+        gap: 10px;
+    }
+    .referral-right-con .tab-content {
+        width: 100%;
+    }
+    .referral-left-con {
+        padding: 0 15px;
+    }
+    .our-card-text img {
+        padding-top: 10px;
+    }
+    .address-con span {
+        font-size: 15px;
+    }
+    .referral-left-con p {
+        line-height: 19px;
+    }
+    .our-card.advanced-grid01 {
+        flex-wrap: inherit;
+    }
+    .our-effort.our-card.advanced-grid04 .our-card-image img {
+        width: 48%;
+    }
+    .our-effort.our-card.advanced-grid04 .our-card-image {
+        padding: 2px 0px 0 0;
+    }
+    .our-unlimited.our-card.advanced-grid05 {
+        flex-wrap: nowrap;padding: 22px 10px;
+    }
+    .our-unlimited.our-card.advanced-grid05 .our-card-image {
+        width: 95%;
+    }
+    .our-unlimited.our-card.advanced-grid05 .our-card-image img {
+        width: 100%;
+    }
+    .process-work-card {
+        height: 360px;
+        overflow: hidden;min-height: auto;
+    }
+    .pricing-sec .title-44 {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+    .gettouch-left-con h3 {
+        font-size: 18px;
+        line-height: 30px;
+        margin: 0 0 40px;
+    }
+    .footer-wrap ul li a {
+        font-size: 17px;
+        line-height: 31px;
+    }
+    .our-card.advanced-grid01 .our-card-text {
+        width: 50%;
+        padding-right: 0;
+    }
+    .our-card.advanced-grid01 .our-card-text img {
+        width: 225px;
+    }
+    .our-text {
+        padding-bottom: 20px;
+    }
+    .pricing-sec {
+        padding: 95px 0 95px;
+    }
+    .banner-sec .container::before {
+        width: 737px;
+        height: 656px;
+        transform: translate(-20px, -50%);
+    }
+}
+
+@media only screen and (min-width:992px) and (max-width: 1200px) {
+    .navbar {	padding: 20px 0;}
+    .navbar-brand {	width: 200px;}
+    .navbar-brand img {	width: 100%;}
+    .navigation-main-outer {	width: 75%;}
+    .navigation-main-outer li {	margin: 0 10px;}
+    }
+    
+@media only screen and (max-width: 991px) {
+    .referral-inner-con {
+        display: block;
+    }
+    .getintouch-outer-main {
+        display: block;
+    }
+    br{
+        display: none;
+    }
+    .banner-title p {
+        max-width: 100%;
+    }
+    .our-effort .our-card-image img {
+        width: 100%;
+    }
+    .why-inner .title-44 {
+        line-height: 33px;
+    }
+    .title-44 {
+        font-size: 25px;
+    }
+    .logo-image {
+        margin: 10px;
+    }
+    .getintouch-outer-main .col-md-6 {
+        width: 100%;
+    }
+    .gettouch-left-con {
+        padding-bottom: 30px;
+    }
+
+
+    /*NAVIGATION*/
+    .header-right {
+        padding-top: 22px;
+        width: 100%;
+        display: inline-block;
+    }
+    .pushmenu-push {display: none;}
+    
+    .navigation-main-outer button.navbar-toggle {
+        position: absolute;
+        right: 15px;
+        top: 25px;
+        z-index: 99;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+        display: block !important;
+        background: none !important;
+        border: 0px;
+        outline: none;
+        left: auto;
+        z-index:999999;
+    }
+    .navigation-main-outer button.navbar-toggle .icon-bar {
+        display: block;
+        width: 34px;
+        height: 4px;
+        background: #fff;
+        margin: 0 0 5px 0;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
+    .nav-open .navigation-main-outer button.navbar-toggle .icon-bar + .icon-bar {
+        margin-top: 4px;
+    }
+    .nav-open .navigation-main-outer button.navbar-toggle .icon-bar:nth-child(1) {
+        transform: rotate(45deg);
+        -webkit-transform: rotate(44deg);
+        left: 0px;
+        position: relative;
+        top: 7px;
+    }
+    .nav-open .navigation-main-outer button.navbar-toggle .icon-bar:nth-child(3) {
+        transform: rotate(45deg);
+        -webkit-transform: rotate(134deg);
+        left: 0px;
+        position: relative;
+        top: -3px;
+    }
+    .nav-open .navigation-main-outer button.navbar-toggle .icon-bar:nth-child(2) {
+        display: none;
+    }
+    .nav-open .navigation-main-outer button.navbar-toggle .icon-bar {
+        background: #fff;
+    }
+     .pushmenu-push {
+        position: fixed;
+        width: 400px;
+        height: 100vh;
+        background: linear-gradient(to bottom, #3bb677 12%,#068443 99%,#068443 99%);
+        top: 0;
+        display: block;
+        padding: 110px 20px 80px;
+        z-index: 9999;
+        transition: .3s all ease;
+        -webkit-transition: .3s all ease;
+        right: -450px;	
+    }
+    .contact-btn {	line-height: 100%;	color: #fff;	background: #FF6821; padding: 13px 32px;}
+    .nav-open .pushmenu-push {	right: 0;	display: block;}
+    .navigation-main-outer li {float: left;width: 100%;margin: 0 0 10px;}
+    .navigation-main-outer li a {float: left;text-align: left;width: 100%;font-size: 20px;line-height: 30px;margin: 0 0 6px;	color: #fff;}
+    .navigation-main-outer li a:hover {    color: #FF6821;}
+    .our-unlimited .our-card-image img {
+        width: 100%;
+    }
+    .title-61 {
+        font-size: 38px;
+    }
+    .main-btn {       font-size: 14px;        padding: 16px 14px;    }
+    .our-instant-text {   padding: 15px 15px 0;   }
+    .font-24 {  font-size: 20px;     line-height: 25px;  }
+    .font-17 { font-size: 15px;   line-height: 21px;   }
+    .our-card.advanced-grid01 .our-card-text img {       width: 175px;    }
+    .our-card-image {
+        padding: 10px 0px 0 0;
+        width: 100%;
+        text-align: center;
+    }
+    .our-card-image.advanced-pic01 img {
+        width: 140px;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+    .our-card.advanced-grid01 {
+        position: relative;
+    }
+    .our-advanced-sec {
+        padding: 60px 0 70px;
+    }
+    .our-app .our-instant-image img {
+        margin-top: -48px;
+    }
+    .our-unlimited .our-card-text {
+        width: 100%;
+        padding: 0px 5px 0px 15px;
+    }
+    .newcard-img {
+        width: 190px;
+    }
+    .process-work-card img {
+        width: 100%;
+    }
+    .process-work-card {
+        height: 320px;
+    }
+    .pricing-sec .col-md-9 {
+        width: 100%;
+    }
+    .pricing-card {
+        padding: 20px 20px;
+        gap: 20px;
+    }
+    .price-wrap {
+        padding: 20px 15px 20px 30px;
+        width: 205px;
+        height: 118px;
+    }
+    .price-title h2 {
+        font-size: 26px;
+    }
+    .price-image {
+        width: 160px;
+    }
+    .price-image img {
+        width: 100%;
+    }
+    .metal-nfc .price-title {
+        width: 33%;
+    }
+    .bulk-price p {
+        padding-top: 15px;
+    }
+    .choose-card p {  line-height: 22px;  }
+    .choose-sec {
+        padding-bottom: 95px;
+    }
+    .title-44 { 
+        line-height: 32px;
+    }
+    .referral-left-con, .referral-right-con {
+        width: 100%;
+    }
+    .referral-right-con {
+        padding-top: 30px;
+    }
+    .referral-outer-panel {
+        padding: 60px 0;
+    }
+    .gettouch-left-con h3 {
+        max-width: 100%; text-align: center;
+    }
+    .getintouch-outer-main {
+        margin: 10px 0 0;
+    }
+    .faq-main-outer-panel h6 {  
+        font-size: 16px;
+        max-width: 100%;
+        margin: 8px auto 25px;
+    }
+    .testimonial-inner {
+        width: 98%;
+    }
+    .testimonial-right-con {
+        width: 65%;
+        padding-left: 0;
+    }
+    .testimonial-left-con {
+        margin-right: 20px;
+    }
+    .testimonial-rating img {
+        width: 14px;
+    }
+    .testimonial-rating {
+        padding: 10px 0 10px;
+    }
+    .testimonial-top-left img {
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+    }
+    .testimonial-main-con {
+        padding: 45px 0 45px;
+    }
+    .newletter-form p {
+        font-size: 16px;
+        padding: 9px 0 25px;
+    }
+    .footer-wrap p {
+        font-size: 18px;
+        padding: 22px 0 25px;
+    }
+    .copyright-sec img {
+        width: 230px;
+    }
+    .banner-sec .container::before {
+        width: 527px;
+        height: 476px;
+        top: 40%;transform: translate(0px, -50%);
+    }
+    }
+
+
+    @media only screen and (max-width: 767px) {
+        .banner-image img {
+            width: 50%;
+        }
+        .banner-image {
+            text-align: center;
+            padding-top: 60px;
+        }
+        .why-inner {
+            border-right: none;
+        }
+        .our-card {
+            margin-bottom: 20px;
+        }
+        .our-major {
+            margin-bottom: 20px;
+        }
+        .our-effort.our-card {
+            margin: 0;
+        }
+        .process-work-card {
+            margin-bottom: 20px;border-radius: 10px;
+        }
+        .choose-card {
+            margin-bottom: 40px;
+        }
+        .choose-sec {
+            padding-bottom: 53px;
+        }
+        .referral-right-con {
+            padding-top: 30px;
+        }
+        .pricing-card {
+            display: block;
+            padding: 25px 20px 25px;
+        }
+        .price-title {
+            width: 100%;
+            padding-bottom: 30px;
+        }
+        .price-image {
+            width: 100%;
+        }
+        .price-image img {
+            width: 250px;
+        }
+        .price-title h2 {
+            font-size: 26px;
+        }
+        .metal-nfc .price-title {
+            width: 100%;
+        }
+        .referral-right-con .tabs {
+            width: 100%;
+        }
+        .copyright-sec {
+            display: block;text-align: center;padding-top: 15px;
+        }
+        .main-btn {
+            text-align: center;
+            line-height: 16px;
+        }
+        .title-61 {
+            font-size: 32px;
+            line-height: 37px;
+        }
+        .newletter-sec {
+            padding: 35px 0;
+        }
+        p {
+            font-size: 16px;
+            line-height: 25px;
+        }
+        .count-sec {
+            padding-top: 49px;
+        }
+        .banner-sec {
+            padding: 20px 0 40px;
+        }
+        .logo-image img {
+            width: 45%;
+            margin: 0;
+        }
+        .our-advanced-sec {
+            padding: 60px 0 60px;
+        }
+        .title-44 {
+            font-size: 25px;
+            line-height: 26px;
+        }
+        .our-text {
+            padding-bottom: 30px;
+        }
+        .font-24 {
+            font-size: 20px;
+            line-height: 28px;
+        }
+        .our-card-text img {
+            padding-top: 61px;
+            width: 100%;
+        }
+        .img-b {
+            width: 92%;
+        }
+        .pricing-sec {
+            padding: 60px 0;
+        }
+        .bulk-order {
+            padding: 30px 30px 47px;
+        }
+        .referral-outer-panel {
+            padding: 60px 0;
+        }
+        .referral-inner-con {
+            margin-top: 20px;
+        }
+        .step-content h4 {
+            font-size: 18px;
+        }
+        .faq-main-outer-panel {
+            padding: 60px 0 0;
+        }
+        .faq-main-outer-panel .accordion-group {
+            padding: 20px 10px 60px;
+            margin: auto;
+            width: 98%;
+        }
+        .testimonial-main-con {
+            padding: 20px 10px;
+        }
+        .getintouch-main-outer-panel {
+            padding: 50px 0;
+        }
+        .getintouch-outer-main {
+            margin: 20px 0 0;
+        }
+        .gettouch-left-con h3 {
+            font-size: 20px;
+            line-height: 29px;
+            margin: 0 0 36px;
+        }
+        .getintouch-address-con {
+            gap: 22px 30px;
+        }
+        .gettouch-right-con {
+            padding: 20px;
+        }
+        .copyright-sec p {
+            padding-bottom: 10px;text-align: center;font-size: 14px;
+        }
+        .footer-wrap ul {
+            padding:8px 0 15px;
+        }
+        .footer-wrap p {
+            font-size: 16px;
+            padding: 16px 0 12px;
+        }
+        .footer-wrap ul li a {
+            font-size: 16px;
+            line-height: 28px;
+        }
+        .footer-wrap img {
+            width: 200px;
+        }
+        footer {
+            padding: 40px 0 30px;
+        }
+        .footer-wrap h4 {
+            font-size: 20px;
+            line-height: 31px;
+        }
+        .navbar {
+            padding: 15px 0;
+        }
+        .banner-btn {
+            padding-top: 20px;
+        }
+        .banner-title p {
+            padding-top: 12px;
+        }
+        .why-inner .orange-title, .why-inner .title-44 {
+            text-align: center;
+        }
+        .orange-title {
+            font-size: 14px;
+        }
+        .our-card.advanced-grid01 {
+            flex-wrap: wrap;
+        }
+        .our-card.advanced-grid01 .our-card-text {
+            width: 100%;
+            padding-right: 20px;
+        }
+        .our-card.advanced-grid01 .our-card-text img {
+            width: 235px;
+            padding-top: 20px;
+        }
+        .our-card-image.advanced-pic01 img {
+            width: 200px;
+            position: relative;
+        }
+        .our-unlimited.our-card.advanced-grid05 {
+            flex-wrap: wrap;
+        }
+        .our-unlimited.our-card.advanced-grid05 .our-card-text img {
+            padding-top: 21px;
+            width: 200px;
+        }
+        .our-unlimited.our-card.advanced-grid05 .our-card-image {
+            width: 100%;
+        }
+        .our-unlimited.our-card.advanced-grid05 .our-card-image img {
+            width: 270px;
+        }
+
+        .process-workflow .col-md-3 {
+            width: 50%;
+        }
+        .process-work-card {
+            height: 320px;
+        }
+        .process-work-card h4 {
+            padding-bottom: 20px;
+        }
+        .process-work-card img {
+            width: 75%;
+        }
+        .price-title img {
+            width: 230px;
+        }
+        .choose-card h4 {
+            padding: 20px 0 11px;
+        }
+        .faq-main-outer-panel .tabs {
+            gap: 5px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .faq-main-outer-panel .tab {
+            padding: 15px 10px;
+            font-size: 14px;
+            min-width: 176px;
+        }
+        .faq-main-outer-panel .accordion-header {
+            padding: 13px 15px;
+            font-size: 16px;
+        }
+        .testimonial-inner-con {
+            display: block;
+        }
+        .testimonial-right-con {
+            width: 100%;
+            padding-left: 0;
+            padding-top: 20px;
+        }
+        .referral-outer-panel h2 span {
+            font-size: 17px;
+            line-height: 20px;
+        }
+
+        #business-info .row {
+            margin: 20px 0px;
+        }
+        .sign-up-form {
+            padding: 20px 10px;
+        }
+        .shipping-details {
+            padding-bottom: 0;
+        }	
+        .progress-line {
+            top: 14px;
+            position: absolute;
+            width: 100%;
+            left:0;
+        }
+        .shipping-details > .col-md-6:first-child {
+            padding:0px;
+            border: none;
+        }
+        .shipping-details > .col-md-6:last-child {
+            padding: 35px 0px 0px;
+        }
+        .col-md-6.card-boxes:last-child {
+            padding: 10px;
+        }
+        .col-md-6.card-boxes:first-child {
+            padding: 10px;
+            border: none;
+        }
+        .choosen-card-img {
+            width: 60%;
+        }
+        .get-started-text h1 {
+            font-size: 32px;
+            line-height: 1.2;
+        }
+        .step-point i {
+            display: block;
+            width: 100%;
+            font-size: 11px;
+        }
+        .step-point {
+            text-align: center;
+            justify-content: center;
+            width: 20%;
+            gap: 5px;
+            align-items: flex-start;
+            position: relative;
+            flex-wrap: wrap;
+        }
+        .step-points {
+            padding: 20px 10px;
+        }
+        .step-points-inner {
+            gap: 0;
+        }
+        [data-step="finish"] .progress-line {
+            display: block;
+        }
+        .banner-sec .container::before {
+            width: 527px;
+            height: 476px;
+            top: auto;
+            transform: translate(0px, 0);
+            bottom: 0;
+        }
+        .ora-colo-btn {
+            min-width: 196px;line-height: 50px
+        }
+    
+    }
+
+
+@media only screen and (max-width:575px)
+{
+    .navbar-brand img {
+        width: 235px;
+    }
+    .navbar-brand img {
+        width: 235px;
+    }
+    .referral-right-con .tab {
+        line-height: 45px;
+        padding: 0px 10px;
+        font-size: 16px;
+    }
+    .faq-main-outer-panel .accordion-header {
+        padding: 13px 45px 13px 15px;
+        font-size: 15px;
+    }
+    .faq-main-outer-panel .accordion-body p, .faq-main-outer-panel .accordion-body li {
+        font-size: 15px;
+    }
+    .faq-main-outer-panel .accordion-header::after {
+        top: 18px;
+    }
+    .gettouch-left-con h3 {
+        font-size: 16px;
+        line-height: 25px;
+    }
+    .getintouch-address-con {
+        gap: 22px 10px;
+    }
+    .address-con strong {
+        font-size: 15px;
+    }
+    .gettouch-con {
+        gap: 10px;
+    }
+    .footer-wrap ul {
+        padding: 8px 0 15px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+   
+
+@media only screen and (max-width:479px)    
+{
+    .pushmenu-push {
+        width: 310px;
+    }
+    .title-61 {
+        font-size: 27px;
+        line-height: 37px;
+    }
+    .banner-btn {
+        display: block;
+    }
+    .main-btn {
+        display: inline-block;
+    }
+    .count-sec {
+        padding-top: 25px;gap: 20px;
+    }
+    .count-text {
+        padding-right: 10px;
+    }
+    .process-work-card {
+        padding: 20px 0 0;height: 230px;
+    }
+    .process-work-card h4 {
+        font-size: 17px;
+    }
+
+    .price-wrap h4 {
+        font-size: 16px;
+    }
+    .price-wrap {
+        padding: 20px 5px 0px 20px;
+        width: 155px;
+        height: 90px;
+    }
+    .price-title h2 {
+        font-size: 20px;
+    }
+    .price-title img {
+        width: 150px;
+    }
+    .price-wrap a {
+	font-size: 16px;
+	padding: 7px 18px;
+}
+.bulk-order {
+	padding: 30px 20px 30px;
+}
+.bulk-order p {
+	font-size: 16px;
+	padding: 18px 0 15px;
+}
+.title-44 {
+	font-size: 22px;
+	line-height: 26px;
+}
+.referral-outer-panel {
+	padding: 40px 0;
+}
+.referral-left-con, .referral-right-con {
+	padding-left: 0;
+	padding-right: 0;
+}
+.referral-right-con .tab {
+	line-height: 40px;
+	padding: 0px 9px;
+	font-size: 14px;
+}
+.referral-right-con .tab-content ul li {
+	margin-bottom: 15px;
+	padding: 0 0 0 19px;
+	font-size: 15px;
+	line-height: 21px;
+}
+.faq-main-outer-panel .tab {
+	padding: 11px 0px;
+	font-size: 14px;
+	min-width: 170px;
+}
+.gettouch-con img {
+	margin-top: 3px;
+	width: 20px;
+}
+.address-con span {
+	font-size: 14px;line-height: 21px;
+}
+.address-con strong {
+	font-size: 14px;
+}
+.gettouch-right-con {
+	border-radius: 10px;
+}
+.col-12.pade-none.form-fields-con.form-field50 {
+	grid-template-columns: repeat(1, 1fr);
+	grid-gap: 10px;
+}
+.submit-btn {
+	width: 200px;
+	height: 54px;
+	font-size: 18px;
+}
+.email-subscribe input {
+	width: 200px;
+}
+.footer-wrap ul {
+	grid-template-columns: repeat(2, 1fr);
+}
+.main-btn {
+	font-size: 14px;
+	padding: 13px 19px;
+}
+.banner-sec .container::before {
+	width: 300px;
+	height: 286px;
+	top: auto;
+	transform: translate(0px, 0);
+	bottom: 0;
+}
+}
+
+@media only screen and (max-width:375px)
+{
+    .navbar-brand img {
+        width: 195px;
+    }
+    .main-btn {
+        margin-bottom: 10px;
+    }
+    .count-text p {
+        line-height: 19px;
+    }
+    .process-workflow .col-md-3 {
+        width: 100%;
+    }
+    .process-work-card {
+        padding: 20px 0 0;
+        height: auto;
+    }
+    .price-title h2 {
+        max-width: 130px;
+    }
+    .choose-sec {
+        padding-bottom: 20px;
+    }
+    .referral-right-con .tabs {
+        border-radius: 20px;
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .referral-right-con {
+        padding-top: 20px;
+    }
+    .step-content h4 {
+        font-size: 15px;
+    }
+    .step-icon {
+        width: 35px;
+        height: 35px;
+    }
+    .steps::before {
+        left: 18px;
+    }
+    .faq-main-outer-panel {
+        padding: 35px 0 0;
+    }
+    .testimonial-top-left strong {
+        font-size: 17px;
+        line-height: 22px;
+    }
+    .testimonial-top-right img {
+        width: 26px;
+    }
+    .getintouch-address-con {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .email-subscribe button {
+        padding: 13px 20px;
+        font-size: 14px;
+    }
+    .email-subscribe input {
+        padding: 12px 6px 12px 13px;
+        font-size: 14px !important;
+        width: 250px;
+    }
+    .sticky-header .navbar {
+        padding: 12px 0;
+    }
+    .navigation-main-outer button.navbar-toggle {        top: 20px;
+    }
+    .banner-sec .container::before {
+        width: 270px;
+        height: 246px;
+        top: auto;
+        transform: translate(-10px, 0);
+        bottom: 0;
+    }
+    
+}

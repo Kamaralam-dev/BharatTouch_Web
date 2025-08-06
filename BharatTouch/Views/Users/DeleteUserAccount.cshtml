@@ -1,0 +1,72 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete User Account</title>
+
+    <link href="~/Content/vendor/bootstrap/css/bootstrap.css" />
+
+    <style>
+        .error {
+        color:red;
+        }
+    </style>
+</head>
+<body style="background:aliceblue;">
+    <div>
+        <div class="logo text-center" style="background: beige;
+    text-align: center;
+    height: 61px;">
+            <img src="~/HomeAssets/img/avipdf.jpg" height="60px" width="60px" style="float:left;" />
+            <span style="font-family: sans-serif;
+    font-size: x-large;
+    text-decoration: underline;">Delete User Account</span>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-lg-0 d-flex align-items-stretch" style="    text-align: center;
+    margin-top: 20px;">
+                @using (Html.BeginForm("DeleteUserAccount", "Users", FormMethod.Post, new { id = "DeleteAviUserAccountForm" }))
+                {
+                    <div>
+                        <label for="UserId" style="font-size: larger;">UserId</label>
+                        <input name="UserId" class="form-control" style="height:20px;" />
+                        @*@Html.TextBox("UserId",new object {@class="form-control" })*@
+                    </div>
+                    <br />
+                    <div>
+                        <button id="btnSubmit" type="submit" style="    background: #48b348;
+    color: white;
+    border: 0;
+    padding: 6px 10px 6px 11px;
+    width: 116px;">
+                            Delete Account
+                        </button>
+                        <div id="divResponseMsg" class="error">
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script src="~/Content/vendor/jquery/jquery.js"></script>
+    <script src="~/HomeAssets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    @Scripts.Render("~/bundles/VendorJs")
+    @Scripts.Render("~/bundles/formLayoutJs")
+    @Scripts.Render("~/bundles/SpecificPageJS")
+    <script src="~/Content/page-scripts/Users/DeleteUserAccount.js"></script>
+    <script type="text/javascript">
+        var user = new DeleteUserAccount();
+        user.init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+﻿@model IEnumerable<DataAccess.ViewModels.RequestItemViewModel>
+@using DataAccess
+@{
+    ViewBag.Title = "Requests";
+    Layout = "~/Views/Shared/_LayoutBlank.csHtml";
+    var userType = BharatTouch.CommonHelper.Utility.GetCookie("UserType_auth").NullToString();
+}
+
+@section scripts{
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/page-scripts/Home/Index.js"></script>
+    <script type="text/javascript">
+        var Item = new homeItems();
+        Item.getItemUrl = "@Url.Action("GetRequestItems", "Home")";
+        Item.init();
+    </script>
+}
+<style>
+    tr.odd {
+        color: #777;
+    }
+
+    tr.even {
+        color: #777;
+    }
+
+    table th {
+        text-align: center;
+    }
+</style>
+
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>Requests</h2>
+    </header>
+    <section class="panel">
+        <div class="row">
+            <div class="col-sm-12">
+
+            </div>
+        </div>
+    </section>
+    <section class="panel top-border-bar">
+        <div class="panel-body">
+            <table class="table table-bordered table-striped table-condensed mb-none" cellspacing="0" style="width:100%!important;" id="tableRequest">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Item #
+                        </th>
+                        <th>
+                            Item Name
+                        </th>
+                        <th>
+                            Request Date
+                        </th>
+                        <th>
+                            RequestNote
+                        </th>
+                        <th>
+                            Requested By
+                        </th>
+                        <td>
+                            Request Type
+                        </td>
+                        <th>
+                            Donated By
+                        </th>
+                        <th>
+                            
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </section>
+</section>

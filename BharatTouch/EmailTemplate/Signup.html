@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .email-header {
+            background-color: black;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px 15px;
+            font-size: 24px;
+        }
+
+        .email-body {
+            padding: 20px 15px;
+            color: #333333;
+        }
+
+            .email-body h2 {
+                color: #007bff;
+            }
+
+        .email-footer {
+            background-color: #e96115;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+        }
+
+            .email-footer a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+        .cta-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+            .cta-button:hover {
+                background-color: #0056b3;
+            }
+
+        .details {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #eaeaea;
+            border-radius: 5px;
+        }
+
+            .details p {
+                margin: 0;
+                padding: 5px 0;
+                font-size: 14px;
+            }
+    </style>
+    <style>
+        @media screen and (max-width: 600px) {
+            p > a {
+                padding-left: 5px !important;
+                padding-right: 5px !important;
+                font-size: 14px !important; /* Optional: Reduce font size if needed */
+            }
+
+            p > span {
+                font-size: 14px !important; /* Optional: Reduce font size of the span text */
+                display: block; /* Make the span take full width and wrap below the link */
+                margin-top: 14px; /* Add some space between the link and the text */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="email-container">
+        <div class="email-header">
+            <strong><span style="color: #e96115">Bharat</span><span style="color: #1d9a6c;">Touch</span>  - Signup</strong>
+        </div>
+        <div class="email-body">
+            <p>Dear {FullName},</p>
+            <p>Welcome to Bharat Touch. Thank you for registering with us. Yay! You are almost there.</p>
+            <p>Just one more step . . .</p>
+            <p>Click the link below to activate your account and verify your email.</p>
+            <p><a href="{ActivationLink}" target="_blank" style="text-decoration: none; background: #e96115; color: white; padding: 10px 20px 10px 20px; border-radius: 4px; cursor: pointer;">Activate Account</a></p>
+            <p>Here are your login credentials.</p>
+            <p>Email id: {EmailID}</p>
+            <p>Password: {Password}</p>
+            <p><a href="{ProfileLink}" target="_blank" style="text-decoration: none; background: #e96115; color: white; padding: 10px 20px 10px 20px; border-radius: 4px; cursor: pointer;">Share Profile</a> <span>to view and share your profile to others.</span></p>
+            <p style="color:#149ddd;font-size:18px;">What’s next after account activation?</p>
+            <p><b>Login to your Bharat Touch account</b></p>
+            <p>Visit the website <a href="https://bharattouch.com/home/login" target="_blank">https://bharattouch.com/home/login</a> and enter your credentials - email id and password.</p>
+            <p>Click on the login button to access your dashboard.</p>
+            <p><b>Complete your profile</b></p>
+            <ul>
+                <li>Enter all details that are relevant to your profile.</li>
+                <li>Upload your recent picture.</li>
+                <li>You can also add links to your social media profiles on Twitter, LinkedIn, and Facebook.</li>
+                <li>You can add link to your YouTube video to display on your profile.</li>
+            </ul>
+            <p><b> Create your virtual business card</b></p>
+            <ul>
+                <li>Select the design of your digital business card.</li>
+                <li>Choose which details you want to include in the card.</li>
+                <li>Confirm and download the virtual business card on your smartphone.</li>
+            </ul>
+            <p><b>Sharing your digital business card</b></p>
+            <ul>
+                <li>Once downloaded in your smartphone, you can easily share the digital business card with anyone anytime.</li>
+                <li>Email, WhatsApp, Facebook, Google Meet, Zoom - shared it anywhere.</li>
+                <li>You can even use contactless technology of tap and share with your lifetime physical card.</li>
+            </ul>
+            <p style="font-style:italic;">'With Bharat Touch, be stress free and have complete peace of mind wherever you go'.</p>
+            <br />
+
+            <p style="color: #e96115;">Best regards,</p>
+            <p style="color: #1d9a6c;">
+                <strong>Bharat Touch Teams</strong>
+            </p>
+        </div>
+        <div class="email-footer">
+            <p>This email is generated by {pageName} from Bharat Touch.</p>
+        </div>
+    </div>
+
+</body>
+</html>

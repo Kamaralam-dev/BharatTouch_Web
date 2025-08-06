@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{61AA9C32-3930-4F3C-8812-3A1354625294}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataAccess</RootNamespace>
+    <AssemblyName>DataAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.30\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=3.1.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.3.1.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml.Framework, Version=3.1.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.Framework.3.1.1\lib\net46\DocumentFormat.OpenXml.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Freeware.Pdf2Docx, Version=1.1.0.0, Culture=neutral, PublicKeyToken=0b93ff91d4be458d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Freeware.Pdf2Docx.1.1.0\lib\net45\Freeware.Pdf2Docx.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.6.10.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.6.10\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SautinSoft.Document, Version=4.5.6.17, Culture=neutral, PublicKeyToken=e759c76c7515592a, processorArchitecture=MSIL">
+      <HintPath>..\packages\sautinsoft.document.4.5.6.17\lib\net48\SautinSoft.Document.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.4.5.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.3.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.3.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.3.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdminApiDto\AboutInfoDto.cs" />
+    <Compile Include="AdminApiDto\AuthenticateAppUserDto.cs" />
+    <Compile Include="AdminApiDto\AuthenticateUserDto.cs" />
+    <Compile Include="AdminApiDto\ChangeProfileTemplateDto.cs" />
+    <Compile Include="AdminApiDto\ChangeUserPlanDto.cs" />
+    <Compile Include="AdminApiDto\DeviceTokenDtos.cs" />
+    <Compile Include="AdminApiDto\showHideSectionsDto.cs" />
+    <Compile Include="AdminApiDto\SocialInfoDto.cs" />
+    <Compile Include="AdminApiDto\UpdateUserActiveStatusDto.cs" />
+    <Compile Include="AdminApiDto\PaginationDtos.cs" />
+    <Compile Include="AdminApiDto\UserContactDto.cs" />
+    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="ApiHelper\ResponseModel.cs" />
+    <Compile Include="ApiHelper\RestApiHelper.cs" />
+    <Compile Include="Models\AdminModel.cs" />
+    <Compile Include="Models\AviPdfUserModel.cs" />
+    <Compile Include="Models\BT_BlogModel.cs" />
+    <Compile Include="Models\BulkOrderModel.cs" />
+    <Compile Include="Models\BusinessTypeModel.cs" />
+    <Compile Include="Models\ClientTestimonialModel.cs" />
+    <Compile Include="Models\CompanyModel.cs" />
+    <Compile Include="Models\DeviceInfoModel.cs" />
+    <Compile Include="Models\DeviceTokenModel.cs" />
+    <Compile Include="Models\DiscountCouponModel.cs" />
+    <Compile Include="Models\EmailModel.cs" />
+    <Compile Include="Models\InvoiceModel.cs" />
+    <Compile Include="Models\LeadAdminModel.cs" />
+    <Compile Include="Models\LeadCommunicationModel.cs" />
+    <Compile Include="Models\NewsLetterModel.cs" />
+    <Compile Include="Models\NfcCardColorModel.cs" />
+    <Compile Include="Models\OAuthTokenModel.cs" />
+    <Compile Include="Models\CardTemplateModel.cs" />
+    <Compile Include="Models\CardThemeSettingModel.cs" />
+    <Compile Include="Models\EmailRequestModel.cs" />
+    <Compile Include="Models\LeadsModel.cs" />
+    <Compile Include="Models\LeadTypesModel.cs" />
+    <Compile Include="Models\OrderModel.cs" />
+    <Compile Include="Models\OrderShippingModel.cs" />
+    <Compile Include="Models\PaginationModel.cs" />
+    <Compile Include="Models\PaymentModel.cs" />
+    <Compile Include="Models\ProfileCompletionEmailModel.cs" />
+    <Compile Include="Models\ProfileDetailAndFlagModel.cs" />
+    <Compile Include="Models\ProfileTemplateModel.cs" />
+    <Compile Include="Models\RazorPaySignatureModel.cs" />
+    <Compile Include="Models\RnauraClientModel.cs" />
+    <Compile Include="Models\RnauraClientThoughtModel.cs" />
+    <Compile Include="Models\RnauraLeaveModel.cs" />
+    <Compile Include="Models\RnauraProjectModel.cs" />
+    <Compile Include="Models\RnauraTeamModel.cs" />
+    <Compile Include="Models\RnauraUserModel.cs" />
+    <Compile Include="Models\ScheduleAndMeetingModel.cs" />
+    <Compile Include="Models\SignUpModel.cs" />
+    <Compile Include="Models\UpiDetailsModel.cs" />
+    <Compile Include="Models\UserByAdminModel.cs" />
+    <Compile Include="Models\UserCertificationModel.cs" />
+    <Compile Include="Models\UserHistoryModel.cs" />
+    <Compile Include="Models\YouTubeModel.cs" />
+    <Compile Include="Models\BlogModel.cs" />
+    <Compile Include="Models\CountryModel.cs" />
+    <Compile Include="Models\SocialMediaModel.cs" />
+    <Compile Include="Models\UserEducationModel.cs" />
+    <Compile Include="Models\UserProfessionalModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\AdminRepository.cs" />
+    <Compile Include="Repository\CardThemeRepository.cs" />
+    <Compile Include="Repository\CertificationRepository.cs" />
+    <Compile Include="Repository\CLientTestimonialRepository.cs" />
+    <Compile Include="Repository\CommonRepository.cs" />
+    <Compile Include="Repository\CompanyRepository.cs" />
+    <Compile Include="Repository\DeviceTokenRepository.cs" />
+    <Compile Include="Repository\EmailRepository.cs" />
+    <Compile Include="Repository\NfcCardRepository.cs" />
+    <Compile Include="Repository\OAuthRepository.cs" />
+    <Compile Include="Repository\OrderRepository.cs" />
+    <Compile Include="Repository\PackagesRepository.cs" />
+    <Compile Include="Repository\PaymentRepository.cs" />
+    <Compile Include="Repository\ProfileTemplateRepository.cs" />
+    <Compile Include="Repository\RnauraClientRepository.cs" />
+    <Compile Include="Repository\RnauraClientThoughtRepository.cs" />
+    <Compile Include="Repository\RnauraLeaveRepository.cs" />
+    <Compile Include="Repository\RnauraProjectRepository.cs" />
+    <Compile Include="Repository\RnauraTeamRepository.cs" />
+    <Compile Include="Repository\RnauraUserRepository.cs" />
+    <Compile Include="Repository\ScheduleAndMeetingRepository.cs" />
+    <Compile Include="Repository\YouTubeRepository.cs" />
+    <Compile Include="Repository\BlogRepository.cs" />
+    <Compile Include="Repository\EducationRepository.cs" />
+    <Compile Include="Repository\CountryRepository.cs" />
+    <Compile Include="Repository\SocialRepository.cs" />
+    <Compile Include="Repository\ProfessionalRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
+    <Compile Include="ViewModels\AccountDocumentViewModel.cs" />
+    <Compile Include="ViewModels\AccountCustomFieldViewModel.cs" />
+    <Compile Include="ViewModels\AuthenticateAppUserViewModel.cs" />
+    <Compile Include="ViewModels\BT_BlogViewModel.cs" />
+    <Compile Include="ViewModels\BulkOrderViewModel.cs" />
+    <Compile Include="ViewModels\BusinessTypeViewModel.cs" />
+    <Compile Include="ViewModels\CompanyViewModel.cs" />
+    <Compile Include="ViewModels\DeviceTokenViewModel.cs" />
+    <Compile Include="ViewModels\LeadCommunicationTypeViewModel.cs" />
+    <Compile Include="ViewModels\LeadCommunicationViewModel.cs" />
+    <Compile Include="ViewModels\LeadsAdminViewModel.cs" />
+    <Compile Include="ViewModels\LeadStatusViewModel.cs" />
+    <Compile Include="ViewModels\OrderAdminViewModel.cs" />
+    <Compile Include="ViewModels\OrderShippingCompanyViewModel.cs" />
+    <Compile Include="ViewModels\ProfilePermissionViewModel.cs" />
+    <Compile Include="ViewModels\CompanyTypeViewModel.cs" />
+    <Compile Include="ViewModels\FavoriteCategoryViewModel.cs" />
+    <Compile Include="ViewModels\InvoiceViewModel.cs" />
+    <Compile Include="ViewModels\JwtTokenViewModel.cs" />
+    <Compile Include="ViewModels\LeadsViewModel.cs" />
+    <Compile Include="ViewModels\ModalViewModel.cs" />
+    <Compile Include="ViewModels\NfcCardColorViewModel.cs" />
+    <Compile Include="ViewModels\OrderDetailViewModel.cs" />
+    <Compile Include="ViewModels\OrderViewModel.cs" />
+    <Compile Include="ViewModels\ProfileDetail.cs" />
+    <Compile Include="ViewModels\RequestItemViewModel.cs" />
+    <Compile Include="ViewModels\SitemapUrlViewModel.cs" />
+    <Compile Include="ViewModels\TeamViewModel.cs" />
+    <Compile Include="ViewModels\UserCardThemeSettingViewModel.cs" />
+    <Compile Include="ViewModels\UserCompleteProfileViewModel.cs" />
+    <Compile Include="ViewModels\UserImagesViewModel.cs" />
+    <Compile Include="ViewModels\UserPackageHistoryViewModel.cs" />
+    <Compile Include="ViewModels\UserPackageViewModel.cs" />
+    <Compile Include="ViewModels\UserTypeViewModel.cs" />
+    <Compile Include="ViewModels\ViewHistoryViewModel.cs" />
+    <Compile Include="ViewModels\WizardCompleteDetailsViewModel.cs" />
+    <Compile Include="ViewModels\WizardViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

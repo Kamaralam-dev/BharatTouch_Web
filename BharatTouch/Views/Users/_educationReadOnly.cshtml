@@ -1,0 +1,33 @@
+﻿@model int
+@using DataAccess
+@{
+    var educationList = new DataAccess.Repository.EducationRepository().GetAllUserEducations(Model, "BharatTouch/Profile/_educationReadOnly.cshtml").OrderByDescending(x => x.StartDate).ToList();
+}
+
+@if (educationList.Count > 0)
+{
+    <div class="mycard">
+        @foreach (var education in educationList)
+        {
+            var title = (education.Specialization != null && education.Specialization.NullToString() != "") ? education.Degree + " (" + education.Specialization + ")" : education.Degree;
+            <div class="resume-item">
+                <h4>@title </h4>
+                @if (!string.IsNullOrWhiteSpace(string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style11 + "}", education.StartDate)) || !string.IsNullOrWhiteSpace(string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style11 + "}", education.EndDate)))
+                {
+                    <h5>@string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style11 + "}", education.StartDate) - @(education.EndDate == null ? "Present" : string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style11 + "}", education.EndDate))</h5>
+                }
+                @if (education.Marks.NullToString() != "")
+                {
+                    <p><em><span style="font-weight: 600;">Marks: </span>@education.Marks</em></p>
+                }
+                <p><em>@education.Institute</em></p>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="mycard">
+        No details found(s)
+    </div>
+}

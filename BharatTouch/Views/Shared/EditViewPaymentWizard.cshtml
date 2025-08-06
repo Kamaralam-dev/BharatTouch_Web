@@ -1,0 +1,501 @@
+﻿@model bool
+
+<div class="modal fade" id="paymentWizardModal" tabindex="-1" aria-labelledby="paymentWizardModalLabel" aria-hidden="true">
+    <style>
+        .no-before-radio::before {
+            display: none !important;
+            content: none !important;
+        }
+        .no-before-radio::after {
+            display: none !important;
+            content: none !important;
+        }
+    </style>
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #18181A;">
+                <h5 class="modal-title" id="paymentWizardModalLabel" style=" color: white !important;">Order NFC Card</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-color: white;"></button>
+            </div>
+            <div class="modal-body" style="background-color: #18181A;">
+
+                <section class="singup-form-outer">
+                    <div class=""> @*container*@
+                        <div class="get-started-text" style="display: none;">
+                            <h1 class="title-44">Complete your pending order</h1>
+                            <p style=" color: white;">Create your account, customize your card, and place your order in just a few easy steps. Secure, personalized, and designed to grow your digital identity.</p>
+                        </div>
+                        <div class="step-form-outer">
+                            <div class="step-points">
+                                <div class="step-points-inner">
+                                    <div class="step-point active" data-step="card-options">
+                                        <span class="step-image">
+                                            <img src="~/SmartTheme/images/card-options.svg">
+                                        </span>
+                                        <i>Card Options</i>
+                                        <span class="progress-line">
+                                    </div>
+                                    <div class="step-point" data-step="business-info">
+                                        <span class="step-image">
+                                            <img src="~/SmartTheme/images/business-info.svg">
+                                        </span>
+                                        <i>Business Info</i>
+                                        <span class="progress-line">
+                                    </div>
+                                    <div class="step-point" data-step="shipping-billing">
+                                        <span class="step-image">
+                                            <img src="~/SmartTheme/images/shipping.svg">
+                                        </span>
+                                        <i>Shipping & Billing</i>
+                                        <span class="progress-line">
+                                    </div>
+                                    <div class="step-point" data-step="finish">
+                                        <span class="step-image">
+                                            <img src="~/SmartTheme/images/finish.svg">
+                                        </span>
+                                        <i>Complete Order</i>
+                                        <span class="progress-line">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sign-up-form">
+                                <!-- Choose Your Card Style -->
+
+                                <div id="card-options" class="form-step  active-step">
+                                    <h2>Choose Your Card Style</h2>
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-6 card-boxes zero-padding-phone">
+                                                <h3>1. Choose Color </h3>
+                                                <div class="select-cards">
+                                                    <div class="select-cards-inner">
+                                                        @*<input type="radio" name="choose-color" checked value="2">*@
+                                                        <input type="radio" name="CardColorId" data-color="Gold" data-bg-color="#e8d087" data-txt-color="#000000" checked value="2">
+                                                        <div class="checkbox-card">
+                                                            <p>
+                                                                <img src="~/SmartTheme/images/gold-card.png">
+                                                            </p>
+                                                            <span>Gold</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="select-cards-inner">
+                                                        <input type="radio" name="CardColorId" data-color="Silver" data-bg-color="#e4e4e2" data-txt-color="#000000" value="3">
+                                                        <div class="checkbox-card">
+                                                            <p>
+                                                                <img src="~/SmartTheme/images/white-card.png">
+                                                            </p>
+                                                            <span>Silver</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="select-cards-inner">
+                                                        <input type="radio" name="CardColorId" data-color="Black" data-bg-color="#000000" data-txt-color="#ffffff" value="1">
+                                                        <div class="checkbox-card">
+                                                            <p>
+                                                                <img src="~/SmartTheme/images/black-card.png">
+                                                            </p>
+                                                            <span>Black</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 card-boxes zero-padding-phone">
+                                                <h3>2. Pick Your Card Finish</h3>
+                                                <div class="select-cards" style=" display: block; line-height: 2;">
+                                                    <div class="select-cards-inner">
+                                                        <input type="radio" name="CardFinishId" data-finish-name="Glossy Finish" value="2">
+                                                        <div class="checkbox-card">
+                                                            @*<p>
+                                                <img src="~/SmartTheme/images/gold-card.png">
+                                            </p>*@
+                                                            <span>Glossy Finish</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="select-cards-inner">
+                                                        @*<input type="radio" name="pick-card" checked>*@
+                                                        <input type="radio" name="CardFinishId" data-finish-name="Matte Finish" checked value="1">
+                                                        <div class="checkbox-card">
+                                                            @*<p>
+                                                <img src="~/SmartTheme/images/gold-card.png">
+                                            </p>*@
+                                                            <span>Matte Finish</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="select-cards-inner">
+                                                        <input type="radio" name="CardFinishId" data-finish-name="Clear Finish" value="3">
+                                                        <div class="checkbox-card">
+                                                            @*<p>
+                                                <img src="~/SmartTheme/images/gold-card.png">
+                                            </p>*@
+                                                            <span>Clear Finish</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-material">
+                                                    @*<h3>3. Add a premium metal NFC card along with the plastic card (+₹ 2,999.00).</h3>
+                                                    <div class="card-material-checkbox">
+                                                        <input type="checkbox" name="card-material" id="metal-card">
+                                                        <input type="checkbox" name="card-material" id="IncludeMetalCard">
+                                                        <label for="IncludeMetalCard" style=" width: max-content;"><span class="card-checkmark"></span>Yes, include a metal NFC card.</label>
+                                                    </div>*@
+                                                    <h3>3. Pick Your Card Type</h3>
+                                                    <div>
+                                                        <div class="select-cards-inner" style="margin-bottom: 8px;">
+                                                            <input type="radio" name="CardTypeId" data-type="PVC Card" data-price="@(Model ? "999": "1999")" checked value="1">
+                                                            <div class="checkbox-card">
+                                                                <span>PVC Card - Rs.@(Model ? "999": "1999")</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="select-cards-inner" style="margin-bottom: 8px;">
+                                                            <input type="radio" name="CardTypeId" data-type="Metal Card" data-price="@(Model ? "2499": "3499")" value="2">
+                                                            <div class="checkbox-card">
+                                                                <span>Metal Card - Rs.@(Model ? "2499": "3499")</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="select-cards-inner" style="margin-bottom: 8px;">
+                                                            <input type="radio" name="CardTypeId" data-type="Combo Card" data-price="@(Model ? "2999" : "4499")" value="3">
+                                                            <div class="checkbox-card">
+                                                            <span style="color: #9ea2a2; margin-bottom: 1px;">Combo (Metal + PVC) - <span class="no-before-radio" style="padding-left: 0; text-decoration: line-through;">Rs.@(Model ? "3499" : "5499")</span> Rs.@(Model ? "2999" : "4499")</span>
+                                                                @*<span></span>*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </form>
+                                </div>
+                                <div class="bottom-btns">
+                                    @*<a href="#" class="btn-grey back">Back</a>*@
+                                    <a id="btnNextSelectNfc" href="javascript:void(0)" class="btn-gradient next">Next</a>
+                                </div>
+                            </div>
+
+                            <!-- Tell Us About Your Business -->
+                            <div id="business-info" class="form-step">
+                                <h2>Tell Us About Your Business</h2>
+                                <form id="nfcCardDetailForm">
+                                    <div class="row">
+                                        <div class="col-md-7 choosen-card-outer">
+                                            <p>Choosen Card Details:</p>
+                                            <div class="choosen-card">
+                                                <div class="choosen-card-img">
+                                                    @*<img src="~/SmartTheme/images/gold-card.png" alt="gold-card">*@
+                                                    @Html.Partial("_nfcCardPreview", new DataAccess.ViewModels.NfcCardColorViewModel())
+                                                </div>
+                                                <div class="choosen-card-info">
+                                                    <p id="choosenCardColor"><span>Card Color</span>Gold</p>
+                                                    <p id="choosenCardFinish"><span>Card Finish</span>Glossy</p>
+                                                    <p id="choosenCardMaterial"><span>Card Material</span>NFC Metal Card</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 choose-card-detail">
+                                            <div class="mb-2">
+                                                <label>Your Name / Business Name</label>
+                                                <input type="text" id="NfcCardLine1" required placeholder="Your Name / Business Name">
+                                            </div>
+                                            <div class="mb-2">
+                                                <label>Designation / Business Name</label>
+                                                <input type="text" id="NfcCardLine2" placeholder="Designation / Business Name">
+                                            </div>
+                                            <div class="mb-2">
+                                                <label>Business Name / Phone Number</label>
+                                                <input type="text" id="NfcCardLine3" placeholder="Business Name / Phone Number">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bottom-btns">
+                                        <a href="#" class="btn-grey back">Back</a>
+                                        <button type="submit" class="btn-gradient next">Next</button>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                            <!-- Billing & Shipping Details -->
+
+                            @using (Html.BeginForm("UserAllWizardDetails", "Users", FormMethod.Post, new { id = "orderUpsertForm" }))
+                            {
+                                <div id="shipping-billing" class="form-step">
+                                    <h2>Enter Your Billing & Shipping Details</h2>
+                                    <div class="row shipping-details">
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-6 col-md-6">
+                                                    <h4>SHIPPING ADDRESS</h4>
+                                                </div>
+                                                <div class="col-6 col-md-6 shipping-checkbox zero-padding-phone" style="display:none;">
+                                                    @*<input type="checkbox" id="shipping-address">*@
+                                                    <input type="checkbox" id="IsSelfPick">
+                                                    <label for="IsSelfPick"><span class="checkbox-mark"></span> Self Pick</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label>Address Line 1</label>
+                                                    <input type="text" id="ShippingAddress1" name="ShippingAddress1" placeholder="Address 1">
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label>Address Line 2</label>
+                                                    <input type="text" id="ShippingAddress2" name="ShippingAddress2" placeholder="Address 2">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>City</label>
+                                                    <input type="text" id="ShippingCity" name="ShippingCity" placeholder="City">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>State</label>
+                                                    <input type="text" id="ShippingState" name="ShippingState" placeholder="State">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>Country</label>
+                                                    <input type="text" id="ShippingCountry" name="ShippingCountry" placeholder="Country">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>Enter Zip Code</label>
+                                                    <input type="text" id="ShippingZip" name="ShippingZip" placeholder="ZIP">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-6 col-md-6">
+                                                    <h4>BILLING ADDRESS</h4>
+                                                </div>
+                                                <div class="col-6 col-md-6 shipping-checkbox zero-padding-phone">
+                                                    @*<input type="checkbox" id="shipping-address">*@
+                                                    <input type="checkbox" id="chkSameShippingDetails">
+                                                    <label for="chkSameShippingDetails"><span class="checkbox-mark"></span> Same as shipping address</label>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label>Address Line 1</label>
+                                                    <input type="text" id="BillingAddress1" name="BillingAddress1" placeholder="Address 1">
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label>Address Line 2</label>
+                                                    <input type="text" id="BillingAddress2" name="BillingAddress2" placeholder="Address 2">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>City</label>
+                                                    <input type="text" id="BillingCity" name="BillingCity" placeholder="City">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>State</label>
+                                                    <input type="text" id="BillingState" name="BillingState" placeholder="State">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>Country</label>
+                                                    <input type="text" id="BillingCountry" name="BillingCountry" placeholder="Country">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label>Enter Zip Code</label>
+                                                    <input type="text" id="BillingZip" name="BillingZip" placeholder="ZIP">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bottom-btns">
+                                        <a href="#" class="btn-grey back">Back</a>
+                                        <button id="btnShippingDetailSubmitValidate" type="submit" class="btn-gradient next"><div class="lds-dual-ring"></div>&nbsp;Next</button>
+                                    </div>
+                                </div>
+                            }
+
+
+                            <!-- Review Your Order -->
+                            @using (Html.BeginForm("VerifyAndSaveNfcOrderPayment", "Users", FormMethod.Post, new { id = "orderPaymentForm" }))
+                            {
+                                @Html.Hidden("PaymentMethodId", 2)
+                                @Html.Hidden("PaymentAmount", 0)
+                                @Html.Hidden("hdnInitialDiscountedPackageCode", 0)
+                                @Html.Hidden("DiscountedPackageCost", 0)
+                                @Html.Hidden("hdnInitialTax", 0)
+                                @Html.Hidden("Tax", 0)
+                                @Html.Hidden("ShippingAmount", 0)
+                                @Html.Hidden("CouponDiscount", 0)
+                                @Html.Hidden("WantMetalCard", false)
+                                <div id="finish" class="form-step">
+                                    <h2>Review Your Order & Complete Payment</h2>
+                                    @*<div class="review-order">
+                        <table>
+                            <tr>
+                                <th>Price</th>
+                                <td id="mainPackageCost"><del>Rs. 0</del></td>
+                            </tr>
+                            <tr id="metalCardPriceContainer" style="display: none;">
+                                <th>Metal Card</th>
+                                <td id="displayMetalCardPrice">Rs. 2999</td>
+                            </tr>
+                            <tr>
+                                <th>Shipping Fee</th>
+                                <td id="displayShippingFee">Rs. 0</td>
+                            </tr>
+                            <tr>
+                                <th>Referral Discount</th>
+                                <td id="displayReferralDiscount"><del>Rs. 0</del></td>
+                            </tr>
+                            <tr>
+                                <th>Coupon Code</th>
+                                <td>
+                                    <div>
+                                        @Html.TextBox("DiscountCoupon", "", new { @placeholder = "Discount Coupon" })<br />
+                                        <a id="btnApplyDiscountCoupon" href="javascript:void(0)" style=" color: blue;">Apply</a>
+                                        <a id="btnCancelDiscountCoupon" href="javascript:void(0)" style=" color: red; margin-left: 17px;">Cancel</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="CouponDiscountContainer" style="display: none;">
+                                <th>Coupon Discount</th>
+                                <td id="displayCouponDiscount">Rs. 0</td>
+                            </tr>
+                            <tr>
+                                <th>Sub Total</th>
+                                <td id="displaySubTotal">Rs. 0</td>
+                            </tr>
+
+                            <tr>
+                                <th>Tax (18%)</th>
+                                <td id="taxDisplay">Rs. 0</td>
+                            </tr>
+
+
+
+                            <tr>
+                                <th>GST No.</th>
+                                <td>
+                                    <div>
+                                        @Html.TextBox("GstNo", "", new { @placeholder = "GST Number" })<br />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="total-pricing">
+                                <th>Total</th>
+                                <td id="displayTotal">Rs. 0</td>
+                            </tr>
+
+                        </table>
+                    </div>*@
+
+                                    @*28-May*@
+                                    <div class="order-complete-payments">
+                                        <div class="order-complete-row">
+                                            <h3><img src="~/SmartTheme/images/card-type-icon.svg" alt="Image">Card Selected</h3>
+                                            <div class="order-complete-row-card-type">
+                                                <div class="grid1">
+                                                    @*<img src="~/SmartTheme/images/card-tpe.png">*@
+                                                    @Html.Partial("_nfcCardPreview", new DataAccess.ViewModels.NfcCardColorViewModel())
+                                                </div>
+                                                <div class="grid2">
+                                                    <table style="width: 100%; border-collapse: collapse; color: white;">
+                                                        <tr>
+                                                            <td><span>Card Color</span> <strong id="choosenCardColorFinalStep">Gold</strong> </td>
+                                                            <td><span>Card Finish</span> <strong id="choosenCardFinishFinalStep">Glossy</strong> </td>
+                                                            <td><span>Card Material</span> <strong id="choosenCardMaterialFinalStep">NFC Metal Card</strong> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            @*<td><span>Your Name / Business Name</span> <strong class="textNfcCardLine1"></strong> </td>
+                                            <td><span>Designation / Business Name</span> <strong class="textNfcCardLine2"></strong> </td>
+                                            <td><span>Business Name / Phone Number</span> <strong class="textNfcCardLine3"></strong> </td>*@
+                                                            @*<td><span>Delivery Method</span> <strong>Pick by self</strong> </td>*@
+                                                            @*<tr>
+                                                <th>Delivery Method</th>
+                                                <td>
+                                                    <div class="delivery-method"><input type="radio" name="delivery-method" id="pick-by-self" checked><label for="pick-by-self">Pick by self</label></div>
+                                                    <div class="delivery-method"><input type="radio" name="delivery-method" id="deliver-to-address"><label for="deliver-to-address">Deliver to address</label></div>
+                                                </td>
+                                            </tr>*@
+                                                        </tr>
+                                                    </table>
+
+                                                </div>
+                                                @*<div class="grid3">
+                                    <h6 id="mainPackageCost">Rs. 0</h6>
+                                </div>*@
+                                            </div>
+                                        </div>
+
+                                        <div class="order-complete-row">
+                                            <h3><img src="~/SmartTheme/images/discount-tag.svg" alt="Image">Price / Discount</h3>
+                                            <div class="order-complete-row-card-type discount-row">
+                                                <table style="width: 100%; border-collapse: collapse; color: white;">
+
+                                                    <tr>
+                                                        <td>Price</td>
+                                                        <td><strong id="mainPackageCost">Rs. 0</strong> </td>
+                                                    </tr>
+                                                    <tr id="metalCardPriceContainer" style="display: none;">
+                                                        <td>Metal Card</td>
+                                                        <td><strong id="displayMetalCardPrice">Rs. 2999</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Referral Discounted</td>
+                                                        <td><strong id="displayReferralDiscount">Rs. 0</strong> </td>
+                                                    </tr>
+                                                    <tr id="couponCodeContainer">
+                                                        <td>Coupon Code</td>
+                                                        <td>
+                                                            <div class="enter-discount-couponn">
+                                                                @*<a id="btnCancelDiscountCoupon" href="javascript:void(0)" style=" color: red; margin-left: 17px;">Cancel</a>*@
+
+                                                                <img src="~/SmartTheme/images/coupon-code-icon.svg">
+                                                                <input type="text" id="DiscountCoupon" name="DiscountCoupon" placeholder="Enter Discount Coupon" class="discount-feild">
+                                                                <input type="button" value="APPLY" id="btnApplyDiscountCoupon" href="javascript:void(0)" class="apply-btn-feild">
+                                                                <input type="button" value="CANCEL" style="display:none;" id="btnCancelDiscountCoupon" href="javascript:void(0)" class="cancel-coupon-btn-feild">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="CouponDiscountContainer" style="display: none;">
+                                                        <td>Discount Amount</td>
+                                                        <td><strong id="displayCouponDiscount">Rs. 0</strong> </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <div class="order-complete-row payable-amount">
+                                            <h3><img src="~/SmartTheme/images/rupee-indian.svg" alt="Image">Payable Amount </h3>
+                                            <div class="order-complete-row-card-type discount-row">
+                                                <table style="width: 100%; border-collapse: collapse; color: white;">
+                                                    <tr>
+                                                        <td>Sub Total</td>
+                                                        <td style="text-align: right;"><strong id="displaySubTotal">Rs. 0</strong> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Shipping</td>
+                                                        <td style="text-align: right;" id="displayShippingFee"><span>Free</span> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Tax (18%)</td>
+                                                        <td style="text-align: right;"><span style="color:#fff;" id="taxDisplay">Rs. 0</span> </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Your GST No.</td>
+                                                        <td>
+                                                            <div class="enter-discount-couponn">
+                                                                @*<img src="~/SmartTheme/images/gst-icon.svg">*@
+                                                                <input type="text" id="GstNo" name="GstNo" placeholder="Enter GST number" class="discount-feild">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="total-ammount">
+                                                        <td>Total</td>
+                                                        <td style="text-align: right;"><span style="color:#fff;" id="displayTotal">Rs. 0 </span></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bottom-btns">
+                                        <a href="#" class="btn-grey back">Back</a>
+                                        <button id="btnOrderCartFinish" type="submit" class="btn-gradient next"><div class="lds-dual-ring"></div>&nbsp;Place Order</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+</div>

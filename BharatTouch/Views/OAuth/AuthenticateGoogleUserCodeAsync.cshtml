@@ -1,0 +1,66 @@
+﻿@model BharatTouch.CommonHelper.ActionState
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BharatTouch - Calander sync Result</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="icon" href="~/Content/images/favicon_bharatTouch.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="container min-vh-100 d-flex align-items-center justify-content-center">
+        <div class="row w-100">
+            <div class="col-md-6 mx-auto">
+                @if (Model.Success)
+                {
+                    <!-- Success Card -->
+                    <div class="card border-0 shadow-sm mb-4 text-white" style=" background-color: #009d00bd;">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="~/Content/images/favicon_bharatTouch.ico" class="rounded-circle me-2" width="40" height="40" alt="Website Logo">
+                                <h4 class="mb-0">Bharat Touch</h4>
+                            </div>
+                            <div class="text-center py-4">
+                                <i class="bi bi-check-circle-fill display-1 mb-3"></i>
+                                <h3 class="mb-3">@Model.Message</h3>
+                                <p class="mb-4 lead">@Model.Data</p>
+                            </div>
+                            <a href="@Model.OptionalValue" class="btn btn-light w-100 d-flex align-items-center justify-content-center gap-2">
+                                <i class="bi bi-arrow-left"></i> Go Back
+                            </a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <!-- Error Card -->
+                    <div class="card border-0 shadow-sm bg-danger text-white">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="~/Content/images/favicon_bharatTouch.ico" class="rounded-circle me-2" width="40" height="40" alt="Website Logo">
+                                <h4 class="mb-0">Bharat Touch</h4>
+                            </div>
+                            <div class="text-center py-4">
+                                <i class="bi bi-exclamation-circle-fill display-1 mb-3"></i>
+                                <h3 class="mb-3">@Model.Message</h3>
+                                <p class="mb-4 lead">@Model.Data</p>
+                            </div>
+                            <a href="@Model.OptionalValue" class="btn btn-light w-100 d-flex align-items-center justify-content-center gap-2">
+                                <i class="bi bi-arrow-left"></i> Go Back
+                            </a>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

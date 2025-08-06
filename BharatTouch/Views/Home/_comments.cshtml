@@ -1,0 +1,30 @@
+﻿@model int
+@{
+    var noteList = new DataAccess.Repository.ItemRepository().GetItemComment(Model);
+}
+
+@if (noteList.Count > 0)
+{
+    <div class="tm-body">
+        <ol class="tm-items">
+            @foreach (var note in noteList)
+            {                
+                <li>
+                    <div class="tm-box">
+                        <p class="text-muted mb-none"><span class="text-primary">@note.CreatedByName</span> @(Convert.ToDateTime(note.CommentDate).ToString("MMMM dd, yyyy hh:mm tt"))</p>
+                      
+                        <p>
+                            @Html.Raw(note.Comments)
+                            <br />
+                            @*<span>
+                                <a href="javascript:void(0)" data-action="editnotes" data-id="@note.Id"><i class="fa fa-pencil"></i></a>
+                                &nbsp;|&nbsp;
+                                <a href="javascript:void(0)" data-action="deletenote" data-accountid="@Model" data-id="@note.Id"><i class="fa fa-trash-o"></i></a>
+                            </span>*@
+                        </p>
+                    </div>
+                </li>
+            }
+        </ol>
+    </div>
+}

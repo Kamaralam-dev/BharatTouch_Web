@@ -1,0 +1,80 @@
+﻿
+<!-- ======= Header ======= -->
+@{
+   string defaultImgPath = "data:image/jpeg;base64,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";
+
+}
+
+
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <a href="/" class="logo d-flex align-items-center">
+            <img src="~/SmartTheme/images/logo.svg" alt="">
+        </a>
+    </div><!-- End Logo -->
+
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+
+            <li class="nav-item dropdown pe-3">
+
+                <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                    <img src="@defaultImgPath" alt="Profile" class="rounded-circle" />
+                    <span class="d-none d-md-block dropdown-toggle ps-2">@BharatTouch.CommonHelper.Utility.GetCookie("UserName_admin")</span> 
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                    <li class="dropdown-header">
+                        <h6>@BharatTouch.CommonHelper.Utility.GetCookie("UserName_admin")</h6>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-person-circle"></i>
+                            <span>My Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-gear"></i>
+                            <span>Account Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                        <a class="dropdown-item d-flex align-items-center" href="#">
+                            <i class="bi bi-question-circle"></i>
+                            <span>Need Help?</span>
+                        </a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+
+                        <a class="dropdown-item d-flex align-items-center loaderMenubar" href="@Url.Action("Logout", "Admin")">
+                            <i class="bi bi-box-arrow-right"></i>
+                            <span>Sign Out</span>
+                        </a>
+                    </li>
+
+                </ul><!-- End Profile Dropdown Items -->
+            </li><!-- End Profile Nav -->
+
+        </ul>
+    </nav><!-- End Icons Navigation -->
+
+</header>
+<!-- End Header -->

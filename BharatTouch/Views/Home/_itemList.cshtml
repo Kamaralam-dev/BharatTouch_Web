@@ -1,0 +1,110 @@
+﻿@model List<DataAccess.Models.ItemModel>
+@using DataAccess
+@{ 
+    var userType = BharatTouch.CommonHelper.Utility.GetCookie("UserType_auth").NullToString();
+    var userid = BharatTouch.CommonHelper.Utility.GetCookie("UserId_auth").NullToString();
+}
+
+<style>
+    .mg-zoom11 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 5px 15px 10px;
+        background-color: #0088cc;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+    }
+</style>
+
+<div class="mg-main">
+    <div class="mg-files" data-sort-destination data-sort-id="media-gallery">
+        @{
+            var count = 0;
+            var totCount = Model.Count();
+
+            foreach (var item in Model)
+            {
+
+                if (count == 0 && totCount > 0)
+                {
+                    @:<div class="row">
+                                }
+                totCount--;
+                <div class="isotope-item image col-sm-6 col-md-4 col-lg-3">
+                    <div class="thumbnail">
+                        <div class="thumb-preview">
+                            <a class="thumb-image" href="#">
+                                <img src="@Url.Content(item.ImageUrl)" class="img-responsive" alt="Project">
+                            </a>
+                            <div class="mg-thumb-options">
+                                @{
+                                    DateTime currentDate = DateTime.Now;
+                                    currentDate = currentDate.AddDays(30);
+                                    var newDate = currentDate.ToString("MM/dd/yyyy");
+
+                                    var ClaimDate = string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style1 + "}", item.ClaimByDate);
+
+                                    DateTime d1, d2;
+                                    DateTime? Cdate = null;
+                                    d1 = DateTime.Parse(newDate);
+                                    d2 = DateTime.Parse(DateTime.Now.ToString("MM/dd/yyyy"));
+
+                                    if (!string.IsNullOrEmpty(ClaimDate))
+                                    {
+                                        Cdate = DateTime.Parse(ClaimDate);
+                                    }
+
+                                    int value = DateTime.Compare(newDate.ToDateTime(), ClaimDate.ToDateTime());
+                                    if (value > 0 && ClaimDate != "" && Cdate >= d2)
+                                    {
+                                        //var date1 = "date1 is later than date2.";
+                                        <div class="mg-zoom11">
+                                            <a href="javascript:void(0)" data-id="@item.ItemId" style="color:#fff;" data-action="Purches-item">Purches Item</a>
+                                        </div>
+
+                                    }
+                                    else if (value < 0)
+                                    {
+                                        //var date2 = "date1 is earlier than date2.";
+                                    }
+                                    else
+                                    {
+                                        //var sameDate = "date1 is the same as date2.";
+                                    }
+                                }
+
+                                <a href="/home/detail/@item.ItemId"> <div class="mg-zoom"><i class="fa fa-info-circle"></i></div></a>
+                                @if (userType != "" && userType.ToString().ToLower().Contains("donor") == false)
+                                {
+                                    <div class="mg-toolbar">
+                                        <div class="mg-group pull-right">
+                                            <a href="javascript:void(0)" data-id="@item.ItemId" data-action="request-item">Request Item</a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <h5 class="mg-title text-semibold">@item.ItemName</h5>
+                        <div class="mg-description">
+                            <small class="pull-left text-muted">@item.Category, @item.SubCategory</small><br />
+                            <small class="pull-left text-muted">@item.City, @item.State</small>
+                            <small class="pull-right text-muted">@string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style1 + "}", item.PurchaseDate)</small>
+                        </div>
+                    </div>
+                </div>
+
+                if (totCount == 0)
+                {
+                    @:</div>
+                                }
+
+                if (count == 3)
+                {
+                    count = -1;
+                    @:</div>
+                            }
+                count++;
+            }
+        }
+    </div>

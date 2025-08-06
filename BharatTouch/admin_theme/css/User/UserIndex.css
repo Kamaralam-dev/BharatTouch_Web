@@ -1,0 +1,65 @@
+﻿
+
+.custom-tooltip-user {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px; /* Reduced padding */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    max-width: 550px; /* Set max-width to control the width*/
+}
+
+.tooltip-header {
+    background-color: #f0f0f0;
+    padding: 5px;
+    margin-bottom: 5px; /* Reduced margin */
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between; /* Align items in header */
+    align-items: center; /* Align items vertically*/
+}
+
+    .tooltip-header .close-btn-report {
+        margin-left: auto; /* Push close button to the right */
+        position: relative;
+        top: auto;
+        right: auto;
+        background-color: transparent;
+        padding: 0;
+    }
+
+        .tooltip-header .close-btn-report img {
+            width: 15px;
+            height: 15px;
+        }
+
+.tooltip-loader {
+    margin-left: 5px; /* Adjust as needed */
+    font-style: italic; /* Optional styling */
+    color: grey;
+}
+
+
+
+
+.profile-card-container {
+    display: flex; /* For horizontal layout */
+    align-items: flex-start; /* Align items to the top */
+    background-color: #f9f9f9; /* Light grey background */
+    border: 1px solid #e0e0e0; /* Light grey border */
+    border-radius: 5px;
+    padding: 15px;
+    font-family: sans-serif;
+    color: #333;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+
+.profile-info {
+    flex: 1; /* Take remaining space */
+    display: flex; /* Enable flexbox for profile info */
+    flex-direction: column; /* Stack info vertically */
+    justify-content: space-between; /* Distribute space between sections */
+}
+
+
+

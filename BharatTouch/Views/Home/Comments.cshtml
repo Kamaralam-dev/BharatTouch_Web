@@ -1,0 +1,66 @@
+﻿@model DataAccess.Models.RequestCommentModel
+@{
+    ViewBag.Title = "Create Account";
+    Layout = "~/Views/Shared/_LayoutBlank.csHtml";
+}
+<section role="main" class="content-body" id="createFormContainer">
+    <header class="page-header">
+        <h2>Comments</h2>
+    </header>
+
+    @using (Html.BeginForm("Upsert", "Account", FormMethod.Post, new { id = "upsertAccountForm", @class = "form-horizontal form-bordered", @enctype = "multipart/form-data" }))
+    {
+        <header class="page-header fixed-button-container">
+            <div class="fixed-button-align">
+                <a href="/home/requests" class="mb-xs mt-xs mr-xs btn btn-warning"><i class="fa  fa-step-backward"></i>&nbsp;Go Back</a>              
+            </div>
+        </header>
+
+        <section class="panel">
+            <div class="panel-body top-border-bar mt52">
+               
+                <div class="form-group">
+                    <div class="timeline timeline-simple mb-md" id="commentList">
+                        @Html.Partial("_comments", Model.RequestId)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="inputPlaceholder">Comments</label>
+                    <div class="col-md-10">
+                        <div class="tab-content" style="border:0;box-shadow:none;padding:0;">
+                            <div id="notesPanel" class="tab-pane active">
+                                <section class="simple-compose-box mb-xlg">
+                                    <textarea id="RequestComments" name="RequestComments" placeholder="Comments" rows="3"></textarea>
+                                </section>
+                                <div style="float:right;">
+                                    <a class="btn  btn-xs" data-action="cancelnote">Cancel</a>
+                                    <a class="btn btn-primary btn-xs" data-action="savenotes" data-id="@Model.RequestId">Save</a>
+                                    @*<input type="hidden" id="hdnNoteId" value="0" />*@
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    }
+</section>
+
+
+@section scripts{
+    <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/page-scripts/Home/Index.js"></script>
+    <script type="text/javascript">
+        var item = new homeItems();
+        @*account.upsertAccountUrl = "@Url.Action("Upsert", "Account")";
+        account.deleteAccountPhoneUrl = "@Url.Action("DeleteAccountPhone", "Account")";
+        account.deleteAccountUrl = "@Url.Action("Delete", "Account")";
+        account.deleteAccountSocialUrl = "@Url.Action("DeleteAccountSocial", "Account")";
+        account.loggedUser = "@BharatTouch.CommonHelper.Utility.GetCookie("UserId_auth")";*@
+        item.init();
+    </script>
+}

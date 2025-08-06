@@ -1,0 +1,36 @@
+﻿@model int
+    @using DataAccess
+@{
+    var educationList = new DataAccess.Repository.EducationRepository().GetAllUserEducations(Model, "BharatTouch/EditProfile/_education.cshtml").OrderByDescending(x => x.StartDate).ToList();
+}
+
+@if (educationList.Count > 0)
+{
+
+    foreach (var education in educationList)
+    {
+        var title = (education.Specialization != null && education.Specialization.NullToString() != "") ? education.Degree + " (" + education.Specialization + ")" : education.Degree;
+        <div class="resume-item">
+            <h4>@title </h4>
+            @if (!string.IsNullOrWhiteSpace(string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style11 + "}", education.StartDate)) || !string.IsNullOrWhiteSpace(string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style11 + "}", education.EndDate)))
+            {
+                <h5>@string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style11 + "}", education.StartDate) - @(education.EndDate == null ? "Present" : string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style11 + "}", education.EndDate))</h5>
+            }
+            <p><em>@education.Institute</em></p>
+
+            <p>
+                <a class="edit-education" data-id="@education.EducationId" style="color:darkblue;cursor:pointer;"><i class="bx bx-edit"></i>&nbsp; Edit</a>
+                &nbsp;|&nbsp;
+                <a class="delete-education" data-id="@education.EducationId" style="color:darkblue;cursor:pointer;"><i class="bx bx-trash"></i>&nbsp; Delete <span class="lds-dual-ring-blue"></span>&nbsp;</a>
+            </p>
+
+        </div>
+    }
+
+}
+@*else
+{
+    <div class="text-center">
+        <h4 style="text-transform: unset; color: black; font-weight: 600;"><a>No Data Found</a> </h4>
+    </div>
+}*@

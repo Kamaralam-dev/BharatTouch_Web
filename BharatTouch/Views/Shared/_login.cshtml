@@ -1,0 +1,64 @@
+﻿@model DataAccess.Models.UserModel
+@{
+    //Layout = null;
+    ViewBag.Title = "Login";
+    var newdt = System.DateTime.Now.ToString("MMddyyyyhhmmss");
+}
+
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                @using (Html.BeginForm("Authenticate", "Users", FormMethod.Post, new { id = "loginForm", @class = "php-email-form" }))
+                {
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="name">&nbsp;</label>
+                            @Html.TextBoxFor(t => t.EmailId, new { @class = "form-control", @placeholder = "Email", @autocomplete = "off" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="name">&nbsp;</label>
+                            @Html.TextBoxFor(t => t.Password, new { @class = "form-control input-lg", @placeholder = "Password", @type = "password", @autocomplete = "off" })
+
+                        </div>
+                    </div>
+                    <div class="form-row clearfix">
+                        <button type="submit" id="btnLogin" class="btn btn-orange float-end mt-3 w-100"><div class="lds-dual-ring"></div>&nbsp;LOGIN</button>
+                    </div>
+                    @*<div class="form-row clearfix">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-grow-1"><hr></div>
+                            <div class="mx-2">OR</div>
+                            <div class="flex-grow-1"><hr></div>
+                        </div>
+                    </div>
+                    <div class="form-row clearfix">
+                        <button type="button" class="btn btn-danger btnSigninWithGoogle w-100"><i class="bi bi-google" style="margin-right: 10px;"></i>Signin With Google</button>
+                    </div>
+                    <div class="form-row clearfix">
+                        <button type="button" class="btn text-white btnSigninWithMicrosoft w-100 mt-2" style="background-color: darkslateblue;"><i class="bi bi-microsoft" style="margin-right: 10px;"></i>Signin With Microsoft</button>
+                    </div>*@
+
+                    <div class="text-center mt-4 font-weight-light">
+                        Don't have an account? <a id="btnSignup_Login" href="javascript:void(0)" style="cursor:pointer;" class="text-primary">Create new user</a>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <div class="my-2 d-flex justify-content-between align-items-center">
+                    <a id="btnForgotPassword_Login" href="javascript:void(0)" style="cursor:pointer;" class="auth-link text-black">Forgot password?</a>
+                    @*<a href="javascript:void(0)" style="cursor:pointer;" class="auth-link text-black btnForgotPassword_Signup">Forgot password?</a>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script src="~/Content/page-scripts/Users/Authentication.js?v=@DateTime.Now.ToString("yyyyMMddHHmmssf")"></script>*@

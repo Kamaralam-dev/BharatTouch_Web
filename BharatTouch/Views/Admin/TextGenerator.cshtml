@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "TextGenerator";
+    Layout = "~/Views/Shared/Admin/_LayoutAdmin.cshtml";
+}
+
+<div class="container">
+    <div class="pagetitle">
+        <h1>Ai Text Generator</h1>
+    </div>
+    <section>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="txtUserInput"> User Input </label>
+                        @Html.TextBox("txtUserInput", "", new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-12 mt-3">
+                        <label for="aiGeneratedText"> Ai Generated Text</label>
+                        @Html.TextArea("aiGeneratedText", new { @class = "form-control", @rows = "10" })
+                    </div>
+                    <div class="col-md-12 mt-3">
+                        <div class="d-flex justify-content-end">
+                            <button id="btnGenerateText" class="btn btn-success" onclick="generateAiText()">Generate Text</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<script type="text/javascript">
+    function generateAiText() {
+        $("#aiGeneratedText").val("");
+        var btn = $("#btnGenerateText");
+        btn.html("...Loading");
+        $.post("/Admin/AiTextGenerator", { inputText: $("#txtUserInput").val() }, function (res) {
+            btn.html("Generate Text");
+            if (res.Success) {
+                var parsedData = JSON.parse(res.Data);
+                var generatedText = parsedData[0].generated_text;
+                $("#aiGeneratedText").val(generatedText);
+                return;
+            }
+            showMessage(res.Message, res.Data, res.Type);
+        }).fail(function () {
+            btn.html("Generate Text");
+            showMessage("Failed!", "Some error occurred.", "error");
+        });
+    }
+</script>

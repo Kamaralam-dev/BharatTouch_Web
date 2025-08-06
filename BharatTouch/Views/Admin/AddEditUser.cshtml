@@ -1,0 +1,1550 @@
+﻿@model DataAccess.Models.UserModel
+@using BharatTouch.CommonHelper
+@using DataAccess
+@{
+    ViewBag.Title = "Bharat Touch";
+    var id = Url.RequestContext.RouteData.Values["id"];
+    // Layout = "~/Views/Shared/_formLayout.csHtml";
+    Layout = "~/Views/Shared/Admin/_LayoutAdmin.csHtml";
+    //int userid = BharatTouch.CommonHelper.Utility.GetCookie("UserId_Admin").ToIntOrZero();
+    int userid = Model.UserId;
+    var WebUrl = ConfigValues.WebUrl;
+    var UserUrlCode = Url.RequestContext.RouteData.Values["code"].NullToString();
+
+    var linkedIn = "";
+    var Twitter = "";
+    var Facebook = "";
+    var Instagram = "";
+    var Skype = "";
+    var Youtube = "";
+    var socialInfo = new DataAccess.Repository.SocialRepository().GetSocialInfo(Model.UserId, "BharatTouch/EditProfile/EditProfile");
+    if (socialInfo.Count > 0)
+    {
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "LinkedIn") != null)
+        {
+            linkedIn = socialInfo.FirstOrDefault(x => x.SocialMedia == "LinkedIn").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Twitter") != null)
+        {
+            Twitter = socialInfo.FirstOrDefault(x => x.SocialMedia == "Twitter").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Facebook") != null)
+        {
+            Facebook = socialInfo.FirstOrDefault(x => x.SocialMedia == "Facebook").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Instagram") != null)
+        {
+            Instagram = socialInfo.FirstOrDefault(x => x.SocialMedia == "Instagram").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Skype") != null)
+        {
+            Skype = socialInfo.FirstOrDefault(x => x.SocialMedia == "Skype").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Youtube") != null)
+        {
+            Youtube = socialInfo.FirstOrDefault(x => x.SocialMedia == "Youtube").Url.NullToString();
+        }
+    }
+
+    //below are access allowed to user
+
+    var userType = Model.UserType.NullToString();
+    int leadstotalRows = 0;
+    new DataAccess.Repository.UserRepository().FetchLeadsByUserId(Model.UserId, 0, 2000, "CreatedOn", "DESC", "", out leadstotalRows, "BharatTouch/_formLayout");
+
+    string countryCode = "";
+    if (!string.IsNullOrWhiteSpace(Model.Phone) && Model.Phone.Length > 10)
+    {
+        countryCode = Model.Phone.Substring(0, 3);
+        Model.Phone = Model.Phone.Substring(Math.Max(0, Model.Phone.Length - 10));
+    }
+
+
+    var countriesList = new DataAccess.Repository.CountryRepository().GetCountries("BharatTouch/EditProfile/EditProfile.cshtml");
+    var countries = countriesList.Select(n => new SelectListItem()
+    {
+        Text = n.Country + " (" + n.NumberCode + ")",
+        Value = n.CountryId.ToString() + ";" + n.MinNumberLength + ";" + n.MaxNumberLength,
+        Selected = n.CountryId == Model.CountryId
+    });
+
+    var WhatsAppCountries = countriesList.Select(n => new SelectListItem()
+    {
+        Text = n.Country + " (" + n.NumberCode + ")",
+        Value = n.CountryId.ToString() + ";" + n.MinNumberLength + ";" + n.MaxNumberLength,
+        Selected = n.CountryId == Model.WhatsAppCountryId
+    });
+
+    var WorkPhoneCountries = countriesList.Select(n => new SelectListItem()
+    {
+        Text = n.Country + " (" + n.NumberCode + ")",
+        Value = n.CountryId.ToString() + ";" + n.MinNumberLength + ";" + n.MaxNumberLength,
+        Selected = n.CountryId == Model.WorkPhoneCountryId
+    });
+
+    var OtherPhoneCountries = countriesList.Select(n => new SelectListItem()
+    {
+        Text = n.Country + " (" + n.NumberCode + ")",
+        Value = n.CountryId.ToString() + ";" + n.MinNumberLength + ";" + n.MaxNumberLength,
+        Selected = n.CountryId == Model.OtherPhoneCountryId
+    });
+
+    var _scheduleRepo = new DataAccess.Repository.ScheduleAndMeetingRepository();
+    var OpenWeekDaysModel = _scheduleRepo.GetScheduleOpenWeekDays(userid, "BharatTouch/EditProfile");
+    if (OpenWeekDaysModel == null)
+    {
+        OpenWeekDaysModel = new DataAccess.Models.ScheduleOpenWeekDayModel();
+    }
+    bool isAnyOpenWeekDay = (OpenWeekDaysModel.Sun || OpenWeekDaysModel.Mon || OpenWeekDaysModel.Tue || OpenWeekDaysModel.Wed || OpenWeekDaysModel.Thu || OpenWeekDaysModel.Fri || OpenWeekDaysModel.Sat);
+
+    var upiDetail = new DataAccess.Repository.UserRepository().GetUserUpiDetailByUserId(userid, "BharatTouch/EditProfile");
+    if (upiDetail == null)
+    {
+        upiDetail = new DataAccess.Models.UpiDetailsModel();
+        upiDetail.UserId = userid;
+    }
+
+    var themeSettings = new DataAccess.Repository.CardThemeRepository().FetchCardThemeSettingByUserId(userid, "BharatTouch/EditProfile");
+    if (themeSettings == null)
+    {
+        themeSettings = new DataAccess.ViewModels.UserCardThemeSettingViewModel();
+        themeSettings.UserId = userid;
+        themeSettings.TemplateId = 1;
+    }
+
+    bool isCoverImageExist = false;
+    try
+    {
+        isCoverImageExist = System.IO.File.Exists(Server.MapPath("~" + Model.CoverImage));
+    }
+    catch (Exception ex)
+    {
+        isCoverImageExist = false;
+    }
+
+    string googleAccessToken = string.Empty;
+    string microsoftAccessToken = string.Empty;
+    var userTokenResult = new DataAccess.Repository.OAuthRepository().GetOAuthTokenByUserId(Model.UserId, "BharatTouch/EditProfile");
+    if (userTokenResult != null)
+    {
+        googleAccessToken = userTokenResult.GoogleAccessToken != null ? userTokenResult.GoogleAccessToken : string.Empty;
+        microsoftAccessToken = userTokenResult.MicrosoftAccessToken != null ? userTokenResult.MicrosoftAccessToken : string.Empty;
+    }
+
+    var outlookAuthUrl = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=" + ConfigValues.MicrosoftClientId + "&response_type=code&redirect_uri=" + ConfigValues.MicrosoftRedirectUri + "&scope=Calendars.ReadWrite offline_access User.Read&response_mode=query&state=" + userid + ";/edit/" + UserUrlCode + ";" + ConfigValues.MicrosoftRedirectUri + ";Calendars.ReadWrite offline_access User.Read";
+
+    var companyTypeTxtClass = Model.CompanyTypeId == 36 ? "none" : "";
+    var companyTypeDdlClass = Model.CompanyTypeId == 36 ? "" : "none";
+
+    DataAccess.ViewModels.UserPackageViewModel package = new DataAccess.ViewModels.UserPackageViewModel();
+
+    DirectoryInfo d = new DirectoryInfo(Server.MapPath("~/uploads/Portfolio/" + Model.UserId));//Assuming Test is your Folder
+    FileInfo[] galleryImages = null;
+    try
+    {
+        galleryImages = d.GetFiles("*"); //Getting Text files
+    }
+    catch (Exception ex) { }
+}
+
+<link href="~/Content/page-scripts/Users/Create.css" rel="stylesheet" />
+<link href="~/Content/stylesheets/pageCss/AdminAddEditUser.css" rel="stylesheet" />
+
+@Html.Hidden("hdnLoggedUserId", Model.UserId)
+@Html.Hidden("hdnProfileImage", Model.ProfileImage)
+@Html.Hidden("hdnBusinessTypeId", Model.CompanyTypeId)
+@Html.Hidden("hdnBusinessTypes", Model.CompanyType)
+@Html.Hidden("hdnBestFitCoverImgProperty", Model.BestFitCoverImage)
+@Html.Hidden("hdnUserGoogleAccessToken", googleAccessToken)
+@Html.Hidden("hdnUserMicrosoftAccessToken", microsoftAccessToken)
+@Html.Hidden("hdnUserUrlCode", UserUrlCode)
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="text-danger">Are you sure you want to delete the selected file?</label>
+
+                <input type="hidden" id="txtfiletype" name="type" />
+                <input type="hidden" id="txtfilepath" name="filepath" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="btndeletefile" class="btn btn-danger"> <div class="lds-dual-ring"></div>&nbsp;Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModel" tabindex="-1" aria-labelledby="deleteModelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModelLabel">Confirm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="text-danger">Are you sure you want to delete?</label>
+
+                <div class="d-none" id="deleteModelData"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="btnDeleteModel" class="btn btn-danger"> <div class="lds-dual-ring"></div>&nbsp;Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="cropCoverImageModal" tabindex="-1" aria-labelledby="cropCoverImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cropCoverImageModalLabel">Cover Image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <section class="panel">
+                    <div class="panel-body top-border-bar mt52">
+                        @using (Html.BeginForm("UpsertUserProfileAndCoverImages", "Users", FormMethod.Post, new { id = "editCoverImageForm", @class = "php-email-form" }))
+                        {
+                            @Html.HiddenFor(x => x.ProfileImage)
+                            @Html.HiddenFor(x => x.CoverImage)
+                            @Html.HiddenFor(x => x.UserId)
+                            <div class="col-md-12 d-flex justify-content-center">
+                                <div class="form-row w-100">
+                                    <div class="form-group col-lg-12" style="text-align:center;">
+                                        <span id="cropCoverImagePrfLoader" class="lds-dual-ring-blue"></span>
+                                        <div class="w-100" id="cropCoverImageContainer" style="display:none;">
+                                            <img id="croppableCoverImage" style="height:auto;" alt="Upload Cover Image" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 d-flex justify-content-end" style="gap: 10px;">
+                                <button type="submit" class="btn share-btn mt-3" id="submitBtn" style=" padding: 10px 35px;"><div class="lds-dual-ring"></div>&nbsp; Submit</button>
+                            </div>
+                        }
+                    </div>
+                </section>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div>
+
+        <section id="personal">
+            <div class="section-title">
+                <h2>Personal Details</h2>
+                <p>
+                    You need to enter personal credentials like your name, date of birth. You can also upload PDF files for the services offered, portfolio, menu and resume as well. Once you are done, you need to click the 'update personal details' box. <span style="color:red;">
+                        Users also have the option to add a tag line for the profession they are into. You can add different skills using a comma.(Example: Graphic designer - Fun and creativity with designs and colours)
+                    </span>
+                </p>
+
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    @using (Html.BeginForm("PersonalInfo", "Admin", FormMethod.Post, new { id = "editPersonalInfoUserForm", @class = "row g-3", @enctype = "multipart/form-data" }))
+                    {
+                        @Html.HiddenFor(t => t.UserId)
+                        @Html.HiddenFor(t => t.UrlCode)
+                        <input type="hidden" value="temppassword" name="Password" />
+                        @Html.HiddenFor(t => t.EmailId)
+
+                        if (ViewBag.BusinessTypeParentList != null)
+                        {
+                            <div class="form-group col-md-6">
+                                <label for="CompanyType"><span style="color:red;">*</span> Business Category</label>
+                                @Html.DropDownListFor(x => x.CompanyTypeParentId, ViewBag.BusinessTypeParentList as SelectList, new { @class = "form-control form-select", @id = "ddlCompanyTypeParentId" })
+                            </div>
+                        }
+                        <div class="form-group col-md-6">
+                            <label for="CompanyType"><span style="color:red;">*</span> Business Type</label>
+                            @Html.TextBoxFor(t => t.CompanyType, new { @class = "form-control", @style = "display:" + companyTypeTxtClass + ";", @placeholder = "" })
+                            <select id="ddlCompanyTypeId" name="CompanyTypeId" class="form-control form-select" style="display: @companyTypeDdlClass;">
+                                <option value="0">Select Company Type</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <label for="FirstName"><span style="color:red;">*</span> First Name</label>
+                            @Html.TextBoxFor(t => t.FirstName, new { @class = "form-control", @placeholder = "" })
+                        </div>
+                        <div class="col-md-6">
+                            <label for="LastName">Last Name</label>
+                            @Html.TextBoxFor(t => t.LastName, new { @class = "form-control", @placeholder = "" })
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="Company"> Business Name</label>
+                            @Html.TextBoxFor(t => t.Company, new { @class = "form-control", @placeholder = "" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="CurrentDesignation">Current Designation</label>
+                            @Html.TextBoxFor(t => t.CurrentDesignation, new { @class = "form-control", @placeholder = "" })
+                        </div>
+
+
+                        <div class="form-group col-md-6">
+                            @Html.HiddenFor(x => x.BirthDate)
+                            <label for="BirthDate">Birth Date</label>
+                            @Html.TextBox("BirthDate1", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.DefaultStyle + "}", Model.BirthDate), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="Gender">Gender</label>
+                            <select name="Gender" class="form-control form-select">
+                                <option value="">Choose Gender</option>
+                                <option value="Male" @(Model.Gender == "Male" ? " selected " : "")>Male</option>
+                                <option value="Female" @(Model.Gender == "Female" ? " selected " : "")>Female</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Tagline">Tagline</label>
+                            @Html.TextBoxFor(t => t.Tagline, new { @class = "form-control required-left", @placeholder = "" })
+                        </div>
+                        <div class="form-group">
+                            <label for="Website">Website</label>
+                            @Html.TextBoxFor(t => t.Website, new { @class = "form-control required-left", @placeholder = "" })
+                        </div>
+                        <div class="form-group">
+                            <label for="name" style="color:red;">Note : Only Pdf files allowed.</label>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <div class="col-md-3">
+                                <label for="name">Portfolio</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="file" accept=".pdf" name="PortfolioLink" id="PortfolioLink" />
+                            </div>
+                            <div class="col-md-2 float-end">
+                                @Html.HiddenFor(t => t.PortfolioLink)
+                                @{
+                                    <input type="hidden" value="@Model.PortfolioLink" id="txtportfoliolink" />
+                                    if (!string.IsNullOrWhiteSpace(Model.PortfolioLink) && System.IO.File.Exists(Server.MapPath(Model.PortfolioLink)))
+                                    {
+
+                                        <a target="_self" href="/Admin/DownloadFilesFromPath?fileName=@Model.PortfolioLink" class="btn m-2 btn-sm btn-outline-success" style="padding: 0 3px 0px 3px;height: 24px;"><i class="fa fa-download"></i></a>
+                                        <a id="btndeleteportfolio" class="btn m-2 btn-sm btn-outline-danger" style="padding: 0 3px 0px 3px;height: 24px;"><i class="bi bi-trash"></i></a>
+                                    }
+                                }
+                            </div>
+                            <div class="col-md-6 float-end">
+                                @{
+                                    if (!string.IsNullOrWhiteSpace(Model.PortfolioLink) && System.IO.File.Exists(Server.MapPath(Model.PortfolioLink)))
+                                    {
+                                        <a id="txtPortfolioFilename" class="text-fileName">@System.IO.Path.GetFileName(Server.MapPath(Model.PortfolioLink))</a>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <div class="col-md-3">
+                                <label for="name">
+                                    Services
+
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="file" accept=".pdf" name="ServicesLink" id="ServicesLink" />
+                            </div>
+                            <div class="col-md-2 float-end">
+                                @Html.HiddenFor(t => t.ServicesLink)
+                                @{
+                                    <input type="hidden" value="@Model.ServicesLink" id="txtservicelink" />
+                                    if (!string.IsNullOrWhiteSpace(Model.ServicesLink) && System.IO.File.Exists(Server.MapPath(Model.ServicesLink)))
+                                    {
+                                        <a target="_self" href="/Admin/DownloadFilesFromPath?fileName=@Model.ServicesLink" style="padding: 0 3px 0px 3px;height: 24px;" class="btn m-2 btn-sm btn-outline-success"><i class="fa fa-download"></i></a>
+                                        <a id="btndeleteservice" class="btn m-2 btn-sm btn-outline-danger" style="padding: 0 3px 0px 3px;height: 24px;"><i class="bi bi-trash"></i></a>
+                                    }
+                                }
+                            </div>
+                            <div class="col-md-6 float-end">
+                                @{
+                                    if (!string.IsNullOrWhiteSpace(Model.ServicesLink) && System.IO.File.Exists(Server.MapPath(Model.ServicesLink)))
+                                    {
+                                        <a id="txtServiceFilename" class="text-fileName">@System.IO.Path.GetFileName(Server.MapPath(Model.ServicesLink))</a>
+                                    }
+
+
+                                }
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name" style="color:red;">Note : Only (pdf, jpg, jpeg, png, doc, docx) files allowed.</label>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <div class="col-md-3">
+                                <label for="name">Resume</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="file" accept=".pdf, .jpg, .jpeg, .png, .doc, .docx" name="ResumeLink" id="ResumeLink" />
+                            </div>
+                            <div class="col-md-2 float-end">
+                                @Html.HiddenFor(t => t.ResumeLink)
+                                @{
+                                    <input type="hidden" value="@Model.ResumeLink" id="txtresumelink" />
+                                    if (!string.IsNullOrWhiteSpace(Model.ResumeLink) && System.IO.File.Exists(Server.MapPath(Model.ResumeLink)))
+                                    {
+                                        <a target="_self" href="/Admin/DownloadFilesFromPath?fileName=@Model.ResumeLink" style="padding: 0 3px 0px 3px;height: 24px;" class="btn m-2 btn-sm btn-outline-success"><i class="fa fa-download"></i></a>
+                                        <a id="btndeleteresume" style="padding: 0 3px 0px 3px;height: 24px;" class="btn m-2 btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                                    }
+                                }
+                            </div>
+                            <div class="col-md-6 float-end">
+                                @{
+                                    if (!string.IsNullOrWhiteSpace(Model.ResumeLink) && System.IO.File.Exists(Server.MapPath(Model.ResumeLink)))
+                                    {
+                                        <a id="txtResumeFilename" class="text-fileName">@System.IO.Path.GetFileName(Server.MapPath(Model.ResumeLink))</a>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <div class="form-row">
+                                <div class="col-md-3">
+                                    <label for="name">Menu</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="file" accept=".pdf, .jpg, .jpeg, .png, .doc, .docx" name="MenuLink" id="MenuLink" />
+                                </div>
+                                <div class="col-md-2 float-end">
+                                    @Html.HiddenFor(t => t.MenuLink)
+                                    @{
+                                        <input type="hidden" value="@Model.MenuLink" id="txtmenulink" />
+                                        if (!string.IsNullOrWhiteSpace(Model.MenuLink) && System.IO.File.Exists(Server.MapPath(Model.MenuLink)))
+                                        {
+                                            <a target="_self" href="/Admin/DownloadFilesFromPath?fileName=@Model.MenuLink" style="padding: 0 3px 0px 3px;height: 24px;" class="btn m-2 btn-sm btn-outline-success"><i class="fa fa-download"></i></a>
+                                            <a id="btndeletemenulink" style="padding: 0 3px 0px 3px;height: 24px;" class="btn m-2 btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                                        }
+                                    }
+                                </div>
+                                <div class="col-md-6 float-end">
+                                    @{
+                                        if (!string.IsNullOrWhiteSpace(Model.MenuLink) && System.IO.File.Exists(Server.MapPath(Model.MenuLink)))
+                                        {
+                                            <a id="txtMenuFilename" class="text-fileName">@System.IO.Path.GetFileName(Server.MapPath(Model.MenuLink))</a>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-success" type="submit"><div class="lds-dual-ring"></div>&nbsp;Update Personal Details</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+
+        <!-- ======= Contact Section ======= -->
+        <section id="contact" class="contact">
+            <hr />
+            <div class="section-title">
+                <h2>Contact</h2>
+                <p>
+                    This section involves entering your contact information - address, mobile number, and email id. Once this is done, you need to click the 'update contact' box.
+                </p>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row" data-aos="fade-in">
+
+                        <div class="col-lg-12 mt-5 mt-lg-0 d-flex align-items-stretch">
+                            @using (Html.BeginForm("ContactInfo", "Admin", FormMethod.Post, new { id = "ContactInfoUserForm", @class = "row g-3" }))
+                            {
+                                @Html.HiddenFor(t => t.UserId)
+                                <input type="hidden" value="temppassword" name="Password" />
+                                @Html.HiddenFor(t => t.EmailId)
+                                <div class="">
+                                    <div class="form-group col-md-12">
+                                        <label for="name"><span style="color:red;">*</span>Email</label>
+                                        @Html.TextBoxFor(t => t.PersonalEmail, new { @class = "form-control", @placeholder = "Personal Email" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="name"><span style="color:red;">*</span>Phone</label>
+                                    @Html.HiddenFor(x => x.CountryId)
+                                    @Html.DropDownList("ddlCountryId", countries, "Select Country Code", new { @class = "form-control", @id = "ddlCountryId" })
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label for="name">&nbsp; </label>
+                                    @Html.TextBoxFor(t => t.Phone, new { @class = "form-control digitonly", @placeholder = "Phone" })
+                                </div>
+
+
+                                <div class="form-group col-md-4">
+                                    <label for="name">WhatsApp</label>
+                                    @Html.HiddenFor(x => x.WhatsAppCountryId)
+                                    @Html.DropDownList("ddlWhatsAppCountryId", WhatsAppCountries, "Select Country Code", new { @class = "form-control", @id = "ddlWhatsAppCountryId" })
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label for="name">&nbsp; </label>
+                                    @Html.TextBoxFor(t => t.Whatsapp, new { @class = "form-control digitonly", @placeholder = "WhatsApp" })
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    @Html.HiddenFor(x => x.WorkPhoneCountryId)
+                                    <label for="name">Work Phone</label>
+                                    @Html.DropDownList("ddlWorkPhoneCountryId", WorkPhoneCountries, "Select Country Code", new { @class = "form-control", @id = "ddlWorkPhoneCountryId" })
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label for="name">&nbsp; </label>
+                                    @Html.TextBoxFor(t => t.WorkPhone, new { @class = "form-control digitonly", @placeholder = "Work Phone" })
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    @Html.HiddenFor(x => x.OtherPhoneCountryId)
+                                    <label for="name">Other Phone</label>
+                                    @Html.DropDownList("ddlOtherPhoneCountryId", OtherPhoneCountries, "Select Country Code", new { @class = "form-control", @id = "ddlOtherPhoneCountryId" })
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <label for="name">&nbsp; </label>
+                                    @Html.TextBoxFor(t => t.OtherPhone, new { @class = "form-control digitonly", @placeholder = "Other Phone" })
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="name">Address 1</label>
+                                    @Html.TextBoxFor(t => t.Address1, new { @class = "form-control", @placeholder = "Address 1" })
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="name">Address 2</label>
+                                    @Html.TextBoxFor(t => t.Address2, new { @class = "form-control", @placeholder = "Address 2" })
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="name">City</label>
+                                    @Html.TextBoxFor(t => t.City, new { @class = "form-control", @placeholder = "City" })
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="name">State</label>
+                                    @Html.TextBoxFor(t => t.StateName, new { @class = "form-control", @placeholder = "State" })
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="name">Country</label>
+                                    @Html.TextBoxFor(t => t.Country, new { @class = "form-control", @placeholder = "Country" })
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="name">Zip</label>
+                                    @Html.TextBoxFor(t => t.Zip, new { @class = "form-control", @placeholder = "Zip" })
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="name">Office Address 1</label>
+                                    @Html.TextBoxFor(t => t.OfficeAddress1, new { @class = "form-control", @placeholder = "Office Address 1" })
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="name">Office Address 2</label>
+                                    @Html.TextBoxFor(t => t.OfficeAddress2, new { @class = "form-control", @placeholder = "Office Address 2" })
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="name">Office City</label>
+                                    @Html.TextBoxFor(t => t.OfficeCity, new { @class = "form-control", @placeholder = "Office City" })
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="name">Office State</label>
+                                    @Html.TextBoxFor(t => t.OfficeStatename, new { @class = "form-control", @placeholder = "Office State" })
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="name">Office Country</label>
+                                    @Html.TextBoxFor(t => t.OfficeCountry, new { @class = "form-control", @placeholder = "Office Country" })
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="name">Office Zip</label>
+                                    @Html.TextBoxFor(t => t.OfficeZip, new { @class = "form-control", @placeholder = "Office Zip" })
+                                </div>
+
+                                <div class="text-center"><button type="submit" class="btn btn-success"><div class="lds-dual-ring"></div>&nbsp;Update Contact</button></div>
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ======= Social Section ======= -->
+        <section id="social" class="resume">
+            <hr />
+            <div class="section-title">
+                <h2>Social Media</h2>
+                <p>
+                    Here, you can enter your profile links of various social media platforms that you are active on. These include LinkedIn, Facebook, Twitter, Instagram, and Google Review.<span style="color:red;">If you find any section irrelevant or not applicable to you, there is the hide option which you can use.</span>
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    @using (Html.BeginForm("SocialInfo", "Admin", FormMethod.Post, new { id = "SocialInfoUserForm", @class = "row g-3" }))
+                    {
+                        <div class=" col-md-12 d-flex text-right">
+                            <div class="col-md-9"></div>
+                            <div class="col-md-3">
+                                <div class="float-end">
+                                    <label for="name" style="color:red;">Hide Social </label>
+                                    @Html.CheckBoxFor(x => x.ShowSocial, new { @id = "checkshowsocial", @class = "showhidesection" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="name">LinkedIn</label>
+                            <input type="text" name="LinkedIn" value="@linkedIn" autocomplete="off" class="form-control" id="LinkedIn" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="name">Twitter</label>
+                            <input type="text" name="Twitter" value="@Twitter" autocomplete="off" class="form-control" id="Twitter" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="name">Facebook</label>
+                            <input type="text" name="Facebook" value="@Facebook" autocomplete="off" class="form-control" id="Facebook" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="name">Instagram</label>
+                            <input type="text" name="Instagram" value="@Instagram" autocomplete="off" class="form-control" id="Instagram" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="name">Google Review</label>
+                            <input type="text" name="Skype" value="@Skype" autocomplete="off" class="form-control" id="Skype" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="name">Youtube</label>
+                            <input type="text" name="Youtube1" value="@Youtube" autocomplete="off" class="form-control" id="Youtube1" />
+                        </div>
+
+                        <div class="text-center"><button id="btnSocialLink" class="btn btn-success" type="submit"><div class="lds-dual-ring"></div>&nbsp;Update Social Links</button></div>
+                    }
+
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <hr />
+            <div class="section-title">
+                <h2>About</h2>
+                <p>
+                    In this section, you need to enter details about yourself and your professional work. You can also add the skills that you specialize in along with the knowledge percentage. Once you have completed it, you need to click the 'Update About' box.<span style="color:red;"> If you find any section irrelevant or not applicable to you, there is the hide option which you can use.</span>
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    @using (Html.BeginForm("AboutInfo", "Admin", FormMethod.Post, new { id = "editAboutInfoUserForm", @class = "row g-3" }))
+                    {
+                        @Html.HiddenFor(t => t.UserId)
+                        @Html.HiddenFor(t => t.UrlCode)
+                        <input type="hidden" value="temppassword" name="Password" />
+                        @Html.HiddenFor(t => t.EmailId)
+
+                        <div class="col-md-12">
+                            <div class="float-end">
+                                <label for="ShowAbout" style="color:red;">Hide About </label>
+                                @Html.CheckBoxFor(x => x.ShowAbout, new { @id = "checkshowabout", @class = "showhidesection" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            @Html.TextAreaFor(t => t.AboutDescription, new { @class = "form-control", @placeholder = "", @id = "AboutDescription", @rows = "10" })
+                        </div>
+
+                        <div class="col-md-12 d-flex text-right">
+                            <div class="col-md-10" style="text-align:left;">
+                                <span style="color:red;">If you find any section irrelevant or not applicable to you, there is the hide option which you can use.</span>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="float-end">
+                                    <label for="ShowSkill" style="color:red;">Hide Skill</label>
+                                    @Html.CheckBoxFor(x => x.ShowSkill, new { @id = "checkshowskill", @class = "showhidesection" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="SkillName1">Service / Skills</label>
+                            @Html.TextBoxFor(t => t.SkillName1, new { @class = "form-control", @placeholder = "" })
+                            <input type="hidden" name="KnowledgePercent1" id="KnowledgePercent1" value="97" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="SkillName2">Service / Skills</label>
+                            @Html.TextBoxFor(t => t.SkillName2, new { @class = "form-control", @placeholder = "" })
+                            <input type="hidden" name="KnowledgePercent2" id="KnowledgePercent2" value="95" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="SkillName3">Service / Skills</label>
+                            @Html.TextBoxFor(t => t.SkillName3, new { @class = "form-control", @placeholder = "" })
+                            <input type="hidden" name="KnowledgePercent3" id="KnowledgePercent3" value="93" />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="SkillName4">Service / Skills</label>
+                            @Html.TextBoxFor(t => t.SkillName4, new { @class = "form-control", @placeholder = "" })
+                            <input type="hidden" name="KnowledgePercent4" id="KnowledgePercent4" value="91" />
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="SkillName5">Service / Skills</label>
+                            @Html.TextBoxFor(t => t.SkillName5, new { @class = "form-control", @placeholder = "" })
+                            <input type="hidden" name="KnowledgePercent5" id="KnowledgePercent5" value="97" />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="SkillName6">Service / Skills</label>
+                            @Html.TextBoxFor(t => t.SkillName6, new { @class = "form-control", @placeholder = "" })
+                            <input type="hidden" name="KnowledgePercent6" id="KnowledgePercent6" value="95" />
+                        </div>
+                        <div class="text-center"><button class="btn btn-success" type="submit"><div class="lds-dual-ring"></div>&nbsp;Update About Details</button></div>
+                    }
+                </div>
+            </div>
+
+        </section>
+
+        <section id="Cover" class="resume">
+            <hr />
+            <div class="section-title">
+                <h2>Cover Image</h2>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    @using (Html.BeginForm("UpsertUserProfileAndCoverImages", "Admin", FormMethod.Post, new { id = "coverImageForm", @class = "row g-3" }))
+                    {
+                        @Html.HiddenFor(x => x.ProfileImage)
+                        @Html.HiddenFor(x => x.CoverImage)
+                        @Html.HiddenFor(x => x.UserId)
+                        <div class="">
+                            <div class="form-group col-md-6 d-flex flex-column">
+                                <label for="coverImage">Cover Image</label>
+                                <input type="file" name="coverImageFile" id="coverImageFile" class="mx-3 my-2" accept=".jpg, .png, .jpeg" onchange="onSelectCoverImageFile(this)" />
+                                <div class="coverImageSelectLoader" style="display: none;">
+                                    <div class="lds-dual-ring-blue coverImageSelectLoader"></div> <span class="coverImageSelectLoader" style="color:red;">&nbsp;loading, please wait..........</span>
+                                </div>
+                                <div class="error" id="coverImageSelectionError"></div>
+                            </div>
+                            @{
+                                if (Model.CoverImage.NullToString() != "")
+                                {
+                                    <div class="d-flex justify-content-end mb-2">
+                                        <div class="border-r-1 position-relative selected-cover-img-container col-md-6" style=" max-height: 400px;">
+                                            <img src="@Model.CoverImage" alt="Nature landscape" class="img-fluid rounded shadow">
+                                            <div class="icon-overlay d-flex flex-column align-items-center justify-content-center">
+                                                <a id="btnRemoveCoverImg" data-path="@Model.CoverImage" data-userid="@Model.UserId" class="btn btn-light mb-2" data-bs-toggle="tooltip" data-bs-placement="left" title="Delete">
+                                                    <i class="bi bi-trash text-danger"></i>
+                                                </a>
+                                                <a id="btnOpenCoverImagePropertyModal" class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="left" title="Best Fit">
+                                                    <i class="bi bi-arrows-fullscreen text-primary"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        @*<div class="">
+                                <div class="col-md-12">
+                                    <div class="text-center"><button type="submit" class="btn btn-success"> <div class="lds-dual-ring"></div>&nbsp;Upload Cover Image</button></div>
+                                </div>
+                            </div>*@
+                        <div class=" col-md-12">
+                            <hr style="width:100%;" />
+                            <h4>Suggested Images</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row overflow-auto" id="suggestedCoverImgContainer" style="height: 350px;">
+
+                                </div>
+                                <div class="row justify-content-center p-2">
+                                    <input type="hidden" id="hdnBusinessType" value="@Model.CompanyType" />
+                                    <input type="hidden" id="coverImgPageNo" value="1" />
+                                    <button class="btn btn-custom-primary mt-2 btn-load-more" id="btnLoadMoreCoverImg"><div class="lds-dual-ring"></div>&nbsp; Load more</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </section>
+
+
+        <hr />
+        <section id="portfolioGallery" class="resume">
+
+            <div class="section-title">
+                <h2>Image Gallery</h2>
+                <p>
+                    You can select an image (JPEG or PNG file) from your device and upload it. You can upload images to your portfolio, allowing users to view your work seamlessly.<span style="color:red;">If you find any section irrelevant or not applicable to you, there is the hide option which you can use.</span>
+                </p>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row" data-aos="fade-in">
+
+                        <div class="col-lg-12 mt-lg-0 d-flex align-items-stretch">
+                            <div class=" col-md-12 d-flex text-right">
+                                <div class="col-md-9">
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="float-end">
+                                        <label for="name" style="color:red;">Hide Gallery </label>
+                                        @Html.CheckBoxFor(x => x.HideGallery, new { @id = "checkshowgallery", @class = "showhidesection" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br />
+                    @using (Html.BeginForm("PortfolioImages", "Admin", FormMethod.Post, new { id = "PortfolioImageForm", @class = "row g-3", @enctype = "multipart/form-data" }))
+                    {
+                        @Html.HiddenFor(t => t.UserId)
+
+                        <div class="col-md-2">
+                            <label for="name"><span style="color:red;">*</span>Select Image</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="file" accept=".png,.jpg,.jpeg,.gif" multiple name="PortfolioImage" id="PortfolioImage" />
+                        </div>
+                        <div class="col-md-2">
+                            <div class="text-center">
+                                <button type="submit" id="btnSubmitPortfolioForm" class="btn btn-success"><div class="lds-dual-ring"></div>&nbsp;Upload</button>
+                            </div>
+                        </div>
+
+                    }
+
+                    <br />
+                    <div class="col-lg-12 d-flex align-items-stretch" id="portfolioImageContainer">
+                    </div>
+                </div>
+            </div>
+        </section><!-- End Personal detail Section -->
+        <!-- ======= Education Section ======= -->
+        <hr />
+        <section id="education" class="resume">
+
+            <div class="section-title">
+                <h2>Education</h2>
+                <p>
+                    Next step is to enter your educational qualifications - the degrees and certification courses you have completed. Once this is done, you need to click the 'Add education details' box.<span style="color:red;">If you find any section irrelevant or not applicable to you, there is the hide option which you can use.</span>
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-md-12 d-flex text-right">
+                        <div class="col-md-9">
+                        </div>
+                        <div class="col-md-3">
+                            <div class="float-end">
+                                <label for="ShowEducation" style="color:red;">Hide Education </label>
+                                @Html.CheckBoxFor(x => x.ShowEducation, new { @id = "checkshoweducation", @class = "showhidesection" })
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+
+                    <div class="row">
+                        <div class="col-lg-8" data-aos="fade-up" data-aos-delay="100" id="educationFormContainer">
+                        </div>
+
+                        <div class="col-lg-4" data-aos="fade-up" id="educationListContainer">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ======= Experience Section ======= -->
+        <hr />
+        <section id="experience" class="resume">
+            <div class="section-title">
+                <h2>Experience</h2>
+                <p>
+                    You can enter the details of your past and existing work including the company name and designation as well.<span style="color:red;">If you find any section irrelevant or not applicable to you, there is the hide option which you can use.</span>
+                </p>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class=" col-md-12 d-flex text-right">
+                        <div class="col-md-9">
+                        </div>
+                        <div class="col-md-3">
+                            <div class="float-end">
+                                <label for="ShowExperience" style="color:red;">Hide Experience </label>
+                                @Html.CheckBoxFor(x => x.ShowExperience, new { @id = "checkshowexperience", @class = "showhidesection" })
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-8" data-aos="fade-up" data-aos-delay="100" id="professionalFormContainer">
+
+                        </div>
+                        <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100" id="prfessionalListContainer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <hr />
+        <section id="userCertification" class="resume">
+
+            <div class="section-title">
+                <h2>Achievements (Certification / Training / Board Memberships / Awards)</h2>
+                @*<p>
+                        Next step is to enter your Certification qualifications - the degrees and certification courses you have completed. Once this is done, you need to click the 'Add education details' box.<span style="color:red;">If you find any section irrelevant or not applicable to you, there is the hide option which you can use.</span>
+                    </p>*@
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 mt-lg-0 align-items-stretch">
+                            <div class=" col-md-12 d-flex text-right">
+                                <div class="col-md-7">
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="float-end">
+                                        <label for="HideCertification" style="color:red;">Hide Certification/Taining</label>
+                                        @Html.CheckBoxFor(x => x.HideCertification, new { @id = "checkshowCertification", @class = "showhidesection" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div data-aos="fade-up" class="col-md-8" data-aos-delay="100" id="userCertificatonFormContainer">
+                        </div>
+
+                        <div data-aos="fade-up" class="col-md-4" id="userCertificationListContainer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <hr />
+        <section id="Testimonial" class="resume">
+
+            <div class="section-title">
+                <h2>Testimonial</h2>
+                <p>
+                    In this section, you can add Client Testimonial. You have the option to add their images as well.<span style="color:red;">If you find any section irrelevant or not applicable to you, there is the hide option which you can use.</span>
+                </p>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row" data-aos="fade-in">
+                        <div class="col-lg-12 mt-lg-0 d-flex align-items-stretch">
+                            <div class=" col-md-12 d-flex text-right">
+                                <div class="col-md-9">
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="float-end">
+                                        <label for="name" style="color:red;">Hide Testimonial </label>
+                                        @Html.CheckBoxFor(x => x.HideTestimonial, new { @id = "checkshowtestimonial", @class = "showhidesection" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="col-lg-12 mt-lg-0 d-flex align-items-stretch">
+                            @using (Html.BeginForm("UpsertClientTestimonial", "Admin", FormMethod.Post, new { id = "ClientTestimonialForm", @class = "row g-3 w-100", @enctype = "multipart/form-data" }))
+                            {
+                                @Html.HiddenFor(t => t.UserId)
+                                <input type="hidden" name="Client_Id" id="Client_Id" value="" />
+                                <input type="hidden" name="PicOfClient" id="PicOfClient" value="" />
+
+                                <div class="form-group col-md-4">
+                                    <label for="name"><span style="color:red;">*</span>Client Name</label>
+                                    <input type="text" name="ClientName" class="form-control" id="ClientName" />
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="name">Designation</label>
+                                    <input type="text" class="form-control" name="Designation" id="Designation" />
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="name">Company Name</label>
+                                    <input type="text" class="form-control" name="CompanyName" id="CompanyName" />
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <label for="name"><span style="color:red;">*</span>Testimonial</label>
+                                    <textarea name="Testimonial" id="txtTestimonial" class="form-control" rows="3"></textarea>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label for="name"><span style="color:red;">*</span>Image</label>
+                                    <input type="file" name="CLientImagePath" id="CLientImagePath" />
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <div class="text-center">
+                                        <button type="button" id="btnClientTestimonialEditCancel" class="btn btn-secondary">Cancel</button>
+                                        <button type="submit" class="btn btn-success"><div class="lds-dual-ring"></div>&nbsp;<span id="btnSubmitTestimonialText">Add</span> Testimonial</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-lg-12 mt-5 mt-lg-0 align-items-stretch" id="ClientTestimonialsContainer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <hr />
+        <section id="Team" class="resume">
+
+            <div class="section-title">
+                <h2>Team</h2>
+                <p>
+                    In this section, you can add the names and designation of the team members who are a part of your team. You have the option to add their images as well.<span style="color:red;"> If you find any section irrelevant or not applicable to you, there is the hide option which you can use.</span>
+                </p>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row" data-aos="fade-in">
+                        <div class="col-lg-12 mt-lg-0 d-flex align-items-stretch">
+                            <div class=" col-md-12 d-flex text-right">
+                                <div class="col-md-9">
+
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="float-end">
+                                        <label for="name" style="color:red;">Hide Team </label>
+                                        @Html.CheckBoxFor(x => x.HideTeam, new { @id = "checkshowteam", @class = "showhidesection" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="col-lg-12 mt-lg-0 d-flex align-items-stretch">
+                            @using (Html.BeginForm("InsertTeam", "Admin", FormMethod.Post, new { id = "TeamImageForm", @class = "row g-3 w-100", @enctype = "multipart/form-data" }))
+                            {
+                                @Html.HiddenFor(t => t.UserId)
+
+                                <div class="form-group col-md-3">
+                                    <label for="name"><span style="color:red;">*</span>Name</label>
+                                    <input type="text" name="Name" class="form-control" id="Name" />
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <label for="name"><span style="color:red;">*</span>Designation</label>
+                                    <input type="text" class="form-control" name="designation" id="designation" />
+                                </div>
+
+                                <div class="form-group col-md-4 row" style=" align-items: center;">
+                                    <label for="name"><span style="color:red;">*</span>Image</label>
+                                    <input type="file" name="TeamImagePath" id="TeamImagePath" />
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label for="name">&nbsp;</label>
+                                    <div class="text-center"><button type="submit" class="btn btn-success"><div class="lds-dual-ring"></div>&nbsp;Add Team member</button></div>
+                                </div>
+                            }
+                        </div>
+                        <br />
+
+                    </div>
+                    <br />
+                    <div class="col-lg-12 mt-5 mt-lg-0 align-items-stretch" id="TeamImageContainer">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <hr />
+        <section id="youtube" class="resume">
+
+            <div class="section-title">
+                <h2>Videos</h2>
+                @*<p>
+                        Content here?
+                    </p>*@
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-lg-12 mt-lg-0 d-flex align-items-stretch">
+                        <div class=" col-md-12 d-flex text-right">
+                            <div class="col-md-9">
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="float-end">
+                                    <label for="HideYouTube" style="color:red;">Hide Videos </label>
+                                    @Html.CheckBoxFor(x => x.HideYouTube, new { @id = "checkshowyoutube", @class = "showhidesection" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100" id="youtubeFormContainer">
+
+                        </div>
+
+                        <div class="col-lg-6" data-aos="fade-up" id="youtubeListContainer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="payment" class="resume">
+            <hr />
+            <div class="section-title">
+                <h2>Payment</h2>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    @using (Html.BeginForm("UploadPaymentDetails", "Admin", FormMethod.Post, new { @id = "paymentQrForm", @class = "row g-3" }))
+                    {
+                        <input type="hidden" name="UserId" value="@upiDetail.UserId" />
+                        <input type="hidden" name="QrImage" value="@upiDetail.QrImage" />
+
+                        <div class="form-group col-md-6">
+                            <label for="UpiId">UPI ID</label>
+                            @Html.TextBox("UpiId", upiDetail.UpiId, new { @class = "form-control", @placeholder = "" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="PayeeName">Payee Name</label>
+                            @Html.TextBox("PayeeName", upiDetail.PayeeName, new { @class = "form-control", @placeholder = "" })
+                        </div>
+
+                        <div>
+                            <div class="form-group col-md-6">
+                                <label for="paymentQr">Select Qr Image</label>
+                                <br />
+                                <div class="">
+                                    <div class="col-md-12">
+                                        <input type="file" accept=".jpg, .jpeg, .png" name="paymentQr" id="paymentQr" onchange="onSelectPaymentFile(this);" />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br />
+
+
+                        </div>
+                        <div class="form-group col-md-12">
+                            @{
+                                if (!string.IsNullOrWhiteSpace(upiDetail.QrImage) && System.IO.File.Exists(Server.MapPath(upiDetail.QrImage)))
+                                {
+                                    <div class="float-end justify-content-end mb-2">
+                                        <div class="border-r-1 hover-card-bottom" style="border: 1px solid #dd1a1ab8; height: 160px; width: 160px;">
+                                            <img src="@upiDetail.QrImage" alt="Nature landscape" class="img-fluid rounded shadow" style="height: 160px; width: 160px;">
+                                            <div class="card-overlay">
+                                                <a class="btn btn-danger" id="btndeletePaymentQr"
+                                                   data-path="@upiDetail.QrImage">
+                                                    <div class="lds-dual-ring"></div>
+                                                    &nbsp; Delete
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                }
+                            }
+                        </div>
+
+                        <div class="form-group col-lg-12" style="text-align:center;">
+                            <span id="cropPaymentPrfLoader" class="lds-dual-ring-blue"></span>
+                            <div class="" id="cropPaymentImageContainer" style="display:none;">
+                                <img id="croppablePaymentImage" style="height:auto;" alt="Upload Payment QR Picture" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <div class="text-center"><button type="submit" class="btn btn-success"><div class="lds-dual-ring"></div>&nbsp;Upload Payment Details</button></div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+
+
+        <hr />
+        <section id="blog" class="resume">
+
+            <div class="section-title">
+                <h2>Blog</h2>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="col-lg-12 mt-lg-0 d-flex align-items-stretch">
+                        <div class=" col-md-12 d-flex text-right">
+                            <div class="col-md-9">
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="float-end">
+                                    <label for="name" style="color:red;">Hide Blog </label>
+                                    @Html.CheckBoxFor(x => x.HideBlog, new { @id = "checkshowblog", @class = "showhidesection" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-8" data-aos="fade-up" data-aos-delay="100" id="blogFormContainer">
+
+                        </div>
+
+                        <div class="col-lg-4" data-aos="fade-up" id="blogListContainer">
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <hr />
+        <section id="AdhaarCard" class="adhaarSection resume">
+            <hr />
+            <div class="section-title">
+                <h2>Adhaar Card Images</h2>
+                <p>
+                    You can select images from  (JPEG, JPG, PNG file) from your device and upload it for your adhaar card.
+                </p>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    @using (Html.BeginForm("AdhaarUpdate", "Admin", FormMethod.Post, new { id = "AdhaarImageForm", @class = "row g-3", @enctype = "multipart/form-data" }))
+                    {
+                        @Html.HiddenFor(t => t.UserId)
+                        @Html.HiddenFor(t => t.AdhaarFrontImgPath)
+                        @Html.HiddenFor(t => t.AdhaarBackImgPath)
+                        <div class=" col-md-12 d-flex text-right">
+                            <div class="col-md-9"></div>
+                            <div class="col-md-3">
+                                <div class="float-end">
+                                    <label for="name" style="color:red;">Hide Adhaar Card</label>
+                                    @Html.CheckBoxFor(x => x.HideAdhaar, new { @id = "checkshowAdhaar", @class = "showhidesection" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" style="color:red;">Note : Only (jpg, jpeg, png) files allowed.</label>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="form-row">
+                                <div class="form-group col-md-6 d-flex flex-column">
+                                    <label for="frontImg">Adhaar Front Image</label>
+                                    <input type="file" name="frontImg" id="frontImg" class="mx-3 my-2" accept=".jpg,.jpeg,.png" />
+                                </div>
+                                @{
+                                    if (!string.IsNullOrWhiteSpace(Model.AdhaarFrontImgPath) && System.IO.File.Exists(Server.MapPath(Model.AdhaarFrontImgPath)))
+                                    {
+                                        <div class="d-flex justify-content-end mb-2">
+                                            <div class="col-md-4">
+                                                <div class="border-r-1 position-relative selected-cover-img-container">
+                                                    <img src="@Model.AdhaarFrontImgPath" alt="Adhaar Front Image" class="img-fluid rounded shadow">
+                                                </div>
+                                                <div class="d-flex justify-content-center mt-2 gap-3">
+                                                    <a target="_self" href="/Admin/DownloadFilesFromPath?fileName=@Model.AdhaarFrontImgPath" class="btn btn-light mb-2" data-bs-toggle="tooltip" data-bs-placement="left" title="Download">
+                                                        <i style="color: green;" class="fa fa-download"></i>
+                                                    </a>
+                                                    <a id="btndeleteAdhaarFront" class="btn btn-light mb-2 mx-3" data-bs-toggle="tooltip" data-bs-placement="left" title="Delete">
+                                                        <i class="bi bi-trash text-danger"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="form-row">
+                                <div class="form-group col-md-6 d-flex flex-column">
+                                    <label for="BackImg">Adhaar Back Image</label>
+                                    <input type="file" name="BackImg" id="BackImg" class="mx-3 my-2" accept=".jpg,.jpeg,.png" />
+                                </div>
+                                @{
+                                    if (!string.IsNullOrWhiteSpace(Model.AdhaarBackImgPath) && System.IO.File.Exists(Server.MapPath(Model.AdhaarBackImgPath)))
+                                    {
+                                        <div class="d-flex justify-content-end mb-2">
+                                            <div class="col-md-4">
+                                                <div class="border-r-1 position-relative selected-cover-img-container">
+                                                    <img src="@Model.AdhaarBackImgPath" alt="Nature landscape" class="img-fluid rounded shadow">
+                                                </div>
+                                                <div class=" d-flex justify-content-center mt-2 gap-3">
+                                                    <a target="_self" href="/Admin/DownloadFilesFromPath?fileName=@Model.AdhaarBackImgPath" class="btn btn-light mb-2" data-bs-toggle="tooltip" data-bs-placement="left" title="Download">
+                                                        <i style="color: green;" class="fa fa-download"></i>
+                                                    </a>
+                                                    <a id="btndeleteAdhaarBack" class="btn btn-light mb-2 mx-3" data-bs-toggle="tooltip" data-bs-placement="left" title="Delete">
+                                                        <i class="bi bi-trash text-danger"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="text-center"><button type="submit" class="btn btn-success"><div class="lds-dual-ring"></div>&nbsp;Upload</button></div>
+                        </div>
+
+                    }
+
+                </div>
+            </div>
+        </section>
+
+
+
+        <hr />
+        <section id="meeting" class="resume">
+            <div class="section-title">
+                <h2>Meetings Request</h2>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 d-flex justify-content-end" style="gap:10px;">
+                            @*<button type="button" id="btnSyncCalendarWithGoogle" class="btn btn-danger rounded-pill" style="display: @(googleAccessToken.NullToString() != "" ? "none" : "inline")" ><i class="bi bi-google"></i> Google Sync</button>*@
+                            <a id="btnSyncCalendarWithOutlook"
+                               href="@outlookAuthUrl"
+                               class="btn btn-primary rounded-pill"
+                               style="display: @(microsoftAccessToken.NullToString() != "" ? "none" : "inline")">
+                                <i class="fas fa-sync"></i> Outlook Sync
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <div data-aos="fade-up" data-aos-delay="100">
+                        <div id="calendarSettings">
+                            <div id="dvOpenCalanderDaysChkContainer">
+                                <div class="form-group col-lg-12">
+                                    <h4>Schedule Open Week Days</h4>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        @Html.CheckBox("Mon", OpenWeekDaysModel.Mon, new { @class = "form-check-control chkField" })
+                                        <label for="Mon">Monday</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.CheckBox("Tue", OpenWeekDaysModel.Tue, new { @class = "form-check-control chkField" })
+                                        <label for="Tue">Tuesday</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.CheckBox("Wed", OpenWeekDaysModel.Wed, new { @class = "form-check-control chkField" })
+                                        <label for="Wed">Wednesday</label>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        @Html.CheckBox("Thu", OpenWeekDaysModel.Thu, new { @class = "form-check-control chkField" })
+                                        <label for="Thu">Thursday</label>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        @Html.CheckBox("Fri", OpenWeekDaysModel.Fri, new { @class = "form-check-control chkField" })
+                                        <label for="Fri">Friday</label>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        @Html.CheckBox("Sat", OpenWeekDaysModel.Sat, new { @class = "form-check-control chkField" })
+                                        <label for="Sat">Saturday</label>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        @Html.CheckBox("Sun", OpenWeekDaysModel.Sun, new { @class = "form-check-control chkField" })
+                                        <label for="Sun">Sunday</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ======= Profile Template  Section ======= -->
+
+        <section id="profileTemplateSection" class="contact">
+            <div class="section-title">
+                <h2>Profile Template</h2>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12 mt-5 mt-lg-0 d-flex align-items-stretch" id="selectProfileTemplateContainer">
+                            @Html.Partial("_selectProfileTemplate", Model)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ======= End Profile Template  Section ======= -->
+
+        @if (leadstotalRows > 0)
+        {
+            <section id="leads" class="resume">
+                <div class="section-title">
+                    <h2>Leads</h2>
+                </div>
+
+                <div class="row mycard">
+                    <div class="col-lg-12">
+                        <div id="leadsContainer">
+                            @Html.Partial("_userLeads", Model.UserId)
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        }
+
+
+        <!-- Profile Analytics Section -->
+        <section id="profileAnalytics" class="counts">
+            <div class="section-title">
+                <h2>Profile Analytics</h2>
+            </div>
+
+            <div class="row gy-4">
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="count-box">
+                        <i class="bi bi-bar-chart"></i>
+                        <div>
+                            <span data-purecounter-start="0" data-purecounter-end="@Model.PageViewed" data-purecounter-duration="1" class="purecounter"></span>
+                            <p>Profile Views</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!-- End Profile Analytics Section -->
+
+        <hr />
+        <section id="changePassword" class="contact">
+
+            <div class="section-title">
+                <h2>Change Password</h2>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row" data-aos="fade-in">
+
+                        <div class="col-lg-12 mt-5 mt-lg-0 align-items-stretch">
+                            @using (Html.BeginForm("ChangePassword", "Admin", FormMethod.Post, new { id = "changePasswordForm", @class = "php-email-form row" }))
+                            {
+                                @Html.HiddenFor(t => t.UserId)
+                                <div class="form-group col-md-6">
+                                    <label for="name">New Password</label>
+                                    @Html.TextBox("Password", "", new { @class = "form-control", @placeholder = "New Password", @type = "password" })
+                                </div>
+                                <div class="form-group col-md-6 my-3">
+                                    <label for="name">Confirm Password</label>
+                                    @Html.TextBox("ConfirmPassword", "", new { @class = "form-control", @placeholder = "Confirm Password", @type = "password" })
+                                </div>
+                                <div class="text-center mt-4"><button type="submit" class="share-btn"><div class="lds-dual-ring"></div>&nbsp;Update Password</button></div>
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- End Change Password Section -->
+
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="/HomeAssets/vendor/purecounter/purecounter.js"></script>
+    <script src="/FormAssets/vendor/counterup/counterup.min.js"></script>
+    <script src="/Content/vendor/cropper/cropper.js"></script>
+    <script src="/Content/vendor/canvas-to-blob/canvas-to-blob.js"></script>
+
+    <script src="~/Content/page-scripts/Setting/ChangeImage.js?v=@DateTime.Now.ToString("yyyyMMddHHmmssf")"></script>
+    <script src="~/Content/page-scripts/Admin/AddEditUser.js"></script>
+    <script type="text/javascript">
+        var user = new addEditUserList();
+        user.getScheduleOpenDaysUrl = "@Url.Action("GetAllScheduleOpenDays", "Admin")";
+        user.bindCompanyTypeByParent = "@Url.Action("BindCompanyTypeByParent", "Admin")";
+        user.coverImgApiKey = "NaNKl2gDYykvLViDZ3AN9GGTupz51CZ3Ld1HsH1tytlsyaT1DlUqfDBe";
+        user.newsApiKey = "e7dec1d6f417f9aee90254241b4f1582";
+        // both below api keys are working
+        //user.nearByCompanyApiKey = "4b8c0e2b48msh1913d20f28559b7p1c7a67jsn154a5b68e3f1";
+        user.nearByCompanyApiKey = "ec02ca48c0mshc66b1c3fd5dc532p12f755jsn20ff6ab0530c";
+        user.googleApiKey = "@ConfigValues.GoogleApiKey";
+        user.googleAuthRedirectUri = "@ConfigValues.GoogleAuthRedirectUri";
+        user.googleClientId = "@ConfigValues.GoogleApiClientId";
+        user.pageUrl = "/edit/@UserUrlCode";
+        user.userid = @userid;
+        user.uploadLogoUrl = "@Url.Action("SaveUserFile", "Admin")";
+        user.init();
+
+    </script>
+}

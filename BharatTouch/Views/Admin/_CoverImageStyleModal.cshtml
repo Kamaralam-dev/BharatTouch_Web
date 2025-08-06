@@ -1,0 +1,86 @@
+﻿@using DataAccess
+@model DataAccess.Models.UserModel
+@{
+    var bestFit = Model.BestFitCoverImage.NullToString() == "" ? "cover" : Model.BestFitCoverImage;
+    var options = new List<SelectListItem>
+        {
+                    new SelectListItem { Value = "cover", Text = "Cover", Selected = "cover" == bestFit },
+                    new SelectListItem { Value = "contain", Text = "Contain", Selected = "contain" == bestFit },
+                    new SelectListItem { Value = "stretch", Text = "Stretch", Selected = "stretch" == bestFit },
+                    new SelectListItem { Value = "custom-offset-fit", Text = "Offset", Selected = "custom-offset-fit" == bestFit }
+                };
+    var optionList = new SelectList(options, "Value", "Text", bestFit);
+}
+
+
+
+
+<div class="modal fade" id="CoverImageStyleModal" aria-labelledby="CoverImageStyleModalLabel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <style>
+
+                .preview-cover-Image-container {
+                    width: 100%;
+                    height: 300px;
+                    background: #f8f9fa;
+                    border-radius: 8px;
+                    overflow: hidden;
+                }
+
+                .preview-image {
+                    width: 100%;
+                    height: 100%;
+                    background-image: url('@Model.CoverImage');
+            /*        background-repeat: no-repeat;*/
+                    transition: all 0.3s ease;
+                }
+
+                    .preview-image.stretch {
+                        background-size: 100% 100%;
+                    }
+
+                    .preview-image.contain {
+                        background-size: contain;
+                        background-position: center;
+                    }
+
+                    .preview-image.cover {
+                        background-size: cover;
+                        background-position: center;
+                    }
+
+                    .preview-image.custom-offset-fit {
+                        background-size: 120%;
+                        background-position: -20px -10px;
+                    }
+
+            </style>
+            <div class="modal-header border-bottom-0">
+                <h5 class="modal-title">Cover Image Best-fit Preview</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="preview-cover-Image-container" id="previewBox">
+                    <div id="previewCoverImageStyle" class="preview-image @bestFit"></div>
+                </div>
+                <div class="mt-4">
+                    @using (Html.BeginForm("UpdateCoverImageProperty", "Admin", FormMethod.Post, new { id = "UpdateCoverImagePropertyForm" }))
+                    {
+                        @Html.HiddenFor(x => x.UserId)
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <div class="form-group">
+                                <label for="BestFitCoverImage">Select Image Style</label>
+                                @Html.DropDownListFor(x => x.BestFitCoverImage, optionList, new { @class = "form-select mb-3 w-100", id = "ddlBestFitCoverImage" })
+                            </div>
+                        </div>
+                        <div class="col-md-12 d-flex justify-content-end" style="gap: 10px;">
+                            <a class="btn btn-secondary" style="padding: 10px 35px;" data-bs-dismiss="modal" aria-label="Close">Close</a>
+                            <button type="submit" class="btn btn-success" id="submitBtn" style=" padding: 10px 35px;"><div class="lds-dual-ring"></div>&nbsp; Submit</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

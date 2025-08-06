@@ -1,0 +1,151 @@
+﻿
+
+@model DataAccess.ViewModels.UserPackageViewModel
+
+
+@using (Html.BeginForm("SaveOrUpdatePackage", "Admin", FormMethod.Post, new { id = "packageForm", @class = "row g-3 needs-validation" }))
+{
+    <div class="col-md-6">
+        <label for="PackageName" class="form-label"><span style="color:red;">*</span> Package</label>
+        @Html.TextBoxFor(t => t.PackageName, new { @class = "form-control", @placeholder = "Package Name", @required = "true" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="inputPackageCost" class="form-label">  Package Cost</label>
+        @Html.TextBoxFor(t => t.PackageCost, new
+        {
+            @class = "form-control",
+            @placeholder = "Package Cost",
+            id = "inputPackageCost",
+        oninput = "this.value = this.value.replace(/[^0-9]/g, '')"
+        })
+    </div>
+
+    <div class="col-md-12">
+        <label for="PackageDescription" class="form-label"> Package Description</label>
+        @Html.TextAreaFor(t => t.PackageDescription, new { @class = "form-control", @placeholder = "Package Description", rows = 4, cols = 50 })
+    </div>
+
+    <div class="col-md-6">
+        <label for="AllowedImages" class="form-label"> Allowed Images</label>
+        @Html.TextBoxFor(t => t.AllowedImages, new { @class = "form-control" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="AllowedVideos" class="form-label">Allowed Videos</label>
+        @Html.TextBoxFor(t => t.AllowedVideos, new { @class = "form-control" })
+    </div>
+
+    @*<div class="col-md-4">
+        <label for="AllowUploadDetailSection" class="form-label">Upload Detail</label>
+        @Html.CheckBoxFor(t => t.AllowUploadDetailSection)
+    </div>
+
+    <div class="col-md-4">
+        <label for="AllowSocialMedia" class="form-label">Social Media</label>
+        @Html.CheckBoxFor(t => t.AllowSocialMedia)
+    </div>*@
+
+    <div class="col-md-4">
+        <label for="AllowTestimonialSection" class="form-label">Testimonial</label>
+        @Html.CheckBoxFor(t => t.AllowTestimonialSection)
+    </div>
+
+    @*<div class="col-md-4">
+        <label for="AllowedEducationSection" class="form-label">Education</label>
+        @Html.CheckBoxFor(t => t.AllowedEducationSection)
+    </div>
+
+    <div class="col-md-4">
+        <label for="AllowedExperienceSection" class="form-label">Experience</label>
+        @Html.CheckBoxFor(t => t.AllowedExperienceSection)
+    </div>*@
+
+    <div class="col-md-4">
+        <label for="AllowTrainingCertificateSection" class="form-label">Training</label>
+        @Html.CheckBoxFor(t => t.AllowTrainingCertificateSection)
+    </div>
+
+    <div class="col-md-4">
+        <label for="AllowTeamSection" class="form-label">Team</label>
+        @Html.CheckBoxFor(t => t.AllowTeamSection)
+    </div>
+
+    <div class="col-md-4">
+        <label for="AllowedPaymentSection" class="form-label">Payment QR</label>
+        @Html.CheckBoxFor(t => t.AllowedPaymentSection)
+    </div>
+
+    <div class="col-md-4">
+        <label for="AllowBlogSection" class="form-label">Blog</label>
+        @Html.CheckBoxFor(t => t.AllowBlogSection)
+    </div>
+
+    <div class="col-md-4">
+        <label for="AllowAdhaarCard" class="form-label">Adhaar Card</label>
+        @Html.CheckBoxFor(t => t.AllowAdhaarCard)
+    </div>
+
+    <div class="col-md-4">
+        <label for="AllowCalendarSection" class="form-label">Calendar</label>
+        @Html.CheckBoxFor(t => t.AllowCalendarSection)
+    </div>
+
+    @*<div class="col-md-4">
+        <label for="AllowContactUsSection" class="form-label">Contact Us</label>
+        @Html.CheckBoxFor(t => t.AllowContactUsSection)
+    </div>*@
+    
+    <div class="col-md-4">
+        <label for="AllowedProfileTemplateSection" class="form-label">Profile Template</label>
+        @Html.CheckBoxFor(t => t.AllowedProfileTemplateSection)
+    </div>
+
+    <div class="col-md-4">
+        <label for="AllowProfileViewAnalytics" class="form-label">Profile View Analytics</label>
+        @Html.CheckBoxFor(t => t.AllowProfileViewAnalytics)
+    </div>
+
+    <div class="col-md-12">
+        <input type="hidden" id="PackageId" name="PackageId" value="@Model.PackageId" />
+    </div>
+}
+
+<script>
+
+    function onSavePackageClick() {
+
+        $("#packageForm").validate({
+            rules: {
+                PackageName: { required: true }
+            },
+            submitHandler: function (form) {
+
+                var f = $(form);
+                var data = f.serializeArray();
+
+                $.ajax({
+                    type: f[0].method,
+                    url: f[0].action,
+                    data: data,
+                    dataType: 'json',
+                    success: function (data, strStatus) {
+
+                        showMessage((data.Success ? "Success" : "Failed"), data.Data, data.Type);
+                        setTimeout(function () {
+
+                            if (data.Success) {
+                                $('#ModaladdEditPackage').modal('hide');
+                                $("#tablePackage_Admin").DataTable().ajax.reload();
+                            }
+                        }, 500)
+                    },
+                    error: handleAjaxError()
+                });
+            }
+        });
+        if ($("#packageForm").valid()) {
+            $("#packageForm").submit();
+        }
+    }
+</script>

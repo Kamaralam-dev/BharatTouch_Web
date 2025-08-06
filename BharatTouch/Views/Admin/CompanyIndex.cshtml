@@ -1,0 +1,95 @@
+﻿@model IEnumerable<DataAccess.ViewModels.CompanyViewModel>
+    @using BharatTouch.CommonHelper;
+    @{
+        Layout = "~/Views/Shared/Admin/_LayoutAdmin.cshtml";
+    }
+
+    <style>
+        .modal-header .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border: none;
+            background: transparent;
+        }
+    </style>
+
+    @section scripts{
+        <script src="~/Content/page-scripts/Admin/CompanyIndex.js"></script>
+        <script type="text/javascript">
+            var Company = new listCompany_admin();
+            Company.getCompanyUrl = "@Url.Action("GetAllCompany", "Admin")";
+            Company.deleteCompanyUrl = "@Url.Action("DeleteCompany", "Admin")";
+            Company.addEditCompanyUrl = "@Url.Action("AddEditCompany", "Admin")";
+            Company.getUserHaveCompany = "@Url.Action("GetUserHaveCompany", "Admin")";
+            Company.init();
+        </script>
+
+    }
+
+
+    <div class="pagetitle">
+        <h1>Company</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item">Company List</li>
+            </ol>
+        </nav>
+
+    </div>
+
+    <section class="section">
+
+        <div class="card">
+            <div class="card-body">
+                <button type="button" id="btnAddCompany" class="btn btn-success float-end mx-2"><i class="bi bi-plus-circle-dotted me-1"></i>Add New</button>
+                <br />
+                <br />
+                <table class="table table-bordered table-striped" id="tableCompany_Admin">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Phone
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                IsActive
+                            </th>
+
+                            <th>
+
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+
+            </div>
+        </div>
+
+    </section>
+
+    @{
+        var modalModel = new DataAccess.ViewModels.ModalViewModel
+        {
+            ModalId = "ModaladdEditCompany",
+            ModalSize = "modal-lg",
+            Title = "Add/Edit Company",
+            CloseButtonText = "Close",
+            PrimaryButtonText = "Save",
+            PrimaryButtonOnClick = "onSaveCompanyClick()",
+            ModalStyle = "style=overflow-y:scroll;height:450px"
+        };
+    }
+    @Html.Partial("~/Views/Shared/Admin/_modal.cshtml", modalModel)
+
+
+

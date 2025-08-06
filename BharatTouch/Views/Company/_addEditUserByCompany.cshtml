@@ -1,0 +1,235 @@
+﻿
+
+@model DataAccess.Models.UserModel
+@{
+    var displayValue = "";
+    if (Model.UserId != 0 && Model.UserId > 0)
+    {
+        if (Model.Displayname.Contains("/"))
+        {
+            displayValue = Model.Displayname.Split('/')[1];
+        }
+        else
+        {
+            displayValue = Model.Displayname;
+        }
+    }
+
+     var countriesList = new DataAccess.Repository.CountryRepository().GetCountries("BharatTouch/EditProfile/EditProfile.cshtml");
+        var countries = countriesList.Select(n => new SelectListItem()
+        {
+            Text = n.Country + " (" + n.NumberCode + ")",
+            Value = n.CountryId.ToString() + ";" + n.MinNumberLength + ";" + n.MaxNumberLength,
+            Selected = n.CountryId == Model.CountryId
+        });}
+
+    @using (Html.BeginForm("SaveOrUpdateUserByCompany", "Company", FormMethod.Post, new { id = "userByCompanyForm", @class = "row g-3 needs-validation" }))
+    {
+
+        <div class="col-md-6">
+            <label for="inputFirstName" class="form-label"><span style="color:red;">*</span> First Name</label>
+            @Html.TextBoxFor(t => t.FirstName, new { @class = "form-control", @placeholder = "First Name", @required = "true" })
+        </div>
+
+        <div class="col-md-6">
+            <label for="inputLastName" class="form-label"><span style="color:red;">*</span> Last Name</label>
+            @Html.TextBoxFor(t => t.LastName, new { @class = "form-control", @placeholder = "Last Name", @required = "true" })
+        </div>
+
+        <div class="col-md-4">
+            <label for="inputCountryId" class="form-label"><span style="color:red;">*</span> Country Code</label>
+            @Html.HiddenFor(x => x.CountryId)
+            @Html.DropDownList("ddlCountryId", countries, "Select Country Code", new { @class = "form-control", @id = "ddlCountryId" })
+        </div>
+
+        <div class="col-md-4">
+            <label for="inputPhone" class="form-label"><span style="color:red;">*</span> Phone</label>
+            @Html.TextBoxFor(t => t.Phone, new { @class = "form-control", @placeholder = "Phone", @required = "true", @type = "number" })
+        </div>
+
+        <div class="col-md-4">
+            <label for="inputEmailID" class="form-label"><span style="color:red;">*</span> Email</label>
+            @Html.TextBoxFor(t => t.EmailId, new { @class = "form-control", @placeholder = "Email", @required = "true" })
+        </div>
+
+
+
+        <div class="col-md-6">
+            <label for="inputDisplayName" class="form-label"><span style="color:red;">*</span> Display Name</label>
+            @Html.TextBox("Displayname", displayValue, new { @class = "form-control", @placeholder = "DisplayName", @required = "true" })
+        </div>
+
+
+        <div class="col-md-6">
+            <label for="inputCurrentDesignation" class="form-label"> Designation</label>
+            @Html.TextBoxFor(t => t.CurrentDesignation, new { @class = "form-control", @placeholder = "Designation", })
+        </div>
+
+        <div class="col-md-6">
+            <label for="inputIsCompanyAdmin" class="form-label">IsAdmin</label>
+            @Html.CheckBoxFor(t => t.IsCompanyAdmin)
+        </div>
+
+        <div class="col-md-12">
+            @Html.HiddenFor(t => t.UserId)
+            @Html.HiddenFor(t => t.CompanyDisplayName)
+        </div>
+    }
+
+<script>
+
+
+    $(document).ready(function () {
+        function updateDisplayName() {
+            debugger;
+            var firstName = $("#FirstName").val().trim();
+            var lastName = $("#LastName").val().trim();
+
+            var displayName = firstName;
+
+            if (lastName !== "") {
+                displayName = firstName + "." + lastName;
+            }
+            var comDisplayName = $("#CompanyDisplayName").val();
+            var withCompany = comDisplayName + "/" + displayName;
+            validateDuplicateCompanyUserDisplayName(withCompany, displayName);
+            $("#Displayname").val(displayName);
+        }
+
+        $("#FirstName, #LastName").on("input", function () {
+            updateDisplayName();
+        });
+    });
+
+    var validateDuplicateCompanyUserDisplayName = function (name,displayName) {
+
+        $.ajax({
+            type: 'GET',
+            data: { name: name },
+            url: "/Company/CheckCompanyUserDisplayNameAvailability",
+            dataType: 'json',
+            success: function (data) {
+                if (data.Data == "1") {
+                    $("#Displayname").val("");
+                    showMessage("Failed!", data.Message, "notice");
+                }
+                else {
+                    $("#Displayname").val(displayName);
+                }
+            },
+            error: handleAjaxError()
+        });
+
+    }
+
+    function onSaveUserByCompanyClick() {
+        debugger;
+
+        $("#userByCompanyForm").validate({
+            rules: {
+                FirstName: { required: true },
+                LastName: { required: true },
+                DisplayName: { required: true },
+                EmailId: { required: true },
+                Phone: {
+                    required: true,
+                    minNumberlength: { countrySelector: "#ddlCountryId" },
+                    maxNumberlength: { countrySelector: "#ddlCountryId" }
+                },
+            },
+            submitHandler: function (form) {
+                function handleCountryId(name, dropdownSelector) {
+                    debugger;
+                    var code = $(dropdownSelector).val();// countryId;10;10
+                    if (code.split(';').length == 3) {
+                        var id = code.split(';')[0];
+                        var obj = { name: name, value: id };
+                        return obj;
+                    }
+                }
+
+                var f = $(form);
+                var data = f.serializeArray();
+
+                data = data.map(function (item, i) {
+                    switch (item.name) {
+                        case "CountryId":
+                            return handleCountryId(item.name, "#ddlCountryId");
+                        default:
+                            return item;
+                    }
+                }).filter(x => x !== undefined && x !== null);
+                var isIndiaSelected = false;
+                var countryId = data.find(x => x.name == "CountryId")?.value;
+                if (countryId != null && countryId != undefined) {
+                    isIndiaSelected = parseInt(countryId, 10) == 5;
+                }
+
+                $.ajax({
+                    type: f[0].method,
+                    url: f[0].action,
+                    data: data,
+                    dataType: 'json',
+                    success: function (data, strStatus) {
+
+                        showMessage((data.Success ? "Success" : "Failed"), data.Data, data.Type);
+                        setTimeout(function () {
+
+                            if (data.Success) {
+                                $('#ModaladdEditUserByCompany').modal('hide');
+                                $("#tableUser_Company").DataTable().ajax.reload();
+                            }
+                        }, 500)
+                    },
+                    error: handleAjaxError()
+                });
+            }
+        });
+        if ($("#userByCompanyForm").valid()) {
+            $("#userByCompanyForm").submit();
+        }
+    }
+
+
+        jQuery.validator.addMethod("minNumberlength", function (value, element, params) {
+            var countryValue = $(params.countrySelector).val();
+            if (params.required != undefined && params.required == false) {
+                if (value.trim() == "") {
+                    return true;
+                }
+            }
+            if (!countryValue) return false;
+            var splittedArr = countryValue.split(";");
+            var minLength = splittedArr.length > 1 ? parseInt(splittedArr[1], 10) || 10 : 10;
+
+            return value.length >= minLength;
+        }, function (params, element) {
+            var countryValue = $(params.countrySelector).val();
+            var splittedArr = countryValue.split(";");
+            var minLength = splittedArr.length > 1 ? parseInt(splittedArr[1], 10) || 10 : 10;
+
+            return `Minimum ${minLength} digits required.`;
+        });
+
+        jQuery.validator.addMethod("maxNumberlength", function (value, element, params) {
+            var countryValue = $(params.countrySelector).val();
+            if (params.required != undefined && params.required == false) {
+                if (value.trim() == "") {
+                    return true;
+                }
+            }
+            if (!countryValue) return false;
+
+            var splittedArr = countryValue.split(";");
+            var maxLength = splittedArr.length > 2 ? parseInt(splittedArr[2], 10) || 10 : 10;
+
+            return value.length <= maxLength;
+        }, function (params, element) {
+            var countryValue = $(params.countrySelector).val();
+            var splittedArr = countryValue.split(";");
+            var maxLength = splittedArr.length > 2 ? parseInt(splittedArr[2], 10) || 10 : 10;
+
+            return `Maximum ${maxLength} digits required.`;
+        });
+</script>
+

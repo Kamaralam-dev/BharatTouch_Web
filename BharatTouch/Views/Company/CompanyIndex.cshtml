@@ -1,0 +1,483 @@
+﻿@{
+    Layout = "~/Views/Shared/Company/_LayoutCompany.cshtml";
+    var webUrl = System.Configuration.ConfigurationManager.AppSettings["WebUrl"];
+}
+@model DataAccess.ViewModels.CompanyViewModel
+@using BharatTouch.CommonHelper
+@using DataAccess
+
+@{  var countriesList = new DataAccess.Repository.CountryRepository().GetCountries("BharatTouch/EditProfile/EditProfile.cshtml");
+    var countries = countriesList.Select(n => new SelectListItem()
+    {
+        Text = n.Country + " (" + n.NumberCode + ")",
+        Value = n.CountryId.ToString() + ";" + n.MinNumberLength + ";" + n.MaxNumberLength,
+        Selected = n.CountryId == Model.PhoneCountryId
+
+
+    });
+
+    var aa = countries.Where(x=>x.Selected==true);
+    }
+
+<style>
+    /* Ye style sabhi CKEditor instances par apply hoga */
+    .ck-editor__editable {
+        min-height: 300px;
+    }
+</style>
+<style>
+    /* Yeh CSS class SweetAlert modal ko responsive aur bada banayegi */
+    .swal-wide {
+        width: 90vw !important; /* Screen ki width ka 90% */
+        max-width: 1200px; /* Bahut badi screens par limit set karne ke liye */
+    }
+</style>
+
+
+<link href="~/Content/page-scripts/Users/Create.css" rel="stylesheet" />
+<link href="~/Content/stylesheets/pageCss/AdminAddEditUser.css" rel="stylesheet" />
+
+<div class="pagetitle">
+    <h1>Company Profile</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Company/CompanyIndex">Home</a></li>
+            <li class="breadcrumb-item">Company Profile</li>
+        </ol>
+    </nav>
+</div>
+
+<section>
+    <div class="card">
+        <div class="card-body">
+            <!-- ======= Contact Section ======= -->
+            <section id="contact" class="contact">
+                <div class="section-title">
+                    <h2>Contact</h2>
+                    <p>
+                        This section involves entering your contact information - address, mobile number, and email id. Once this is done, you need to click the 'update contact' box.
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row" data-aos="fade-in">
+
+                            <div class="col-lg-12 mt-5 mt-lg-0 d-flex align-items-stretch">
+                                @using (Html.BeginForm("SaveOrUpdateContactDetail", "Company", FormMethod.Post, new { id = "contactInfoCompanyForm", @class = "row g-3" }))
+                                {
+                                    <div class="form-group col-md-12">
+                                        <label for="name"><span style="color:red;">*</span>Company Name</label>
+                                        @Html.TextBoxFor(t => t.CompanyName, new { @class = "form-control", @placeholder = "Company Name", @required = "true" })
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="name"><span style="color:red;">*</span>Country Code</label>
+                                        @Html.HiddenFor(x => x.PhoneCountryId)
+                                        @Html.DropDownList("ddlPhoneCountryId", countries, "Select Country Code", new { @class = "form-control", @id = "ddlPhoneCountryId" })
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="name"><span style="color:red;">*</span>Phone </label>
+                                        @Html.TextBoxFor(t => t.Phone, new { @class = "form-control digitonly", @placeholder = "Phone", @required = "true", @type = "number" })
+                                    </div>
+
+                                    <div class="form-group col-md-4">
+                                        <label for="name"><span style="color:red;">*</span>Email</label>
+                                        @Html.TextBoxFor(t => t.Email, new { @class = "form-control", @placeholder = "Email", @required = "true" })
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="name">Address 1</label>
+                                        @Html.TextBoxFor(t => t.Address1, new { @class = "form-control", @placeholder = "Address 1" })
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="name">Address 2</label>
+                                        @Html.TextBoxFor(t => t.Address2, new { @class = "form-control", @placeholder = "Address 2" })
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label for="name">City</label>
+                                        @Html.TextBoxFor(t => t.City, new { @class = "form-control", @placeholder = "City" })
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label for="name">State</label>
+                                        @Html.TextBoxFor(t => t.State, new { @class = "form-control", @placeholder = "State" })
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label for="name">Country</label>
+                                        @Html.TextBoxFor(t => t.Country, new { @class = "form-control", @placeholder = "Country" })
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label for="name">Zip</label>
+                                        @Html.TextBoxFor(t => t.Zip, new { @class = "form-control", @placeholder = "Zip" })
+                                    </div>
+
+                                    <div class="text-center"><button type="submit" onclick="onSaveCompanyContact()" class="btn btn-success"><div class="lds-dual-ring"></div>&nbsp;Update Contact</button></div>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======= Social Section ======= -->
+            <section id="social" class="resume">
+                <hr />
+                <div class="section-title">
+                    <h2>Social Media</h2>
+                    <p>
+                        Here, you can enter your profile links of various social media platforms that you are active on. These include LinkedIn, Facebook, Twitter, Instagram, and Google Review.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        @using (Html.BeginForm("SaveOrUpdateSocialMediaDetail", "Company", FormMethod.Post, new { id = "socialMediaInfoCompanyForm", @class = "row g-3" }))
+                        {
+
+                            <div class="form-group col-md-6">
+                                <label for="name">LinkedIn</label>
+                                @Html.TextBoxFor(t => t.LinkedIn, new { @class = "form-control", @placeholder = "LinkedIn" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="name">Twitter</label>
+                                @Html.TextBoxFor(t => t.Twitter, new { @class = "form-control", @placeholder = "Twitter" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="name">Facebook</label>
+                                @Html.TextBoxFor(t => t.Facebook, new { @class = "form-control", @placeholder = "Facebook" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="name">Instagram</label>
+                                @Html.TextBoxFor(t => t.Instagram, new { @class = "form-control", @placeholder = "Instagram" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="name">Website</label>
+                                @Html.TextBoxFor(t => t.Website, new { @class = "form-control", @placeholder = "Website" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="name">Youtube</label>
+                                @Html.TextBoxFor(t => t.Youtube, new { @class = "form-control", @placeholder = "Youtube" })
+                            </div>
+
+                            <div class="text-center"><button onclick="onSaveCompanySocialMedia()" class="btn btn-success" type="submit"><div class="lds-dual-ring"></div>&nbsp;Update Social Links</button></div>
+                        }
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======= About Section ======= -->
+            <section id="about">
+                <hr />
+                <div class="section-title">
+                    <h2>About</h2>
+                    <p>
+                        In this section, you need to enter details about yourself and your professional work. You can also add the skills that you specialize in along with the knowledge percentage. Once you have completed it, you need to click the 'Update About' box.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        @using (Html.BeginForm("SaveOrUpdateAboutDetail", "Company", FormMethod.Post, new { id = "aboutInfoCompanyForm", @class = "row g-3" }))
+                        {
+                            <div class="col-md-12">
+                                <label for="Tagline">Tagline</label>
+                                @Html.TextBoxFor(t => t.Tagline, new { @class = "form-control", @placeholder = "" })
+                            </div>
+
+                            <div class="form-group">
+                                <label for="Tagline">Description</label>
+                                @Html.TextAreaFor(t => t.AboutDescription, new { @class = "form-control", @placeholder = "", @id = "AboutDescription", @rows = "10", @required = "" })
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="SkillName1">Service / Skills</label>
+                                @Html.TextBoxFor(t => t.SkillName1, new { @class = "form-control", @placeholder = "" })
+                            </div>
+                            <div class="col-md-6">
+                                <label for="SkillName2">Service / Skills</label>
+                                @Html.TextBoxFor(t => t.SkillName2, new { @class = "form-control", @placeholder = "" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="SkillName3">Service / Skills</label>
+                                @Html.TextBoxFor(t => t.SkillName3, new { @class = "form-control", @placeholder = "" })
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="SkillName4">Service / Skills</label>
+                                @Html.TextBoxFor(t => t.SkillName4, new { @class = "form-control", @placeholder = "" })
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="SkillName5">Service / Skills</label>
+                                @Html.TextBoxFor(t => t.SkillName5, new { @class = "form-control", @placeholder = "" })
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="SkillName6">Service / Skills</label>
+                                @Html.TextBoxFor(t => t.SkillName6, new { @class = "form-control", @placeholder = "" })
+                            </div>
+                            <div class="text-center"><button onclick="return onSaveCompanyAbout()" class="btn btn-success" type="submit"><div class="lds-dual-ring"></div>&nbsp;Update About Details</button></div>
+                        }
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ======= Cover Section ======= -->
+            <section id="Cover" class="resume">
+                <hr />
+                <div class="section-title">
+                    <h2>Cover Image</h2>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div>
+
+
+                            <div class="form-group">
+                                <label for="CoverImagepath" class="form-label"> Cover Image </label>
+                                @Html.TextBoxFor(t => t.CoverImagepath, new
+                           {
+                               @class = "form-control",
+                               @type = "file",
+                               @id = "CoverImagepath",
+                               @required = "true",
+                           })
+
+                            </div>
+                            <div class="coverImageSelectLoader" style="display: none;">
+                                <div class="lds-dual-ring-blue coverImageSelectLoader"></div> <span class="coverImageSelectLoader" style="color:red;">&nbsp;loading, please wait..........</span>
+                            </div>
+                            <div class="error" id="coverImageSelectionError"></div>
+                            <br />
+                            @{
+                                if (Model.CoverImagepath.NullToString() != "")
+                                {
+                                    <div class="d-flex justify-content-end mb-2">
+                                        <div class="border-r-1 position-relative selected-cover-img-container col-md-6" style=" max-height: 400px;">
+                                            <img src="@Model.CoverImagepath" alt="Nature landscape" class="img-fluid rounded shadow">
+                                            <div class="icon-overlay d-flex flex-column align-items-center justify-content-center">
+                                                <a id="btnRemoveCoverImg" data-path="@Model.CoverImagepath" data-id="@Model.CompanyId" class="btn btn-light mb-2" data-bs-toggle="tooltip" data-bs-placement="left" title="Delete">
+                                                    <i class="bi bi-trash text-danger"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ======= Image Gallary Section ======= -->
+            <section id="portfolioGallery" class="resume">
+
+                <div class="section-title">
+                    <h2>Image Gallery</h2>
+                    <p>
+                        You can select an image (JPEG or PNG file) from your device and upload it. You can upload images to your portfolio, allowing users to view your work seamlessly.
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+
+                        @using (Html.BeginForm("SaveOrUpdatePortfolioImages", "Company", FormMethod.Post, new { id = "PortfolioImageCompanyForm", @class = "row g-3", @enctype = "multipart/form-data" }))
+                        {
+                            <div class="col-md-2">
+                                <label for="name"><span style="color:red;">*</span>Select Image</label>
+                            </div>
+                            <div class="col-md-12">
+                                @Html.TextBox("PortfolioImage", null, new
+                                {
+                                    @class = "form-control",
+                                    type = "file",
+                                    id = "PortfolioImage",
+                                    required = "true",
+                                    multiple = "multiple",
+                                    accept = ".png,.jpg,.jpeg,.gif"
+                                })
+
+                            </div>
+                            <div class="col-md-12">
+                                <div class="text-center">
+                                    <button type="submit" id="btnSubmitPortfolioForm" class="btn btn-success"><div class="lds-dual-ring"></div>&nbsp;Upload Images</button>
+                                </div>
+                            </div>
+
+                        }
+
+                        <br />
+                        <div class="col-lg-12 d-flex align-items-stretch" id="portfolioImageContainer">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======= Youtube Section ======= -->
+            <section id="youtube" class="resume">
+
+                <div class="section-title">
+                    <h2>Videos</h2>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100" id="youtubeFormContainer">
+
+                            </div>
+
+                            <div class="col-lg-6" data-aos="fade-up" id="youtubeListContainer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======= Blog Section ======= -->
+            <section id="blog" class="resume">
+
+                <div class="section-title">
+                    <h2>Blog</h2>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100" id="blogFormContainer">
+
+                            </div>
+
+                            <div class="col-lg-6" data-aos="fade-up" id="blogListContainer">
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======= Testimonials  Section ======= -->
+            <section id="Testimonial" class="resume">
+                <div class="section-title">
+                    <h2>Testimonial</h2>
+                    <p>
+                        In this section, you can add Client Testimonial. You have the option to add their images as well.
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        @using (Html.BeginForm("UpsertClientTestimonial", "Company", FormMethod.Post, new { id = "ClientTestimonialForm", @class = "row g-3", @enctype = "multipart/form-data" }))
+                        {
+                            <input type="hidden" name="Client_Id" id="Client_Id" value="" />
+                            <input type="hidden" name="PicOfClient" id="PicOfClient" value="" />
+
+                            <div class="col-md-4">
+                                <label for="name"><span style="color:red;">*</span>Client Name</label>
+                                <input type="text" name="ClientName" class="form-control" id="ClientName" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="name">Designation</label>
+                                <input type="text" class="form-control" name="Designation" id="Designation" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="name">Company Name</label>
+                                <input type="text" class="form-control" name="CompanyName" id="CompanyName" />
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="name"><span style="color:red;">*</span>Testimonial</label>
+                                    <textarea name="Testimonial" id="txtTestimonial" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="name"><span style="color:red;">*</span>Image</label>
+                                    <input type="file" name="CLientImagePath" id="CLientImagePath" />
+                                </div>
+                            </div>
+                            <div class="row justify-content-center my-3">
+                                <div class="col-auto text-center">
+                                    <button class="btn btn-secondary d-flex align-items-center justify-content-center" id="btnClientTestimonialEditCancel" type="button">
+                                        <div class="lds-dual-ring me-2"></div> Cancel
+                                    </button>
+                                </div>
+                                <div class="col-auto text-center">
+                                    <button class="btn btn-success d-flex align-items-center justify-content-center" id="btnSubmitTestimonialText" type="submit">
+                                        <div class="lds-dual-ring me-2"></div> Add Testimonial
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        }
+
+                        <div class="col-lg-12 mt-5 mt-lg-0 align-items-stretch" id="ClientTestimonialsContainer">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======= Change Password Section ======= -->
+            <section id="changePassword" class="contact">
+
+                <div class="section-title">
+                    <h2>Change Password</h2>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row" data-aos="fade-in">
+
+                            <div class="col-lg-12 mt-5 mt-lg-0 align-items-stretch">
+                                @using (Html.BeginForm("ChangeCompanyAdminPassword", "Company", FormMethod.Post, new { id = "changePasswordCompanyForm", @class = "row g-3" }))
+                                {
+                                    <div class="col-md-6">
+                                        <label for="name">New Password</label>
+                                        @Html.TextBox("Password", "", new { @class = "form-control", @placeholder = "New Password", @type = "password" })
+                                        <label style="color:red;">Password must be 8-16 chars, include uppercase, lowercase and a digit. </label>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="name">Confirm Password</label>
+                                        @Html.TextBox("ConfirmPassword", "", new { @class = "form-control", @placeholder = "Confirm Password", @type = "password" })
+                                    </div>
+                                    <div class="text-center mt-4"><button type="submit" class="btn btn-success"><div class="lds-dual-ring"></div>&nbsp;Update Password</button></div>
+                                }
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+</section>
+
+
+@section scripts{
+    <script src="~/Content/page-scripts/Company/CompanyIndex.js"></script>
+
+    <script type="text/javascript">
+        var com = new listCompany();
+        com.init();
+    </script>
+}

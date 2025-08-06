@@ -1,0 +1,81 @@
+﻿@model DataAccess.Models.UserModel
+@{
+    //Layout = null;
+    ViewBag.Title = "Login";
+    var newdt = System.DateTime.Now.ToString("MMddyyyyhhmmss");
+}
+<style>
+    #pdf-viewer {
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.1);
+        overflow: auto;
+    }
+
+    .pdf-page-canvas {
+        display: block;
+        margin: 5px auto;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    #pdf-render {
+        width: 100% !important;
+    }
+    .modal {
+    z-index:9999!important;
+    }
+    .btn-close {
+        box-sizing: content-box;
+        width: 1em;
+        height: 1em;
+        padding: 0.25em 0.25em;
+        color: #000;
+        background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+        border: 0;
+        border-radius: 0.25rem;
+        opacity: 0.5;
+    }
+
+    .leftrightbtn {
+        border-radius: 5px;
+        background: #149ddd;
+        color: #fff;
+        font-size: 21px;
+        text-align: center;
+        margin: 10px;
+    }
+
+    .pdfDownloadBtn:hover {
+        color: #ffffff47;
+    }
+</style>
+
+<div class="modal fade" id="PDFViewerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfViewerModalLabel" style="color:darkblue;font-weight:700;">PDF Viewer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align:center;">
+                    <a class="leftrightbtn" id="prev-page">
+                        <i class="icofont-simple-left" style="padding-left:4px;"></i>
+                    </a>
+                    <span class="page-info">
+                        Page <span id="page-num"></span> of <span id="page-count"></span>
+                    </span>
+                    <a class="leftrightbtn" id="next-page">
+                        <i class="icofont-simple-right" style="padding-left:7px;"></i>
+                    </a>
+                    <a id="btnPdfDownload" target="_self" href="" class="btn m-2 pdfDownloadBtn" style="padding: 0px 3px; height: 30px; font-size: 17px; background-color: #149ddd; color: white; width: 33px; display: none;"><i class="icofont-download"></i></a>
+
+                </div>
+                <div class="container" id="canvascontainer">
+                    <canvas class="col-12" id="pdf-render"></canvas>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+﻿
+.profile-card-container {
+    display: flex; /* For horizontal layout */
+    align-items: flex-start; /* Align items to the top */
+    background-color: #f9f9f9; /* Light grey background */
+    border: 1px solid #e0e0e0; /* Light grey border */
+    border-radius: 5px;
+    padding: 15px;
+    font-family: sans-serif;
+    color: #333;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+
+.profile-info {
+    flex: 1; /* Take remaining space */
+    display: flex; /* Enable flexbox for profile info */
+    flex-direction: column; /* Stack info vertically */
+    justify-content: space-between; /* Distribute space between sections */
+}

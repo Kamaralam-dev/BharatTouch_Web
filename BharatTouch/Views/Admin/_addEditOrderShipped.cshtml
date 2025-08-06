@@ -1,0 +1,91 @@
+﻿
+
+@model DataAccess.Models.OrderShippingModel
+
+
+@using (Html.BeginForm("SaveOrUpdateOrderShipping", "Admin", FormMethod.Post, new { id = "orderShippedForm", @class = "row g-3 needs-validation" }))
+{
+    <div class="col-md-6">
+        <label for="inputShippingCompanyid" class="form-label"><span style="color:red;">*</span>Shipping Company</label>
+
+        @Html.DropDownListFor(x => x.ShippingCompanyid,
+                              (SelectList)ViewBag.ShippingData,
+                              "Select a Shipping Company",  // Placeholder option
+                              new { @class = "form-control form-select", @id = "ddlShippingCompany" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="inputShippingdate" class="form-label"><span style="color:red;">*</span>Shipping Date</label>
+        @Html.TextBox("Shippingdate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style1 + "}", Model.Shippingdate), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "" })
+
+    </div>
+
+
+    <div class="col-md-12">
+        <label for="inputTrackingnumber" class="form-label"><span style="color:red;">*</span> Tracking Number</label>
+        @Html.TextBoxFor(t => t.Trackingnumber, new { @class = "form-control", @placeholder = "Tracking Number", @required = "true" })
+    </div>
+
+    <div class="col-md-12">
+        @Html.HiddenFor(t => t.OrderId)
+    </div>
+}
+
+<script>
+
+    $(document).ready(function () {
+        $("#Shippingdate").datepicker({
+            autoclose: true,
+            todayHighlight: 'TRUE',
+           // format: "yyyy-MM-dd"
+        });
+    });
+
+    function onSaveOrderShippedClick() {
+
+        if ($("#Shippingdate").val() == "" || $("#Shippingdate").val() == null) {
+            Swal.fire({
+                title: "Shipping Date is required",
+                icon: "info",
+            })
+        }
+
+        $("#orderShippedForm").validate({
+            rules: {
+                TrackingNumber: { required: true },
+                ShippingCompanyid: { required: true }
+            },
+            submitHandler: function (form) {
+                debugger
+                var f = $(form);
+                var dataArray = f.serializeArray();
+
+                $.ajax({
+                    type: f[0].method,
+                    url: f[0].action,
+                    data: dataArray,
+                    dataType: 'json',
+                    success: function (data, strStatus) {
+
+                        showMessage((data.Success ? "Success" : "Failed"), data.Data, data.Type);
+                        setTimeout(function () {
+
+                            if (data.Success) {
+                                $('#ModaladdEditOrderShipped').modal('hide');
+                                ReloadDataTable("tableOrder_Admin");
+                            }
+                        }, 500)
+                    },
+                    error: handleAjaxError()
+                });
+            }
+        });
+        if ($("#orderShippedForm").valid()) {
+            $("#orderShippedForm").submit();
+        }
+    }
+
+    function ReloadDataTable(tableId) {
+        $('#' + tableId).DataTable().ajax.reload(null, false);
+    }
+</script>

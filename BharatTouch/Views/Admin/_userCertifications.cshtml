@@ -1,0 +1,37 @@
+﻿
+
+@model int
+@{
+    int totalRows = 0;
+    var list = new DataAccess.Repository.CertificationRepository().GetUserCertificationBy_UserId(Model, out totalRows, "BharatTouch/EditProfile/_userCertifications.cshtml");
+}
+
+@if (totalRows > 0)
+{
+
+    foreach (var item in list)
+    {
+        <div class="resume-item">
+            <h4>@item.CertificationName </h4>
+            @if (item.IssueDate != null)
+            {
+                <h5>@string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style9 + "}", item.IssueDate) - @(item.ExpirationDate == null ? "Still Running" : string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style9 + "}", item.ExpirationDate))</h5>
+            }
+            <p><em>@item.IssuingOrganization</em></p>
+
+            <p>
+                <a class="edit-user-certification" data-id="@item.CertificationId" style="color:darkblue;cursor:pointer;"><i class="bx bx-edit"></i>&nbsp; Edit</a>
+                &nbsp;|&nbsp;
+                <a class="delete-user-certification" data-id="@item.CertificationId" style="color:darkblue;cursor:pointer;"><i class="bx bx-trash"></i>&nbsp; Delete <span class="lds-dual-ring-blue"></span>&nbsp;</a>
+            </p>
+
+        </div>
+    }
+
+}
+@*else
+{
+    <div class="text-center">
+        <h4 style="text-transform: unset; color: black; font-weight: 600;"><a>No Data Found</a> </h4>
+    </div>
+}*@

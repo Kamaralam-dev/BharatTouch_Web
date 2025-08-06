@@ -1,0 +1,24 @@
+﻿
+@model int
+@{
+    int totalRows = 0;
+    var scheduleList = new DataAccess.Repository.ScheduleAndMeetingRepository().GetAllScheduleOpenDays(Model, out totalRows, "BharatTouch/EditProfile/_scheduleOpenDayList.cshtml");
+}
+
+@if (scheduleList.Count > 0)
+{
+
+    foreach (var scheduleDay in scheduleList)
+    {
+        <div class="resume-item">
+            <h4 style="text-transform:unset;color:black;"><a>@string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style7 + "}", scheduleDay.Date)</a> </h4>
+            @*<h5>@string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style7 + "}", blog.CreatedDate)</h5>*@
+
+            <p>
+                <a class="btnDeleteScheduleOpenDay" data-id="@scheduleDay.DayId" style="color:darkblue;cursor:pointer;"><i class="bx bx-trash"></i>&nbsp; Delete <span class="lds-dual-ring-blue"></span>&nbsp;</a>
+            </p>
+
+        </div>
+    }
+
+}

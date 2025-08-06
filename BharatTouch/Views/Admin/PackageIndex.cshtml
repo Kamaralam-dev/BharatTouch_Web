@@ -1,0 +1,127 @@
+﻿@model IEnumerable<DataAccess.ViewModels.UserPackageViewModel>
+@using BharatTouch.CommonHelper;
+@{
+    Layout = "~/Views/Shared/Admin/_LayoutAdmin.cshtml";
+}
+
+<style>
+    .modal-header .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        border: none;
+        background: transparent;
+    }
+</style>
+
+@section scripts{
+    <script src="~/Content/page-scripts/Admin/PackageIndex.js"></script>
+    <script type="text/javascript">
+        var package = new listPackages_admin();
+        package.getPackageUrl = "@Url.Action("GetAllPackages", "Admin")";
+        package.deletePackageUrl = "@Url.Action("DeletePackage", "Admin")";
+        package.addEditPackageUrl = "@Url.Action("AddEditPackage", "Admin")";
+        package.getUserHavePackage = "@Url.Action("GetUserHavePackage", "Admin")";
+        package.init();
+    </script>
+
+}
+
+
+<div class="pagetitle">
+    <h1>Packages</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item">Packages List</li>
+        </ol>
+    </nav>
+
+</div>
+
+<section class="section">
+
+    <div class="card">
+        <div class="card-body">
+            <button type="button" id="btnAddPackage" class="btn btn-success float-end mx-2"><i class="bi bi-plus-circle-dotted me-1"></i>Add New</button>
+            <br />
+            <br />
+            <table class="table table-bordered table-striped" id="tablePackage_Admin">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Cost
+                        </th>
+                        <th>
+                            Users
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+    </div>
+
+</section>
+
+<section>
+    <div id="userModal" class="modal fade">
+        <div class="modal-dialog modal-xl">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@*packagename*@</h5>
+                    <button type="button" class="close float-end" data-dismiss="modal" aria-label="Close" onclick="$('#userModal').modal('hide');">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body" style="overflow-y:auto;height:400px;">
+                    <div class="col-lg-12 content" data-aos="fade-left" style="padding:20px">
+                        <div class="row">
+                            <table class="table table-bordered table-striped" cellspacing="0" style="width:100%!important;" id="tableUser_Admin">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Email
+                                        </th>
+                                        <th>
+                                            Phone
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@{
+    var modalModel = new DataAccess.ViewModels.ModalViewModel
+    {
+        ModalId = "ModaladdEditPackage",
+        ModalSize = "modal-lg",
+        Title = "Add/Edit Package",
+        CloseButtonText = "Close",
+        PrimaryButtonText = "Save",
+        PrimaryButtonOnClick = "onSavePackageClick()"
+    };
+}
+@Html.Partial("~/Views/Shared/Admin/_modal.cshtml", modalModel)
+
+

@@ -1,0 +1,46 @@
+﻿@model int
+@{
+    var teamList = new DataAccess.Repository.UserRepository().GetTeam(Model, "BharatTouch/EditProfile/_teamImages.cshtml");
+
+}
+
+
+@if (teamList.Count > 0)
+{
+    <div class="row">
+        @foreach (var team in teamList)
+        {
+            var isExitPic = false;
+            try
+            {
+                isExitPic = !string.IsNullOrWhiteSpace(team.PicturePath) && System.IO.File.Exists(Server.MapPath(team.PicturePath));
+            }
+            catch (Exception ex) { }
+            var picPath = isExitPic ? team.PicturePath : "/FormAssets/img/blank-profile-picture.jpg";
+
+            <div class="col-lg-3 col-md-6" style="background-color:none">
+                <div class="d-flex flex-column">
+                    <div class="teamplayer">
+                        <img src="@Url.Content(picPath)" style="max-height: 230px; max-width: 100%; min-height: 100px; height: 230px; object-fit: cover;" alt="@team.Name">
+                        
+                        <div class="name_tag">
+                            @team.Name
+                            @*<br />*@
+                            @*<a style="color:white;" class="btnTeamDelete" data-id="@team.TeamId" data-path="@(team.PicturePath)"> Delete</a>*@
+                        </div>
+                    </div>
+                    <a class="btn btn-light mt-2 mb-2 mx-3 btnTeamDelete text-danger" data-id="@team.TeamId" data-path="@(team.PicturePath)" data-bs-toggle="tooltip" data-bs-placement="left" title="Delete">
+                        <i class="bi bi-trash text-danger"></i> Delete
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+}
+@*else
+{
+    <div class="text-center">
+        <h4 style="text-transform: unset; color: black; font-weight: 600;"><a>No Data Found</a> </h4>
+    </div>
+}*@
+

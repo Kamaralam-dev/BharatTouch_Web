@@ -1,0 +1,121 @@
+﻿@model IEnumerable<DataAccess.ViewModels.LeadsAdminViewModel>
+@using BharatTouch.CommonHelper;
+@{
+    Layout = "~/Views/Shared/Admin/_LayoutAdmin.cshtml";
+    string weburl = System.Configuration.ConfigurationManager.AppSettings["WebUrl"];
+}
+
+
+@section scripts{
+    <script src="~/Content/page-scripts/Admin/LeadIndex.js"></script>
+
+    <script type="text/javascript">
+        var lead = new listLeads_admin();
+        lead.getAllLeadsAdmin = "@Url.Action("GetAllLeadsAdmin", "Admin")";
+        lead.deleteLeadsAdmin = "@Url.Action("DeleteLeadsAdmin", "Admin")";
+        lead.getLeadsAdminById = "@Url.Action("AddEditLeadsAdmin", "Admin")";
+        lead.addEditLeadsCommunicationAdmin = "@Url.Action("AddEditLeadsCommunicationAdmin", "Admin")";
+        lead.getOrderDetail = "@Url.Action("GetOrderDetail", "Admin")";
+        lead.init();
+    </script>
+}
+
+<div class="pagetitle">
+    <h1>Leads</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item">Leads List</li>
+        </ol>
+    </nav>
+</div>
+
+<section>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+
+
+                <div class="col-lg-12 content" data-aos="fade-left" style="padding:20px">
+                    <button type="button" id="btnAddLeads" class="btn btn-success float-end mx-2"><i class="bi bi-plus-circle-dotted me-1"></i>Add New</button>
+                    <br />
+                </div>
+
+                <table class="table table-bordered table-striped" cellspacing="0" style="width:100%!important;" id="tableLeads_Admin">
+                    <thead class="mb-none">
+
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Order Id
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Phone
+                            </th>
+
+                            <th>
+                                Source
+                            </th>
+
+                            <th>
+                                Current Status
+
+                            </th>
+                            <th>
+                                Created On
+                            </th>
+                            <th>
+                                Assigned To
+                            </th>
+                            <th>
+                                Company
+                            </th>
+                            @*<th>Created By</th>*@
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+@{
+    var modalModel = new DataAccess.ViewModels.ModalViewModel
+    {
+        ModalId = "modalAddEditLeads",
+        ModalSize = "modal-lg",
+        Title = "Add/Edit Leads",
+        CloseButtonText = "Close",
+        PrimaryButtonText = "Save",
+        PrimaryButtonOnClick = "onSaveLeadsClick()"
+    };
+}
+@Html.Partial("~/Views/Shared/Admin/_modal.cshtml", modalModel)
+
+@{
+    var orderModal = new DataAccess.ViewModels.ModalViewModel
+    {
+        ModalId = "modalOrderDetail",
+        ModalSize = "modal-lg",
+        Title = "Order Detail",
+        CloseButtonText = "Close",
+    };
+}
+@Html.Partial("~/Views/Shared/Admin/_modal.cshtml", orderModal)

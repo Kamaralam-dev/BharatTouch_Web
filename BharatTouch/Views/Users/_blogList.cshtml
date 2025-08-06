@@ -1,0 +1,43 @@
+﻿@model int
+@using BharatTouch.CommonHelper
+@using DataAccess
+@{
+    int companyId = BharatTouch.CommonHelper.Utility.GetCookie("CompanyId_auth").ToIntOrZero();
+
+    bool disableCompanyManagedSections = companyId > 0;
+    var blogList = new DataAccess.Repository.BlogRepository().GetAllBlogs(Model, "BharatTouch/EditProfile/_blogList.cshtml").OrderByDescending(x => x.CreatedDate).ToList();
+}
+
+@if (blogList.Count > 0)
+{
+
+    foreach (var blog in blogList)
+    {
+        <div class="resume-item">
+            <h4 style="text-transform:unset;color:black;"><a href="@blog.BlogUrl" target="_blank">@blog.BlogTitle</a> </h4>
+            @*<h5>@string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style7 + "}", blog.CreatedDate)</h5>*@
+            <p><em>@blog.BlogCategory</em></p>
+
+            @if (!disableCompanyManagedSections)
+            {
+                <p>
+                    <a class="edit-blog" data-id="@blog.BlogId" style="color:darkblue;cursor:pointer;"><i class="bx bx-edit"></i>&nbsp; Edit</a>
+                    &nbsp;|&nbsp;
+                    <a class="delete-blog" data-id="@blog.BlogId" style="color:darkblue;cursor:pointer;"><i class="bx bx-trash"></i>&nbsp; Delete <span class="lds-dual-ring-blue"></span>&nbsp;</a>
+                </p>
+            }
+
+
+        </div>
+    }
+
+}
+else
+{
+    <div style="margin: 0px 0% 0px -40% !important; ">
+        @if (disableCompanyManagedSections)
+        {
+            <h6 style="text-transform: unset; color: red; font-weight: 600;">Company admin has not updated this section </h6>
+        }
+    </div>
+}

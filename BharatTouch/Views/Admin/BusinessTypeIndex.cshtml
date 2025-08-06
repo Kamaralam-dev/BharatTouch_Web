@@ -1,0 +1,122 @@
+﻿@model IEnumerable<DataAccess.Models.BusinessTypeModel>
+@using BharatTouch.CommonHelper;
+@{
+    Layout = "~/Views/Shared/Admin/_LayoutAdmin.cshtml";
+    // Layout = null;
+    string weburl = System.Configuration.ConfigurationManager.AppSettings["WebUrl"];
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+</head>
+
+<body>
+    <div class="pagetitle">
+        <h1>Business Type</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item">Business Type List</li>
+            </ol>
+        </nav>
+
+    </div>
+
+    <section>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-lg-12 content" data-aos="fade-left" style="padding:20px">
+                        <div class="row">
+
+                            <div class="col-md-4">
+                                <label for="inputParentBusinessType" class="form-label"> Business Category</label>
+
+                                @Html.DropDownList("BusinessTypeId", ViewBag.BusinessTypeParentList as SelectList, new { @class = "form-control form-select", @id = "ddlBusinessCategory" })
+
+                            </div>
+
+                            <div class="col-md-8">
+                                <button type="button" id="btnAddBusinessType" class="btn btn-primary float-end mx-2"><i class="bi bi-plus-circle-dotted me-1"></i>Add Business Type</button>
+
+                                <button type="button" id="btnAddCategory" class="btn btn-success float-end"><i class="bi bi-plus-circle-dotted me-1"></i>Add Category</button>
+                            </div>
+
+                        </div>
+
+                        <br />
+
+                    </div>
+
+                    <table class="table table-bordered table-striped" cellspacing="0" style="width:100%!important;" id="tableBusinessType_Admin">
+                        <thead>
+
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    Business Category
+                                </th>
+                                <th>
+                                    Business Type
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+
+</html>
+
+@section scripts{
+    <script src="~/Content/page-scripts/Admin/BusinessTypeIndex.js"></script>
+    <script type="text/javascript">
+    var type = new listBusinessType_admin();
+    type.getBusinessTypeUrl = "@Url.Action("GetBusinessType", "Admin")";
+    type.deleteBusinessTypeUrl = "@Url.Action("DeleteBusinessTypeById", "Admin")";
+    type.addEditBusinessType = "@Url.Action("AddEditBusinessType", "Admin")";
+    type.pageSize = 10;
+    type.weburl = "@weburl";
+    type.init();
+    </script>
+}
+
+@{
+    var modalModel = new DataAccess.ViewModels.ModalViewModel
+    {
+        ModalId = "ModaladdEditBusinessType",
+        ModalSize = "modal-lg",
+        Title = "Add/Edit Business Type",
+        CloseButtonText = "Close",
+        PrimaryButtonText = "Save",
+        PrimaryButtonOnClick = "onSaveBusinessTypeClick()"
+    };
+}
+@Html.Partial("~/Views/Shared/Admin/_modal.cshtml", modalModel)
+
+@{
+    var modalCategoryModel = new DataAccess.ViewModels.ModalViewModel
+    {
+        ModalId = "ModaladdEditParentBusinessTypeCategory",
+        ModalSize = "modal-lg",
+        Title = "Add Category",
+        CloseButtonText = "Close",
+        PrimaryButtonText = "Save",
+        PrimaryButtonOnClick = "onSaveCategoryClick()"
+    };
+}
+@Html.Partial("~/Views/Shared/Admin/_modal.cshtml", modalCategoryModel)

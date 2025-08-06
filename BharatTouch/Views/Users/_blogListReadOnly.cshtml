@@ -1,0 +1,24 @@
+﻿@model int
+@{
+    var blogList = new DataAccess.Repository.BlogRepository().GetAllBlogs(Model, "BharatTouch/Profile/_blogListReadOnly.cshtml").OrderByDescending(x => x.CreatedDate).ToList();
+}
+
+@if (blogList.Count > 0)
+{
+    <div class="mycard">
+        @foreach (var blog in blogList)
+        {
+            <div class="resume-item">
+                <h4 style="text-transform:unset;color:black;"><a href="@blog.BlogUrl" target="_blank">@blog.BlogTitle</a> </h4>
+                @*<h5>@string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style7 + "}", blog.CreatedDate)</h5>*@
+                <p><em>@blog.BlogCategory</em></p>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="mycard">
+        No records found(s)
+    </div>
+}

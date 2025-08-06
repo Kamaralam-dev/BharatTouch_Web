@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .email-header {
+            background-color: black;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px 15px;
+            font-size: 24px;
+        }
+
+        .email-body {
+            padding: 20px 15px;
+            color: #333333;
+        }
+
+            .email-body h2 {
+                color: #007bff;
+            }
+
+        .email-footer {
+            background-color: #e96115;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+        }
+
+            .email-footer a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+        .cta-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+            .cta-button:hover {
+                background-color: #0056b3;
+            }
+
+        .details {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #eaeaea;
+            border-radius: 5px;
+        }
+
+            .details p {
+                margin: 0;
+                padding: 5px 0;
+                font-size: 14px;
+            }
+    </style>
+    <style>
+        @media screen and (max-width: 600px) {
+            p > a {
+                padding-left: 5px !important;
+                padding-right: 5px !important;
+                font-size: 14px !important; /* Optional: Reduce font size if needed */
+            }
+
+            p > span {
+                font-size: 14px !important; /* Optional: Reduce font size of the span text */
+                display: block; /* Make the span take full width and wrap below the link */
+                margin-top: 14px; /* Add some space between the link and the text */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <strong><span style="color: #e96115">Bharat</span><span style="color: #1d9a6c;">Touch</span>  - Welcome!</strong>
+        </div>
+        <div class="email-body">
+            <p>Dear {FullName},</p>
+            <p>We’re excited to inform you that your account has been successfully created on BharatTouch.com by your company admin.</p>
+
+            <p><b>🔑 Login Credentials:</b></p>
+            <p>Email: {EmailID}</p>
+            <p>Temporary Password: {Password}</p>
+
+            <p><b>🔧 Next Steps :</b></p>
+            <ul>
+                <li>Log in to your account and complete your digital profile.</li>
+                <li>Upload your photo, contact details, location, social media, documents & more.</li>
+                <li>Start sharing your smart digital card via link, QR, or NFC.</li>
+            </ul>
+
+            <p>💡 Your BharatTouch profile is dynamic – update it anytime, as often as you like!</p>
+            <p>For any assistance or questions, feel free to reach out to our support team.</p>
+
+
+            <p style="color: #e96115;">Best regards,</p>
+            <p style="color: #1d9a6c;">
+                <strong>Team Bharat Touch</strong>
+            </p>
+
+            <p>🌐 <a href="https://bharattouch.com" target="_blank">https://bharattouch.com</a></p>
+            <p><b>📧 support@bharattouch.com</b></p>
+        </div>
+        <div class="email-footer">
+            <p>This email is ganerated by {pageName} page from Bharat Touch</p>
+        </div>
+    </div>
+</body>
+</html>

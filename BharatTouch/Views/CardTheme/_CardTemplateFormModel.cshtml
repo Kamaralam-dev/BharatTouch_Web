@@ -1,0 +1,42 @@
+﻿
+@model DataAccess.Models.CardTemplateModel
+
+<div class="modal fade" id="upsertCardTemplateFormModel" tabindex="-1" aria-labelledby="upsertCardTemplateFormModelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="upsertCardTemplateFormModelLabel">Upsert Card Template</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("UpsertCardTemplate", "CardTheme", FormMethod.Post, new { id = "upsertCardTemplateForm", @class = "php-email-form" }))
+                {
+                    @Html.HiddenFor(x => x.TemplateId)
+                    @Html.HiddenFor(x => x.ImageUrl)
+                    <div class="row">
+                        <div class="form-group col-md-12 my-2">
+                            <label for="Name"><span style="color:red;">*</span> &nbsp; Template Name</label>
+                            @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "Template Name"})
+                        </div>
+                        <div class="form-group col-md-6 my-2">
+                            <label for="TemplateView"><span style="color:red;">*</span> &nbsp; Template View Name</label>
+                            @Html.TextBoxFor(x => x.TemplateView, new { @class = "form-control", @placeholder = "Template View Name"})
+                        </div>
+                        <div class="form-group col-md-6 my-2">
+                            <label for="TemplateView">&nbsp; Types</label>
+                            @Html.TextBoxFor(x => x.Types, new { @class = "form-control", @placeholder = "Types should be ',' seperated."})
+                        </div>
+                        <div class="form-group col-md-12 my-2">
+                            <label for="">&nbsp; Template Image</label>
+                            <br/>
+                            <input type="file" id="imgFile" name="imgFile" accept=".jpg, .png, .jpeg" class="form-control-file" />
+                        </div>
+                        <div class="form-row clearfix">
+                            <button type="submit" id="btnSubmitCardTemplateForm" class="btn btn-primary float-end mt-3"><div class="lds-dual-ring"></div>&nbsp; Submit</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

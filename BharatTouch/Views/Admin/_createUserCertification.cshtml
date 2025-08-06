@@ -1,0 +1,85 @@
+﻿
+@model DataAccess.Models.UserCertificationModel
+@{
+
+}
+
+
+@using (Html.BeginForm("UpsertUserCertification", "Admin", FormMethod.Post, new { id = "upsertUserCertificationForm", @class = "row g-3", @enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(t => t.CertificationId)
+    @Html.HiddenFor(t => t.UserId)
+    @Html.HiddenFor(t => t.CertificateFile)
+
+    <div class="form-group col-md-6">
+        <label for="CertificationName"><span style="color:red;">*</span>Certification Name</label>
+        @Html.TextBoxFor(t => t.CertificationName, new { @class = "form-control required-left", @placeholder = "" })
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="IssuingOrganization"><span style="color:red;">*</span>Issuing Organization</label>
+        @Html.TextBoxFor(t => t.IssuingOrganization, new { @class = "form-control required-left", @placeholder = "" })
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="IssueDate">Issued Date</label>
+        @if (Model != null)
+        {
+            @Html.TextBox("IssueDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style10 + "}", Model.IssueDate), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "", @id = "DP_IssueDate" })
+        }
+        else
+        {
+            @Html.TextBox("IssueDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style10 + "}", ""), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "", @id = "DP_IssueDate" })
+        }
+
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="ExpirationDate">Expiration Date</label>
+        @if (Model != null)
+        {
+            @Html.TextBox("ExpirationDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style10 + "}", Model.ExpirationDate), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "", @id = "DP_ExpirationDate" })
+        }
+        else
+        {
+            @Html.TextBox("ExpirationDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style10 + "}", ""), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "", @disabled = "true", @id = "DP_ExpirationDate" })
+        }
+
+    </div>
+
+    <div class="form-group col-md-12">
+        <label for="CertifcateNumber">Certificate Number</label>
+        @Html.TextBoxFor(t => t.CertifcateNumber, new { @class = "form-control required-left", @placeholder = "" })
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="CertificateURL">Certificate URL</label>
+        @Html.TextBoxFor(t => t.CertificateURL, new { @class = "form-control required-left", @placeholder = "" })
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="OrganizationURL">Organization URL</label>
+        @Html.TextBoxFor(t => t.OrganizationURL, new { @class = "form-control required-left", @placeholder = "" })
+    </div>
+
+    <div class="form-group col-md-12">
+        <label for="Description">Description</label>
+        @Html.TextAreaFor(t => t.Description, new { @class = "form-control required-left", @placeholder = "", @rows = "4" })
+    </div>
+
+    <div class="form-group">
+        <label for="name" style="color:red;">Note : Only JPG, JPEG, PNG files allowed.</label>
+    </div>
+
+    <div class="form-group col-md-12">
+        <label for="CertificateFilePath"><span style="color:red;">*</span>Certificate File</label>
+        <input type="file" class="mx-5" name="CertificateFilePath" id="CertificateFilePath" accept=".jpg,.jpeg,.png,.pdf" />
+    </div>
+
+    <div class="form-group d-flex gap-3">
+        <button class="btn btn-secondary btn-block w-100" id="btnCancelUserCertification" type="button">Cancel</button>
+        <button class="btn btn-success btn-block w-100" type="submit"><div class="lds-dual-ring"></div>@((Model == null || Model.CertificationId == 0) ? "Add" : "Update") Achievement</button>
+    </div>
+        
+
+}

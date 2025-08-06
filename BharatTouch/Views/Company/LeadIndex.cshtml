@@ -1,0 +1,205 @@
+﻿@model IEnumerable<DataAccess.ViewModels.LeadsViewModel>
+@using BharatTouch.CommonHelper;
+
+@{
+    ViewBag.Title = "LeadIndex";
+    Layout = "~/Views/Shared/Company/_LayoutCompany.cshtml";
+    var loggeduserid = BharatTouch.CommonHelper.Utility.GetCookie("UserId_Company");
+    var loggedcompanyid = BharatTouch.CommonHelper.Utility.GetCookie("CompanyId_Company");
+    var loggedcompanydisplayname = BharatTouch.CommonHelper.Utility.GetCookie("CompanyDisplayName_Company");
+}
+
+<div class="pagetitle">
+    <h1>Lead</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Company/CompanyIndex">Home</a></li>
+            <li class="breadcrumb-item">Lead List</li>
+        </ol>
+    </nav>
+</div>
+
+<section>
+    <div class="card">
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="ddlCompanyUser">User</label>
+                    <select id="ddlCompanyUser" class="select2">
+                        @if (ViewBag.AllUsersByCompanyData != null)
+                        {
+                            foreach (var i in ViewBag.AllUsersByCompanyData)
+                            {
+
+                                <option value="@i.UserId">@i.FirstName @(i.LastName ?? "")</option>
+
+                            }
+                        }
+
+                    </select>
+                </div>
+                <br />
+                <br />
+                <br />
+
+                <table class="table table-bordered table-striped" cellspacing="0" style="width:100%!important;" id="tableLead_Company">
+                    <thead class="mb-none">
+
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Phone
+                            </th>
+                            <th>
+                                Lead Type
+                            </th>
+                            <th>
+                                Message
+                            </th>
+                            <th>
+                                Date
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<style>
+
+    /*css form excel button*/
+    div.dt-buttons {
+        float: right;
+        margin: -62px 0 0 0px !important;
+        border: none !important;  
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+
+        var selectedCompanyUser = getCookie("selectedCompanyUser");
+        if (selectedCompanyUser) {
+            $("#ddlCompanyUser").val(selectedCompanyUser);
+
+            $("#ddlCompanyUser").trigger("change");
+        }
+
+        $("#ddlCompanyUser").change(function () {
+            var selectedCompanyUser = $(this).val();
+            setCookie("selectedCompanyUser", selectedCompanyUser, 1);
+            $('#tableLead_Company').DataTable().ajax.reload();
+        });
+
+        loadLeadList();
+    });
+
+    var loadLeadList = function () {
+        $("#tableLead_Company").DataTable({
+            dom: 'lBfrtip',  //lrtip on for external button
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    className:"btn btn-success",
+                    text: '<i style="color:white;" class="bi bi-file-earmark-excel"></i><span style="color:white;"> Export to Excel</span>',
+                    filename: 'BharatTouch_Leads_' + new Date().toISOString().slice(0, 10),
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6]
+                        /*   columns: ':visible'  // export only visible columns*/
+                    },
+                    action: function (e, dt, button, config) {
+                        var recordsTotal = dt.page.info().recordsTotal;
+
+                        if (recordsTotal === 0) {
+                            Swal.fire({
+                                title: "Oops!",
+                                text: "There is no data to export.",
+                                icon: "warning",
+                                button: "OK",
+                            });
+
+                            return;
+                        }
+
+                        // call the original Excel export function
+                        $.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, button, config);
+                    }
+
+                }
+            ],
+            "processing": true, // for show progress bar
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "scrollX": false,
+            "scrollCollapse": true,
+            "lengthMenu": [25, 50, 100],
+            "pageLength": 25,
+            "autoWidth": true,
+            "order": [[0, "desc"]],
+            "ajax": {
+                "url": "/Company/GetLeadsByUser",
+                "type": "POST",
+                "datatype": "json",
+                "data": function (d) {
+                    d.userId = $("#ddlCompanyUser").val();
+                }
+            },
+            "columns": [
+                { "data": "LeadId", "name": "LeadId", "autoWidth": true, "visible": true },
+                {
+                    "data": "Name",
+                    "name": "Name",
+                    "autoWidth": true,
+                    "className": "dt-body-left"
+                },
+                { "data": "Email", "name": "Email", "autoWidth": true, "className": "dt-body-left" },
+                {
+                    "data": "PhoneNo",
+                    "name": "PhoneNo",
+                    "autoWidth": true,
+                    "className": "dt-body-left",
+                },
+                {
+                    "data": "LeadType",
+                    "name": "LeadType",
+                    "autoWidth": true,
+                    "className": "dt-body-left",
+                },
+                {
+                    "data": "Message",
+                    "name": "Message",
+                    "autoWidth": true,
+                    "visible": true,
+                    "className": "dt-body-left",
+                },
+                {
+                    "data": "Date",
+                    "name": "Date",
+                    "autoWidth": true,
+                    "visible": true,
+                    "className": "dt-body-left",
+                    render: function (data, type, row) {
+                        return momentDateFormatter(row.Date, "MM/DD/YYYY");
+                    }
+                },
+
+
+            ],
+            "initComplete": function (settings, json) {
+
+            }
+        });
+    }
+</script>

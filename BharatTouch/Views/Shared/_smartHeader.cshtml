@@ -1,0 +1,54 @@
+﻿<header>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/"><img src="~/SmartTheme/images/logo.svg" alt="logo"></a>
+            <div class="navigation-main-outer">
+                <div class="navigation-inner">
+                    <button type="button" class="navbar-toggle" style="display:none;">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="pushmenu-push">
+                        <ul>
+                            <li><a href="#banner">Home</a></li>
+                            <li><a href="#process">How it Works</a></li>
+                            <li><a href="#pricing">Pricing</a></li>
+                            <li><a href="#why-choose">Why Bharat Touch</a></li>
+                            <li><a href="#testimonial">Testimonial</a></li>
+                            <li><a href="#faq">FAQ</a></li>
+                            <li><a href="#Referral">Referral</a></li>
+                        </ul>
+
+                        <div class="header-right">
+                            @if (ViewBag.IsLoggedIn != null && ViewBag.IsLoggedIn == true)
+                            {
+                                @*<a class="contact-btn" href="#contact">Contact Us</a>*@
+                                <a id="btnAdminIco" class="admin-icon" style="cursor:pointer;" href="/edit/@ViewBag.CodeOrName"><img src="~/SmartTheme/images/admin-icon.svg" alt="icon"></a>
+                            }
+                            else
+                            {
+                                <a id="btnAdminIco" class="admin-icon" style="cursor:pointer;" href="@Url.Action("Login", "Home")"><img src="~/SmartTheme/images/admin-icon.svg" alt="icon"></a>
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </nav>
+</header>
+
+<script>
+    //document.getElementById('btnAdminIco').addEventListener('click', function () {    
+    //    if (ViewBag.CodeOrName != null) {
+    //        window.location.href = "/edit/" + ViewBag.CodeOrName
+    //    }
+    //});
+    //document.getElementById('btnLogin').addEventListener('click', function () {     
+    //    window.location.href = '/home/login'; // Replace with your desired URL
+    //});
+</script>

@@ -1,0 +1,104 @@
+﻿@model IEnumerable<DataAccess.Models.UserModel>
+@using BharatTouch.CommonHelper;
+@{
+    Layout = "~/Views/Shared/Admin/_LayoutAdmin.cshtml";
+    //Layout = null;
+    string weburl = System.Configuration.ConfigurationManager.AppSettings["WebUrl"];
+}
+
+@section scripts{
+    <script src="~/Content/page-scripts/Admin/OrderIndex.js"></script>
+
+    <script type="text/javascript">
+        var order = new listOrder_admin();
+        order.getorderUrl = "@Url.Action("GetOrders", "Admin")";
+        order.saveInPrinting = "@Url.Action("SaveOrUpdateOrderPrintingStatus", "Admin")";
+        order.addEditOrderShipped = "@Url.Action("AddEditOrderShipped", "Admin")";
+        order.saveOrderShipped = "@Url.Action("SaveOrUpdateOrderShipped", "Admin")";
+        order.saveLeadConvertFromOrder = "@Url.Action("SaveLeadConvertFromOrder", "Admin")";
+        order.init();
+    </script>
+}
+
+<div class="pagetitle">
+    <h1>Order</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item">Order List</li>
+        </ol>
+    </nav>
+</div>
+
+<section>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <table class="table table-bordered table-striped" cellspacing="0" style="width:100%!important;" id="tableOrder_Admin">
+                    <thead class="mb-none">
+
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Order No
+                            </th>
+                            <th>
+                                Customer Name
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                             <th>
+                                Phone
+                            </th>
+
+                            <th>
+                                Order Date
+                            </th>
+                            <th>
+                                Order Status
+                            </th>
+
+                            <th>
+                                Total Amount
+                            </th>
+                            <th>
+                                Payment Method
+                            </th>
+                            <th>
+                                InPrinting
+                            </th>
+                            <th>
+                                IsShipped
+                            </th>
+                            <th>
+                                IsSelfPick
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+@{
+    var modalModel = new DataAccess.ViewModels.ModalViewModel
+    {
+        ModalId = "ModaladdEditOrderShipped",
+        ModalSize = "modal-lg",
+        Title = "Add/Edit Shipping Order",
+        CloseButtonText = "Close",
+        PrimaryButtonText = "Save",
+        PrimaryButtonOnClick = "onSaveOrderShippedClick()"
+    };
+}
+@Html.Partial("~/Views/Shared/Admin/_modal.cshtml", modalModel)

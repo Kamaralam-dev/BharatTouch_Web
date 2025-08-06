@@ -1,0 +1,123 @@
+﻿@model DataAccess.ViewModels.NfcCardColorViewModel
+@using DataAccess
+<div class="preview-container">
+    <style>
+        .preview-container {
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0 0 0 0;
+            width: 270px;
+        }
+
+        .preview-nfc-card {
+            background-color: @(Model.BackgroundColor != null && Model.BackgroundColor.NullToString() != "" ? Model.BackgroundColor : "#000");
+            color: @(Model.TextColor != null && Model.TextColor.NullToString() != "" ? Model.TextColor : "white");
+            width: 100%;
+            max-width: 350px;
+            /*height: 200px;*/
+            height: 165px;
+            border-radius: 15px;
+            padding: 27px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /*            box-shadow: 0 0 20px #0f0f0f;*/
+            position: relative;
+        }
+
+        .logo {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+        }
+
+        .bharat {
+            background-color: orange;
+            color: white;
+            padding: 5px 10px;
+            font-weight: bold;
+        }
+
+        .touch {
+            background-color: #000;
+            color: limegreen;
+            border: 2px solid limegreen;
+            padding: 5px 10px;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .nfc-icon {
+            font-size: 16px;
+            margin-left: 8px;
+        }
+
+        .info {
+            margin-top: 19px;
+            margin-left: 00px;
+        }
+
+            .info h1 {
+                font-size: 14px;
+                font-style: italic;
+                font-weight: 500;
+                margin: 0;
+                color: @(Model.TextColor != null && Model.TextColor.NullToString() != "" ? Model.TextColor : "white");
+                padding-top: 20px;
+                @*font-size: 26px;
+                font-style: italic;
+                font-weight: 500;
+                margin: 0;
+                color: @(Model.TextColor != null && Model.TextColor.NullToString() != "" ? Model.TextColor : "white");
+                padding-top: 43px;*@
+            }
+
+            .info p {
+                font-size: 13px;
+                /*                margin-top: 3px;*/
+                margin: 0;
+            }
+
+        .nfc-qr-section img {
+            width: 64px;
+            /* height: 139px; */
+            /*            margin-right: 6px;*/
+            margin-top: 40px;
+        }
+
+        .wave-icon {
+            position: absolute;
+            top: 8px;
+            right: 15px;
+            font-size: 46px;
+        }
+
+            .wave-icon img {
+                /*                margin-right: 16px;*/
+                margin-bottom: 56px;
+                width: 29px;
+            }
+    </style>
+    <div class="preview-nfc-card">
+        <div class="logo">
+            <img src="/SmartTheme/images/logo.svg" style="width: 125px;" />
+            <!--<span class="bharat">BHARAT</span><span class="touch">TOUCH</span>
+            <span class="nfc-icon">📶</span>-->
+        </div>
+        <div class="info">
+            <h1><span class="textNfcCardLine1">@Model.NfcCardLine1</span></h1>
+            <p style="line-height: 19px; margin-top: 3px;"><span class="textNfcCardLine2">@Model.NfcCardLine2</span></p>
+            <p style="line-height: 25px; "><span class="textNfcCardLine3">@Model.NfcCardLine3</span></p>
+        </div>
+        <div class="nfc-qr-section">
+            <img class="nfcQrImage" src="~/HomeAssets/img/transparentQrImage.png" alt="QR Code">
+        </div>
+        <div class="wave-icon"><img class="nfcLogoImg" src="~/HomeAssets/img/nfc_logo.jpg" /> </div>
+    </div>
+</div>

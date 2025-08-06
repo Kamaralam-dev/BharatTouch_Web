@@ -1,0 +1,128 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/SmartTheme/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/SmartTheme/css/slick-theme.css">
+    <link rel="stylesheet" href="~/SmartTheme/css/slick.css">
+    <link rel="stylesheet" href="~/SmartTheme/font/fonts.css">
+    <link rel="stylesheet" href="~/SmartTheme/css/style.css" />
+    <link rel="stylesheet" href="~/SmartTheme/css/media.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/javascripts/custom/pnotify/pnotify.css" />
+    <title>Bharat Touch</title>
+    <link rel="icon" href="/SmartTheme/images/bharattouchfavico.ico" style="border-radius: 30px;" type="image/x-icon">
+
+    @*<style>
+            .step {
+                display: none;
+            }
+
+                .step.active {
+                    display: block;
+                }
+        </style>*@
+
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3VWMPTNPEL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-3VWMPTNPEL');
+    </script>
+    <meta name="google-site-verification" content="Bxtl3yy4-p-fMpDJiZ2yWQWuk3DgF-TFqQkLDb5m8mo" />
+
+</head>
+<body>
+
+
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="/"><img src="~/SmartTheme/images/logo.svg" alt="logo"></a>
+            </div>
+        </nav>
+    </header>
+
+    @*@Html.Partial("_smartHeader")*@
+    <section class="singup-form-outer">
+        <div class="container">
+            <div class="get-started-text">
+                @*<h1 class="title-44">Log in</h1>*@
+                @*<p>Create your account, customize your card, and place your order in just a few easy steps.*@ @*Secure, personalized, and designed to grow your digital identity.</p>*@
+            </div>
+
+            <div class="step-form-outer">
+                <div class="step-points">
+
+                    <div class="sign-up-form">
+                        <div id="sign-up" class="form-step active-step">
+                            <h2>LogIn</h2>
+                            @using (Html.BeginForm("Authenticate", "Users", FormMethod.Post, new { id = "loginForm" }))
+                            {
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Email</label>
+                                        @Html.TextBox("EmailId", "", new { @placeholder = "Email" })
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>Password </label>
+                                        @Html.TextBox("Password", "", new { @placeholder = "Password", @type = "password" })
+                                    </div>
+
+                                    <div class="col-md-12 text-center">
+                                        <button type="submit" class="btn-gradient next"> <div class="lds-dual-ring"></div>&nbsp;Log In</button>
+                                    </div>
+                                    <div class="already-member">
+                                        <p><a href="/signup" style="text-decoration: underline; color: #E0E0E0; ">Create an Account</a></p>
+                                        <p class="text-center mt-lg">
+                                            <a href="/Users/ForgotUserPassword" style="text-decoration: underline; color: #E0E0E0;">Forgot your password</a>
+                                        </p>
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    @Html.Partial("_smartFooter")
+    <script src="~/Content/vendor/jquery/jquery.js"></script>
+
+
+    <script src="~/SmartTheme/js/jquery.min.js"></script>
+    <script src="~/SmartTheme/js/bootstrap.min.js"></script>
+    <script src="~/SmartTheme/js/slick.min.js"></script>
+    <script src="~/SmartTheme/js/custom.js"></script>
+
+    <script src="~/Content/vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
+    <script src="~/Content/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="~/Content/javascripts/custom/pnotify/pnotify.js"></script>
+    <script src="~/Content/javascripts/custom/pnotify/PNotifyStyleMaterial.js"></script>
+    <script src="~/Content/javascripts/custom/pnotify/PNotifyButtons.js"></script>
+    <script src="~/Content/javascripts/custom/pnotify/PNotifyConfirm.js"></script>
+    <script src="~/Content/javascripts/custom/pnotify/PNotifyMobile.js"></script>
+    <script src="~/Content/javascripts/custom/jquery.validate.min.js"></script>
+    <script src="~/Content/javascripts/custom/Shared.js"></script>
+    <script src="~/Content/page-scripts/Users/login.js"></script>
+    <script type="text/javascript">
+        var auth = new login();
+        auth.init();
+    </script>
+</body>
+</html>

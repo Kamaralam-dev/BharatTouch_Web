@@ -1,0 +1,141 @@
+﻿
+<style>
+    .fix-team-size {
+        height: 200px;
+        width: 100%;
+        /*        width: 200px;*/
+    }
+
+        .fix-team-size img {
+            /*            height: -webkit-fill-available;*/
+            object-fit: cover;
+            /*                        width: 200px;*/
+            /*            width: 100%;*/
+        }
+</style>
+
+@using BharatTouch.CommonHelper
+@using DataAccess
+@model int
+
+@{
+    string companyIdStr = BharatTouch.CommonHelper.Utility.GetCookie("CompanyId_auth");
+    int companyId = 0;
+
+    if (!string.IsNullOrEmpty(companyIdStr))
+    {
+        int.TryParse(companyIdStr, out companyId);
+    }
+
+    bool disableCompanyManagedSections = companyId > 0;
+
+    DirectoryInfo c = new DirectoryInfo(Server.MapPath("~/uploads/portfolio/company/" + companyId));
+    FileInfo[] comFiles = null;
+    try
+    {
+        comFiles = c.GetFiles("*");
+    }
+    catch (Exception ex) { }
+
+    DirectoryInfo d = new DirectoryInfo(Server.MapPath("~/uploads/portfolio/" + Model));
+    FileInfo[] Files = null;
+    try
+    {
+        Files = d.GetFiles("*");
+    }
+    catch (Exception ex) { }
+}
+
+
+@if (companyId > 0)
+{
+    if (comFiles != null && comFiles.Length > 0)
+    {
+        <div class="row" style="padding-right:4px;">
+            <input type="hidden" id="galleryImagesCount" value="@comFiles.Length" />
+            @foreach (FileInfo file in comFiles)
+            {
+                bool isExistComPic = false;
+                try
+                {
+                    isExistComPic = System.IO.File.Exists(Server.MapPath("~/uploads/portfolio/company/" + companyId + "/" + file.Name));
+                }
+                catch { }
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="teamplayer fix-team-size">
+                        @if (isExistComPic)
+                        {
+                            <img src="@Url.Content("~/uploads/portfolio/company/" + companyId + "/" + file.Name)" alt="@file.Name" />
+                        }
+                        else
+                        {
+                            <img src="/FormAssets/img/blank-profile-picture.jpg" alt="@file.Name" />
+                        }
+                        <div class="name_tag">
+                            @if (!disableCompanyManagedSections)
+                            {
+                                <a class="btnPortfolioDelete" data-path="@("/uploads/portfolio/company/" + companyId + "/" + file.Name)">Delete</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div style="margin: 0px 0px 0px 30% !important; ">
+
+            <h6 style="text-transform: unset; color: red; font-weight: 600;">Company admin has not updated this section </h6>
+        </div>
+        <input type="hidden" id="galleryImagesCount" value="0" />
+    }
+}
+else
+{
+    if (Files != null)
+    {
+        <div class="row" style="padding-right:4px;">
+            <input type="hidden" id="galleryImagesCount" value="@Files.Length" />
+            @foreach (FileInfo file in Files)
+            {
+                bool isExistPic = false;
+                bool isExistPicThumb = false;
+                try
+                {
+                    isExistPic = System.IO.File.Exists(Server.MapPath("~/uploads/portfolio/" + Model + "/" + file.Name));
+                }
+                catch (Exception ex) { }
+
+                <div class="col-lg-3 col-md-6" style="background-color:none">
+                    <div class="teamplayer fix-team-size">
+
+                        @if (isExistPic)
+                        {
+                            <img src="@Url.Content("~/uploads/portfolio/" + Model + "/" + file.Name)" alt="@file.Name">
+                        }
+                        else
+                        {
+                            <img src="/FormAssets/img/blank-profile-picture.jpg" alt="@file.Name" />
+                        }
+                        <div class="name_tag">
+                            @if (!disableCompanyManagedSections)
+                            {
+                                <a style="color:white;" class="btnPortfolioDelete" data-path="@("/uploads/portfolio/" + Model + "/" + file.Name)"> Delete</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
+    else
+    {
+        <input type="hidden" id="galleryImagesCount" value="0" />
+    }
+}
+
+
+

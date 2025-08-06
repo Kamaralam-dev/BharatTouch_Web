@@ -1,0 +1,32 @@
+﻿
+@model int
+@{
+    var blogList = new DataAccess.Repository.BlogRepository().GetAllBlogs(Model, "BharatTouch/EditProfile/_blogList.cshtml").OrderByDescending(x => x.CreatedDate).ToList();
+}
+
+@if (blogList.Count > 0)
+{
+
+    foreach (var blog in blogList)
+    {
+        <div class="resume-item">
+            <h4 style="text-transform:unset;color:black;"><a href="@blog.BlogUrl" target="_blank">@blog.BlogTitle</a> </h4>
+            @*<h5>@string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style7 + "}", blog.CreatedDate)</h5>*@
+            <p><em>@blog.BlogCategory</em></p>
+
+            <p>
+                <a class="edit-blog" data-id="@blog.BlogId" style="color:darkblue;cursor:pointer;"><i class="bx bx-edit"></i>&nbsp; Edit</a>
+                &nbsp;|&nbsp;
+                <a class="delete-blog" data-id="@blog.BlogId" style="color:darkblue;cursor:pointer;"><i class="bx bx-trash"></i>&nbsp; Delete <span class="lds-dual-ring-blue"></span>&nbsp;</a>
+            </p>
+
+        </div>
+    }
+
+}
+@*else
+{
+    <div class="text-center">
+        <h4 style="text-transform: unset; color: black; font-weight: 600;"><a>No Data Found</a> </h4>
+    </div>
+}*@

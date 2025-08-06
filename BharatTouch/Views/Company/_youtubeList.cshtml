@@ -1,0 +1,26 @@
+﻿
+@model int
+@{
+    /**/
+
+    var YouTubeList = new DataAccess.Repository.YouTubeRepository().GetAllYouTubes(Model, "BharatTouch/CompanyIndex/_youtubeList.cshtml").OrderByDescending(x => x.CreatedDate).ToList();
+}
+
+@if (YouTubeList.Count > 0)
+{
+    <input type="hidden" id="hdnYoutubeVideosCount" value="@YouTubeList.Count" />
+    foreach (var YouTube in YouTubeList)
+    {
+        <div class="resume-item">
+            <h4 style="text-transform:unset;color:black;"><a href="@YouTube.YouTubeUrl" target="_blank">@YouTube.YouTubeTitle</a> </h4>
+
+            <p>
+                <a class="edit-youtube" data-id="@YouTube.YouTubeId" style="color:darkblue;cursor:pointer;"><i class="bx bx-edit"></i>&nbsp; Edit</a>
+                &nbsp;|&nbsp;
+                <a class="delete-youtube" data-id="@YouTube.YouTubeId" style="color:darkblue;cursor:pointer;"><i class="bx bx-trash"></i>&nbsp; Delete <span class="lds-dual-ring-blue"></span>&nbsp;</a>
+            </p>
+
+        </div>
+    }
+
+}

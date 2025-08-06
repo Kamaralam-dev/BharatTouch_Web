@@ -1,0 +1,31 @@
+﻿
+@model int
+@{
+    int totalRows = 0;
+    var leads = new DataAccess.Repository.UserRepository().FetchLeadsByUserId(Model, 0, 2000, "CreatedOn", "DESC", "", out totalRows, "BharatTouch/Profile/_userLeadsReadOnly.cshtml");
+}
+
+@if (leads.Count > 0)
+{
+        foreach (var lead in leads)
+        {
+            <div class="resume-item">
+                <h4>@lead.Name (@lead.LeadType) </h4>
+                @if (lead.Date != null)
+                {
+                    <h5>@string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.DefaultStyle + "}", lead.Date)</h5>
+                }
+                <p><strong>Email: </strong><em>@lead.Email</em></p>
+                <p><strong>PhoneNo: </strong><em>@lead.PhoneNo</em></p>
+                <p><strong>Message: </strong><em>@lead.Message</em></p>
+            </div>
+        }
+
+    @*<div class="d-flex w-100 justify-content-center">
+        <a href="/Users/UserLeads?UserId=@Model" class="btn btn-primary mt-2"><i class="icofont-ui-reply"></i> Show More</a>
+    </div>*@
+}
+else
+{
+    <div>No details found(s)</div>
+}

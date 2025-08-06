@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 30px auto;
+            background-color: #ffffff;
+            border: 1px solid #eaeaea;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .email-header {
+            background-color: black;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px 15px;
+            font-size: 24px;
+        }
+
+        .email-body {
+            padding: 20px 15px;
+            color: #333333;
+        }
+
+            .email-body h2 {
+                color: #007bff;
+            }
+
+        .email-footer {
+            background-color: #e96115;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+        }
+
+            .email-footer a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+        .cta-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+            .cta-button:hover {
+                background-color: #0056b3;
+            }
+
+        .details {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #eaeaea;
+            border-radius: 5px;
+        }
+
+            .details p {
+                margin: 0;
+                padding: 5px 0;
+                font-size: 14px;
+            }
+    </style>
+    <style>
+        @media screen and (max-width: 600px) {
+            p > a {
+                padding-left: 5px !important;
+                padding-right: 5px !important;
+                font-size: 14px !important; /* Optional: Reduce font size if needed */
+            }
+
+            p > span {
+                font-size: 14px !important; /* Optional: Reduce font size of the span text */
+                display: block; /* Make the span take full width and wrap below the link */
+                margin-top: 14px; /* Add some space between the link and the text */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <strong><span style="color: #e96115">Bharat</span><span style="color: #1d9a6c;">Touch</span>  - Greetings from BharatTouch!</strong>
+        </div>
+        <div class="email-body">
+            <p>Dear {FullName},</p>
+            <p>Greetings from BharatTouch!</p>
+            <p>We’re excited to have your company on board. Your admin account has been successfully created. Please find your login credentials and activation link below:</p>
+
+            <p><b>🔑 Login Credentials:</b></p>
+            <p>Username: {EmailID}</p>
+            <p>Temporary Password: {Password}</p>
+
+            <!--<p><b>🔗 Activate Your Account:</b></p>
+            <p>Click the link below to activate your account :</p>
+            <p>👉<a href="{ActivationLink}" target="_blank" style="text-decoration: none;background: #149ddd;color: white;padding: 10px 20px 10px 20px;border-radius: 4px;cursor: pointer;">Activate Account</a></p>-->
+
+            <p><b><!--✅ Next Steps After Activation:--></b></p>
+            <p><b>✅ Your account is activated, you can:</b></p>
+            <ul>
+                <li><b>Update your Company Profile </b>– Add your logo, contact details, services, and description.</li>
+                <li><b>Manage Users</b> – Add, edit or remove employees or members whose profiles you want to create on BharatTouch.</li>
+            </ul>
+
+            <p>We recommend updating your profile fully so your digital presence is complete and professional.</p>
+            <p>If you need any assistance, feel free to reply to this email or contact us at <b>support@bharattouch.com</b>.</p>
+
+            <p>Thank you for choosing <a href="https://bharattouch.com" target="_blank">BharatTouch</a>  – Your Digital Identity Partner. </p>
+
+
+            <p style="color: #e96115;">Best regards,</p>
+            <p style="color: #1d9a6c;">
+                <strong>Team Bharat Touch</strong>
+            </p>
+
+            <p>🌐 <a href="https://bharattouch.com" target="_blank">https://bharattouch.com</a></p>
+            <p><b>📧 support@bharattouch.com</b></p>
+        </div>
+        <div class="email-footer">
+            <p>This email is ganerated by {pageName} page from Bharat Touch</p>
+        </div>
+    </div>
+
+</body>
+</html>

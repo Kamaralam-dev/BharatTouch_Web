@@ -1,0 +1,132 @@
+﻿@model DataAccess.ViewModels.ProfileDetailModel
+    @{
+        Layout = null;
+
+        int userId = Model.UserID;
+        int companyId = Model.CompanyId;
+
+        FileInfo[] userFiles = null;
+        FileInfo[] companyFiles = null;
+
+        try
+        {
+            var userDir = new DirectoryInfo(Server.MapPath("~/uploads/portfolio/" + userId));
+            userFiles = userDir.Exists ? userDir.GetFiles("*") : null;
+        }
+        catch { }
+
+        try
+        {
+            var companyDir = new DirectoryInfo(Server.MapPath("~/uploads/portfolio/company/" + companyId));
+            companyFiles = companyDir.Exists ? companyDir.GetFiles("*") : null;
+        }
+        catch { }
+    }
+
+    @if (companyId > 0 && companyFiles != null && companyFiles.Length > 0)
+    {
+        foreach (var file in companyFiles)
+        {
+            <div class="swiper-slide">
+                <div class="imageslider-item">
+                    <div class="profile mt-auto">
+                        <img src="@Url.Content("~/uploads/portfolio/company/" + companyId + "/" + file.Name)" class="imageslider-img" alt="@file.Name">
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else if (userFiles != null && userFiles.Length > 0)
+    {
+        foreach (var file in userFiles)
+        {
+            <div class="swiper-slide">
+                <div class="imageslider-item">
+                    <div class="profile mt-auto">
+                        <img src="@Url.Content("~/uploads/portfolio/" + userId + "/" + file.Name)" class="imageslider-img" alt="@file.Name">
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <span>No portfolio images found.</span>
+    }
+
+
+
+@*@model DataAccess.ViewModels.ProfileDetailModel
+@{
+    DirectoryInfo d = new DirectoryInfo(Server.MapPath("~/uploads/Portfolio/" + Model.UserID));//Assuming Test is your Folder
+    FileInfo[] Files = null;
+    try
+    {
+        Files = d.GetFiles("*"); //Getting Text files
+    }
+    catch (Exception ex) { }
+
+
+    string companyIdStr = Model.CompanyId.ToString();
+    int companyId = 0;
+
+    if (!string.IsNullOrEmpty(companyIdStr))
+    {
+        int.TryParse(companyIdStr, out companyId);
+    }
+    DirectoryInfo c = new DirectoryInfo(Server.MapPath("~/uploads/portfolio/company/" + companyId));
+    FileInfo[] comFiles = null;
+    try
+    {
+        comFiles = c.GetFiles("*");
+    }
+    catch (Exception ex) { }
+}
+
+@if (companyId > 0)
+{
+    if (comFiles != null && comFiles.Length > 0)
+    {
+        foreach (FileInfo file in comFiles)
+        {
+            <div class="swiper-slide">
+                <div class="imageslider-item">
+
+                    <div class="profile mt-auto">
+                        <img src="@Url.Content("~/uploads/Portfolio/Company/" + companyId + "/" + file.Name)" class="imageslider-img" alt="@file.Name">
+                    </div>
+                </div>
+            </div>
+
+        }
+    }
+    else
+    {
+        <span>No details found(s)</span>
+
+    }
+}
+else
+{
+    if (Files != null && Files.Length > 0)
+    {
+        foreach (FileInfo file in Files)
+        {
+            <div class="swiper-slide">
+                <div class="imageslider-item">
+
+                    <div class="profile mt-auto">
+                        <img src="@Url.Content("~/uploads/Portfolio/" + Model.UserID + "/" + file.Name)" class="imageslider-img" alt="@file.Name">
+
+                    </div>
+                </div>
+            </div>
+
+        }
+    }
+    else
+    {
+        <span>No details found(s)</span>
+
+    }
+}*@

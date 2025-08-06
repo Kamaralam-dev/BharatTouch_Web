@@ -1,0 +1,395 @@
+﻿
+@model DataAccess.ViewModels.WizardViewModel
+
+<div class="modal fade" id="nfcCardCartWizardModal" tabindex="-1" aria-labelledby="nfcCardCartWizardModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nfcCardCartWizardModalLabel">Order NFC Card</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                 <style>
+
+                     .card-hover-effect {
+                         transition: transform 300ms cubic-bezier(0.34, 2, 0.6, 1), box-shadow 200ms;
+                     }
+
+                     .card-hover-effect:hover {
+                         box-shadow: rgba(0, 0, 0, 0.3) 0px 12px 17px -7px;
+                         transform: translateY(-10px);
+                     }
+
+                     #heading {
+                         text-transform: uppercase;
+                         color: #ff6821;
+                         font-weight: normal
+                     }
+
+        #msform {
+            text-align: center;
+            position: relative;
+            margin-top: 0px
+        }
+
+            #msform fieldset {
+                background: white;
+                border: 0 none;
+                border-radius: 0.5rem;
+                box-sizing: border-box;
+                width: 100%;
+                margin: 0;
+                padding-bottom: 20px;
+                position: relative
+            }
+
+        .form-card {
+            text-align: left
+        }
+
+        #msform fieldset:not(:first-of-type) {
+            display: none
+        }
+
+                     #msform input,
+                     #msform textarea {
+                         padding: 4px 8px 4px 8px;
+                         border: 1px solid #ccc;
+                         border-radius: 0px;
+                         margin-bottom: 7px;
+                         margin-top: 2px;
+                         width: 100%;
+                         box-sizing: border-box;
+                         font-family: montserrat;
+                         color: #2C3E50;
+                         background-color: #ECEFF1;
+                         font-size: 13px;
+                         letter-spacing: 0.5px;
+                         font-family: Arial, sans-serif;
+                     }
+
+            #msform input:focus,
+            #msform textarea:focus {
+                -moz-box-shadow: none !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+                border: 1px solid #673AB7;
+                outline-width: 0
+            }
+
+                     #msform .action-button {
+                         width: 100px;
+                         background: var(--bharattouch-theme-color);
+                         color: white;
+                         border: 0 none;
+                         border-radius: 8px;
+                         cursor: pointer;
+                         padding: 8px 5px;
+                         margin: 10px 0px 10px 5px;
+                         float: right;
+                     }
+
+                     #msform .action-button:hover,
+                     #msform .action-button:focus {
+                         /*background-color: #311B92*/
+                         background-color: green;
+                     }
+
+                     #msform .action-button-previous {
+                         width: 100px;
+                         background: #616161;
+                         color: white;
+                         border: 0 none;
+                         border-radius: 9px;
+                         cursor: pointer;
+                         padding: 8px 5px;
+                         margin: 10px 5px 10px 0px;
+                         float: right;
+                     }
+
+            #msform .action-button-previous:hover,
+            #msform .action-button-previous:focus {
+                background-color: #000000
+            }
+
+        .card {
+            z-index: 0;
+            border: none;
+            position: relative
+        }
+
+                     .fs-title {
+                         font-size: 25px;
+                         color: #867676;
+                         margin-bottom: 15px;
+                         font-weight: normal;
+                         text-align: left
+                     }
+
+        .purple-text {
+            color: #673AB7;
+            font-weight: normal
+        }
+
+        .steps {
+            font-size: 25px;
+            color: gray;
+            margin-bottom: 10px;
+            font-weight: normal;
+            text-align: right
+        }
+
+        .fieldlabels {
+            color: gray;
+            text-align: left
+        }
+
+                     #progressbar {
+                         margin-bottom: 10px;
+                         overflow: hidden;
+                         color: lightgrey;
+                         display: flex;
+                         justify-content: center;
+                         list-style-type: none;
+                         padding: 0;
+                         margin: 0;
+                     }
+
+            #progressbar .active {
+                color: var(--bharattouch-theme-color)
+            }
+
+            #progressbar li {
+                list-style-type: none;
+                font-size: 15px;
+                width: 25%;
+                float: left;
+                position: relative;
+                font-weight: 400
+            }
+
+                         #progressbar #nfcCard:before {
+                             content: "\eed0" !important;
+                             font-family: 'IcoFont';
+                         }
+
+                         #progressbar #printdetails:before {
+                             content: "\efc6" !important;
+                             font-family: 'IcoFont' !important;
+                         }
+
+                         #progressbar #payment:before {
+                             content: "\efb7" !important;
+                             font-family: 'IcoFont' !important;
+                         }
+
+                     #progressbar #address:before {
+                         content: "\f3e8"; /* geo-alt */
+                         font-family: "bootstrap-icons";
+                     }
+
+            #progressbar li:before {
+                width: 70px;
+                height: 70px;
+                line-height: 70px;
+                display: block;
+                font-size: 25px;
+                color: #ffffff;
+                background: lightgray;
+                border-radius: 50%;
+                margin: 0 auto 10px auto;
+                padding: 2px;
+            }
+
+            #progressbar li:after {
+                content: '';
+                width: 100%;
+                height: 3px;
+                background: lightgray;
+                position: absolute;
+                left: 0;
+                top: 37px;
+                z-index: -1;
+            }
+
+            #progressbar li.active:before,
+            #progressbar li.active:after {
+                background: var(--bharattouch-theme-color)
+            }
+
+        .progress {
+            height: 10px
+        }
+
+        .progress-bar {
+            background-color: var(--bharattouch-theme-color);
+        }
+
+        .fit-image {
+            width: 100%;
+            object-fit: cover
+        }
+    </style>
+                @Html.Hidden("wizardUserId", Model.UserId)
+                @Html.Hidden("wizardOrderId", Model.OrderId)
+                @Html.Hidden("WizardPackageId", Model.PackageId)
+
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-11 text-center p-0 mt-3 mb-2">
+                            <div class="card">
+                                <h2 id="heading">Order NFC Card</h2>
+                                <p style="color: #08974b;">Fill all form field to go to next step</p>
+                                @*<p id="wizardLoading" class="text-danger">Please wait, Loading...</p>*@
+                                <form id="msform">
+                                    <!-- progressbar -->
+                                    <ul id="progressbar">
+                                        @{
+                                            @*int totalSteps = 2;
+                                            if (Model.PackageId == 3 || Model.PackageId == 4)
+                                            {
+                                                <li class="active" data-id="1" id="nfcCard"><strong>Select Card</strong></li>
+                                                <li id="printdetails" data-id="2"><strong>Print Details</strong></li>
+                                                totalSteps++;
+                                            }
+                                            else
+                                            {
+                                                <li id="printdetails" data-id="2" class="active"><strong>Print Details</strong></li>
+                                            }
+                                            if (Model.fromSignup || Model.Status == 1)
+                                            {
+                                                <li id="address" data-id="3"><strong>Address</strong></li>
+                                                totalSteps++;
+                                            }*@
+
+                                            <li class="active" data-id="1" id="nfcCard"><strong>Select Card</strong></li>
+                                            <li id="printdetails" data-id="2"><strong>Print Details</strong></li>
+                                            <li id="address" data-id="3"><strong>Address</strong></li>
+
+
+                                            <li id="payment" data-id="4"><strong>Payment</strong></li>
+
+                                        }
+                                    </ul>
+                                    <div class="progress" style="display:none;">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div> <br> <!-- fieldsets -->
+                                    
+                                           <div>
+                                               <fieldset data-id="1">
+                                                   <div class="form-card">
+                                                       <div class="row" style="display:none;">
+                                                           <div class="col-7">
+                                                               <h2 class="fs-title">Which card you want:</h2>
+                                                           </div>
+                                                           <div class="col-5">
+                                                               <h2 class="steps">Step 1 - 4</h2>
+                                                           </div>
+                                                       </div>
+                                                       @*<hr />*@
+                                                       <div class="row">
+                                                           <div class="col-md-12 col-sm-6 col-sm-offset-1">
+                                                               @Html.Action("OpenSelectNfcCardModal", "Users", new { UserId = Model.UserId })
+                                                           </div>
+                                                       </div>
+                                                   </div>
+                                                   <input type="button" name="next" class="next wizard-next action-button" value="Next" />
+                                               </fieldset>
+                                               <fieldset data-id="2">
+                                                   <div class="form-card">
+                                                       <div class="row" style="display:none;">
+                                                           <div class="col-7">
+                                                               <h2 class="fs-title">Print Details:</h2>
+                                                           </div>
+                                                           <div class="col-5">
+                                                               <h2 class="steps">Step 2 - 4</h2>
+                                                           </div>
+                                                       </div>
+                                                       @*<hr />*@
+                                                       <div class="row">
+                                                           <div class="col-md-12 col-sm-6 col-sm-offset-1" id="nfcCardDetailFormCloseContainer">
+                                                               @Html.Action("OpenNfcCardDetialsFormModal", "Users", new { UserId = Model.UserId })
+                                                           </div>
+                                                       </div>
+                                                   </div>
+                                                   <input type="button" name="next" class="next wizard-next action-button" value="Next" />
+                                                   <input type="button" name="previous" class="previous wizard-prev action-button-previous" value="Back" />
+                                               </fieldset>
+
+                                               @*@if (Model.fromSignup || Model.Status == 1)
+        {
+            var shippingStep = (Model.PackageId == 3 || Model.PackageId == 4) ? 3 : 2;
+            <fieldset data-id="3">
+                <div class="form-card">
+                    <div class="row" style="display:none;">
+                        <div class="col-7">
+                            <h2 class="fs-title">Shipping and Billing Information:</h2>
+                        </div>
+                        <div class="col-5">
+                            <h2 class="steps">Step @shippingStep - 4</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-6 col-sm-offset-1">
+                            @Html.Action("OpenOrderModal", "Users", new { UserId = Model.UserId })
+                        </div>
+                    </div>
+                </div>
+                <input type="button" name="next" class="next wizard-next action-button" value="Next" />
+                <input type="button" name="previous" class="previous wizard-prev action-button-previous" value="Back" />
+            </fieldset>
+        }*@
+
+                                               <fieldset data-id="3">
+                                                   <div class="form-card">
+                                                       <div class="row" style="display:none;">
+                                                           <div class="col-7">
+                                                               <h2 class="fs-title">Shipping and Billing Information:</h2>
+                                                           </div>
+                                                           <div class="col-5">
+                                                               <h2 class="steps">Step 3 - 4</h2>
+                                                           </div>
+                                                       </div>
+                                                       <div class="row">
+                                                           <div class="col-md-12 col-sm-6 col-sm-offset-1">
+                                                               @Html.Action("OpenOrderModal", "Users", new { UserId = Model.UserId })
+                                                           </div>
+                                                       </div>
+                                                   </div>
+                                                   <input type="button" name="next" class="next wizard-next action-button" value="Next" />
+                                                   <input type="button" name="previous" class="previous wizard-prev action-button-previous" value="Back" />
+                                               </fieldset>
+
+                                               <fieldset data-id="4">
+                                                   <div class="form-card">
+                                                       <div class="row" style="display:none;">
+                                                           <div class="col-7">
+                                                               <h2 class="fs-title">Payment:</h2>
+                                                           </div>
+                                                           <div class="col-5">
+                                                               <h2 class="steps">Step 4 - 4</h2>
+                                                           </div>
+                                                       </div>
+                                                       @*<hr />*@
+                                                       <div class="row">
+                                                           <div class="col-md-12 col-sm-6 col-sm-offset-1" id="nfcCardOrderPaymentFormContainer">
+                                                               @Html.Action("OpenOrderPaymentFormModal", "Users", new { UserId = Model.UserId })
+                                                           </div>
+                                                       </div>
+                                                   </div>
+                                                   <input type="button" name="next" class="next wizard-next action-button" id="btnOrderCartFinish" value="Place Order" />
+                                                   <input type="button" name="previous" class="previous wizard-prev action-button-previous" value="Back" />
+                                               </fieldset>
+
+                                           </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

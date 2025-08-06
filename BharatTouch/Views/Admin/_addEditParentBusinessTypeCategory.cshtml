@@ -1,0 +1,59 @@
+﻿
+
+@model DataAccess.ViewModels.BusinessTypeViewModel
+
+
+@using (Html.BeginForm("SaveOrUpdateBusinessType", "Admin", FormMethod.Post, new { id = "categoryForm", @class = "row g-3 needs-validation" }))
+{
+
+    <div class="col-md-12">
+        <label for="inputBusinessType" class="form-label"><span style="color:red;">*</span> Category</label>
+        @Html.TextBoxFor(t => t.BusinessType, new { @class = "form-control", @placeholder = "Category", @required = "true" })
+    </div>
+
+    <div class="col-md-12">
+
+        <input type="hidden" id="BusinessTypeId" name="BusinessTypeId" value="@Model.BusinessTypeId" />
+    </div>
+}
+
+<script>
+
+    function onSaveCategoryClick() {
+        $("#categoryForm").validate({
+            rules: {
+                BusinessType: { required: true }
+            },
+            submitHandler: function (form) {
+
+                var f = $(form);
+                var data = f.serializeArray();
+
+                $.ajax({
+                    type: f[0].method,
+                    url: f[0].action,
+                    data: data,
+                    dataType: 'json',
+                    success: function (data, strStatus) {
+
+                        showMessage((data.Success ? "Success" : "Failed"), data.Data, data.Type);
+                        setTimeout(function () {
+
+                            if (data.Success) {
+                                $('#ModaladdEditParentBusinessTypeCategory').modal('hide');
+                                $("#tableBusinessType_Admin").DataTable().ajax.reload();
+                            }
+                        }, 500)
+                    },
+                    error: handleAjaxError()
+                });
+            }
+        });
+        if ($("#categoryForm").valid()) {
+            $("#categoryForm").submit();
+        }   
+    }
+
+    
+
+</script>

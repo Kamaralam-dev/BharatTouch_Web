@@ -1,0 +1,102 @@
+﻿@model DataAccess.ViewModels.NfcCardColorViewModel
+@{ 
+    var list = new DataAccess.Repository.NfcCardRepository().GetNfcCardColorList();
+}
+
+@*<div class="modal fade" id="nfcCardColorModal" tabindex="-1" aria-labelledby="nfcCardColorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nfcCardColorModalLabel">Select Card Color</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    @Html.Hidden("defaultSelectedNfcCardColor", Model.CardColorId)
+                    @{
+                        if (list.Count > 0)
+                        {
+                            foreach (var item in list)
+                            {
+
+                                <div class="col-lg-4 col-md-6" style="background-color:none">
+                                    <div class="d-flex flex-column">
+                                        <div class="teamplayer" style="border-radius: 15px;">
+                                            <img src="@Url.Content(item.ImagePath)" style="max-height: 500px; max-width: 100%; min-height: 100px; object-fit: cover; " alt="@item.Color">
+
+                                            <div class="name_tag nfc-card-select-name-tag">
+                                                <strong class="text-theme">@item.Color</strong>
+                                            </div>
+                                        </div>
+                                        @if (Model.CardColorId == item.CardColorId)
+                                        {
+                                            <div class="form-group ml-2 d-flex" style="gap: 7px; align-items: baseline; justify-content: center; ">
+                                                <input type="radio" name="rdNfcCardSelect" id="nfcCardColor_@(item.CardColorId)_@Model.UserId" checked />
+                                                <label for="nfcCardColor_@(item.CardColorId)_@Model.UserId" class="ml-2">Selected</label>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="form-group ml-2 d-flex" style="gap: 7px; align-items: baseline; justify-content: center; ">
+                                                <input type="radio" name="rdNfcCardSelect" id="nfcCardColor_@(item.CardColorId)_@Model.UserId" />
+                                                <label for="nfcCardColor_@(item.CardColorId)_@Model.UserId" class="ml-2">Select</label>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+                            }
+                        }
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a class="btn-orange btn" id="btnNfcCardColorSelectNext" data-cardcolorid="@Model.CardColorId" data-userid="@Model.UserId">
+                            Next
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+<div class="row">
+    @Html.Hidden("defaultSelectedNfcCardColor", Model.CardColorId)
+    @{
+        if (list.Count > 0)
+        {
+            foreach (var item in list)
+            {
+
+                <div class="col-lg-4 col-md-6" style="background-color:none">
+                    <div class="d-flex flex-column">
+                        <div class="teamplayer selectNfcCard card-hover-effect" style="border-radius: 15px;" data-id="@item.CardColorId" data-userid="@Model.UserId">
+                            <img src="@Url.Content(item.ImagePath)" style="max-height: 500px; max-width: 100%; min-height: 100px; object-fit: cover; " alt="@item.Color">
+
+                            <div class="name_tag nfc-card-select-name-tag">
+                                <strong class="text-theme">@item.Color</strong>
+                            </div>
+                        </div>
+                        @*@if (Model.CardColorId == item.CardColorId)
+                        {
+                            <div class="form-group ml-2 d-flex" style="gap: 7px; align-items: baseline; justify-content: center; ">
+                                <input type="radio" name="rdNfcCardSelect" id="nfcCardColor_@(item.CardColorId)_@Model.UserId" checked />
+                                <label for="nfcCardColor_@(item.CardColorId)_@Model.UserId" class="ml-2">Selected</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group ml-2 d-flex" style="gap: 7px; align-items: baseline; justify-content: center; ">
+                                <input type="radio" name="rdNfcCardSelect" id="nfcCardColor_@(item.CardColorId)_@Model.UserId" />
+                                <label for="nfcCardColor_@(item.CardColorId)_@Model.UserId" class="ml-2">Select</label>
+                            </div>
+                        }*@
+                    </div>
+                </div>
+
+            }
+        }
+    }
+</div>

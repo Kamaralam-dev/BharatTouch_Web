@@ -1,0 +1,450 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/SmartTheme/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/SmartTheme/css/slick-theme.css">
+    <link rel="stylesheet" href="~/SmartTheme/css/slick.css">
+    <link rel="stylesheet" href="~/SmartTheme/font/fonts.css">
+    <link rel="stylesheet" href="~/SmartTheme/css/style.css" />
+    <link rel="stylesheet" href="~/SmartTheme/css/media.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <title>Bharat Touch</title>
+</head>
+<body>
+
+    <!--header start-->
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="#"><img src="~/SmartTheme/images/logo.svg" alt="logo"></a>
+                <div class="navigation-main-outer">
+                    <div class="navigation-inner">
+                        <button type="button" class="navbar-toggle" style="display:none;">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <div class="pushmenu-push">
+                            <ul>
+                                <li><a href="#banner">Home</a></li>
+                                <li><a href="#process">How it Works</a></li>
+                                <li><a href="#pricing">Pricing</a></li>
+                                <li><a href="#why-choose">Why Bharat Touch</a></li>
+                                <li><a href="#Referral">Referral</a></li>
+                                <li><a href="#faq">Faq</a></li>
+                            </ul>
+
+                            <div class="header-right">
+                                <a class="contact-btn" href="#contact">Contact Us</a>
+                                <a href="#" class="admin-icon"><img src="~/SmartTheme/images/admin-icon.svg" alt="icon"></a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </nav>
+    </header>
+    <!--header end-->
+
+    <section class="singup-form-outer">
+        <div class="container">
+            <div class="get-started-text">
+                <h1 class="title-44">Get Started with Bharat Touch</h1>
+                <p>Create your account, customize your card, and place your order in just a few easy steps. Secure, personalized, and designed to grow your digital identity.</p>
+            </div>
+            <div class="step-form-outer">
+                <div class="step-points">
+                    <div class="step-points-inner">
+                        <div class="step-point" data-step="sign-up">
+                            <span class="step-image">
+                                <img src="~/SmartTheme/images/user.svg">
+                            </span>
+                            <i>Sign Up</i>
+                            <span class="progress-line">
+                        </div>
+                        <div class="step-point" data-step="card-options">
+                            <span class="step-image">
+                                <img src="~/SmartTheme/images/card-options.svg">
+                            </span>
+                            <i>Card Options</i>
+                            <span class="progress-line">
+                        </div>
+                        <div class="step-point" data-step="business-info">
+                            <span class="step-image">
+                                <img src="~/SmartTheme/images/business-info.svg">
+                            </span>
+                            <i>Business Info</i>
+                            <span class="progress-line">
+                        </div>
+                        <div class="step-point" data-step="shipping-billing">
+                            <span class="step-image">
+                                <img src="~/SmartTheme/images/shipping.svg">
+                            </span>
+                            <i>Shipping & Billing</i>
+                            <span class="progress-line">
+                        </div>
+                        <div class="step-point" data-step="finish">
+                            <span class="step-image">
+                                <img src="~/SmartTheme/images/finish.svg">
+                            </span>
+                            <i>Finsih</i>
+                            <span class="progress-line">
+                        </div>
+                    </div>
+                </div>
+                <div class="sign-up-form">
+                    <div id="sign-up" class="form-step active-step">
+                        <h2>Sign Up</h2>
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>First Name</label>
+                                    <input type="text">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Last Name</label>
+                                    <input type="text">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Display Nmae</label>
+                                    <input type="text">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Email</label>
+                                    <input type="email">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Password</label>
+                                    <input type="Password">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Confirm Password</label>
+                                    <input type="Password">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Select Pack</label>
+                                    <select>
+                                        <option>Family Pack (11499.00)</option>
+                                        <option>Family Pack (12499.00)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Enter Referral Code</label>
+                                    <input type="text">
+                                </div>
+                                <div class="col-md-12 privacy-checkbox">
+                                    <input type="checkbox" required id="privacy-policy">
+                                    <label for="privacy-policy"><span class="checkbox-mark"></span>I have read and agree the Terms of Services and the Privacy Policy.</label>
+                                </div>
+                                <div class="col-md-12 text-center">
+                                    <a href="#" class="btn-gradient next">Sign Up</a>
+                                </div>
+                                <div class="already-member">
+                                    <p>Already a member? <a href="#">Log In</a></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Choose Your Card Style -->
+
+                    <div id="card-options" class="form-step ">
+                        <h2>Choose Your Card Style</h2>
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6 card-boxes">
+                                    <h3>1. Choose Color </h3>
+                                    <div class="select-cards">
+                                        <div class="select-cards-inner">
+                                            <input type="radio" name="choose-color" checked>
+                                            <div class="checkbox-card">
+                                                <p>
+                                                    <img src="~/SmartTheme/images/gold-card.png">
+                                                </p>
+                                                <span>Gold</span>
+                                            </div>
+                                        </div>
+                                        <div class="select-cards-inner">
+                                            <input type="radio" name="choose-color">
+                                            <div class="checkbox-card">
+                                                <p>
+                                                    <img src="~/SmartTheme/images/white-card.png">
+                                                </p>
+                                                <span>Silver</span>
+                                            </div>
+                                        </div>
+                                        <div class="select-cards-inner">
+                                            <input type="radio" name="choose-color">
+                                            <div class="checkbox-card">
+                                                <p>
+                                                    <img src="~/SmartTheme/images/black-card.png">
+                                                </p>
+                                                <span>Black</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 card-boxes">
+                                    <h3>2. Pick Your Card Finish</h3>
+                                    <div class="select-cards">
+                                        <div class="select-cards-inner">
+                                            <input type="radio" name="pick-card" checked>
+                                            <div class="checkbox-card">
+                                                <p>
+                                                    <img src="~/SmartTheme/images/gold-card.png">
+                                                </p>
+                                                <span>Matte</span>
+                                            </div>
+                                        </div>
+                                        <div class="select-cards-inner">
+                                            <input type="radio" name="pick-card">
+                                            <div class="checkbox-card">
+                                                <p>
+                                                    <img src="~/SmartTheme/images/gold-card.png">
+                                                </p>
+                                                <span>Glossy</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-material">
+                                        <h3>3. Choose Your Card Material</h3>
+                                        <div class="card-material-checkbox">
+                                            <input type="checkbox" name="card-material" id="metal-card">
+                                            <label for="metal-card"><span class="card-checkmark"></span>Metal NFC Card</label>
+                                        </div>
+                                        <div class="card-material-checkbox">
+                                            <input type="checkbox" name="card-material" id="nfc-card">
+                                            <label for="nfc-card"><span class="card-checkmark"></span>NFC Card</label>
+                                        </div>
+                                    </div>
+                                </div>
+                        </form>
+                    </div>
+                    <div class="bottom-btns">
+                        <a href="#" class="btn-grey back">Back</a>
+                        <a href="#" class="btn-gradient next">Next</a>
+                    </div>
+                </div>
+
+                <!-- Tell Us About Your Business -->
+                <div id="business-info" class="form-step">
+                    <h2>Tell Us About Your Business</h2>
+                    <div class="row">
+                        <div class="col-md-7 choosen-card-outer">
+                            <p>Choosen Card Details:</p>
+                            <div class="choosen-card">
+                                <div class="choosen-card-img">
+                                    <img src="~/SmartTheme/images/gold-card.png" alt="gold-card">
+                                </div>
+                                <div class="choosen-card-info">
+                                    <p><span>Card Color</span>Gold</p>
+                                    <p><span>Card Finish</span>Glossy</p>
+                                    <p><span>Card Material</span>NFC Metal Card</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5 choose-card-detail">
+                            <div class="mb-2">
+                                <label>Business Name</label>
+                                <input type="text" placeholder="Firoz">
+                            </div>
+                            <div class="mb-2">
+                                <label>Designation</label>
+                                <input type="text" placeholder="Developer">
+                            </div>
+                            <div class="mb-2">
+                                <label>Company Website</label>
+                                <input type="text" placeholder="Invoice Testing Account">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom-btns">
+                        <a href="#" class="btn-grey back">Back</a>
+                        <a href="#" class="btn-gradient next">Next</a>
+                    </div>
+                </div>
+
+                <!-- Billing & Shipping Details -->
+
+                <div id="shipping-billing" class="form-step">
+                    <h2>Enter Your Billing & Shipping Details</h2>
+                    <div class="row shipping-details">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>SHIPPING ADDRESS</h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Address Line 1</label>
+                                    <input type="text" placeholder="Shipping Address 1">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Address Line 2</label>
+                                    <input type="text" placeholder="Shipping Address 2">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>City</label>
+                                    <input type="text" placeholder="Shipping City">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>State</label>
+                                    <input type="text" placeholder="Shipping State">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Country</label>
+                                    <input type="text" placeholder="Shipping Country">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Enter Zip Code</label>
+                                    <input type="text" placeholder="Shipping Zip">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-6 col-md-6">
+                                    <h4>BILLING ADDRESS</h4>
+                                </div>
+                                <div class="col-6 col-md-6 shipping-checkbox">
+                                    <input type="checkbox" id="shipping-address">
+                                    <label for="shipping-address"><span class="checkbox-mark"></span> Same as shipping address</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Address Line 1</label>
+                                    <input type="text" placeholder="Billing Address 1">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Address Line 2</label>
+                                    <input type="text" placeholder="Billing Address 2">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>City</label>
+                                    <input type="text" placeholder="Billing City">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>State</label>
+                                    <input type="text" placeholder="Billing State">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Country</label>
+                                    <input type="text" placeholder="Billing Country">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Enter Zip Code</label>
+                                    <input type="text" placeholder="Billing City">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom-btns">
+                        <a href="#" class="btn-grey back">Back</a>
+                        <a href="#" class="btn-gradient next">Next</a>
+                    </div>
+                </div>
+
+                <!-- Review Your Order -->
+
+                <div id="finish" class="form-step">
+                    <h2>Review Your Order & Complete Payment</h2>
+                    <div class="review-order">
+                        <table>
+                            <tr>
+                                <th>Price</th>
+                                <td><del>Rs. 2899.09</del></td>
+                            </tr>
+                            <tr>
+                                <th>Discounted Price</th>
+                                <td>Rs. 2754.05</td>
+                            </tr>
+                            <tr>
+                                <th>Shipping Fee</th>
+                                <td>Rs. 120</td>
+                            </tr>
+                            <tr>
+                                <th>Delivery Method</th>
+                                <td>
+                                    <div class="delivery-method"><input type="radio" name="delivery-method" id="pick-by-self" checked><label for="pick-by-self">Pick by self</label></div>
+                                    <div class="delivery-method"><input type="radio" name="delivery-method" id="deliver-to-address"><label for="deliver-to-address">Deliver to address</label></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Tax</th>
+                                <td>Rs. 495</td>
+                            </tr>
+                            <tr>
+                                <th>Card Type</th>
+                                <td>Metal</td>
+                            </tr>
+                            <tr>
+                                <th>Discount Coupon</th>
+                                <td><input type="text" placeholder="Enter Discount Coupon"></td>
+                            </tr>
+                            <tr class="total-pricing">
+                                <th>Total</th>
+                                <td>Rs. 3369.78</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="bottom-btns">
+                        <a href="#" class="btn-grey back">Back</a>
+                        <a href="#" class="btn-gradient next">Place Order</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!--footer start sec-->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="footer-wrap">
+                        <a href="#"><img src="~/SmartTheme/images/logo.svg" alt="logo"></a>
+                        <p>Bharat Touch is India’s leading platform for smart, contactless networking. Powered by NFC and QR technology,</p>
+                        <h4>Quick Links</h4>
+                        <div class="footer-menu">
+                            <ul>
+                                <li><a href="#">Terms of Service</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Refund & Shipping</a></li>
+                                <li><a href="#">FAQs</a></li>
+                                <li><a href="#">Shipping & Delivery</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="copyright-sec">
+                        <p>© Copyright Bharat Touch - 2025. All Rights Reserved</p>
+                        <img src="./SmartTheme/images/pyment.png" alt="image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--footer start end-->
+
+
+
+
+    <script src="~/SmartTheme/js/jquery.min.js"></script>
+    <script src="~/SmartTheme/js/bootstrap.min.js"></script>
+    <script src="~/SmartTheme/js/slick.min.js"></script>
+    <script src="~/SmartTheme/js/custom.js"></script>
+</body>
+</html>
+

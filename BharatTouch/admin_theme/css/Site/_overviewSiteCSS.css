@@ -1,0 +1,122 @@
+﻿.profile-card-container {
+    display: flex; /* For horizontal layout */
+    align-items: flex-start; /* Align items to the top */
+    background-color: #f9f9f9; /* Light grey background */
+    border: 1px solid #e0e0e0; /* Light grey border */
+    border-radius: 5px;
+    padding: 15px;
+    font-family: sans-serif;
+    color: #333;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.profile-image-container {
+    width: 100px; /* Adjust as needed */
+    margin-right: 15px; /* Spacing between image and text */
+    border-radius: 8px; /* Rounded image corners */
+    overflow: hidden; /* Clip image corners if needed */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Shadow for image container */
+    background-color: #e0e0e0; /* Placeholder image background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; /* Keep height and width same for square */
+}
+
+    .profile-image-container img {
+        width: 100%; /* Image fills container */
+        height: auto; /* Maintain aspect ratio */
+        display: block; /* Remove extra space below image */
+    }
+
+.profile-info {
+    flex: 1; /* Take remaining space */
+    display: flex; /* Enable flexbox for profile info */
+    flex-direction: column; /* Stack info vertically */
+    justify-content: space-between; /* Distribute space between sections */
+}
+
+.profile-main-info {
+    margin-bottom: 10px; /* Spacing between main info and addresses */
+}
+
+.profile-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #495057; /* Dark grey for name */
+}
+
+.profile-detail-line {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #6c757d; /* Medium grey for details */
+}
+
+    .profile-detail-line:last-child {
+        margin-bottom: 0;
+    }
+
+    .profile-detail-line i.ri {
+        margin-right: 5px;
+        font-size: 16px;
+        color: #777; /* Slightly darker grey for icons */
+        width: 16px; /* Fixed width for icon alignment */
+        text-align: center;
+        display: inline-block;
+    }
+
+.address-info-container {
+    display: flex; /* Horizontal layout for addresses */
+    gap: 20px; /* Spacing between Address and Bill-to Address columns */
+}
+
+.address-section {
+    flex: 1; /* Distribute space equally between address sections */
+}
+
+.address-title {
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #495057;
+}
+
+    .address-title i.ri-global-line { /* Globe icon for address titles */
+        margin-right: 5px;
+        font-size: 1.2em;
+        color: #555;
+        display: inline-block;
+        width: 1.2em;
+        text-align: center;
+    }
+
+.address-text {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 3px; /* Slightly reduced margin for address lines */
+}
+
+    .address-text:last-child {
+        margin-bottom: 0;
+    }
+
+.view-map-link {
+    display: inline-block;
+    margin-top: 5px;
+    color: #007bff; /* Link color */
+    text-decoration: none;
+    font-size: 14px;
+}
+
+    .view-map-link:hover {
+        text-decoration: underline;
+    }
+
+.icon-gap {
+    margin-right: 5px; /* Or whatever spacing you prefer */
+}

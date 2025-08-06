@@ -1,0 +1,1247 @@
+﻿@model DataAccess.ViewModels.ProfileDetailModel
+@using BharatTouch.CommonHelper
+@using DataAccess
+@{
+    Layout = "~/Views/Shared/_LayoutDarkMode.cshtml";
+
+    var fullName = ViewBag.FirstName + " " + ViewBag.LastName;
+    var PhoneWithCountryCode = Model.NumberCode.NullToString() + Model.Phone.NullToString();
+    var WorkPhoneWithCountryCode = Model.WorkPhoneNumberCode.NullToString() + Model.WorkPhone.NullToString();
+    var OtherPhoneWithCountryCode = Model.OtherPhoneNumberCode.NullToString() + Model.OtherPhone.NullToString();
+
+    var address = Model.Address1.NullToString();
+    var city = Model.City.NullToString();
+    var state = Model.StateName.NullToString();
+    var country = Model.Country.NullToString();
+    var officeAddress = Model.OfficeAddress1.NullToString();
+    var officeCity = Model.OfficeCity.NullToString();
+    var officeState = Model.OfficeStatename.NullToString();
+    var officeCountry = Model.OfficeCountry.NullToString();
+
+    var isMapAddressNotExist = string.IsNullOrWhiteSpace(address) && string.IsNullOrWhiteSpace(city) && string.IsNullOrWhiteSpace(state) && string.IsNullOrWhiteSpace(country);
+    var mapAddress = HttpUtility.UrlEncode(string.Format("{0} {1} {2} {3}", address, city, state, country));
+
+    var isOfficeMapAddressNotExist = string.IsNullOrWhiteSpace(officeAddress) && string.IsNullOrWhiteSpace(officeCity) && string.IsNullOrWhiteSpace(officeState) && string.IsNullOrWhiteSpace(officeCountry);
+    var officeMapAddress = HttpUtility.UrlEncode(string.Format("{0} {1} {2} {3}", officeAddress, officeCity, officeState, officeCountry));
+
+    string aboutDescription = Model.AboutDescription;
+    if (aboutDescription != null && aboutDescription.NullToString() != "")
+    {
+        aboutDescription = System.Text.RegularExpressions.Regex.Replace(
+            aboutDescription,
+                     @"<oembed\s+url=""https?:\/\/www\.youtube\.com\/watch\?v=([^""]+)""><\/oembed>",
+            "<div class='video-wrapper'><iframe src='https://www.youtube.com/embed/$1' frameborder='0' allowfullscreen></iframe></div>"
+        );
+    }
+    var WebUrl = ConfigValues.WebUrl;
+    bool isSkillsNotAvailable = Model.SkillName1.NullToString() == "" && Model.SkillName2.NullToString() == "" && Model.SkillName3.NullToString() == "" && Model.SkillName4.NullToString() == "" && Model.SkillName5.NullToString() == "" && Model.SkillName6.NullToString() == "";
+    //int companyId = BharatTouch.CommonHelper.Utility.GetCookie("CompanyId_auth").ToIntOrZero();
+    int companyId = Model.CompanyId;
+    var coverImageSrc = Model.CoverImage.NullToString() != "" ? Model.CoverImage : "/Content/images/profile_default_bg.jpg";
+    if (companyId > 0)
+    {
+        coverImageSrc = WebUrl+"/Uploads/Company/CoverImage/" + companyId + ".png";
+    }
+}
+
+<script src="~/Content/javascripts/vcard.js"></script>
+
+<main id="main">
+
+
+
+    <section id="hero" class="@ViewBag.BestFitCoverImageStyleClass col-lg-12 d-flex flex-column justify-content-center align-items-center mb-3" style="background-image: url(@coverImageSrc);">
+        <div class="hero-container">
+            @if (Model.Tagline.NullToString() != "")
+            {
+                <div class="designation"> <p style="margin-top:0;"><span class="typed" data-typed-items="@Model.Tagline"></span></p></div>
+            }
+
+
+            @*<h1>@Model.FirstName @Model.LastName.NullToString()</h1>
+                <p style="margin-bottom:32px;"><span class="typed" data-typed-items="@Model.Tagline"></span></p>
+                <div>
+                    @if (!string.IsNullOrWhiteSpace(Model.Phone))
+                    {
+                        <a href="tel::@Model.Phone" target="_blank" class="social-linkss"><i class="icofont-phone ico"></i></a>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Website))
+                    {
+                        <a href="@modifiedWebsiteUrl" target="_blank" class="social-linkss"><i class="icofont-web ico"></i></a>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.EmailId))
+                    {
+                        <a href="mailto:@Model.EmailId" target="_blank" class="social-linkss"><i class="icofont-envelope ico"></i></a>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(whatsappForLink))
+                    {
+                        <a href="https://api.whatsapp.com/send?phone=@whatsappForLink" target="_blank" class="social-linkss"><i class="bi-whatsapp ico"></i></a>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(mapAddress))
+                    {
+                        <a href="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=@mapAddress" target="_blank" class="social-linkss"><i class="icofont-google-map ico"></i></a>
+                    }
+
+
+                </div>*@
+
+
+        </div>
+    </section>
+    <div class="profile-card">
+        <img src="@ViewBag.ProfileImage?v=@DateTime.Now.ToString("yyyyMMddHHmmssf")" alt="profile-picture" class="profile-pic" loading="lazy">
+        @*<div class="camera-icon-overlay" onclick="addtocontactvcard();">
+                <i class="fa fa-plus"></i>
+            </div>*@
+
+        <div class="profile-details">
+            <a href="javascript:void(0)" onclick="addtocontactvcard();" class="save-btn">Save Contact</a>
+            <div class="name">@Model.FirstName @Model.LastName.NullToString()</div>
+
+            <div class="designation-tagline">&nbsp; @Model.CurrentDesignation</div>
+            <div class="location" style="font-weight: 700 !important;">&nbsp; @Model.Company</div>
+
+            <div class="social-grid">
+                @{
+                    if (!string.IsNullOrWhiteSpace(WorkPhoneWithCountryCode) || !string.IsNullOrWhiteSpace(OtherPhoneWithCountryCode))
+                    {
+                        <div class="social-item">
+                            <a id="openMultiContactModalPhone" data-type="phone">
+                                <img src="~/ThemeBoldConnect/img/telephone-call.png" alt="Phone">
+                            </a>
+                            <p>Phone</p>
+                        </div>
+                    }
+                    else if (!string.IsNullOrWhiteSpace(Model.Phone))
+                    {
+                        <div class="social-item">
+                            <a href="tel::@Model.Phone" target="_blank">
+                                <img src="~/ThemeBoldConnect/img/telephone-call.png" alt="Phone">
+                            </a>
+                            <p>Phone</p>
+                        </div>
+                    }
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.EmailId))
+                {
+                    <div class="social-item">
+                        <a href="mailto:@Model.EmailId" target="_blank">
+                            <img src="~/ThemeBoldConnect/img/mail.png" alt="Email">
+                        </a>
+                        <p>Email</p>
+                    </div>
+                }
+                @if (!isMapAddressNotExist && !isOfficeMapAddressNotExist)
+                {
+                    <div class="social-item">
+                        <a id="openMultiContactModalLocation" data-type="location">
+                            <img src="~/ThemeBoldConnect/img/logo.png" alt="Address">
+                        </a>
+                        <p>Address</p>
+                    </div>
+                }
+                else if (!isMapAddressNotExist || !isOfficeMapAddressNotExist)
+                {
+                    var existMapAddress = !isMapAddressNotExist ? mapAddress : officeMapAddress;
+
+                    <div class="social-item">
+                        <a href="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=@existMapAddress" target="_blank">
+                            <img src="~/ThemeBoldConnect/img/logo.png" alt="Address">
+                        </a>
+                        <p>Address</p>
+                    </div>
+                }
+                @if (!string.IsNullOrWhiteSpace(ViewBag.WhatsappForLink))
+                {
+                    <div class="social-item">
+                        <a href="https://api.whatsapp.com/send?phone=@ViewBag.WhatsappForLink" target="_blank">
+                            <img src="~/ThemeBoldConnect/img/whatsapp.png" alt="Whatsapp">
+                        </a>
+                        <p>Whatsapp</p>
+                    </div>
+                }
+
+                @{
+                    if (!string.IsNullOrWhiteSpace(ViewBag.Instagram))
+                    {
+                        <div class="social-item">
+                            <a href="@ViewBag.Instagram" target="_blank">
+                                <img src="~/ThemeBoldConnect/img/instagram.png" alt="instagram">
+                            </a>
+                            <p>Instagram</p>
+                        </div>
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(ViewBag.Facebook))
+                    {
+                        <div class="social-item">
+                            <a href="@ViewBag.Facebook" target="_blank">
+                                <img src="~/ThemeBoldConnect/img/facebook.png" alt="Facebook">
+                            </a>
+                            <p>Facebook</p>
+                        </div>
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(ViewBag.LinkedIn))
+                    {
+                        <div class="social-item">
+                            <a href="@ViewBag.LinkedIn" target="_blank">
+                                <img src="~/ThemeBoldConnect/img/linkedin.png" alt="LinkedIn">
+                            </a>
+                            <p>LinkedIn</p>
+                        </div>
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(ViewBag.Twitter))
+                    {
+                        <div class="social-item">
+                            <a href="@ViewBag.Twitter" target="_blank">
+                                <img src="~/ThemeBoldConnect/img/twitter.png" alt="Twitter">
+                            </a>
+                            <p>Twitter</p>
+                        </div>
+                    }
+
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.Website))
+                {
+                    <div class="social-item">
+                        <a href="@ViewBag.ModifiedWebsiteUrl" target="_blank">
+                            <img src="~/ThemeBoldConnect/img/browser.png" alt="Website">
+                        </a>
+                        <p>Website</p>
+                    </div>
+                }
+                @if (!string.IsNullOrWhiteSpace(ViewBag.Youtube))
+                {
+                    <div class="social-item">
+                        <a href="@ViewBag.Youtube" target="_blank">
+                            <img src="~/ThemeBoldConnect/img/youtube.png" alt="YouTube">
+                        </a>
+                        <p>YouTube</p>
+                    </div>
+                }
+                @if (!string.IsNullOrWhiteSpace(ViewBag.Teams))
+                {
+                    <div class="social-item">
+                        <a href="sip:@ViewBag.Teams" target="_blank">
+                            <img src="~/FormAssets/img/Icons/teams.png" alt="Teams">
+                        </a>
+                        <p>Teams</p>
+                    </div>
+                }
+                @if (!string.IsNullOrWhiteSpace(ViewBag.Snapchat))
+                {
+                    <div class="social-item">
+                        <a href="@ViewBag.Snapchat" target="_blank">
+                            <img src="~/ThemeBoldConnect/img/snapchat_square.png" alt="Snapchat">
+                        </a>
+                        <p>Teams</p>
+                    </div>
+                }
+
+            </div>
+
+            <div class="social-icon-align" style="display:none">
+                @if (!string.IsNullOrWhiteSpace(Model.Phone))
+                {
+                    <a href="tel::@Model.Phone" target="_blank" class="social-linkss">
+                        <img src="~/ThemeBoldConnect/img/telephone-call.png" class="ico ico-mg" />
+                        @*<i class="icofont-phone ico ico-mg"></i>*@
+                    </a>
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.Website))
+                {
+                    <a href="@ViewBag.ModifiedWebsiteUrl" target="_blank" class="social-linkss">
+                        <img src="~/ThemeBoldConnect/img/browser.png" class="ico ico-mg" />
+                        @*<i class="icofont-web ico ico-mg"></i>*@
+                    </a>
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.EmailId))
+                {
+                    <a href="mailto:@Model.EmailId" target="_blank" class="social-linkss">
+                        <img src="~/ThemeBoldConnect/img/mail.png" class="ico ico-mg" />
+                        @*<i class="icofont-envelope ico ico-mg"></i>*@
+                    </a>
+                }
+                @if (!string.IsNullOrWhiteSpace(ViewBag.WhatsappForLink))
+                {
+                    <a href="https://api.whatsapp.com/send?phone=@ViewBag.WhatsappForLink" target="_blank" class="social-linkss">
+                        <img src="~/ThemeBoldConnect/img/whatsapp.png" class="ico ico-mg" />
+                        @*<i class="bi-whatsapp ico ico-mg"></i>*@
+                    </a>
+                }
+                @if (!string.IsNullOrWhiteSpace(ViewBag.Youtube))
+                {
+                    <a href="@ViewBag.Youtube" target="_blank" class="social-linkss">
+                        <img src="~/ThemeBoldConnect/img/youtube.png" class="ico ico-mg" />
+                    </a>
+                }
+                @if (!string.IsNullOrWhiteSpace(ViewBag.Teams))
+                {
+                    <a href="sip:@ViewBag.Teams" target="_blank" class="social-linkss">
+                        <img src="~/FormAssets/img/Icons/teams.png" class="ico ico-mg" />
+                    </a>
+                }
+                @if (!string.IsNullOrWhiteSpace(ViewBag.Snapchat))
+                {
+                    <a href="@ViewBag.Snapchat" target="_blank" class="social-linkss">
+                        <img src="~/ThemeBoldConnect/img/snapchat_square.png" class="ico ico-mg" />
+                    </a>
+                }
+                @if (!isMapAddressNotExist && !string.IsNullOrWhiteSpace(mapAddress))
+                {
+                    <a href="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=@mapAddress" target="_blank" class="social-linkss">
+                        <img src="~/ThemeBoldConnect/img/logo.png" class="ico ico-mg" />
+                        @*<i class="icofont-google-map ico ico-mg"></i>*@
+                    </a>
+                }
+
+
+            </div>
+            <div style="float: right; width: 100%; margin-top: 15px;display:none;">
+                <a href="javascript:void(0)" onclick="addtocontactvcard();" class="save-btn">Save Contact</a>
+                <a href="javascript:void(0)" class="share-btn btnShareIt">Share Contact</a>
+            </div>
+        </div>
+    </div>
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about  @((Model.ShowAbout || ViewBag.NoAboutContentWithoutIcons) ? "d-none":"")" style="margin-top:-15px;">
+        <div class="container">
+
+            <div class="section-title">
+                <h2>About Us</h2>
+                @*<span>@ipAddress</span>*@
+            </div>
+
+            <div class="mycard">
+                <p>@Html.Raw(aboutDescription)</p>
+
+                @*for fade effect use this =>   data-aos="fade-left"*@
+                <div class="col-lg-12 pt-4 pt-lg-0 content" style="display:block;">
+                    @{
+                        <div class="row">
+                            @if (ViewBag.IsPortfolioFileExists)
+                            {
+                                <div class="col-lg-3" style="text-align:center;cursor:pointer;">
+                                    <a class="underline d-flex" title="Portfolio" id="btnViewPortfolio" data-path="@Url.Content(Model.PortfolioLink)">
+                                        <div class="lds-dual-ring-blue"></div> <img src="~/FormAssets/img/button-portfolio.png" width="100%" alt="View Portfolio" />
+                                        @*<br />View Portfolio*@
+                                    </a>
+                                </div>
+                            }
+                            @if (ViewBag.IsResumeFileExists)
+                            {
+                                <div class="col-lg-3" style="text-align:center;cursor:pointer;">
+                                    <a class="underline d-flex" title="Resume" id="btnViewResume" data-path="@Url.Content(Model.ResumeLink)">
+                                        <div class="lds-dual-ring-blue"></div> <img src="~/FormAssets/img/button-resume.png" width="100%" alt="Resume" />
+                                        @*<br />View Resume*@
+                                    </a>
+                                </div>
+                            }
+                            @if (ViewBag.IsServicesFileExists)
+                            {
+                                <div class="col-lg-3" style="text-align:center;cursor:pointer;">
+                                    <a class="underline d-flex" title="Service Catalogue" id="btnViewService" data-path="@Url.Content(Model.ServicesLink)">
+                                        <div class="lds-dual-ring-blue"></div> <img src="~/FormAssets/img/button-service.png" width="100%" alt="Service Catalogue" />
+                                        @*<br />Service Catalogue*@
+                                    </a>
+                                </div>
+                            }
+                            @if (ViewBag.IsMenuLinkExists)
+                            {
+                                <div class="col-lg-3" style="text-align:center;cursor:pointer;">
+                                    <a class="underline d-flex" title="Menu Link" id="btnViewMenuLink" data-path="@Url.Content(Model.MenuLink)">
+                                        <div class="lds-dual-ring-blue"></div> <img src="~/FormAssets/img/button-menu.png" width="100%" alt="Menu" />
+                                        @*<br />Menu*@
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    }
+                    <div class="row" style="display:none;">
+                        <div class="col-lg-12 mt-2">
+                            <div class="social-icon-align d-flex justify-content-start">
+                                @if (!string.IsNullOrWhiteSpace(ViewBag.WhatsappForLink))
+                                {
+                                    <a href="https://api.whatsapp.com/send?phone=@ViewBag.WhatsappForLink" target="_blank" class="social-linkss">
+                                        <img src="~/FormAssets/img/Icons/whatsapp-avi.png" class="ico ico-mg" />
+                                        @*<i class="bi-whatsapp ico"></i>*@
+                                    </a>
+                                }
+
+
+                                @{
+                                    if (!string.IsNullOrWhiteSpace(ViewBag.LinkedIn))
+                                    {
+                                        <a href="@ViewBag.LinkedIn" target="_blank" class="social-linkss">
+                                            <img src="~/FormAssets/img/Icons/linkedin.png" class="ico ico-mg" />
+                                            @*<i class="icofont-linkedin ico"></i>*@
+                                        </a>
+                                    }
+                                    if (!string.IsNullOrWhiteSpace(ViewBag.Twitter))
+                                    {
+                                        <a href="@ViewBag.Twitter" target="_blank" class="social-linkss">
+                                            <img src="~/FormAssets/img/Icons/twitter.png" class="ico ico-mg" />
+                                            @*<i class="icofont-twitter ico"></i>*@
+                                        </a>
+                                    }
+                                    if (!string.IsNullOrWhiteSpace(ViewBag.Facebook))
+                                    {
+                                        <a href="@ViewBag.Facebook" target="_blank" class="social-linkss">
+                                            <img src="~/FormAssets/img/Icons/facebook.png" class="ico ico-mg" />
+                                            @*<i class="icofont-facebook ico"></i>*@
+                                        </a>
+                                    }
+                                    if (!string.IsNullOrWhiteSpace(ViewBag.Instagram))
+                                    {
+                                        <a href="@ViewBag.Instagram" target="_blank" class="social-linkss">
+                                            <img src="~/FormAssets/img/Icons/instagram.png" class="ico ico-mg" />
+                                            @*<i class="icofont-instagram ico"></i>*@
+                                        </a>
+                                    }
+                                    if (!string.IsNullOrWhiteSpace(ViewBag.Skype))
+                                    {
+                                        <a href="@ViewBag.Skype" target="_blank" class="social-linkss">
+                                            <img src="~/FormAssets/img/Icons/google.png" class="ico ico-mg" />
+                                        </a>
+                                    }
+                                    if (!string.IsNullOrWhiteSpace(ViewBag.Youtube))
+                                    {
+                                        <a href="@ViewBag.Youtube" target="_blank" class="social-linkss">
+                                            <img src="~/FormAssets/img/Icons/youtube.png" class="ico ico-mg" />
+                                        </a>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ======= Skills Section ======= -->
+    @if (Model.ShowSkill == false && !isSkillsNotAvailable)
+    {
+        <section id="skills" class="skills">
+            <div class="container">
+                @*@(Model.ShowSkill ? "d-none" : "")*@
+                <div class="section-title">
+                    <h2>Services / Skills / Specializations  / Products</h2>
+                    @*<p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>*@
+                </div>
+
+                <div class="row skills-content mycard">
+
+                    <div class="col-lg-6">
+
+                        @if (Model.SkillName1.NullToString() != "")
+                        {
+                            <div class="progress">
+                                <span class="skill">
+                                    @Model.SkillName1
+                                    @*<i class="val">@Model.KnowledgePercent1 %</i>*@
+                                </span>
+                                <div class="progress-bar-wrap">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="@(Model.KnowledgePercent1)" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>}
+                        @if (Model.SkillName3.NullToString() != "")
+                        {
+                            <div class="progress">
+                                <span class="skill">
+                                    @Model.SkillName3
+                                    @*<i class="val">@Model.KnowledgePercent3 %</i>*@
+                                </span>
+                                <div class="progress-bar-wrap">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="@(Model.KnowledgePercent3)" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>}
+
+                        @if (Model.SkillName5.NullToString() != "")
+                        {
+                            <div class="progress">
+                                <span class="skill">
+                                    @Model.SkillName5
+                                    @*<i class="val">@Model.KnowledgePercent5 %</i>*@
+                                </span>
+                                <div class="progress-bar-wrap">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="@(Model.KnowledgePercent5)" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>}
+                    </div>
+
+                    <div class="col-lg-6">
+                        @if (Model.SkillName2.NullToString() != "")
+                        {
+                            <div class="progress">
+                                <span class="skill">
+                                    @Model.SkillName2
+                                    @*<i class="val">@Model.KnowledgePercent2 %</i>*@
+                                </span>
+                                <div class="progress-bar-wrap">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="@(Model.KnowledgePercent2)" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>}
+                        @if (Model.SkillName4.NullToString() != "")
+                        {
+                            <div class="progress">
+                                <span class="skill">
+                                    @Model.SkillName4
+                                    @*<i class="val">@Model.KnowledgePercent4 %</i>*@
+                                </span>
+                                <div class="progress-bar-wrap">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="@(Model.KnowledgePercent4)" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>}
+                        @if (Model.SkillName6.NullToString() != "")
+                        {
+                            <div class="progress">
+                                <span class="skill">
+                                    @Model.SkillName6
+                                    @*<i class="val">@Model.KnowledgePercent6 %</i>*@
+                                </span>
+                                <div class="progress-bar-wrap">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="@(Model.KnowledgePercent6)" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>}
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+    }
+    <!-- End Skills Section -->
+
+    @if (Model.HideGallery == false && ViewBag.HasGalleryImages)
+    {
+        <section id="portfolioGallery" class="imagesliders">
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>Image Gallery</h2>
+                </div>
+                <div class="mycard">
+                    <div class="imagesliders-slider swiper-container">
+                        <div class="swiper-wrapper">
+                            @Html.Partial("_portfolioImagesReadOnly", Model)
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    @if (Model.HideTestimonial == false && ViewBag.ShowTestimonial)
+    {
+        @Html.Partial("_clientTestimonialReadOnly", Model.UserID)
+    }
+
+
+    <!-- ======= Experience Section ======= -->
+    @if (Model.ShowExperience == false && ViewBag.IsExperienceAvailable)
+    {
+        <section id="experience" class="resume">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Experience</h2>
+                    @*<p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>*@
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        @Html.Partial("_professionalReadOnly", Model.UserID)
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+    <!-- End experience Section -->
+
+    <!-- ======= Education Section ======= -->
+
+    @if (Model.ShowEducation == false && ViewBag.IsEducationListAvailable)
+    {
+        <section id="education" class="resume">
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>Education</h2>
+                    @*<p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>*@
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        @Html.Partial("_educationReadOnly", Model.UserID)
+                    </div>
+
+
+                </div>
+            </div>
+
+        </section>
+    }
+
+    <!-- End Education Section -->
+
+    @if (ViewBag.ShowCertifications)
+    {
+        <section id="userCertification" class="resume">
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>Awards / Certification / Training / Board Memberships</h2>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        @Html.Partial("_userCertificationReadonly", Model.UserID)
+                    </div>
+
+
+                </div>
+            </div>
+
+        </section>
+    }
+    <!-- End user certification Section -->
+
+    @if (Model.HideTeam == false && ViewBag.HasTeam)
+    {
+
+        <section id="Team" class="myteams">
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>My Team</h2>
+                </div>
+                <div class="mycard">
+                    <!-- Testimonial Start -->
+                    <div class="testimonial">
+                        <div class="container">
+                            <div class="owl-carousel testimonials-carousel">
+                                @Html.Partial("_teamImagesReadonly", Model.UserID)
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    @if (Model.HideYouTube == false && ViewBag.IsYoutubeListAvailable)
+    {
+        <section id="youtube" class="myteams">
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>Videos</h2> @*<a onclick="stopvedio();">stop vedio</a>*@
+                </div>
+                <div class="mycard">
+                    @*for fade effect use this => data-aos="fade-up"
+                        and for fade effect delay use this => data-aos-delay="200"*@
+                    <div class="myyoutubes-slider swiper-container">
+                        <div class="swiper-wrapper">
+                            @Html.Partial("_youtubeListReadOnly", Model.UserID)
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    @if (ViewBag.IsPaymentQrAvailable)
+    {
+        <section id="payment" class="resume">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Payment QR</h2>
+
+                </div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 col-lg-4">
+                            @*animate class for card "payment-card"*@
+                            <div class="card h-100 mycard rounded-4 text-center p-4">
+                                <div class="card-body">
+                                    <div class="payment-icon mb-3">
+                                        <i class="bi bi-credit-card-2-front fs-1 text-primary"></i>
+                                    </div>
+                                    <h3 class="card-title fw-bold mb-2" style="color: #6c757d;">@ViewBag.PayeeName</h3>
+                                    <!-- <p class="text-muted">UPI ID: johndoe@upi</p> -->
+                                    <div class="qr-container mb-4">
+                                        <img id="paymentImgQrCode" src="@ViewBag.QrImage" alt="UPI QR Code" class="img-fluid rounded">
+                                        <p class="text-muted" style="margin-bottom: 0;">UPI ID: @ViewBag.UPIID</p>
+                                    </div>
+                                    <p class="text-muted fst-italic">
+                                        <i class="bi bi-qr-code me-2"></i>
+                                        Scan to pay with any UPI app
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    @if (Model.HideBlog == false && ViewBag.HasBlogs)
+    {
+        <section id="blog" class="resume">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Blogs</h2>
+                    @*<p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>*@
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        @Html.Partial("_blogListReadOnly", Model.UserID)
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    <!-- End About Section -->
+    <!-- End Personal detail Section -->
+
+    @if (ViewBag.IsAnyWeekDayOpen)
+    {
+        <section id="meeting" class="resume">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Meeting Request</h2>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="mycard">
+                            <div class="form-group">
+                                <label for="name" style="color:white;">Note : Click green colored date to send meeting request.</label>
+                            </div>
+                            <div id="calendar"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12" id="meetingFormModelContainer"></div>
+                </div>
+            </div>
+        </section>
+    }
+
+
+    <!-- End Personal detail Section -->
+    <!-- ======= Services Section ======= -->
+    @*<section id="social" class="services">
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>Social</h2>
+
+                </div>
+
+                <div class="row">
+                    @if (!string.IsNullOrWhiteSpace(linkedIn))
+                    {
+                        <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up">
+                            <div class="icon"><i class="icofont-computer"></i></div>
+                            <h4 class="title"><a href="@linkedIn" target="_blank">LinkedIn</a></h4>
+                        </div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Twitter))
+                    {
+                        <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="100">
+                            <div class="icon"><i class="icofont-chart-bar-graph"></i></div>
+                            <h4 class="title"><a href="@Twitter" target="_blank">Twitter</a></h4>
+                        </div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Facebook))
+                    {
+                        <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
+                            <div class="icon"><i class="icofont-earth"></i></div>
+                            <h4 class="title"><a href="@Facebook" target="_blank">Facebook</a></h4>
+                        </div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Instagram))
+                    {
+                        <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="300">
+                            <div class="icon"><i class="icofont-image"></i></div>
+                            <h4 class="title"><a href="@Instagram" target="_blank">Instagram</a></h4>
+                        </div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Skype))
+                    {
+                        <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="400">
+                            <div class="icon"><i class="icofont-settings"></i></div>
+                            <h4 class="title"><a href="@Skype" target="_blank">Skype</a></h4>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </section>*@
+
+    @*<section id="services" class="services">
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>Services</h2>
+                    <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up">
+                        <div class="icon"><i class="icofont-computer"></i></div>
+                        <h4 class="title"><a href="">Lorem Ipsum</a></h4>
+                        <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+                    </div>
+                    <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="100">
+                        <div class="icon"><i class="icofont-chart-bar-graph"></i></div>
+                        <h4 class="title"><a href="">Dolor Sitema</a></h4>
+                        <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
+                    </div>
+                    <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
+                        <div class="icon"><i class="icofont-earth"></i></div>
+                        <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>
+                        <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
+                    </div>
+                    <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="300">
+                        <div class="icon"><i class="icofont-image"></i></div>
+                        <h4 class="title"><a href="">Magni Dolores</a></h4>
+                        <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                    </div>
+                    <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="400">
+                        <div class="icon"><i class="icofont-settings"></i></div>
+                        <h4 class="title"><a href="">Nemo Enim</a></h4>
+                        <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
+                    </div>
+                    <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="500">
+                        <div class="icon"><i class="icofont-tasks-alt"></i></div>
+                        <h4 class="title"><a href="">Eiusmod Tempor</a></h4>
+                        <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>
+                    </div>
+                </div>
+
+            </div>
+        </section> End Services Section*@
+    <!-- ======= Contact Section ======= -->
+
+
+    <section id="contact" class="contact">
+        <div class="container">
+
+            <div class="section-title">
+                <h2>Contact Us</h2>
+                @*<p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>*@
+            </div>
+
+            <div class="row">
+
+
+                <div class="col-lg-12 mt-lg-0 d-flex align-items-stretch">
+                    @using (Html.BeginForm("SendContactEmail", "Users", FormMethod.Post, new { id = "SendContactEmailForm", @class = "php-email-form", @enctype = "multipart/form-data" }))
+                    {
+                        <input type="hidden" value="@Model.UserID" id="UserID" name="UserID" />
+                        <input type="hidden" value="2" id="LeadTypeId" name="LeadTypeId" />
+                        <input type="hidden" value="@Model.EmailId" id="personalEmail" name="personalEmail" />
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="Name"><span class="required">*</span>Your Name</label>
+                                <input type="text" name="Name" class="form-control" id="Name" />
+                                <div class="validate"></div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="Email"><span class="required">*</span>Your Email</label>
+                                <input type="email" class="form-control" name="Email" id="Email" />
+                                <div class="validate"></div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="PhoneNo"><span class="required">*</span>Country Code</label>
+                                @Html.DropDownList("CountryCode", ViewBag.CountryList as List<SelectListItem>, "Select Country Code", new { @class = "form-control", @id = "ddlCountryCode" })
+                                <div class="validate"></div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="PhoneNo"><span class="required">*</span>Your Phone</label>
+                                <input type="number" name="PhoneNo" class="form-control" id="PhoneNo" />
+                                <div class="validate"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Message"><span class="required">*</span>Message</label>
+                            <textarea class="form-control" id="Message" name="Message" rows="10"></textarea>
+                            <div class="validate"></div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <input type="hidden" name="pageName" id="pageName" value="Home" />
+                            <div id="grecaptchaProfileContact"></div>
+                            <input type="hidden" name="hdngrecaptchaResponseProfileContactForm" id="hdngrecaptchaResponseProfileContactForm" value="" />
+                        </div>
+
+                        <input type="hidden" name="pageName" id="pageName" value="profile" />
+
+                        <div class="mb-3">
+                            <div class="loading">Loading</div>
+                            <div class="error-message"></div>
+                            <div class="sent-message">Your message has been sent. Thank you!</div>
+                        </div>
+                        <div class="text-center"><button class="share-btn" type="submit"><div class="lds-dual-ring"></div>&nbsp;Send Message</button></div>
+
+                    }
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Contact Section -->
+
+
+    @if (ViewBag.IsProfileOwner && ViewBag.TotalLeads > 0)
+    {
+        <section id="leads" class="resume">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Leads</h2>
+                </div>
+
+                <div class="row mycard">
+                    <div class="col-lg-12">
+                        @Html.Partial("_userLeadsReadOnly", Model.UserID)
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+
+    <div class="container text-center">
+        <p style="width: 85%; text-align: left; float: left;"><a href="/signup?code=@ViewBag.ReferalCode" class="text-primary pointer"><strong style="text-decoration: underline;">Click here</strong></a> to sign up with my referral on BharatTouch.com to get <span style="font-weight: bold;color: orange;">5% discount</span> & your own mini website along with a physical NFC & QR-enabled card!</p>
+    </div>
+
+
+
+    <div class="modal fade" id="multipleContactModal" tabindex="-1" aria-labelledby="multipleContactModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-black-50" id="multipleContactModalLabel"><span id="multipleModalTitle"></span><span>: @fullName</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="multipleModelPhoneContainer">
+                        @{
+                            if (!string.IsNullOrWhiteSpace(Model.Phone))
+                            {
+                                <a href="tel::@PhoneWithCountryCode" target="_blank" class="btn btn-block bg-info text-white">
+                                    <i class="icofont-phone"></i>&nbsp; @PhoneWithCountryCode
+                                </a>
+                            }
+                            if (!string.IsNullOrWhiteSpace(Model.WorkPhone))
+                            {
+                                <a href="tel::@WorkPhoneWithCountryCode" target="_blank" class="btn btn-block bg-warning text-white">
+                                    <i class="icofont-phone"></i>&nbsp; @WorkPhoneWithCountryCode
+                                </a>
+                            }
+                            if (!string.IsNullOrWhiteSpace(Model.OtherPhone))
+                            {
+                                <a href="tel::@OtherPhoneWithCountryCode" target="_blank" class="btn btn-block bg-success text-white">
+                                    <i class="icofont-phone"></i>&nbsp; @OtherPhoneWithCountryCode
+                                </a>
+                            }
+                        }
+                    </div>
+
+                    <div id="multipleModelLocationContainer">
+                        @{
+                            if (!isMapAddressNotExist && !string.IsNullOrWhiteSpace(mapAddress))
+                            {
+                                <a href="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=@mapAddress" target="_blank" class="btn btn-block text-white bg-info">
+                                    <i class="icofont-google-map"></i>&nbsp; Address
+                                </a>
+                            }
+                            if (!isOfficeMapAddressNotExist && !string.IsNullOrWhiteSpace(officeMapAddress))
+                            {
+                                <a href="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=@officeMapAddress" target="_blank" class="btn btn-block text-white bg-warning">
+                                    <i class="icofont-google-map"></i>&nbsp; Office Address
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="deleteModel" tabindex="-1" aria-labelledby="deleteModelLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModelLabel">Confirm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label class="text-danger">Are you sure you want to delete?</label>
+
+                    <div class="d-none" id="deleteModelData"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="btnDeleteModel" class="btn btn-danger"> <div class="lds-dual-ring"></div>&nbsp;Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <input type="hidden" id="hdnUrlCode" value="@ViewBag.ProfileCode" /> @*UserUrlCode*@
+    <input type="hidden" id="hdnIpAddress" value="@ViewBag.IPAddress" /> @*ipAddress*@
+    <input type="hidden" id="hdnbrowserName" value="@ViewBag.BrowserName" />  @*browserName*@
+    <input type="hidden" id="hdnbrowserVersion" value="@ViewBag.BrowserVersion" />
+    <input type="hidden" id="hdnbrowserPlateForm" value="@ViewBag.BrowserPlatform" />
+    <input type="hidden" id="hdnProfileOwnerUserId" value="@ViewBag.ProfileOwnerId" />@*user.UserId*@
+    <input type="hidden" id="hdnUserGoogleAccessToken" value="@ViewBag.GoogleAccessToken" />@*googleAccessToken*@
+    <input type="hidden" id="hdnUserMicrosoftAccessToken" value="@ViewBag.MicrosoftAccessToken" />@*microsoftAccessToken*@
+    <input type="hidden" id="hdnLoogClientTestimonial" value="@ViewBag.LoopClientTestimonial" />@*loopClientTestimonial*@
+
+</main>
+
+
+
+@section scripts{
+    <script src="~/Content/javascripts/vcard.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.7.570/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.7.570/pdf.worker.min.js"></script>
+    @*<script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>*@
+    <script src="~/Content/page-scripts/Profile/Index.js?v=@DateTime.Now.ToString("yyyyMMddHHmmssf")"></script>
+    <script type="text/javascript">
+
+        var ProfileForm = new ProfileForm();
+        ProfileForm.getScheduleOpenDaysUrl = "@Url.Action("GetAllScheduleOpenDays", "Users")";
+        ProfileForm.getMeetingRequestModelUrl = "@Url.Action("MeetingRequestModelForProfile", "Users")";
+        ProfileForm.captchaSiteKey = "@ViewBag.CaptchaSiteKey";
+        ProfileForm.openUpiAppUrl = "upi://pay?pa=@ViewBag.UPIID&pn=@ViewBag.PayeeName&cu=INR";
+        ProfileForm.googleApiKey = "@ConfigValues.GoogleApiKey";
+        ProfileForm.init();
+
+        async function fetchImageAsBase64(imageUrl) {
+            const response = await fetch(imageUrl);
+            const blob = await response.blob();
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result.split(',')[1]);
+                reader.readAsDataURL(blob);
+            });
+        }
+       async function addtocontactvcard() {
+          // Static test data
+          const firstName = "@Model.FirstName";
+          const lastName = "@Model.LastName";
+          const title = "@Model.Title";
+          const phone = "@ViewBag.WhatsappWithCountryCode";
+          const email = "@Model.EmailId";
+          const org = "@Model.Company";
+          const street ="@Html.Raw(HttpUtility.HtmlDecode(Model.Address1.NullToString()))";
+          const city = "@Model.City";
+          const state = "@Model.StateName";
+          const postal = "@Model.Zip";
+          const country = "@Model.Country";
+          const url = "@ViewBag.WebUrl@ViewBag.ProfileCode";// "@@profileUrl";
+
+          // Static base64 image (1x1 pixel red dot PNG)
+          const base64Photo = await fetchImageAsBase64("@Model.ProfileImage");
+           const mimeType = "PNG";
+           const phone_home = "@ViewBag.PhoneNumberWithCountryCode";
+           var fullVcardName = firstName + " " + lastName + " " + org + " " + city;
+
+      // Build vCard content
+      const vCard = `BEGIN:VCARD
+VERSION:3.0
+N:${ org + " " + city};${firstName + " " + lastName};;;
+FN:${fullVcardName}
+ORG:${org }
+TEL;TYPE=CELL,VOICE:${phone}
+TEL;TYPE=HOME,VOICE:${phone_home}
+EMAIL;TYPE=WORK:${email}
+ADR;TYPE=WORK:;;${street};${city};${state};${postal};${country}
+URL:${url}
+PHOTO;ENCODING=b;TYPE=${mimeType}:${formatBase64(base64Photo)}
+END:VCARD`;
+          // Create downloadable file
+          const blob = new Blob([vCard], { type: 'text/vcard;charset=utf-8' });
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = "@fullName" + ".vcf";
+          link.click();
+        }
+
+        function formatBase64(data) {
+          return data.match(/.{1,75}/g).join('\r\n ');
+        }
+
+        /**
+* imagesliders slider
+*/
+
+
+
+        $(document).ready(function () {
+            new Swiper('.imagesliders-slider', {
+                speed: 600,
+                loop: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: true
+                },
+                slidesPerView: 1,
+                spaceBetween: 10,
+                pagination: {
+                    el: '.swiper-pagination',
+                    type: 'bullets',
+                    clickable: true
+                },
+                effect: 'fade',
+                fadeEffect: {
+                    crossFade: true
+                }
+            });
+
+            new Swiper('.myteams-slider', {
+                speed: 600,
+                loop: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: true
+                },
+                slidesPerView: 1,
+                spaceBetween: 10,
+                pagination: {
+                    el: '.swiper-pagination',
+                    type: 'bullets',
+                    clickable: true
+                },
+                effect: 'fade',
+                fadeEffect: {
+                    crossFade: true
+                }
+            });
+
+            new Swiper('.myyoutubes-slider', {
+                speed: 600,
+                loop: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: true
+                },
+                slidesPerView: 1,
+                spaceBetween: 10,
+                pagination: {
+                    el: '.swiper-pagination',
+                    type: 'bullets',
+                    clickable: true
+                },
+                effect: 'fade',
+                fadeEffect: {
+                    crossFade: true
+                }
+            });
+
+            //new Swiper('.myteams-slider', {
+            //    speed: 600,
+            //    loop: true,
+            //    autoplay: {
+            //        delay: 5000,
+            //        disableOnInteraction: false
+            //    },
+            //    slidesPerView: 'auto',
+            //    pagination: {
+            //        el: '.swiper-pagination',
+            //        type: 'bullets',
+            //        clickable: true
+            //    },
+            //    breakpoints: {
+            //        320: {
+            //            slidesPerView: 1,
+            //            spaceBetween: 40
+            //        },
+
+            //        1200: {
+            //            slidesPerView: 3,
+            //        }
+            //    }
+            //});
+
+            //new Swiper('.myyoutubes-slider', {
+            //    speed: 600,
+            //    loop: true,
+            //    //autoplay: {
+            //    //    delay: 5000,
+            //    //    disableOnInteraction: false
+            //    //},
+            //    slidesPerView: 'auto',
+            //    pagination: {
+            //        el: '.swiper-pagination',
+            //        type: 'bullets',
+            //        clickable: true
+            //    },
+            //    breakpoints: {
+            //        320: {
+            //            slidesPerView: 1,
+            //            spaceBetween: 40
+            //        },
+
+            //        1200: {
+            //            slidesPerView: 3,
+            //        }
+            //    }
+            //});
+
+        });
+
+        //function stopvedio() {
+        //    alert("asas");
+        //    $(".stop-youtube-video").each(function (index) {
+        //        var videoURL = $(this).prop('src');
+        //        videoURL = videoURL.replace("&autoplay=1", "");
+        //        $(this).prop('src', '');
+        //        $(this).prop('src', videoURL);
+        //    });
+        //}
+
+        // Testimonials carousel
+        $(".testimonials-carousel").owlCarousel({
+            autoplay: true,
+            dots: true,
+            loop: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                576: {
+                    items: 1
+                },
+                768: {
+                    items: 2
+                },
+                992: {
+                    items: 3
+                }
+            }
+        });
+
+    </script>
+}
+
+

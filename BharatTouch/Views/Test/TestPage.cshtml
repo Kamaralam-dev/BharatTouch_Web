@@ -1,0 +1,109 @@
+﻿@model BharatTouch.Controllers.PaymentOrderResponse
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TestPage</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <div>
+        <h1>Hello world</h1>
+
+        @if (Model.Error != null)
+        {
+            <div style="color:red">@Model.Error</div>
+            return;
+        }
+
+        <div>
+            <p>Product Name: Sample Product</p>
+            <p>Price: ₹ @(Model.Amount / 100)</p>
+            <button id="rzp-button1">Pay</button>
+        </div>
+    </div>
+    <script>
+        var options = {
+            "key": "rzp_test_SZItrD86m81mu1", // Replace with your Key ID
+            //"amount": "20000", // Amount in paise      according to docs its mandatory but i think its optional
+            "currency": "INR",
+            "order_id": "@Model.OrderId",
+            "name": "Bharat Touch Testing Page",
+            "description": "NFC Order",       // Optional
+            "image": "path/to/your/logo.png", // Optional path to your logo
+            "handler": function (response) {
+                console.log('handler response', response);
+                debugger
+                $.ajax({
+                    url: '/Test/VerifyPayment', // Your payment verification URL
+                    type: 'POST',
+                    dataType: 'json',
+                    data: response,
+                    success: function (data) {
+                        console.log(data);
+                        debugger
+                        if(data.success){
+                            alert("payment successful");
+                        } else {
+                           alert("payment failed: " + data.error) ;
+                        }
+                    },
+
+                    error: function (xhr, status, error) {
+                        debugger
+                        console.log("xhr Error Response", xhr);
+                        console.log("status Error Response", status);
+                        console.log("error Error Response", error);
+
+                        var err = eval("(" + xhr.responseText + ")");
+                        alert(err.Message);
+                    }
+
+                });
+            },
+            "prefill": {
+                "name": "",
+                "email": "",
+                "contact": ""
+            },
+            "theme": {
+                "color": "#F3722C"
+            }
+        };
+
+         var rzp1 = new Razorpay(options);
+
+          document.getElementById('rzp-button1').onclick = function(e){
+              rzp1.open();
+              e.preventDefault();
+         }
+
+
+        rzp1.on('payment.failed', function (response) {
+            debugger
+            console.log("Complete PaymentFailed Error", response);
+            console.log("payment.failed error", response.error.code);
+            console.log("payment.failed error", response.error.description);
+            console.log("payment.failed error", response.error.source);
+            console.log("payment.failed error", response.error.step);
+            console.log("payment.failed error", response.error.reason);
+            console.log("payment.failed error", response.error.metadata.order_id);
+            console.log("payment.failed error", response.error.metadata.payment_id);
+            console.log("payment.failed error", response.error.code); //or whatever you want to do
+            alert(response.error.description);
+        });
+
+
+    </script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,328 @@
+﻿
+
+
+
+@model DataAccess.ViewModels.BT_BlogViewModel
+@{
+    var filePath = System.Configuration.ConfigurationManager.AppSettings["ImagePath"];
+    bool isAct;
+    if (Model.BlogId == 0)
+    {
+        isAct = true;
+    }
+    else
+    {
+        isAct = Model.IsActive;
+    }
+}
+
+@using (Html.BeginForm("SaveOrUpdateBT_Blog", "Admin", FormMethod.Post, new { id = "bt_BlogForm", @class = "row g-3 needs-validation", enctype = "multipart/form-data" }))
+{
+    <div class="col-md-12">
+        <label for="BlogTitle" class="form-label"><span style="color:red;">*</span> Title</label>
+        @Html.TextBoxFor(t => t.BlogTitle, new { @class = "form-control", @placeholder = "BlogTitle", @required = "true" })
+    </div>
+
+    <div class="col-md-12">
+        <label for="BlogTagLine" class="form-label"><span style="color:red;">*</span> TagLine</label>
+        @Html.TextBoxFor(t => t.BlogTagLine, new { @class = "form-control", @placeholder = "BlogTagLine" })
+    </div>
+
+    <div class="col-md-12">
+        <label for="BlogKeywords" class="form-label"><span style="color:red;">*</span> Keywords</label>
+        @Html.TextBoxFor(t => t.BlogKeywords, new { @class = "form-control", @placeholder = "BlogKeywords" })
+    </div>
+
+    <div class="col-md-12">
+        <label for="BlogDescription" class="form-label"><span style="color:red;">*</span> Description</label>
+        @Html.TextAreaFor(t => t.BlogDescription, new { @class = "form-control", @placeholder = "", @id = "BlogDescription", @rows = "10", @required = "" })
+    </div>
+
+    @*<div class="col-md-12">
+            <label for="BlogImage" class="form-label"><span style="color:red;">*</span> Image</label>
+            @Html.TextBoxFor(t => t.BlogImage, new { @class = "form-control", @type = "file", required = Model.BlogId == 0 ? "required" : null })
+        <label style="color:red;">Only JPG, JPEG, and PNG files are allowed.</label>
+        </div>*@
+    <div class="col-md-12">
+        <label for="BlogImage" class="form-label">
+            <span style="color:red;">*</span> Image
+        </label>
+
+        @Html.TextBoxFor(t => t.BlogImage, new
+        {
+            @class = "form-control",
+            @type = "file",
+            @id = "BlogImage",
+            required = Model.BlogId == 0 ? "required" : null,
+            accept = ".jpg,.jpeg,.png"
+        })
+
+        <label class="form-text text-muted" style="color:red;">
+            Only JPG, JPEG, and PNG files are allowed.
+        </label>
+
+        <small id="fileError" class="text-danger" style="display:none;"></small>
+    </div>
+
+
+    <div class="col-md-6">
+        <label for="IsActive" class="form-label"> IsActive</label>
+        @Html.CheckBox("IsActive", @isAct)
+    </div>
+
+    <div class="col-md-12 mb-3 text-center">
+        <img id="blogLogoPreview" src="#" alt="User Logo Preview" style="max-width: 330px; height: auto; display: none;" />
+    </div>
+
+
+
+    if (Model.BlogId > 0 && !string.IsNullOrEmpty(Model.BlogImage))
+    {
+        <div class="container d-flex align-items-center">
+            @{
+                var imgSrc = Model.BlogImage + "?v = " + DateTime.Now.Ticks;
+                if (imgSrc != null)
+                {
+                    <img src='@imgSrc' id="existingBlogLogo" alt="logo" style="max-width: 130px; height: auto; margin-right: 10px;" />
+                }
+            }
+            <button type="button" class="btn btn-danger btn-sm" onclick="deleteBlogLogo(@Model.BlogId)" id="deleteBlogLogoBtn">Delete</button>
+        </div>
+    }
+
+
+    <div class="col-md-12">
+        <input type="hidden" id="BlogId" name="BlogId" value="@Model.BlogId" />
+    </div>
+}
+
+<style>
+    /* Ye style sabhi CKEditor instances par apply hoga */
+    .ck-editor__editable {
+        min-height: 300px;
+    }
+</style>
+
+<script>
+    var aboutEditor = "";
+    //$(document).ready(function () {
+
+    //    $("#BlogImage").change(function () {
+    //        previewBlogLogo(this);
+    //    });
+
+    //    ClassicEditor
+    //        .create(document.querySelector('#BlogDescription'))
+    //        .then(editor => {
+    //            aboutEditor = editor;
+    //            editor.ui.view.editable.element.style.height = '300px;';
+    //            console.log('CKEditor 5 is ready.');
+    //        })
+    //        .catch(error => {
+    //            console.error('There was an error initializing CKEditor 5:', error);
+    //        });
+
+
+
+    //});
+
+
+    $(document).ready(function () {
+
+        ClassicEditor
+            .create(document.querySelector('#BlogDescription'))
+            .then(editor => {
+                aboutEditor = editor;
+
+                editor.model.document.on('change:data', () => {
+                    $('#BlogDescription').val(editor.getData());
+
+                    $("#bt_BlogForm").validate().element("#BlogDescription");
+                });
+
+                console.log('CKEditor 5 is ready.');
+            })
+            .catch(error => {
+                console.error('Error initializing CKEditor 5:', error);
+            });
+
+
+        $.validator.addMethod("ckeditor_required", function (value, element) {
+            // This now checks the updated textarea value, so it's simpler
+            return $(element).val().trim().length > 0;
+        }, "Please enter a description.");
+
+        $("#bt_BlogForm").validate({
+            ignore: [],
+            rules: {
+                BlogTitle: { required: true },
+                BlogTagLine: { required: true },
+                BlogKeywords: { required: true },
+                BlogDescription: { ckeditor_required: true },
+                BlogImage: {
+                    required: function () {
+                        return $("#BlogId").val() == "0";
+                    }
+                }
+            },
+            messages: {
+                BlogTitle: "Please enter a title.",
+                BlogTagLine: "Please enter a tagLine.",
+                BlogKeywords: "Please enter a keywords.",
+                BlogImage: "Please upload an image."
+            },
+            errorPlacement: function (error, element) {
+                if (element.attr("name") == "BlogDescription") {
+                    error.insertAfter(element.next('.ck-editor'));
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            submitHandler: function (form) {
+                debugger;
+                var f = $(form);
+                var formData = new FormData();
+                var isActive = $("#IsActive").prop("checked");
+                var BlogTitle = $("#BlogTitle").val();
+                var BlogTagLine = $("#BlogTagLine").val();
+                var BlogKeywords = $("#BlogKeywords").val();
+                //  var BlogDescription = $("#BlogDescription").val();
+                var BlogId = $("#BlogId").val();
+
+                var files = $("#BlogImage").get(0).files;
+
+                if (files.length > 0) {
+                    for (var i = 0; i < files.length; i++) {
+                        formData.append("BlogImage", files[i]);
+                    }
+                }
+
+                const editorData = aboutEditor.getData();
+
+                formData.append("BlogTitle", BlogTitle);
+                formData.append("BlogTagLine", BlogTagLine);
+                formData.append("BlogKeywords", BlogKeywords);
+                formData.append("BlogId", BlogId);
+                formData.append("IsActive", isActive);
+                formData.append("BlogDescription", editorData);
+
+                var $btn = $("#modalPrimaryButton");
+                var $spinner = $("#modalLoader");
+
+                $spinner.removeClass("d-none"); // Show loader
+                $btn.prop("disabled", true);
+
+                $.ajax({
+                    type: f.attr("method"),
+                    url: f.attr("action"),
+                    data: formData,
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    success: function (data, strStatus) {
+                        showMessage((data.Success ? "Success" : "Failed"), data.Data, data.Type);
+                        $spinner.addClass("d-none");
+                        $btn.prop("disabled", false);
+                        debugger;
+                        if (data.Success) {
+                            $('#ModaladdEditBlog').modal('hide');
+                            $('#tableBlog_Admin').DataTable().ajax.reload();
+
+                            var blogId = $("#BlogId").val();
+                            var timestamp = new Date().getTime();
+                            var newImageUrl = "/uploads/Images/BT_Blog/" + blogId + ".png?v=" + timestamp;
+                            $('#existingBlogLogo').attr('src', newImageUrl).show();
+
+                        }
+                    },
+                    error: handleAjaxError(() => {
+                        $spinner.addClass("d-none");
+                        $btn.prop("disabled", false);
+                    })
+                });
+            }
+        });
+
+        // --- Other event handlers ---
+        $("#BlogImage").change(function () {
+
+            const fileInput = this;
+            const filePath = fileInput.value;
+            const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+            const errorMsg = document.getElementById("fileError");
+
+            if (!allowedExtensions.exec(filePath)) {
+                errorMsg.innerText = "Invalid file type. Please upload JPG, JPEG, or PNG.";
+                errorMsg.style.display = "block";
+                fileInput.value = ""; // Clear the invalid file
+            } else {
+                errorMsg.style.display = "none";
+            }
+
+            previewBlogLogo(this);
+        });
+    });
+
+    function deleteBlogLogo(id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                delImageBlog(id);
+            }
+        });
+
+    }
+
+
+    function delImageBlog(id) {
+        //var imagePath = $("#existingBlogLogo").attr("src");
+
+        $.ajax({
+            type: "POST",
+            url: "/Admin/DeleteBlogImage",
+            data: { blogId: id },
+            success: function (data) {
+                if (data.Success) {
+                    showMessage("Success", data.Message, data.Type);
+                    $('#existingBlogLogo').attr('src', '#').hide();
+                    $('#deleteBlogLogoBtn').hide();
+                } else {
+                    showMessage("Failed", data.Message, data.Type);
+                }
+            },
+            error: function (xhr, status, error) {
+                handleAjaxError()(xhr, status, error);
+            }
+        });
+    }
+
+
+    function previewBlogLogo(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blogLogoPreview').attr('src', e.target.result);
+                $('#blogLogoPreview').show();
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            $('#blogLogoPreview').attr('src', '#');
+            $('#blogLogoPreview').hide();
+        }
+    }
+
+    function SaveBT_BlogClick() {
+        $("#bt_BlogForm").submit();
+    }
+
+
+</script>

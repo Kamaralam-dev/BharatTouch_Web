@@ -1,0 +1,84 @@
+﻿
+
+
+@model DataAccess.Models.CountryModel
+
+
+@using (Html.BeginForm("SaveOrUpdateCountry", "Admin", FormMethod.Post, new { id = "countryForm", @class = "row g-3 needs-validation" }))
+{
+    <div class="col-md-6">
+        <label for="inputCountry" class="form-label"><span style="color:red;">*</span> Country</label>
+        @Html.TextBoxFor(t => t.Country, new { @class = "form-control", @placeholder = "Country", @required = "true" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="inputAbbreviation" class="form-label"><span style="color:red;">*</span>  Abbreviation</label>
+        @Html.TextBoxFor(t => t.Abbreviation, new { @class = "form-control", @placeholder = "Abbreviation", @required = "true" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="inputCountryCode" class="form-label"><span style="color:red;">*</span> Country Code</label>
+        @Html.TextBoxFor(t => t.CountryCode, new { @class = "form-control", @placeholder = "Country Code", @required = "true" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="inputNumberCode" class="form-label"><span style="color:red;">*</span> NumberCode</label>
+        @Html.TextBoxFor(t => t.NumberCode, new { @class = "form-control", @required = "true" })
+    </div>
+
+     <div class="col-md-6">
+         <label for="inputMinNumberLength" class="form-label"> Min Digit Allowed</label>
+        @Html.TextBoxFor(t => t.MinNumberLength, new { @class = "form-control" })
+    </div>
+
+     <div class="col-md-6">
+         <label for="inputMaxNumberLength" class="form-label"> Max Digit Allowed</label>
+        @Html.TextBoxFor(t => t.MaxNumberLength, new { @class = "form-control" })
+    </div>
+
+    <div class="col-md-12">
+        <input type="hidden" id="CountryId" name="CountryId" value="@Model.CountryId" />
+    </div>
+}
+
+<script>
+
+    function onSaveCountryClick() {
+
+        $("#countryForm").validate({
+            rules: {
+                Country: { required: true },
+                Abbreviation: { required: true },
+                CountryCode: { required: true },
+                NumberCode: { required: true }
+            },
+            submitHandler: function (form) {
+
+                var f = $(form);
+                var data = f.serializeArray();
+
+                $.ajax({
+                    type: f[0].method,
+                    url: f[0].action,
+                    data: data,
+                    dataType: 'json',
+                    success: function (data, strStatus) {
+
+                        showMessage((data.Success ? "Success" : "Failed"), data.Data, data.Type);
+                        setTimeout(function () {
+
+                            if (data.Success) {
+                                $('#ModaladdEditCountry').modal('hide');
+                                $("#tableCountry_Admin").DataTable().ajax.reload();
+                            }
+                        }, 500)
+                    },
+                    error: handleAjaxError()
+                });
+            }
+        });
+        if ($("#countryForm").valid()) {
+            $("#countryForm").submit();
+        }
+    }
+</script>

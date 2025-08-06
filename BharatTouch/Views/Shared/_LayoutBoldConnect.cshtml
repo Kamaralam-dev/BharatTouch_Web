@@ -1,0 +1,331 @@
+﻿@using DataAccess
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>@ViewBag.Title - virtual digital business card</title>
+    @*<meta content="@Html.Raw(ViewBag.AboutDescription)" name="description">*@
+    <meta content="@ViewBag.DecodedDescriptionMeta" name="description">
+    <meta content="virtual, digital, business card, online business card, mini website, online presence, contact less business card" name="keywords">
+    <link rel="canonical" href="@ViewBag.WebUrl@ViewBag.ProfileCode" />
+
+    <!-- Favicons -->
+    <link rel="icon" href="@ViewBag.WebLinkHttps" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    @*<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">*@
+
+
+    <!-- Vendor CSS Files -->
+    @*<link href="~/HomeAssets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">*@
+    <link href="~/FormAssets/vendor/icofont/icofont.min.css" rel="stylesheet">
+    <link href="~/FormAssets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />*@    @*Used in dark Theme*@
+    @*<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- =======================================================
+    * Template Name: iPortfolio - v1.5.1
+    * Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+    @*@Styles.Render("~/Content/homeCss")*@
+    <link href="~/Content/javascripts/custom/pnotify/pnotify.css" rel="stylesheet" />
+
+    @*@Scripts.Render("~/bundles/modernizr")*@
+    <script src="~/Content/vendor/modernizr/modernizr.js"></script>  @*according to ai its important for cross browser*@
+
+    @*@Styles.Render("~/bundles/formLayoutCss")*@
+    <link href="~/FormAssets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />                @*Important*@
+    <link href="~/HomeAssets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />                   @*Important for gallery and testimonial carousel*@
+    <link href="~/FormAssets/css/style.css" rel="stylesheet" />                                         @*Important main stylesheet*@
+    <link href="/HomeAssets/css/testimonial.css" rel="stylesheet" />
+
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="@ViewBag.FirstName @ViewBag.LastName | @ViewBag.CompanyType" />
+    @*<meta property="og:description" content="@Html.Raw(ViewBag.AboutDescription)" />*@
+    @*<meta property="og:description" content="@Html.Raw(decodedDescriptionOG)" />*@
+    <meta property="og:description" content="@ViewBag.DecodedDescriptionOG" />
+    <meta property="og:url" content="@ViewBag.WebUrl@ViewBag.ProfileCode" />
+    <meta property="og:site_name" content="BharatTouch | virtual business card" />
+    <meta property="article:modified_time" content="2020-06-25T16:05:08+00:00" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:label1" content="Est. reading time">
+    <meta name="twitter:data1" content="1 minute">
+
+    <meta property="og:image" content="@ViewBag.WebLinkHttps" />
+    <meta property="og:image:secure_url" content="@ViewBag.WebLinkHttps" />
+    <link rel="image_src" href="@ViewBag.WebLinkHttps" />
+
+    <link href="~/MultiThemes/BoldProfile/Css/CustomTheme.css" rel="stylesheet" />       @*Important*@
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3VWMPTNPEL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-3VWMPTNPEL');
+    </script>
+    <meta name="google-site-verification" content="Bxtl3yy4-p-fMpDJiZ2yWQWuk3DgF-TFqQkLDb5m8mo" />
+
+</head>
+
+<body>
+
+
+    <script>
+        context: "http://schema.org",
+            type: "Webpage",
+                headline: "BharatTouch | virtual business card",
+                    id: "https://bharattouch.com/@ViewBag.ProfileCode",
+                        thumbnailUrl: "",
+                            dateCreated: "",
+                                name: "BharatTouch ",
+                                    description: "Forget the paper business cards, using Avi ecard enables you to actually use the received information. You can capture contacts in full compliance and with ease of mind. ",
+                                        creator: [],
+                                            keywords: [virtual, digital, business card, online business card, mini website, online presence, contact less business card]
+    </script>
+
+    <script>
+
+        context: "http://schema.org",
+            type: "Organization",
+                name: "BharatTouch ",
+                    url: "https://bharattouch.com/@ViewBag.ProfileCode",
+                        logo: "@ViewBag.WebLinkHttps",
+                            sameAs: ["https://www.facebook.com/", "https://twitter.com/",
+                                https://www.youtube.com/
+                                https://www.instagram.com/
+                                https://www.linkedin.com/
+                            ],
+                                contactPoint: [{
+                                    type: "ContactPoint",
+                                    telephone: "+91 172 4600686",
+                                    contactType: "customer service"
+                                },
+
+                                {
+                                    type: "ContactPoint",
+                                    telephone: "+91 172 4600686",
+                                    contactType: "emergency"
+                                }
+                                ]
+
+    </script>
+
+    <!-- ======= Mobile nav toggle button ======= -->
+    @*<button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>*@
+
+    <!-- ======= Sidebar Menus ======= -->
+    @Html.Partial("_SidebarBT")
+
+    @*<main id="main">*@
+    @RenderBody()
+
+
+    @*</main> End #main*@
+    <!-- ======= Footer ======= -->
+
+
+    <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+    @if (ViewBag.ActionName.ToLower() != "editprofile")
+    {
+        <a href="javascript:void(0)" onclick="addtocontactvcard();" class="add-vcard-contact"><i class="bx bx-plus"></i></a>
+        <a href="javascript:void(0)" class="share-bottom-icon btnShareIt"><i class="icofont-share"></i></a>
+    }
+    <div class="share-icon-wrap">
+        <div class="share-options">
+            <div class="close">x</div>
+            <span class="share-item">
+                <!-- \r\n -->
+                <a target="_blank" class="wa_btn wa_btn_s" href="https://api.whatsapp.com/send?&text=@ViewBag.WebUrl@ViewBag.ProfileCode">
+                    @*<span class="fa fa-whatsapp"></span>*@
+                    <i class="bi-whatsapp shareico"></i>
+                    <span class="share-label">whatsapp</span>
+                </a>
+            </span>
+
+            @*<span class="share-item">
+                    <a href="sms:?body=@profileUrl" target="_blank"><span class="fa fa-commenting-o"></span><span class="share-label">SMS</span></a>
+                </span>*@
+
+            <span class="share-item">
+                <a target="_blank" class="wa_btn wa_btn_s" href="mailto:?subject=@ViewBag.FullName&amp;body=@ViewBag.WebUrl@ViewBag.ProfileCode">
+                    <i class="icofont-envelope shareico"></i>
+                    <span class="share-label">Email</span>
+                </a>
+            </span>
+
+            <span class="share-item">
+                <a target="popup" class="wa_btn wa_btn_s" href="https://www.facebook.com/sharer/sharer.php?u=@ViewBag.WebUrl@ViewBag.ProfileCode&t=@ViewBag.FullName">
+                    <i class="icofont-facebook shareico"></i>
+                    <span class="share-label">Facebook</span>
+                </a>
+            </span>
+
+            <span class="share-item">
+                <a href="https://twitter.com/share?url=@ViewBag.WebUrl@ViewBag.ProfileCode&via=TWITTER_HANDLE&text=@ViewBag.FullName" target="_blank">
+                    <i class="icofont-twitter shareico"></i>
+                    <span class="share-txt">Twitter</span>
+                </a>
+            </span>
+
+            <span class="share-item">
+                <a href="https://www.linkedin.com/shareArticle?mini=true&url=@ViewBag.WebUrl@ViewBag.ProfileCode&title=@ViewBag.FullName" target="_blank">
+                    <i class="icofont-linkedin shareico"></i>
+                    <span class="share-txt">Linkedin</span>
+                </a>
+            </span>
+            <div class="clearfix">&nbsp;</div>
+        </div>
+    </div>
+
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js" integrity="sha512-hUhvpC5f8cgc04OZb55j0KNGh4eh7dLxd/dPSJ5VyzqDWxsayYbojWyl5Tkcgrmb/RVKCRJI1jNlRbVP4WWC4w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>*@
+
+    @*@Scripts.Render("~/bundles/VendorJs")*@
+    <script src="~/Content/vendor/jquery/jquery.js"></script>
+    <script src="~/Content/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>         @*used for browser information for our viewHistory table*@
+    <script src="~/Content/vendor/canvas-to-blob/canvas-to-blob.js"></script>                       @*important script for preview uploaded files*@
+    @*<script src="~/HomeAssets/vendor/purecounter/purecounter.js"></script>*@
+    <script async defer src="https://www.google.com/recaptcha/api.js"></script>
+    <script async defer src="https://apis.google.com/js/api.js"></script>
+    <script async defer src="https://accounts.google.com/gsi/client"></script>
+
+    @*@Scripts.Render("~/bundles/SpecificPageJS")*@
+    <script src="~/Content/javascripts/custom/pnotify/pnotify.js"></script>                             @*need for notification*@
+    <script src="~/Content/javascripts/custom/pnotify/PNotifyStyleMaterial.js"></script>                @*need for notification*@
+    <script src="~/Content/javascripts/custom/pnotify/PNotifyButtons.js"></script>                       @*Need it*@
+    @*<script src="~/Content/javascripts/custom/pnotify/PNotifyConfirm.js"></script>*@                      @*No Need on Profile View*@
+    <script src="~/Content/javascripts/custom/pnotify/PNotifyMobile.js"></script>                        @*Need it*@
+    <script src="~/Content/javascripts/custom/jquery.validate.min.js"></script>                         @*Need it*@
+    <script src="~/Content/javascripts/custom/Shared.js"></script>                                      @*Need It*@
+    <script src="~/HomeAssets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+
+    @*@Scripts.Render("~/bundles/formLayoutJs")*@
+    <script src="/FormAssets/vendor/jquery.easing/jquery.easing.min.js"></script>                       @*Important for sidebar navigation*@
+    <script src="~/FormAssets/vendor/waypoints/jquery.waypoints.min.js"></script>           @*Need for pregressbar skills*@
+    <script src="~/FormAssets/vendor/counterup/counterup.min.js"></script>                  @*Need for pregressbar skills*@
+    <script src="~/FormAssets/vendor/isotope-layout/isotope.pkgd.min.js"></script>      @*Need for pregressbar skills*@
+    <script src="~/FormAssets/vendor/venobox/venobox.min.js"></script>                      @*Need for client Testimonials*@
+    <script src="~/FormAssets/vendor/owl.carousel/owl.carousel.min.js"></script>        @*Need It team section*@
+    <script src="~/FormAssets/vendor/typed.js/typed.min.js"></script>                   @*Need for tagline*@
+    <script src="~/FormAssets/vendor/aos/aos.js"></script>                              @*Need It for testimonials*@
+    <script src="~/HomeAssets/vendor/swiper/swiper-bundle.min.js"></script>             @*Need It for testimonials*@
+    <script src="~/FormAssets/js/main.js"></script>                                     @*its main theme js*@
+
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.7.570/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.7.570/pdf.worker.min.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
+    @Html.Raw("<script src=\"https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-upload@44.3.0/dist/index.min.js\"></script>")*@
+
+
+    @Html.Raw("<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/index.global.min.js'></script>")
+    @Html.Raw("<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.15/index.global.min.js'></script>")
+    @Html.Raw("<script src=\"https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.15/index.global.min.js\"></script>")
+    @*@Html.Raw("<script src=\"https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.15/index.global.min.js\"></script>")*@
+
+    @*<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>*@
+
+    @*<script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>*@
+    <link href="~/Scripts/owl.carousel.min.css" rel="stylesheet" />
+    @*<script src="~/Scripts/owl.carousel.min.js"></script>*@
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.marquee/1.3.1/jquery.marquee.min.js"></script>*@
+    @*<script src="~/Content/page-scripts/Users/Create.js?v=@DateTime.Now.ToString("yyyyMMddHHmmssf")"></script>*@
+    @*@Scripts.Render("~/bundles/pageScriptJS")*@
+
+    @RenderSection("scripts", required: false)
+    @*<script src="~/Content/page-scripts/Setting/ChangeImage.js?v=@DateTime.Now.ToString("yyyyMMddHHmmssf")"></script>*@
+
+<script type="text/javascript">
+        $(document).ready(function () {
+
+            $(document).on("change", "select", function () {
+                $(this).blur(); // Remove focus after selection
+            });
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+            });
+
+            $(".btnChangeImage").click(function () {
+                openChangeImageModel();
+            });
+
+            $("#copyReferalCode").click(function () {
+                    var icon = $("#copyReferalIcon");
+                try {
+                    var code = "@ViewBag.ReferalCode";
+                    navigator.clipboard.writeText(code).then(() => {
+                        console.log("copied");
+                        icon.removeClass("bi-copy");
+                        icon.addClass("bi-check-circle");
+                        setTimeout(() => {
+                            icon.removeClass("bi-check-circle");
+                            icon.addClass("bi-copy");
+                        }, 2000);
+                    });
+                } catch (err) {
+                    console.log(err);
+                    icon.removeClass("bi-check-circle");
+                    icon.addClass("bi-copy");
+                }
+            })
+
+            $('.btnShareIt').on('click', function () {
+                $('.share-icon-wrap').show();
+                if ($(document).height() > $(window).height()) {
+                    var scrollTop = ($('html').scrollTop()) ? $('html').scrollTop() : $('body').scrollTop(); // Works for Chrome, Firefox, IE...
+                    $('body').addClass('modal-shown').css('top', -scrollTop);
+                } else {
+                    $('body').addClass('modal-shown');
+                }
+
+
+                $('.share-icon-wrap .close').on('click', function () {
+                    $('.share-icon-wrap').hide();
+                    $('body').removeClass('modal-shown');
+                });
+            });
+        });
+
+
+
+        var openChangeImageModel = function () {
+            $.ajax({
+                type: 'GET',
+                cache: false,
+                url: '/home/ChangeImageModel',
+                dataType: 'html',
+                success: function (data, strStatus) {
+                    $("body").append(data);
+                    OpenModel("changeImageModal");
+                    $("#changeImageModal").addClass("show");
+                    //initiate funciton
+
+                    var cLogo = new companyLogo();
+                    cLogo.uploadLogoUrl = "@Url.Action("SaveUserFile", "Users")";
+                    cLogo.init();
+
+
+                },
+                error: handleAjaxError()
+            });
+        }
+</script>
+    <span id="siteseal">
+        <script async type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=gazCwgc7L5fgeiqBi29XI1qyeQ4FuKXC90SRWzldF0jPBVdfr8IosX5mnWzr"></script>
+    </span>
+</body>
+
+</html>

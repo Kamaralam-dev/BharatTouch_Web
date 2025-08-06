@@ -1,0 +1,72 @@
+﻿
+@model DataAccess.ViewModels.BusinessTypeViewModel
+
+
+@using (Html.BeginForm("SaveOrUpdateBusinessType", "Admin", FormMethod.Post, new { id = "businessTypeForm", @class = "row g-3 needs-validation" }))
+{
+    <div class="col-md-12">
+        <label for="inputParentBusinessType" class="form-label"> Company Category</label>
+        
+        @Html.DropDownListFor(x => x.ParentId, ViewBag.BusinessTypeParentList as SelectList, new { @class = "form-control form-select", @id = "ddlParentBusinessType" })
+
+    </div>
+
+    <div class="col-md-12">
+        <label for="inputBusinessType" class="form-label"><span style="color:red;">*</span> Business Type</label>
+        @Html.TextBoxFor(t => t.BusinessType, new { @class = "form-control", @placeholder = "Business Type", @required = "true" })
+    </div>
+
+    <div class="col-md-12">
+
+        <input type="hidden" id="BusinessTypeId" name="BusinessTypeId" value="@Model.BusinessTypeId" />
+    </div>
+}
+
+<script>
+
+    function onSaveBusinessTypeClick() {
+
+        $("#businessTypeForm").validate({
+            rules: {
+                BusinessType: { required: true },
+            },
+            submitHandler: function (form) {
+
+                var f = $(form);
+                var data = f.serializeArray();
+
+                if ($("#ddlParentBusinessType").val() == "0") {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Please select a valid Company Category.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                    return false; 
+                }
+
+                $.ajax({
+                    type: f[0].method,
+                    url: f[0].action,
+                    data: data,
+                    dataType: 'json',
+                    success: function (data, strStatus) {
+
+                        showMessage((data.Success ? "Success" : "Failed"), data.Data, data.Type);
+                        setTimeout(function () {
+
+                            if (data.Success) {
+                                $('#ModaladdEditBusinessType').modal('hide');
+                                $("#tableBusinessType_Admin").DataTable().ajax.reload();
+                            }
+                        }, 500)
+                    },
+                    error: handleAjaxError()
+                });
+            }
+        });
+        if ($("#businessTypeForm").valid()) {
+            $("#businessTypeForm").submit();
+        } 
+    }
+</script>

@@ -1,0 +1,105 @@
+﻿@*@model DataAccess.Models.RequestItemModel*@
+
+@model DataAccess.Models.ItemModel
+
+<div id="RequestItemModal" class="modal-block modal-block-primary mfp-hide">
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">Claim Item</h2>
+        </header>
+        @using (Html.BeginForm("RequestItem", "Home", FormMethod.Post, new { id = "upsertRequestItemForm", @class = "form-horizontal mb-lg" }))
+        {
+        <div class="panel-body no-border-radius" id="requestItemFormContainer">
+            @*<div class="form-group mt-lg">
+            <label class="col-sm-1 control-label">Notes</label>
+            <div class="col-sm-11">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="controlColor fa fa-comment"></i>
+                    </span>
+                    @Html.TextAreaFor(t => t.RequestNote, new { @class = "form-control required-left", @placeholder = "Enter note ..." })
+                </div>
+            </div>
+        </div>*@
+
+            <div class="form-group mt-lg">
+                <label class="col-sm-1 control-label">Item</label>
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        @Html.Label(Model.ItemName == null ? "" : Model.ItemName)
+                    </div>
+                </div>
+                <label class="col-sm-2 control-label">Description</label>
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <span class="input-group">
+                        </span>
+                        @Html.Label(Model.Description == null ? "" : Model.Description)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-lg">
+                <label class="col-sm-1 control-label">Name</label>
+                <div class="col-sm-11">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="controlColor fa fa-user"></i>
+                        </span>
+                        <input type="text" name="ClaimByName" class="form-control" id="ClaimByName" placeholder="Name.." />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-lg">
+                <label class="col-sm-1 control-label">Phone</label>
+                <div class="col-sm-11">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="controlColor fa fa-mobile"></i>
+                        </span>
+                        <input type="text" name="ClaimByPhone" class="form-control" id="ClaimByPhone" placeholder="Phone.." />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-lg">
+                <label class="col-sm-1 control-label">Email</label>
+                <div class="col-sm-11">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="controlColor fa fa-envelope"></i>
+                        </span>
+                        <input type="text" name="ClaimByEmail" class="form-control" id="ClaimByEmail" placeholder="Email.." />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+            <footer class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        @Html.HiddenFor(t => t.PrimaryReceiverId)
+                        @Html.HiddenFor(t => t.ItemId)
+                        @Html.HiddenFor(t => t.ItemName)
+                        @Html.HiddenFor(t => t.Description)
+                        @Html.HiddenFor(t => t.ContactPerson)
+                        @Html.HiddenFor(t => t.Phone)
+                        @Html.HiddenFor(t => t.Email)
+                        @Html.HiddenFor(t => t.Category)
+                        @Html.HiddenFor(t => t.SubCategory)
+                        @Html.HiddenFor(t =>  t.PurchaseDate)
+                        @Html.HiddenFor(t => t.MarketValue)
+                        @Html.HiddenFor(t => t.Condition)
+                        @Html.HiddenFor(t =>  t.ClaimByDate)
+                        @Html.HiddenFor(t => t.City)
+                        @Html.HiddenFor(t => t.State)
+                        @Html.HiddenFor(t => t.ImageUrl)
+                        <button type="submit" class="btn btn-primary modal-confirm">Save</button>
+                        <button type="button" class="btn btn-default modal-dismiss" onclick="CloseModal()">Cancel</button>
+                    </div>
+                </div>
+            </footer>
+        }
+    </section>
+</div>

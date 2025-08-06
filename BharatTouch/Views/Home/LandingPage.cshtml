@@ -1,0 +1,840 @@
+﻿@using DataAccess
+@model List<DataAccess.ViewModels.UserPackageViewModel>
+
+@{
+    var avi = "aviecard.com";
+    var bharattouch = "bharattouch";
+    var domain = Request.Url.Host;
+    var mainTitle = domain == avi ? "Avi E-Card" : "Bharat Touch Enterprises";
+    var siteName = domain == avi ? "Avi eCard" : "Bharat Touch Enterprises";
+    var email = domain == avi ? avi : bharattouch;
+    var infoEmail = "info@" + email + ".com";
+    var salesEmail = "sales@" + email + ".com";
+    ViewBag.Title = "Home - " + mainTitle;
+    Layout = "~/Views/Shared/_homeLayout.csHtml";
+
+    //var countries = new DataAccess.Repository.CountryRepository().GetCountries("BharatTouch/Profile/Profile.cshtml").Select(n => new SelectListItem()
+    //{
+    //    Text = n.Country + " (" + n.NumberCode + ")",
+    //    Value = n.NumberCode + ";" + n.MinNumberLength + ";" + n.MaxNumberLength
+    //});
+
+    var code = ViewBag.Code != null ? ViewBag.Code : "";
+
+    //var packages = new DataAccess.Repository.PackagesRepository().GetAllPackages();
+    //var studentPlan = new DataAccess.ViewModels.UserPackageViewModel();
+    //var basicPlan = new DataAccess.ViewModels.UserPackageViewModel();
+    //var premiumPlan = new DataAccess.ViewModels.UserPackageViewModel();
+    //var ultimatePlan = new DataAccess.ViewModels.UserPackageViewModel();
+    //if (packages.Count > 0)
+    //{
+    //    studentPlan = packages.FirstOrDefault(x => x.PackageId == 1);
+    //    basicPlan = packages.FirstOrDefault(x => x.PackageId == 2);
+    //    premiumPlan = packages.FirstOrDefault(x => x.PackageId == 3);
+    //    ultimatePlan = packages.FirstOrDefault(x => x.PackageId == 4);
+    //}
+
+    var studentPlan = Model.FirstOrDefault(x=>x.PackageId == 1) ?? new DataAccess.ViewModels.UserPackageViewModel();
+    var basicPlan = Model.FirstOrDefault(x => x.PackageId == 2) ?? new DataAccess.ViewModels.UserPackageViewModel();
+    var premiumPlan = Model.FirstOrDefault(x => x.PackageId == 3) ?? new DataAccess.ViewModels.UserPackageViewModel();
+    var ultimatePlan = Model.FirstOrDefault(x => x.PackageId == 4) ?? new DataAccess.ViewModels.UserPackageViewModel();
+}
+<style>
+    .pricing.mainPricing ul li {
+        border-bottom: 1px solid #c9bebe !important;
+    }
+</style>
+
+<input type="hidden" id="hdnReferalCode" value="@code" />
+<section id="hero" class="hero d-flex align-items-center">
+    <div class="container">
+        <div class="row">
+		 <div class="col-lg-4 hero-img">
+                <img src="~/homeassets/img/bharattouch_digital_businesscard.png" class="img-fluid-header" alt="Profile Background">
+            </div>
+            <div class="col-lg-8 d-flex flex-column justify-content-center">
+                <h1 style="font-size:22px !important;">Tired of Carrying Your Business Cards & Not Knowing Who Saved Your Contact?</h1>
+                <h2  style="font-size:18px !important;">Carrying stacks of business cards is inconvenient, and once you hand them out, you have no idea if the recipient actually saved or used your contact.</h2>
+				<h2 style="font-size:20px !important; font-weight:bold; color:#f68c09 !important;">What if, one Bharat Touch Smart Card can do all the Magic for you?</h2>
+                <h2 style="font-size:18px !important; "> An <span style="color:#f68c09 !important; font-weight:bold;"> AI powered NFC based Smart Business Card, made by BHARAT TOUCH</span> eliminates the need to carry physical cards and lets you track when someone taps or engages with your details, ensuring better follow-ups and connections.</h2>
+				 <h2 style="font-size:19px !important; font-weight:bold; color:#08974b !important;">Bharat Touch NFC Smart Business Card is the future of networking—Be among the first few to experience it!</h2>
+                <div >
+                    <div class="text-center text-lg-start">
+                        <a id="btnHomeSignupPopup" style="cursor:pointer;" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                            <div class="lds-dual-ring"></div>&nbsp; <span>Sign Up Free</span>
+                            @*singup popup*@
+                            @*<i class="bi bi-arrow-right"></i>*@
+                        </a>
+                        <a href="#pricing_main" style="cursor: pointer; background: #08974b; box-shadow: 0px 0px 12px rgb(8 151 75);" class="btn-get-started mx-3 scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                            <div class="lds-dual-ring"></div>&nbsp; <span>Choose Your Plan</span>
+                            @*singup popup*@
+                            @*<i class="bi bi-arrow-right"></i>*@
+                        </a>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+
+</section><!-- End Hero -->
+
+<main id="main">
+
+    <!--  Benefits Section -->
+    <section id="benefits" class="features section">
+
+        <!-- Section Title -->
+        <div class="container section-header" >
+            <h2>Benefits</h2>
+            <p>Our Advanced Benefits<br></p>
+        </div><!-- End Section Title -->
+
+        <div class="container">
+
+            <div class="row gy-5">
+
+
+
+                <div class="col-xl-6 d-flex">
+                    <div class="row align-self-center gy-4">
+
+                        <div class="col-md-6" >
+                            <div class="feature-box d-flex align-items-center">
+                                <i class="bi bi-check"></i>
+                                <h3>1. Touch / Scan to Connect Instantly</h3>
+                            </div>
+                        </div><!-- End Feature Item -->
+
+                        <div class="col-md-6">
+                            <div class="feature-box d-flex align-items-center">
+                                <i class="bi bi-check"></i>
+                                <h3>2. Instantly Share Contact & Socials</h3>
+                            </div>
+                        </div><!-- End Feature Item -->
+
+                        <div class="col-md-6">
+                            <div class="feature-box d-flex align-items-center">
+                                <i class="bi bi-check"></i>
+                                <h3>3. Mini Website, Major Impact</h3>
+                            </div>
+                        </div><!-- End Feature Item -->
+
+                        <div class="col-md-6">
+                            <div class="feature-box d-flex align-items-center">
+                                <i class="bi bi-check"></i>
+                                <h3>4. Effortless Networking on the Go</h3>
+                            </div>
+                        </div><!-- End Feature Item -->
+
+                        <div class="col-md-6">
+                            <div class="feature-box d-flex align-items-center">
+                                <i class="bi bi-check"></i>
+                                <h3>5. Unlimited Updates, One Card</h3>
+                            </div>
+                        </div><!-- End Feature Item -->
+
+                        <div class="col-md-6">
+                            <div class="feature-box d-flex align-items-center">
+                                <i class="bi bi-check"></i>
+                                <h3>6. No App Required</h3>
+                            </div>
+                        </div><!-- End Feature Item -->
+
+                    </div>
+                </div>
+
+                <div class="col-xl-6">
+                    <img src="~/HomeAssets/img/BharatTouch_benefits_new.png" class="img-fluid-header" style="object-fit: contain; height: 500px; margin-left: 123px; " alt="" />
+                    @*<img src="~/HomeAssets/img/features.jpg" class="img-fluid" alt="">*@
+                </div>
+
+            </div>
+
+        </div>
+
+    </section><!-- /Features Section -->
+    <!-- ======= About Section ======= -->
+    @*<section id="about" class="about">
+
+            <div class="container" data-aos="fade-up">
+                <div class="row gx-0">
+
+                    <div class="col-lg-12 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
+                        <div class="content">
+                            <h3 style="color:#f68c09;">Virtual, Contactless business card</h3>
+                            <h2>BharatTouch has come up with a niche way of presenting yourself to this world! One that gets you among the elite!</h2>
+                            <p>
+                                BharatTouch is a fast-growing 'start up' offering <span style="font-weight:bold; color:#f68c09">Smart Business Cards and solutions</span> to everyone who wants to grow, including Employees of companies, Managing Directors, Proprietor, Managers, Restaurant Owners, Service providers, Students. Students have rendered great feedback. They claim that they have had the ease of communication while looking for new jobs.
+                                One has a stylish way of presenting himself/herself to the world with ready <span style="font-weight:bold; color:#f68c09">social media links, contact information and profiles</span>.
+                            </p>
+                            <p>A simple Touch of your Smart Business card to your <span style="font-weight:bold; color:#f68c09">NFC enabled mobile phone</span> shall open your professional business profile. This profile can be created with <span style="font-weight:bold; color:#f68c09"> AI enabled prompts</span> easily within a few minutes.</p>
+                            <p>
+                                By embracing this Smart Business card, you save so many trees that would have to be cut to manufacture the paper you need to make your normal visiting card. <span style="font-weight:bold; color:#f68c09">Mother Earth</span> would thank you for this.
+                            </p>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </section>*@
+    <!-- End About Section -->
+    @*<section id="counts" class="counts">
+            <div class="container" data-aos="fade-up">
+
+                <div class="row gy-4">
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="count-box">
+                            <i class="bi bi-emoji-smile"></i>
+                            <div>
+                                <span data-purecounter-start="0" data-purecounter-end="2500" data-purecounter-duration="1" class="purecounter"></span>
+                                <p>Smiling and satisfied clients</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="count-box">
+                            <i class="bi bi-journal-richtext" style="color: #ee6c20;"></i>
+                            <div>
+                                <span data-purecounter-start="0" data-purecounter-end="150000" data-purecounter-duration="1" class="purecounter"></span>
+                                <p>Card views</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="count-box">
+                            <i class="bi bi-tree" style="color: #15be56;"></i>
+                            <div>
+                                <span data-purecounter-start="0" data-purecounter-end="2000" data-purecounter-duration="1" class="purecounter"></span>
+                                <p>Trees saved</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="count-box">
+                            <i class="bi bi-alarm" style="color: #bb0852;"></i>
+                            <div>
+                                <span data-purecounter-start="0" data-purecounter-end="500" data-purecounter-duration="1" class="purecounter"></span>
+                                <p>Effort Hours</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>*@
+    <!-- End Counts Section -->
+    <!-- ======= Pricing Section ======= -->
+    <section id="pricing" class="pricing">
+
+        <div class="container">
+
+            <header class="section-header">
+                <h2>Process workflow</h2>
+                <p>How does the process work?</p>
+            </header>
+
+            <div class="row gy-4" >
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="box">
+                        <h3 style="color: #07d5c0;">Choose your card</h3>
+
+                        <img src="~/homeassets/img/pricing-free.png" class="img-fluid" alt="Pricing">
+                        <ul>
+                            <li style="text-align:left !important;">Select the card color that you like best from a wide range of options.</li>
+                            <li style="text-align:left !important;">Our virtual card designs are mobile friendly and appear great on all devices.</li>
+                            <li style="text-align:left !important;">Customize the card according to your needs.</li>
+                            <li style="text-align:left !important;">
+                                Change content on card any number of times without any hassles.
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="box">
+
+                        <h3 style="color: #65c600;">Add rich content</h3>
+
+                        <img src="~/homeassets/img/pricing-starter.png" class="img-fluid" alt="pricing-starter">
+                        <ul>
+                            <li style="text-align:left !important;">Once you have chosen the color, it is time to make it rich with content.</li>
+                            <li style="text-align:left !important;">Add your contact details – mobile number, office number, address, email and social media links.</li>
+                            <li style="text-align:left !important;">Users can directly give you a call, email you or open google map on just one click.</li>
+                            <li style="text-align:left !important;">You can edit the content anytime you wish to without need of any change in your physical card.</li>
+
+                        </ul>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="box">
+                        <h3 style="color: #ff901c;">Save it on your phone</h3>
+
+                        <img src="~/homeassets/img/pricing-business.png" class="img-fluid" alt="pricing-business">
+                        <ul>
+                            <li style="text-align:left !important;">Receive your smart virtual business card on your smartphone.</li>
+                            <li style="text-align:left !important;">Download and save the contactless business card in your smartphone.</li>
+                            <li style="text-align:left !important;">Once saved on your Android/iOS device, you can access it anytime anywhere.</li>
+                            <li style="text-align:left !important;">QR code printed is linked to your digital profile with all your details including contact and social media.</li>
+
+                        </ul>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="box">
+                        <h3 style="color: #ff0071;">Share with just a touch</h3>
+
+                        <img src="~/homeassets/img/pricing-ultimate.png" class="img-fluid" alt="pricing-ultimate">
+                        <ul>
+                            <li style="text-align:left !important;">NFC enabled Phone, can share virtual business card with only a touch.</li>
+                            <li style="text-align:left !important;">Scan QR to load & share – no NFC? No problem! For non-NFC phones, the smart business card can be shared using WhatsApp, SMS, Facebook, Email.</li>
+                            <li style="text-align:left !important;">No need for any app to share the virtual business card</li>
+                            <li style="text-align:left !important;"> Virtual business card can be shared in less than 2 seconds </li>
+
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section><!-- End Pricing Section -->
+    <!-- ======= Pricing Section ======= -->
+
+    <section id="pricing_main" class="pricing mainPricing">
+
+        <div class="container section-header">
+
+            <header class="section-header">
+
+                <h2>Start using for free</h2>
+                <p>But once you love it, then you will upgrade it</p>
+            </header>
+
+            <div class="row gy-4">
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="box" style="padding: 0 0 25px 0 !important;">
+                        <span class="featured">Students</span>
+                        <h3 style="color: #07d5c0; color: #ffffff; background: #febe77; padding: 39px 0px 39px 0; text-transform: uppercase; font-size: 24px !important;">@(studentPlan.PackageName.NullToString() != "" ? studentPlan.PackageName : "Students Plan")</h3>
+                        <div class="price"><sup>INR</sup>@(studentPlan.PackageCost != 0 ? Convert.ToInt32(studentPlan.PackageCost) : 499)<span> / yr</span></div>
+                        @*<img src="~/HomeAssets/img/pricing-free.png" class="img-fluid" alt="">*@
+                        <ul>
+                            <li>2 photo in gallery</li>
+                            <li>1 youtube video in video gallery</li>
+
+                            <li>@siteName ads</li>
+                            <li>Upload Resume</li>
+                            <li class="">Contact Us form</li>
+                            <li class="na">Blog Section</li>
+                            <li class="na">My Team Section</li>
+                            <li class="na">Client Testimonials</li>
+                            <li class="na">Booking Calendar</li>
+                            <li>Education & Experience</li>
+                            <li>Certification and Training</li>
+                            <li class="na">Profile view analytics</li>
+                            <li class="na">Profile template selection</li>
+                            <li>Lifetime valid physical card</li>
+                            <li class="na">Multiple card color options</li>
+                            <li class="na">NFC Metal card</li>
+                            <li class="na">Mobile QR sticker</li>
+                            <li class="na">Google Review Scanner</li>
+                            <li class="na">NFC Keychain</li>
+                        </ul>
+                        <a data-id="1" class="btn-buy btnPricingBookNow" style="cursor: pointer; background: #febe77 !important; color: white; border: 1px solid white;"><div class="lds-dual-ring"></div>&nbsp; Buy Now</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="box" style="padding: 0 0 25px 0 !important;">
+
+                        <h3 style="color: #ffffff; background: #47d6e8; padding: 39px 0px 39px 0; text-transform: uppercase; font-size: 24px !important; ">@(basicPlan.PackageName.NullToString() != "" ? basicPlan.PackageName : "Basic Plan")</h3>
+                        <div class="price"><sup>INR</sup>@(basicPlan.PackageCost != 0 ? Convert.ToInt32(basicPlan.PackageCost) : 999)<span> / yr</span></div>
+                        @*<img src="~/HomeAssets/img/pricing-starter.png" class="img-fluid" alt="">*@
+                        <ul>
+                            <li>5 photo in gallery</li>
+                            <li>5 youtube videos in video gallery</li>
+
+                            <li>@siteName ads</li>
+                            <li>Upload Service catalogue & Portfolio</li>
+                            <li>Contact Us form</li>
+                            <li>Blog Section</li>
+                            <li class="na">My Team Section</li>
+                            <li class="na">Client Testimonials</li>
+                            <li class="na">Booking Calendar</li>
+                            <li>Education & Experience</li>
+                            <li>Certification and Training</li>
+                            <li class="na">Profile view analytics</li>
+                            <li class="na">Profile template selection</li>
+                            <li>Lifetime valid physical card</li>
+                            <li class="na">Multiple card color options</li>
+                            <li class="na">NFC Metal card</li>
+                            <li class="na">Mobile QR sticker</li>
+                            <li class="na">Google Review Scanner</li>
+                            <li class="na">NFC Keychain</li>
+                        </ul>
+                        <a data-id="2" class="btn-buy btnPricingBookNow" style="cursor: pointer; background: #47d6e8 !important; color: white; border: 1px solid white;"><div class="lds-dual-ring"></div>&nbsp; Buy Now</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="box" style="padding: 0 0 25px 0 !important;">
+                        <span class="featured">Featured</span>
+                        <h3 style="color: #ffffff; background: #ff679f; padding: 39px 0px 39px 0; text-transform: uppercase; font-size: 24px !important; ">@(premiumPlan.PackageName.NullToString() != "" ? premiumPlan.PackageName : "Premium Plan")</h3>
+                        <div class="price"><sup>INR</sup>@(premiumPlan.PackageCost != 0 ? Convert.ToInt32(premiumPlan.PackageCost) : 2499)<span> / yr</span></div>
+                        @*<img src="~/HomeAssets/img/pricing-ultimate.png" class="img-fluid" alt="">*@
+                        <ul>
+                            <li>Unlimited photo in gallery</li>
+                            <li>Unlimited video in video gallery</li>
+
+                            <li class="na">@siteName ads</li>
+                            <li>Upload Service catalogue & Portfolio</li>
+                            <li>Contact Us form</li>
+                            <li>Blog Section</li>
+                            <li>My Team Section</li>
+                            <li class="na">Client Testimonials</li>
+                            <li>Booking Calendar</li>
+                            <li>Education & Experience</li>
+                            <li>Certification and Training</li>
+                            <li>Profile view analytics</li>
+                            <li class="">Profile template selection</li>
+                            <li>Lifetime valid physical card</li>
+                            <li class="">Multiple card color options</li>
+                            <li class="na">NFC Metal card</li>
+                            <li>Mobile QR sticker</li>
+                            <li class="na">Google Review Scanner</li>
+                            <li class="na">NFC Keychain</li>
+                        </ul>
+                        <a data-id="3" class="btn-buy btnPricingBookNow" style="cursor:pointer; background: #ff679f !important; color: white; border: 1px solid white;"><div class="lds-dual-ring"></div>&nbsp; Buy Now</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="box" style="padding: 0 0 25px 0 !important;">
+                        <h3 style="color: #ffffff; background: #8adba7; padding: 39px 0px 39px 0; text-transform: uppercase; font-size: 24px !important; ">@(ultimatePlan.PackageName.NullToString() != "" ? ultimatePlan.PackageName : "Ultimate Plan")</h3>
+                        <div class="price"><sup>INR</sup>@(ultimatePlan.PackageCost != 0 ? Convert.ToInt32(ultimatePlan.PackageCost) : 4999)<span> / yr</span></div>
+                        @*<img src="~/HomeAssets/img/pricing-ultimate.png" class="img-fluid" alt="">*@
+                        <ul>
+                            <li>Unlimited photo in gallery</li>
+                            <li>Unlimited video in video gallery</li>
+
+                            <li class="na">@siteName ads</li>
+                            <li>Upload Service catalogue & Portfolio</li>
+                            <li>Contact Us form</li>
+                            <li>Blog Section</li>
+                            <li>My Team Section</li>
+                            <li>Client Testimonials</li>
+                            <li>Booking Calendar</li>
+                            <li>Education & Experience</li>
+                            <li>Certification and Training</li>
+                            <li>Profile view analytics</li>
+                            <li class="">Profile template selection</li>
+
+                            <li>Lifetime valid physical card</li>
+                            <li class="">Multiple card color options</li>
+                            <li>NFC Metal card</li>
+                            <li>Mobile QR sticker</li>
+                            <li>Google Review Scanner</li>
+                            <li>NFC Keychain</li>
+                        </ul>
+                        <a data-id="4" class="btn-buy btnPricingBookNow" style="cursor: pointer; background: #8adba7 !important; color: white; border: 1px solid white; "><div class="lds-dual-ring"></div>&nbsp; Buy Now</a>
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <span style="color:#f68c09; font-size:14px;">** Family pack for <b>INR 11,499.99</b>, which includes 2 Metal Cards and 4 PVC Smart Cards.</span>
+            <br />
+            <span style="color:#f68c09; font-size:14px;">*** All prices exclude 18% GST, which will be added at checkout.</span>
+        </div>
+
+    </section>
+    <!-- End Pricing Section -->
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+
+        <div class="container">
+
+            <header class="section-header">
+                <h2>Why Us</h2>
+                <p>Why choose @siteName for contactless business cards ?</p>
+            </header>
+
+            <div class="row gy-4">
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-box blue">
+                        <i class="ri-discuss-line icon"></i>
+                        <h3>Customized Cards</h3>
+                        <p>We offer customized virtual cards for your business. These virtual business cards are of exceptional quality. At @siteName, we understand that your business is unique and so should be your business card.</p>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-box orange">
+                        <i class="ri-discuss-line icon"></i>
+                        <h3>Affordable Product</h3>
+                        <p>One of the main reasons why clients choose us for their contactless business cards is due to the reasonable pricing. At @siteName, we don't believe in overcharging our clients. We believe in offering affordable solutions. </p>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-box green">
+                        <i class="ri-discuss-line icon"></i>
+                        <h3>Unmatched Quality</h3>
+                        <p>The virtual business cards offered by us are unique and have out-of-the-box designs. They are captivating and can impress your clients at the first instance. We don't compromise on the quality of our cards for any reason whatsoever.</p>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section><!-- End Services Section -->
+    <!-- Benefits Section -->
+    <section id="referral" class="features section">
+
+        <!-- Section Title -->
+        <div class="container section-header">
+            <h2>Referral</h2>
+            <p>Share Your Referral, Unlock Rewards!<br></p>
+        </div><!-- End Section Title -->
+
+        <div class="container">
+
+            <div class="row gy-5">
+
+                <div class="col-xl-6">
+                    <img src="~/HomeAssets/img/referral.jpg" class="img-fluid" alt="">
+                </div>
+
+                <div class="col-xl-6 d-flex">
+                    <div class="row align-self-center gy-4">
+
+                        <span style="color:#f68c09; font-weight:bold;">How it works !!</span>
+                        <ul>
+                            <li>
+                                <b>Get Your Unique Referral Link:</b> <br />
+                                Log in to your Bharat Touch account and access your personalized referral code or link.
+                            </li>
+                            <li>
+                                <b>Share with Your Network:</b><br />
+                                Spread the word by sharing your referral link via email, social media, or directly with your contacts.
+                            </li>
+                            <li>
+                                <b>Earn Rewards:</b><br />
+                                When a new user signs up using your referral link and completes their account verification, you will receive rewards.
+                            </li>
+                        </ul>
+
+                        <span style="color:#f68c09; font-weight:bold;">Eligibility !!</span>
+                        <ul>
+                            <li>The Referral Program is open to all registered Bharat Touch users.</li>
+                            <li>Referrals must be genuine—self-referrals or fraudulent sign-ups will not qualify.</li>
+                            <li>The new user must be signing up for the first time using your referral link.</li>
+                        </ul>
+
+                        <span style="color:#f68c09; font-weight:bold;">Benifits !!</span>
+                        <ul>
+                            <li>Refer 3 users who sign up for the same plan or a higher one using your referral code, and your next year’s subscription fee will be waived off completely!</li>
+                            <li>Get 15 successful sign-ups for the same or higher plan through your referral, and enjoy a lifetime free subscription with Bharat Touch!</li>
+                        </ul>
+                        <p><strong>**Please note:</strong> Referrals under the Student Plan are not eligible for the free subscription benefits mentioned above.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section><!-- /Features Section -->
+
+    <section id="blog" class="pricing" style="display:none;">
+
+        <div class="container">
+
+            <header class="section-header" style="padding-bottom:20px;margin-top:-30px;">
+                <h2>&nbsp;</h2>
+                <p>Blogs</p>
+            </header>
+
+            <div class="row" style="margin-top:10px;">
+
+                <div class="col-lg-6 col-md-6" style="margin-top:10px;">
+                    <a href="/blog/virtualcard" target="_blank"><i class="ri-discuss-line icon"></i> What is a virtual business card?</a>
+                </div>
+                <div class="col-lg-6 col-md-6" style="margin-top:10px;">
+                    <a href="/blog/virtualcardbenefits" target="_blank"><i class="ri-discuss-line icon"></i> What are the benefits of virtual business cards?</a>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-6 col-md-6" style="margin-top:10px;">
+                    <a href="/blog/SwitchOverToVirtualBusinessCards" target="_blank"><i class="ri-discuss-line icon"></i> Covid-19 made switch over to virtual business cards</a>
+                </div>
+            </div>
+        </div>
+
+    </section><!-- End Pricing Section -->
+
+    @Html.Partial("_FAQs")
+
+    <section id="testimonials" class="testimonials">
+
+        <div class="container">
+
+            <header class="section-header">
+                <h2>Testimonials</h2>
+                <p>What they are saying about us</p>
+            </header>
+
+            <div class="testimonials-slider swiper-container">
+                <div class="swiper-wrapper">
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <div class="stars">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            </div>
+                            <p>
+                                Virtual business cards from @siteName have really made networking easy and convenient for me. I just tap my contactless business card to those who ask for my contact details and it's done.
+                            </p>
+                            <div class="profile mt-auto">
+                                <img src="~/homeassets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="testimonials">
+                                <h3>Jim B</h3>
+                                <h4>Karma Solutions - IT Company</h4>
+                            </div>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <div class="stars">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            </div>
+                            <p>
+                                With virtual business cards from @siteName, I no longer have to carry those physical printed cards whenever I go for meetings. The contactless business card is there in my smartphone and I can access it anytime anywhere.
+                            </p>
+                            <div class="profile mt-auto">
+                                <img src="~/homeassets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="testimonials">
+                                <h3>Raman Athwal</h3>
+                                <h4>Businessman</h4>
+                            </div>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <div class="stars">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            </div>
+                            <p>
+                                Nearly 70% of the printed business cards that are exchanged in networking are thrown away or never looked at. This means a total waste of money and paper as well. Contactless business cards by @siteName are a wonderful alternative.
+
+                            </p>
+                            <div class="profile mt-auto">
+                                <img src="~/homeassets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="testimonials">
+                                <h3>Rupali Mahajan</h3>
+                                <h4>Dietitian</h4>
+                            </div>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <div class="stars">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            </div>
+                            <p>
+                                When I pass my virtual business card to clients during meetings they are really amazed by the concept. It really helps me in creating the first but most important impression on them.
+
+                            </p>
+                            <div class="profile mt-auto">
+                                <img src="~/homeassets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="testimonials">
+                                <h3>Setu Goyal</h3>
+                                <h4>Freelancer</h4>
+                            </div>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <div class="stars">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            </div>
+                            <p>
+                                The contactless business card from @siteName has changed everything for my business. It resulted in higher sales and revenue generation because the majority of the clients that we handle are impressed by the concept of virtual business cards that we have embraced.
+
+                            </p>
+                            <div class="profile mt-auto">
+                                <img src="~/homeassets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="testimonials">
+                                <h3>Manminder Singh</h3>
+                                <h4>Entrepreneur</h4>
+                            </div>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+
+        </div>
+
+    </section><!-- End Testimonials Section -->
+    <!-- ======= Contact Section ======= -->
+    <!-- ======= Image SLideer Section ======= -->
+    <!--<section id="counts" class="counts">
+        <div class="container" data-aos="fade-up">
+            <header class="section-header">
+                <h2>Our site visitors</h2>
+            </header>-->
+    @*free-counters :- it is free but showing adds, i think its track only load times not the unique users, it shows online status but if same user refresh page multiple times then it shows same user multiple times*@
+    @*<a href='https://www.free-counters.org/'>Get free Counters</a>
+        <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=0f03e8f084ca08230f6256176a788dceb50540a0'></script>
+        <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1287976/t/10"></script>*@
+
+
+    @*elfsight :- 200 loads permonth in free and in 4$ plan 5000 loads per month, it shows unique users*@
+    @*<script src="https://static.elfsight.com/platform/platform.js" async></script>
+        <div class="elfsight-app-a1a13c16-dd47-4a3f-a57b-acf344a601d1" data-elfsight-app-lazy></div>*@
+
+    <!--<div class="row gy-4 mx-5">-->
+    @*commoninja :- 300 loads permonth in free and in 2$ permonth plan unlimited loads, it shows only load times*@
+    <!--<div class="col-lg-8 col-md-12">
+        <script src="https://cdn.commoninja.com/sdk/latest/commonninja.js" defer></script>
+        <div class="commonninja_component pid-61afacfe-aebf-4fa7-8c5d-9ed39308f83c"></div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div class="count-box" style="background-color: #deecf4; border-radius: 15px;">
+            <i class="bi bi-people" style="color: #bb0852;"></i>
+            <div>-->
+    @*pubnub :- 200 unique user per month in free and its starter plan is 98$ per month which have 1000 unique user per month tracker*@
+    <!--<span id="activeUsers" data-purecounter-start="0" data-purecounter-end="0" data-purecounter-duration="1" class="purecounter"></span>
+                        <p>Current Active Users</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        </div>
+    </section>-->
+
+
+    <section id="contact" class="contact">
+
+        <div class="container">
+
+            <header class="section-header">
+                <h2>Contact</h2>
+                <p>Contact Us</p>
+            </header>
+
+            <div class="row gy-4">
+
+                <div class="col-lg-6">
+
+                    <div class="row gy-4">
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <i class="bi bi-geo-alt"></i>
+                                <h3>Address</h3>
+                                <p>Bharat Touch Enterprises <br /> Divinity Towers, Plot No. 1682 <br /> Sector 82 - Mohali Punjab</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <i class="bi bi-telephone"></i>
+                                <h3>Call Us</h3>
+                                <p>+91-9914445080<br>+91-9815548989</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <i class="bi bi-envelope"></i>
+                                <h3>Email Us</h3>
+                                <p>@infoEmail<br>@salesEmail</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <i class="bi bi-clock"></i>
+                                <h3>Open Hours</h3>
+                                <p>Monday - Friday<br>9:00AM - 05:00PM</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6">
+                    @using (Html.BeginForm("SendContactEmailHome", "Users", FormMethod.Post, new { id = "SendContactEmailFormHome", @class = "php-email-form", @enctype = "multipart/form-data" }))
+                    {
+                        <input type="hidden" value="3" id="LeadTypeId" name="LeadTypeId" />
+                        <div class="row gy-4">
+
+                            <div class="col-md-6">
+                                <input type="text" name="Name" id="Name" class="form-control" placeholder="Your Name" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <input type="email" class="form-control" id="Email" name="Email" placeholder="Your Email" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                @Html.DropDownList("CountryCode", ViewBag.CountryCodes as List<SelectListItem>, "Select Country Code", new { @class = "form-control", @id = "ddlCountryCode", @required = "required" })
+                            </div>
+                            <div class="col-md-6">
+                                <input type="number" name="PhoneNo" class="form-control" id="PhoneNo" placeholder="Your Phone No." required />
+                            </div>
+
+                            <div class="col-md-12">
+                                <textarea class="form-control" name="Message" id="Message" rows="3" placeholder="Message" required></textarea>
+                            </div>
+
+                            <div class="col-md-12">
+                                <input type="hidden" name="pageName" id="pageName" value="Home" />
+                                <div id="grecaptchaHomeContact"></div>
+                                <input type="hidden" name="hdngrecaptchaResponseContactForm" id="hdngrecaptchaResponseContactForm" value="" />
+                            </div>
+
+                            <div class="col-md-12 text-center">
+                                <div class="loading">Loading</div>
+                                <div class="error-message"></div>
+                                <div class="sent-message">Your message has been sent. Thank you!</div>
+
+                                <button type="submit"> <div class="lds-dual-ring"></div> Send Message</button>
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section><!-- End Contact Section -->
+
+
+</main><!-- End #main -->

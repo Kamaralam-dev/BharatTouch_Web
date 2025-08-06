@@ -1,0 +1,142 @@
+﻿@using DataAccess;
+@{
+    string actionName = this.Html.Action().ToString();
+    bool isGlobalData = true;
+    var currentController = Html.Controller().NullToString().ToLower();
+    if (currentController == "users"
+            || currentController == "accounttype"
+            || currentController == "activitytype"
+            || currentController == "activitystatus"
+            || currentController == "industry"
+            || currentController == "leadstatus"
+            || currentController == "rating"
+            || currentController == "source"
+            || currentController == "salestage"
+            || currentController == "service"
+            || currentController == "currency"
+            || currentController == "setting"
+             || currentController == "team"
+             || currentController == "testimonial"
+             || currentController == "faq"
+             || currentController == "quotation"
+             || currentController == "story"
+             || currentController == "affiliate"
+              || currentController == "category"
+             || currentController == "contactus"
+             || currentController == "item"
+             || currentController == "order"
+             || currentController == "payment"
+             || currentController == "term"
+             || currentController == "setting"
+              || currentController == "sponsor")
+    {
+        isGlobalData = true;
+    }
+
+    if (currentController == "activitycustomfield"
+           || currentController == "accountcustomfield"
+           || currentController == "contactcustomfield"
+           || currentController == "leadcustomfield"
+           || currentController == "salecustomfield")
+    {
+        isGlobalData = false;
+    }
+}
+<ul class="nav nav-main">
+    @*<li class="nav-parent @(isGlobalData?"nav-expanded nav-active":"")">
+            <a>
+                <i class="fa fa-gear" aria-hidden="true"></i>
+                <span>Admin</span>
+            </a>
+        </li>*@
+
+
+    <li class="@(currentController.NullToString().ToLower() == "users" ? "nav-active": "")">
+        <a href="~/Users/index">
+            <i class="fa fa-users"></i>&nbsp;Users
+        </a>
+    </li>
+
+    <li class="@(currentController.NullToString().ToLower() == "category" ? "nav-active" : "")">
+        <a href="~/category/index">
+            <i class="fa fa-sitemap"></i>&nbsp; Category
+        </a>
+    </li>
+    <li class="@(currentController.NullToString().ToLower() == "item" ? "nav-active" : "")">
+        <a href="~/Item/index">
+            <i class="fa fa-info-circle"></i>&nbsp; Item
+        </a>
+    </li>
+    <li class="@(currentController.NullToString().ToLower() == "team" ? "nav-active" : "")">
+        <a href="~/team/index">
+            <i class="fa fa-users"></i>&nbsp;Team
+        </a>
+    </li>
+    <li class="@(currentController.NullToString().ToLower() == "affiliate" ? "nav-active" : "")">
+        <a href="~/affiliate/index">
+            <i class="fa fa-graduation-cap"></i>&nbsp;Affiliate
+        </a>
+    </li>
+    <li class="@(currentController.NullToString().ToLower() == "faq" ? "nav-active" : "")">
+        <a href="~/faq/index">
+            <i class="fa fa-question-circle"></i>&nbsp; Faq
+        </a>
+    </li>
+    <li class="@(currentController.NullToString().ToLower() == "testimonial" ? "nav-active" : "")">
+        <a href="~/testimonial/index">
+            <i class="fa fa-video-camera"></i>&nbsp;Testimonial
+        </a>
+    </li>
+
+
+
+    <li class="@(currentController.NullToString().ToLower() == "quotation" ? "nav-active" : "")">
+        <a href="~/quotation/index">
+            <i class="fa fa-pencil-square-o"></i>&nbsp;Quotation
+        </a>
+    </li>
+
+    <li class="@(currentController.NullToString().ToLower() == "story" ? "nav-active" : "")">
+        <a href="~/story/index">
+            <i class="fa fa-picture-o"></i>&nbsp;Story
+        </a>
+    </li>
+    <li class="@(currentController.NullToString().ToLower() == "order" ? "nav-active" : "")">
+        <a href="~/Order/index">
+            <i class="fa fa-shopping-cart"></i>&nbsp; Order
+        </a>
+    </li>
+    <li class="@(currentController.NullToString().ToLower() == "payment" ? "nav-active" : "")">
+        <a href="~/Payment/index">
+            <i class="fa fa-dollar"></i>&nbsp;  Payment
+        </a>
+    </li>
+    <li class="@(currentController.NullToString().ToLower() == "sponsor" ? "nav-active" : "")">
+        <a href="~/Sponsor/index">
+            <i class="fa fa-bank"></i>&nbsp;  Sponsor
+        </a>
+    </li>
+    <li class="@(currentController.NullToString().ToLower() == "contactus" ? "nav-active" : "")">
+        <a href="~/ContactUs/index">
+            <i class="fa fa-info-circlefa fa-envelope"></i>&nbsp; Contact Us
+        </a>
+    </li>
+
+
+
+    <li class="@(currentController.NullToString().ToLower() == "term" ? "nav-active" : "")">
+        <a href="~/term/upsert">
+            <i class="fa fa-exclamation-triangle"></i> T & C
+        </a>
+    </li>
+    <li class="@(actionName.NullToString().ToLower() != "banner" && currentController.NullToString().ToLower() == "setting" ? "nav-active" : "")">
+        <a href="~/setting/index">
+            <i class="fa fa-ticket"></i> Settings
+        </a>
+    </li>
+    <li class="@(actionName.NullToString().ToLower() == "banner" ? "nav-active" : "")">
+        <a href="~/setting/banner">
+            <i class="fa fa-ticket"></i>Banner Settings
+        </a>
+    </li>
+</ul>

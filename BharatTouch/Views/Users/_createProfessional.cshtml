@@ -1,0 +1,89 @@
+﻿@model DataAccess.Models.UserProfessionalModel
+@{
+
+}
+
+@using (Html.BeginForm("SaveProfessional", "Users", FormMethod.Post, new { id = "upsertProfessioanlForm", @class = "php-email-form", @enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(t => t.ProfessionId)
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="name"><span style="color:red;">*</span>Job Title</label>
+            @Html.TextBoxFor(t => t.Title, new { @class = "form-control required-left", @placeholder = "", @id = "profTitle" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="name"><span style="color:red;">*</span>Company Name</label>
+            @Html.TextBoxFor(t => t.Company, new { @class = "form-control required-left", @placeholder = "", @id = "profCompany" })
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="name"><span style="color:red;">*</span>Start Date</label>
+            @if (Model != null)
+            {
+                @Html.TextBox("StartDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style10 + "}", Model.StartDate), new { @class = "form-control", @autocomplete = "off", @placeholder = "", @id = "profStartDate" })
+            }
+            else
+            {
+                @Html.TextBox("StartDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style10 + "}", ""), new { @class = "form-control", @autocomplete = "off", @placeholder = "", @id = "profStartDate" })
+            }
+        </div>
+        <div class="form-group col-md-6">
+            <label for="name">End Date</label>
+            @if (Model != null)
+            {
+                @Html.TextBox("EndDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style10 + "}", Model.EndDate), new { @class = "form-control", @autocomplete = "off", @placeholder = "", @id = "profEndDate" })
+            }
+            else
+            {
+                @Html.TextBox("EndDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style10 + "}", ""), new { @class = "form-control", @autocomplete = "off", @placeholder = "", @id = "profEndDate" })
+            }
+        </div>
+    </div>
+    <div class="form-row">
+
+        <div class="form-group col-md-6">
+            <label for="name">Phone</label>
+            @Html.TextBoxFor(t => t.Phone, new { @class = "form-control required-left", @placeholder = "", @id = "profPhone" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="name">Website</label>
+            @Html.TextBoxFor(t => t.Website, new { @class = "form-control required-left", @placeholder = "", @id = "profWebsite" })
+        </div>
+
+
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="name"><span style="color:red;">*</span>City</label>
+            @Html.TextBoxFor(t => t.City, new { @class = "form-control required-left", @placeholder = "", @id = "profCity" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="name">State</label>
+            @Html.TextBoxFor(t => t.StateName, new { @class = "form-control required-left", @placeholder = "", @id = "profState" })
+        </div>
+
+
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="name"><span style="color:red;">*</span>Country</label>
+            @Html.TextBoxFor(t => t.Country, new { @class = "form-control required-left", @placeholder = "", @id = "profCountry" })
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="name">Zip</label>
+            @Html.TextBoxFor(t => t.Zip, new { @class = "form-control required-left", @placeholder = "", @id = "profZip" })
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <button class="btn btn-secondary btn-block" id="btnCancelExperience" type="button">Cancel</button>
+        </div>
+        <div class="form-group col-md-6">
+            <button class="btn-block  share-btn" type="submit"><div class="lds-dual-ring"></div>&nbsp;@((Model == null || Model.ProfessionId == 0) ? "Add" : "Update") Experience</button>
+        </div>
+    </div>
+}
+
+

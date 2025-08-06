@@ -1,0 +1,97 @@
+﻿ <!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    
+    <div class="footer-newsletter">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-6">
+                    <h4>Join Our Newsletter</h4>
+                    <p class="px-1">Subscribe to our newsletter and receive the latest news about our products and services!</p>
+                    @using (Html.BeginForm("InsertNewsLetter", "Home", FormMethod.Post, new { @id = "newsLetterForm", @class = "php-email-form" }))
+                    {
+                        <div class="newsletter-form">
+                            <input type="email" name="Email">
+                            <input type="submit" value="Subscribe" />
+                        </div>
+                        @*<div id="newLetterFormError" class="error-message"></div>*@
+                    }
+                    <div id="newLetterFormError" class="error-message"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="footer-top">
+            <div class="row gy-4">
+
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h4 class="bharatTouchColor">Useful Links</h4>
+                    <ul>
+                        <li><i class="bi bi-chevron-right"></i> <a target="_blank" href="@Url.Action("BT_TermsOfServices","Home")">Terms of Services</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a target="_blank" href="@Url.Action("BT_PrivacyPolicy", "Home")">Privacy Policy</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a target="_blank" href="@Url.Action("BT_RefundAndShipping", "Home")">Refund & Shipping</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a target="_blank" href="@Url.Action("BT_FAQ", "Home")">FAQs</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a target="_blank" href="@Url.Action("ShippingAndDelivery_Policy", "Home")">Shipping & Delivery</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-5 col-md-12">
+                    <h4 class="bharatTouchColor">Follow Us</h4>
+                    <p>Stay connected with Bharat Touch for the latest updates, features, and offers on digital business cards!</p>
+                    @*<div class="social-links d-flex">
+                        <a href="">
+                            <img src="~/FormAssets/img/Icons/twitter.png" class="ico ico-mg" />
+                        </a>
+                        <a href="">
+                            <img src="~/FormAssets/img/Icons/facebook.png" class="ico ico-mg" />
+                        </a>
+                        <a href="https://www.instagram.com/bharat_touch/" target="_blank">
+                            <img src="~/FormAssets/img/Icons/instagram.png" class="ico ico-mg" />
+                        </a>
+                        <a href="">
+                            <img src="~/FormAssets/img/Icons/linkedin.png" class="ico ico-mg" />
+                        </a>
+                    </div>*@
+                </div>
+
+                <div class="col-lg-1">
+
+                </div>
+
+                <div class="col-lg-3 col-md-6 footer-about">
+                    <a href="index.html" class="d-flex align-items-center">
+                        <span class="sitename bharatTouchColor">Bharat Touch</span>
+                    </a>
+                    <div class="footer-contact pt-3">
+                        <p>Divinity Towers<br /> Plot No. 1682 <br /> Sector 82 - Mohali Punjab</p>
+                        @*<p class="mt-2">
+                    <strong>Phone:</strong> <span>+91 9988 1332 63</span><br /><span style="margin-left: 47px; "> +91 9876 611 080</span>
+                </p>*@
+                        <p><strong>Email:</strong> <span>info@bharattouch.com</span></p>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="copyright">
+            &copy; Copyright <strong><span class="bharatTouchColor px-1 sitename">Bharat Touch Enterprises - 2025</span></strong>. All Rights Reserved
+            <br />
+            <span id="siteseal">
+                <script async type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=gazCwgc7L5fgeiqBi29XI1qyeQ4FuKXC90SRWzldF0jPBVdfr8IosX5mnWzr"></script>
+            </span>
+        </div>
+        <div class="credits">
+            <!-- All the links in the footer should remain intact. -->
+            <!-- You can delete the links only if you purchased the pro version. -->
+            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+
+        </div>
+    </div>
+</footer><!-- End Footer -->

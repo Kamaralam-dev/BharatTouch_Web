@@ -1,0 +1,251 @@
+﻿@model IEnumerable<DataAccess.ViewModels.LeadCommunicationViewModel>
+@using DataAccess;
+@{
+    Layout = "~/Views/Shared/Admin/_LayoutAdmin.cshtml";
+    int userid = BharatTouch.CommonHelper.Utility.GetCookie("UserId_admin").ToIntOrZero();
+}
+
+<style>
+    .resume .resume-item {
+        padding: 0 0 20px 20px;
+        margin-top: -2px;
+        border-left: 2px solid #1f5297;
+        position: relative;
+    }
+
+        .resume .resume-item::before {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50px;
+            left: -9px;
+            top: 0;
+            background: #fff;
+            border: 2px solid #1f5297;
+        }
+
+    .resume .resume-row {
+        margin-bottom: 15px; /* Equal vertical spacing between rows */
+        display: flex;
+        align-items: center;
+    }
+
+    .resume .resume-label {
+        font-size: 16px;
+        font-weight: 600;
+        min-width: 190px; /* You can adjust width for label alignment */
+    }
+
+    .resume .resume-value {
+        font-size: 16px;
+        color: black;
+        background: #e4edf9;
+        padding: 5px 15px;
+        border-radius: 3px;
+    }
+</style>
+
+<div class="pagetitle">
+    <h1>Leads Communication</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item">Leads Communication</li>
+        </ol>
+    </nav>
+</div>
+
+<div class="card">
+    <div class="card-body">
+
+        @using (Html.BeginForm("SaveOrUpdateLeadsCommunication", "Admin", FormMethod.Post, new { id = "communicationForm", @class = "row g-3 needs-validation" }))
+        {
+            @Html.Hidden("LeadId", Request.QueryString["leadId"])
+
+            <div class="col-md-4">
+                <label for="CommunicationTypeId" class="form-label"><span style="color:red;">*</span> Communication Type</label>
+
+                @Html.DropDownList("CommunicationTypeId", (IEnumerable<SelectListItem>)ViewBag.CommunicationTypes, "Select Type", new { @class = "form-select select2", required = "required" })
+            </div>
+
+            <div class="col-md-4">
+                <label for="CommunicatedBy" class="form-label"><span style="color:red;">*</span> Communicated By</label>
+                @Html.DropDownList("CommunicatedBy", new SelectList((IEnumerable<SelectListItem>)ViewBag.Users, "Value", "Text", userid), "Select User", new { @class = "form-select select2", required = "required" })
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Follow-Up Type</label>
+                @Html.DropDownList("FollowUpCommunicationTypeId", (IEnumerable<SelectListItem>)ViewBag.FollowUpCommunicationTypes, "Select Type", new { @class = "form-select select2" })
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Communication Date</label>
+                @Html.TextBox("CommunicatedOn", "", new
+           {
+               @class = "form-control dateSelector",
+               data_plugin_datepicker = "data-plugin-datepicker",
+               autocomplete = "off"
+           })
+
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Next Follow-Up Date</label>
+                @Html.TextBox("NextFollowUpDate", "", new
+          {
+              @class = "form-control dateSelector",
+              data_plugin_datepicker = "data-plugin-datepicker",
+              autocomplete = "off"
+          })
+
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label">Subject</label>
+                @Html.TextBox("Subject", null, new { @class = "form-control", placeholder = "Subject" })
+
+            </div>
+
+            <div class="col-md-12">
+                <label class="form-label"><span style="color:red;">*</span> Message</label>
+                @Html.TextArea("Message", new { @class = "form-control", rows = "4", placeholder = "Write your message here...", required = "required" })
+            </div>
+
+
+            <div style="text-align:center;">
+                <button type="button" onclick="onSaveLeadsCommunicationClick()" class="btn btn-success mx-2">Submit</button>
+            </div>
+        }
+
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body" style="height:400px;overflow-x:auto">
+        <!--loader-->
+        <div id="leadCommunicationLoading" style="display:none; text-align:center; padding:20px;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p>Loading communications...</p>
+        </div>
+        <!--leads cummunication-->
+        <div id="leadCommunicationListContainer">
+            <!-- Communication list will be loaded here via AJAX -->
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        loadLeadCommunicationList();
+
+        $('.dateSelector').flatpickr({
+            //dateFormat: "d-m-Y", // Format: MM-DD-YYYY
+            dateFormat: "m-d-Y", // Format: MM-DD-YYYY
+            //defaultDate: "today", // Optional: Pre-select today
+            disableMobile: "true" // Ensure consistency on mobile devices
+        });
+
+    });
+
+    function loadLeadCommunicationList() {
+        const leadId = $("input[name='LeadId']").val();
+
+        $('#leadCommunicationLoading').show();
+        $('#leadCommunicationListContainer').hide();
+
+        $.ajax({
+            url: '/Admin/GetLeadCommunicationHtml',
+            type: 'GET',
+            data: { leadId },
+            success: function (html) {
+                $('#leadCommunicationListContainer').html(html);
+
+                $('#leadCommunicationLoading').hide();
+                $('#leadCommunicationListContainer').show();
+            },
+            error: function () {
+                $('#leadCommunicationListContainer').html('<p class="text-danger text-center">Failed to load communication data.</p>');
+
+                $('#leadCommunicationLoading').hide();
+                $('#leadCommunicationListContainer').show();
+            }
+        });
+    }
+
+    function onSaveLeadsCommunicationClick() {
+
+        $("#communicationForm").validate({
+            rules: {
+                CommunicationTypeId: { required: true },
+                CommunicatedBy: { required: true },
+                FollowUpCommunicationTypeId: { required: true },
+                CommunicatedOn: { required: true },
+                NextFollowUpDate: { required: true },
+                Message: { required: true },
+            },
+            messages: {
+                CommunicationTypeId: "Please select communication type",
+                CommunicatedBy: "Please select a user",
+                FollowUpCommunicationTypeId: "Please select follow-up type",
+                CommunicatedOn: "Please choose communication date",
+                NextFollowUpDate: "Please enter next follow-up date",
+                Message: "Message is required"
+            },
+            errorPlacement: function (error, element) {
+                if (element.hasClass("select2-hidden-accessible")) {
+                    error.insertAfter(element.next('.select2'));
+                } else if (element.hasClass("form-select")) {
+                    error.insertAfter(element);
+                } else if (element.attr("type") === "date") {
+                    error.insertAfter(element);
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            highlight: function (element) {
+                $(element).addClass("is-invalid");
+            },
+            unhighlight: function (element) {
+                $(element).removeClass("is-invalid");
+            },
+            submitHandler: function (form) {
+                var f = $(form);
+                var dataArray = f.serializeArray();
+                debugger;
+                $.ajax({
+                    type: f[0].method,
+                    url: f[0].action,
+                    data: dataArray,
+                    dataType: 'json',
+                    success: function (data, strStatus) {
+                        debugger;
+                        showMessage((data.Success ? "Success" : "Failed"), data.Data, data.Type);
+
+                        if (data.Success) {
+                            $('#communicationForm')[0].reset();
+                            $('.select2').val(null).trigger('change');
+                            $('select[name="CommunicatedBy"]').val('@userid').trigger('change');
+                            loadLeadCommunicationList();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire("Error", "An unexpected error occurred: " + error, "error");
+                    }
+                });
+
+            }
+        });
+        if ($("#communicationForm").valid()) {
+            $("#communicationForm").submit();
+        }
+    }
+
+    function ReloadDataTable(tableId) {
+        $('#' + tableId).DataTable().ajax.reload(null, false);
+    }
+</script>

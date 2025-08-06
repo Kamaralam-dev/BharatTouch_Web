@@ -1,0 +1,373 @@
+﻿
+
+@model DataAccess.Models.UserByAdminModel
+
+
+@using (Html.BeginForm("SaveOrUpdateUserByAdmin", "Admin", FormMethod.Post, new { id = "userByAdminForm", @class = "row g-3 needs-validation" }))
+{
+
+    <div class="col-md-6">
+        <label for="inputFirstName" class="form-label"><span style="color:red;">*</span> First Name</label>
+        @Html.TextBoxFor(t => t.FirstName, new { @class = "form-control", @placeholder = "First Name", @required = "true" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="inputLastName" class="form-label"> Last Name</label>
+        @Html.TextBoxFor(t => t.LastName, new { @class = "form-control", @placeholder = "Last Name" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="inputEmailID" class="form-label"><span style="color:red;">*</span> Email</label>
+        @Html.TextBoxFor(t => t.EmailID, new { @class = "form-control", @placeholder = "Email", @required = "true" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="inputDisplayName" class="form-label"><span style="color:red;">*</span> Display Name</label>
+        @Html.TextBoxFor(t => t.DisplayName, new { @class = "form-control", @placeholder = "Display Name", @required = "true" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="inputNfcCardColorId" class="form-label"><span style="color:red;">*</span> Card Color</label>
+        @Html.DropDownListFor(x => x.NfcCardColorId,
+                      (SelectList)ViewBag.NFCCardColor,
+                      "Select a Card Color",  // Placeholder option
+                      new { @class = "form-control form-select", @id = "ddlNfcCardColorId" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="inputNfcCardFinishId" class="form-label"><span style="color:red;">*</span> Card Finish</label>
+        @Html.DropDownListFor(x => x.NfcCardFinishId,
+                       (SelectList)ViewBag.NFCCardFinishColor,
+                       "Select a Card Color Finish",  // Placeholder option
+                       new { @class = "form-control form-select", @id = "ddlNfcCardFinishId" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="inputNfcCardLine1" class="form-label"> Card Line1</label>
+        @Html.TextBoxFor(t => t.NfcCardLine1, new { @class = "form-control", @placeholder = "Card Line1" })
+    </div>
+    <div class="col-md-6">
+        <label for="inputNfcCardLine2" class="form-label"> Card Line2</label>
+        @Html.TextBoxFor(t => t.NfcCardLine2, new { @class = "form-control", @placeholder = "Card Line2" })
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="inputNfcCardLine3" class="form-label"> Card Line3</label>
+        @Html.TextBoxFor(t => t.NfcCardLine3, new { @class = "form-control", @placeholder = "Card Line3" })
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label for="inputIsSelfPick" class="form-label"> Self Pick</label>
+        @Html.CheckBoxFor(t => t.IsSelfPick, new { @class = "form-check-input" })
+    </div>
+
+    <div class="col-md-12 text-center mb-3">
+        <label for="inputFreePromotion" class="form-label"> Free Promotion</label>
+        @Html.CheckBox("FreePromotion", new { @class = "form-check-input", id = "chkFreePromotion" })
+    </div>
+
+    <div id="divFreePromotion" style="display:none;" class="row">
+
+        <div class="col-md-12 mb-3">
+            <label for="inputPackageCost" class="form-label"> Cost</label>
+            @Html.TextBoxFor(t => t.PackageCost, new { @class = "form-control", @placeholder = "Cost", id = "txtPackageCost", @required = "true" })
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="inputApplyReferralDiscount" class="form-label"> Apply Ref Disc</label>
+            @Html.CheckBoxFor(t => t.ApplyReferralDiscount, new { @class = "form-check-input", id = "chkApplyReferralDiscount" })
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="inputRefDisc" class="form-label"> Ref Disc</label>
+            @Html.TextBox("RefDisc", null, new { @class = "form-control", @placeholder = "Referral Discount", @disabled = "disabled", id = "txtRefDisc" })
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="inputDiscountCoupon" class="form-label">Discount Coupon</label>
+            @Html.DropDownListFor(
+                x => x.DiscountCouponIdText, // Model property to bind selected value
+                (SelectList)ViewBag.DiscountCouponList, // Dropdown options from ViewBag
+                "Select Discount Coupon", // Placeholder text
+                new { @class = "form-control form-select", @id = "ddlDiscountCoupon" }
+            )
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="inputCouponDisc" class="form-label"> Coupon Disc</label>
+            @Html.TextBox("CouponDisc", null, new { @class = "form-control", @placeholder = "Coupon Discount", @disabled = "disabled", id = "txtCouponDisc" })
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="inputSubTotal" class="form-label"> Sub Total</label>
+            @Html.TextBox("SubTotal", null, new { @class = "form-control", @placeholder = "SubTotal", @disabled = "disabled", id = "txtSubTotal" })
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="inputTax" class="form-label"> Tax</label>
+            @Html.TextBoxFor(t => t.Tax, new { @class = "form-control", @placeholder = "Tax", @disabled = "disabled", id = "txtTax" })
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="inputTotalAmount" class="form-label"> Amount</label>
+            @Html.TextBoxFor(t => t.TotalAmount, new { @class = "form-control", @placeholder = "Total Amount", @disabled = "disabled", id = "txtTotalAmount" })
+        </div>
+
+    </div>
+
+
+    <div class="col-md-12">
+        @Html.HiddenFor(t => t.paymentmethodid)
+        @Html.HiddenFor(t => t.DiscountCouponIdText)
+        @Html.HiddenFor(t => t.CouponDiscount)
+        @Html.HiddenFor(t => t.ReferralDiscount)
+        @Html.HiddenFor(t => t.Tax)
+        @Html.HiddenFor(t => t.TotalAmount)
+    </div>
+}
+
+<script>
+
+    var validateDuplicateDisplayName = function (name) {
+
+        $.ajax({
+            type: 'GET',
+            data: { name: name },
+            url: "/Users/CheckDisplayNameAvailability",
+            dataType: 'json',
+            success: function (data) {
+                debugger
+                if (data.Data == "1") {
+                    $("#DisplayName").val("");
+                    showMessage("Failed!", data.Message, "notice");
+                }
+                else {
+                    $("#DisplayName").val(name);
+                }
+            },
+            error: handleAjaxError()
+        });
+
+    }
+
+    $(document).ready(function () {
+
+        $("#ModaladdEditUserByAdmin").on("shown.bs.modal", function () {
+            $("#FirstName").blur(function () {
+                var name = $(this).val().trim();
+                if ($("#LastName").val() != "") {
+                    name = name + "." + $("#LastName").val().trim();
+                }
+                validateDuplicateDisplayName(name);
+            });
+
+            $("#LastName").blur(function () {
+                var name = $("#FirstName").val().trim();
+                if ($("#LastName").val().trim() != "") {
+                    name = name + "." + $(this).val().trim();
+                }
+                validateDuplicateDisplayName(name);
+            });
+
+            $("#DisplayName").blur(function () {
+                debugger
+                var name = $(this).val().trim();
+                var spaceCheck = name.split(' ');
+                if (spaceCheck.length > 1) {
+                    $("#Displayname").val("");
+                    showMessage("Failed!", "Space not allowed", "notice");
+                    return false;
+                }
+                validateDuplicateDisplayName(name);
+            });
+        });
+
+
+        
+        // Hide the promotion section initially
+        toggleFreePromotionSection();
+
+        // Event listeners
+        $('#chkFreePromotion').change(function () {
+            toggleFreePromotionSection();
+        });
+
+        $('#chkApplyReferralDiscount').change(function () {
+            applyReferralDiscount();
+        });
+
+        $('#ddlDiscountCoupon').change(function () {
+            applyCouponDiscount();
+            applyReferralDiscount();
+        });
+
+        $('#txtPackageCost').on('input', function () {
+            applyReferralDiscount(); // Recalculate when package cost changes
+        });
+
+        // Toggle the visibility of Free Promotion section
+        function toggleFreePromotionSection() {
+            if ($('#chkFreePromotion').is(':checked')) {
+                $('#divFreePromotion').hide();
+            } else {
+                $('#divFreePromotion').show();
+            }
+        }
+
+        // Apply referral discount
+        function applyReferralDiscount() {
+            
+            var cost = parseFloat($('#txtPackageCost').val()) || 0;
+            var referralDiscount = 0;
+
+            // Calculate referral discount if applied
+            if ($('#chkApplyReferralDiscount').is(':checked')) {
+                referralDiscount = (cost * 0.05); // 5% referral discount
+                $('#txtRefDisc').val(referralDiscount.toFixed(2)); // Display referral discount
+            } else {
+                $('#txtRefDisc').val('');
+            }
+
+            // Apply coupon discount after referral discount (if applied)
+            applyCouponDiscount(referralDiscount);
+        }
+
+        // Apply coupon discount
+        function applyCouponDiscount(referralDiscount = 0) {
+            debugger;
+            var cost = parseFloat($('#txtPackageCost').val()) || 0;
+            var couponDiscount = 0;
+
+            // Get the selected discount coupon value (percentage)
+            var selectedCoupon = $('#ddlDiscountCoupon').val();
+            if (selectedCoupon) {
+                var couponParts = selectedCoupon.split(',');
+                var couponId = couponParts[0]; // Coupon ID (e.g., 1 for special case)
+                var couponDiscountPercentageOff = parseFloat(couponParts[1]) || 0; // Coupon discount percentage
+                var couponDiscountAmountOff = parseFloat(couponParts[2]) || 0; // Coupon discount percentage
+                var newAmt = cost - referralDiscount;
+
+                // for percentage
+                if (couponDiscountPercentageOff > 0.00) {                    
+                    couponDiscount = (newAmt * couponDiscountPercentageOff) / 100;
+                }
+                else {
+                    // Otherwise, apply the coupon discount aount
+                    if (referralDiscount) {
+                        couponDiscount = couponDiscountAmountOff;
+                    }
+                    else {
+                        var amt = newAmt - couponDiscountAmountOff;
+                        couponDiscount = cost - amt;
+                    }
+                }
+            }
+
+            // Total after referral and coupon discount
+            var totalAfterDiscounts = cost - referralDiscount - couponDiscount;
+
+            // Update fields with the calculated values
+            $('#txtCouponDisc').val(couponDiscount.toFixed(2)); // Display coupon discount
+            $('#txtSubTotal').val(totalAfterDiscounts.toFixed(2)); // Display subtotal
+
+            // Apply tax (18%)
+            var tax = totalAfterDiscounts * 0.18;
+            $('#txtTax').val(tax.toFixed(2));
+
+            // Calculate total amount
+            var totalAmount = totalAfterDiscounts + tax;
+            $('#txtTotalAmount').val(totalAmount.toFixed(2));
+        }
+
+        $("#chkFreePromotion").on("change", function () {
+            var status = $(this).prop('checked');
+            if (status == true) {
+                $("#divFreePromotion").hide();
+            }
+            else {
+                $("#divFreePromotion").show();
+            }
+        });
+    });
+
+
+
+    function onSaveUserByAdminClick() {
+        debugger;
+
+        var refdisc = $("#txtRefDisc").val();
+        var txtCouponDisc = $("#txtCouponDisc").val();
+        var txtTax = $("#txtTax").val();
+        var txtTotalAmount = $("#txtTotalAmount").val();
+        $("#ReferralDiscount").val(refdisc);
+        $("#CouponDiscount").val(txtCouponDisc);
+        $("#Tax").val(txtTax);
+        $("#TotalAmount").val(txtTotalAmount);
+
+        var freePro = $("#chkFreePromotion").prop('checked');
+        if (freePro) {
+            $("#paymentmethodid").val(7);
+        }
+        else {
+            $("#paymentmethodid").val(1);
+            if ($("#txtPackageCost").val() == 0) {
+                Swal.fire({
+                    icon: 'error', // Icon type ('error', 'warning', 'info', 'success')
+                    title: 'Cost is required!',
+                    text: 'Please enter a valid cost value.',
+                    confirmButtonText: 'OK'
+                });
+                return false;
+            }
+
+        }
+
+        $("#userByAdminForm").validate({
+            rules: {
+                FirstName: { required: true },
+                DisplayName: { required: true },
+                EmailID: { required: true },
+                NfcCardColorId: { required: true },
+                NfcCardFinishId: { required: true },
+                PackageCost: { required: true },
+            },
+            submitHandler: function (form) {
+                debugger;
+                var f = $(form);
+                var data = f.serializeArray();
+
+                if ($("#DisplayName").val() == "") {
+                    showMessage("Warning!", "Display name is required", "notice");
+                    return false;
+                }
+
+                $.ajax({
+                    type: f[0].method,
+                    url: f[0].action,
+                    data: data,
+                    dataType: 'json',
+                    success: function (data, strStatus) {
+
+                        showMessage((data.Success ? "Success" : "Failed"), data.Data, data.Type);
+                        setTimeout(function () {
+
+                            if (data.Success) {
+                                $('#ModaladdEditUserByAdmin').modal('hide');
+                                ReloadDataTable("tableUser_Admin");
+                            }
+                        }, 500)
+                    },
+                    error: handleAjaxError()
+                });
+            }
+        });
+        if ($("#userByAdminForm").valid()) {
+            $("#userByAdminForm").submit();
+        }
+    }
+
+    function ReloadDataTable(tableId) {
+        $('#' + tableId).DataTable().ajax.reload(null, false);
+    }
+
+
+</script>

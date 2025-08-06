@@ -1,0 +1,78 @@
+﻿@model IEnumerable<DataAccess.Models.CountryModel>
+@using BharatTouch.CommonHelper;
+@{
+    Layout = "~/Views/Shared/Admin/_LayoutAdmin.cshtml";
+}
+
+@section scripts{
+    <script src="~/Content/page-scripts/Admin/CountryIndex.js"></script>
+    <script type="text/javascript">
+        var country = new listCountry_admin();
+        country.getCountryUrl = "@Url.Action("GetAllCountry", "Admin")";
+        country.deleteCountryUrl = "@Url.Action("DeleteCountry", "Admin")";
+        country.addEditCountryUrl = "@Url.Action("AddEditCountry", "Admin")";
+        country.init();
+    </script>
+
+}
+
+<div class="pagetitle">
+    <h1>Country</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item">Country List</li>
+        </ol>
+    </nav>
+
+</div>
+
+<section class="section">
+
+    <div class="card">
+        <div class="card-body">
+            <button type="button" id="btnAddCountry" class="btn btn-success float-end mx-2"><i class="bi bi-plus-circle-dotted me-1"></i>Add New</button>
+            <br />
+            <br />
+            <table class="table table-bordered table-striped" id="tableCountry_Admin">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Country
+                        </th>
+                        <th>
+                            Abbreviation
+                        </th>
+                        <th>
+                            Country Code
+                        </th>
+                        <th>
+                            Number Code
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+    </div>
+
+</section>
+
+@{
+    var modalModel = new DataAccess.ViewModels.ModalViewModel
+    {
+        ModalId = "ModaladdEditCountry",
+        ModalSize = "modal-lg",
+        Title = "Add/Edit Country",
+        CloseButtonText = "Close",
+        PrimaryButtonText = "Save",
+        PrimaryButtonOnClick = "onSaveCountryClick()"
+    };
+}
+@Html.Partial("~/Views/Shared/Admin/_modal.cshtml", modalModel)

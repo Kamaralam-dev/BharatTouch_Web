@@ -1,0 +1,52 @@
+﻿@model int
+@{
+    var teamList = new DataAccess.Repository.UserRepository().GetTeam(Model, "BharatTouch/Profile/_teamImagesReadonly.cshtml");
+
+}
+
+
+@if (teamList.Count > 0)
+{
+    foreach (var team in teamList)
+    {
+        <div class="testimonial-item">
+            <div class="testimonial-img">
+                @if (System.IO.File.Exists(Server.MapPath(team.PicturePath)))
+                {
+                    <img src="@Url.Content(team.PicturePath)" alt="@team.Name">
+                }
+                else
+                {
+                    <img src="/FormAssets/img/blank-profile-picture.jpg" alt="@team.Name" />
+                }
+               
+            </div>
+            <div class="testimonial-content">
+                <p>
+                    @*Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam accumsan lacus eget velit*@
+                </p>
+                <h3>@team.Name</h3>
+                <h4>@team.Designation</h4>
+            </div>
+        </div>
+
+        @*<div class="swiper-slide">
+            <div class="myteam-item">
+
+                <div class="profile mt-auto">
+                    @if (System.IO.File.Exists(Server.MapPath(team.PicturePath)))
+                    {
+                        <img src="@Url.Content(team.PicturePath)" class="myteam-img" alt="@team.Name">
+                    }
+                    else
+                    {
+                        <img src="/FormAssets/img/blank-profile-picture.jpg" style="height:230px;" alt="@team.Name" />
+                    }
+                    <h3> @team.Name</h3>
+                    <h4>@team.Designation</h4>
+                </div>
+            </div>
+        </div>*@
+    }
+
+}

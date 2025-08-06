@@ -1,0 +1,246 @@
+﻿@model IEnumerable<DataAccess.ViewModels.ViewHistoryViewModel>
+@using BharatTouch.CommonHelper;
+@{
+    ViewBag.Title = "PageImpressionIndex";
+    Layout = "~/Views/Shared/Company/_LayoutCompany.cshtml";
+    var loggeduserid = BharatTouch.CommonHelper.Utility.GetCookie("UserId_Company");
+    var loggedcompanyid = BharatTouch.CommonHelper.Utility.GetCookie("CompanyId_Company");
+    var loggedcompanydisplayname = BharatTouch.CommonHelper.Utility.GetCookie("CompanyDisplayName_Company");
+    var pageViewed = ViewBag.PageViewed;
+}
+
+<script src='@Html.Raw("https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js")'></script>
+
+<style>
+    .counts {
+        padding: 70px 0 60px;
+    }
+
+    .count-box {
+        display: flex;
+        align-items: center;
+        padding: 30px;
+        width: 100%;
+        background: #fff;
+        box-shadow: 0px 0 30px rgba(1, 41, 112, 0.08);
+    }
+
+        .count-box i {
+            font-size: 42px;
+            line-height: 0;
+            margin-right: 20px;
+            color: #4154f1;
+        }
+
+        .count-box span {
+            font-size: 36px;
+            display: block;
+            font-weight: 600;
+            color: #0b198f;
+        }
+
+        .count-box p {
+            padding: 0;
+            margin: 0;
+            font-family: "Nunito", sans-serif;
+            font-size: 14px;
+        }
+
+
+    /*css form excel button*/
+    div.dt-buttons {
+        float: right;
+        margin: -62px 0 0 0px !important;
+        border: none !important;
+    }
+</style>
+
+<div class="pagetitle">
+    <h1>Page Impression</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Company/CompanyIndex">Home</a></li>
+            <li class="breadcrumb-item">Page Impression List</li>
+        </ol>
+    </nav>
+</div>
+
+<section>
+
+    <div class="card">
+        <div class="card-body">
+
+            <div class="row d-flex justify-content-between align-items-end mb-4">
+
+                <div class="col-md-4">
+                    <label for="ddlCompanyUser" class="form-label">User</label>
+                    <select id="ddlCompanyUser" class="form-select select2">
+                        @if (ViewBag.AllUsersByCompanyData != null)
+                        {
+                            foreach (var i in ViewBag.AllUsersByCompanyData)
+                            {
+                                <option value="@i.UserId">@i.FirstName @(i.LastName ?? "")</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="count-box">
+                        <i class="bi bi-bar-chart"></i>
+                        <div>
+                            <span id="profileViewsCounter"></span>
+                            @*<span id="profileViewsCounter" data-purecounter-start="0" data-purecounter-end="0" data-purecounter-duration="1" class="purecounter"></span>*@
+                            <p>Profile Views</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <table class="table table-bordered table-striped" cellspacing="0" style="width:100%!important;" id="tablePageImpression_Company">
+                <thead class="mb-none">
+                    <tr>
+                        <th>#</th>
+                        <th>IP Address</th>
+                        <th>Browser Name</th>
+                        <th>Browser Version</th>
+                        <th>Plat Form</th>
+                        <th>IsMobile</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+
+<script>
+    function updateProfileViewCounter(total) {
+        debugger;
+        var counterContainer = document.getElementById('profileViewsCounter').parentNode;
+
+        if (counterContainer) {
+            var oldCounterElement = document.getElementById('profileViewsCounter');
+            if (oldCounterElement) {
+                counterContainer.removeChild(oldCounterElement);
+            }
+
+            var newCounterElement = document.createElement('span');
+
+            newCounterElement.id = 'profileViewsCounter';
+            newCounterElement.className = 'purecounter';
+            newCounterElement.setAttribute('data-purecounter-start', '0');
+            newCounterElement.setAttribute('data-purecounter-end', total);
+            newCounterElement.setAttribute('data-purecounter-duration', '1');
+
+            counterContainer.prepend(newCounterElement);
+            new PureCounter();
+        }
+    }
+
+    $(document).ready(function () {
+
+        var selectedCompanyUser = getCookie("selectedCompanyUser");
+        if (selectedCompanyUser) {
+            $("#ddlCompanyUser").val(selectedCompanyUser);
+
+            $("#ddlCompanyUser").trigger("change");
+        }
+
+        $("#ddlCompanyUser").change(function () {
+            var selectedCompanyUser = $(this).val();
+            setCookie("selectedCompanyUser", selectedCompanyUser, 1);
+
+            $('#tablePageImpression_Company').DataTable().ajax.reload(function (json) {
+                debugger;
+                updateProfileViewCounter(json.recordsTotal);
+            });
+        });
+
+        loadPageImpression();
+    });
+
+    var loadPageImpression = function () {
+        $("#tablePageImpression_Company").DataTable({
+            dom: 'lBfrtip',  //lrtip on for external button
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    className: "btn btn-success",
+                    text: '<i style="color:white;" class="bi bi-file-earmark-excel"></i><span style="color:white;"> Export to Excel</span>',
+                    filename: function () {
+                        var userName = $("#ddlCompanyUser").find(":selected").text();
+                        return 'BharatTouch_PageImpression_' + userName + "_" + new Date().toISOString().slice(0, 10);
+                    },
+                    exportOptions: {
+                        /*columns: [0, 1, 2, 3, 4, 5, 6,8,9,10]*/
+                        columns: ':visible'  // export only visible columns
+                    },
+                    action: function (e, dt, button, config) {
+                        var recordsTotal = dt.page.info().recordsTotal;
+
+                        if (recordsTotal === 0) {
+                            Swal.fire({
+                                title: "Oops!",
+                                text: "There is no data to export.",
+                                icon: "warning",
+                                button: "OK",
+                            });
+
+                            return;
+                        }
+
+                        // call the original Excel export function
+                        $.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, button, config);
+                    }
+
+                }
+            ],
+            "processing": false, // for show progress bar
+            "serverSide": false, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "scrollX": false,
+            "scrollCollapse": true,
+            "lengthMenu": [25, 50, 100],
+            "pageLength": 25,
+            "autoWidth": true,
+            "order": [[0, "desc"]],
+            "ajax": {
+                "url": "/Company/GetViewHistoryByCompanyUser",
+                "type": "POST",
+                "datatype": "json",
+                "data": function (d) {
+                    d.userId = $("#ddlCompanyUser").val();
+                }
+            },
+            "columns": [
+                { "data": "ViewHistoryId", "name": "ViewHistoryId", "autoWidth": true, "visible": true },
+                {
+                    "data": "IPAddress",
+                    "name": "IPAddress",
+                    "autoWidth": true,
+                    "className": "dt-body-left"
+                },
+                { "data": "BrowserName", "name": "BrowserName", "autoWidth": true, "className": "dt-body-left" },
+                { "data": "BrowserVersion", "name": "BrowserVersion", "autoWidth": true, "className": "dt-body-left" },
+                { "data": "PlateForm", "name": "PlateForm", "autoWidth": true, "className": "dt-body-left" },
+                {
+                    "data": "IsMobile", "name": "IsMobile", "autoWidth": true, "className": "dt-body-left",
+                    render: function (data, type, row) {
+                        return row.IsMobile == "True" ? "Yes" : "No";
+                    }
+                },
+
+
+            ],
+            "initComplete": function (settings, json) {
+                debugger;
+                updateProfileViewCounter(json.recordsTotal);
+            }
+        });
+    }
+
+</script>

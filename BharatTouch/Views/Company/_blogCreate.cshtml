@@ -1,0 +1,40 @@
+﻿
+@model DataAccess.Models.BlogModel
+@{
+
+}
+
+@using (Html.BeginForm("SaveBlog", "Company", FormMethod.Post, new { id = "upsertBlogCompanyForm", @class = "row g-3", @enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(t => t.BlogId)
+    @Html.HiddenFor(t => t.UserId)
+
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="name"><span style="color:red;">*</span>Title</label>
+            @Html.TextBoxFor(t => t.BlogTitle, new { @class = "form-control required-left", @placeholder = "" })
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="name"><span style="color:red;">*</span>Category</label>
+            @Html.TextBoxFor(t => t.BlogCategory, new { @class = "form-control required-left", @placeholder = "" })
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="name"><span style="color:red;">*</span>Blog Url</label>
+            @Html.TextBoxFor(t => t.BlogUrl, new { @class = "form-control required-left", @placeholder = "" })
+        </div>
+    </div>
+    <br />
+    <div class="form-group d-flex gap-3">
+        <button class="btn btn-secondary btn-block w-100" id="btnCancelBlog" type="button">Cancel</button>
+        <button class="btn btn-success w-100" id="btnBlogSave" type="submit"><div class="lds-dual-ring"></div>&nbsp;@((Model == null || Model.BlogId == 0) ? "Add" : "Update") Blog</button>
+    </div>
+
+}
+
+
+
+

@@ -1,0 +1,166 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="canonical" href="http://aviecard.com/" />
+
+    <title>Aviecard | virtual business card</title>
+    <meta content="Forget the paper business cards, using Avi ecard enables you to actually use the received information. You can capture contacts in full compliance and with ease of mind. " name="description">
+    <meta content="virtual, digital, business card, online business card, mini website, online presence, contact less business card" name="keywords">
+
+    <link href="~/HomeAssets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/HomeAssets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <!-- =======================================================
+    * Template Name: FlexStart - v1.2.0
+    * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+
+    @Styles.Render("~/Content/homeCss")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/bundles/homeLayoutCSS")
+    <style>
+        .section-title {
+            padding: 14px;
+            text-align: center;
+        }
+
+        .section-title:after {
+            content: "";
+            display: inline-block;
+            width: 25%;
+            height: 4px;
+            background-color: #00698f; /* adjust the color to your desired blue shade */
+            margin-top: 10px auto; /* add some margin to create some space between the title and the line */
+        }
+
+        #btnSendEmail {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            #btnSendEmail:hover {
+                background-color: #0056b3;
+            }
+
+        .card-title {
+            font-weight: 900;
+            text-align: center;
+            margin: 25px 0 -16px;
+            text-decoration: underline;
+            color: #2c3b78;
+        }
+
+        .card {
+            box-shadow: 0 0 18px -4px;
+            margin-bottom: 48px;
+        }
+
+        .ck-editor__editable {
+            min-height: 200px;
+        }
+    </style>
+
+</head>
+<body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top">
+        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+            <a href="/" class="logo d-flex align-items-center">
+                <img src="~/homeassets/img/logonew.png" alt="Aviecard">
+            </a>
+
+        </div>
+    </header><!-- End Header -->
+    <!-- ======= Hero Section ======= -->
+
+    <main id="main" style="margin-top: 100px;">
+        <div class="container">
+            <div class="card">
+                <h2 class="card-title">Features Email</h2>
+                <div class="card-body">
+                    <div class="container">
+                        @using (Html.BeginForm("FeatureNotification", "Users", FormMethod.Post, new { id = "featureNotificationEmailForm", @class = "php-email-form" }))
+                        {
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="EmailSubject">Subject Title</label>
+                                    <input type="text" name="EmailSubject" id="EmailSubject" class="form-control" placeholder="Subject" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="emailDescription">Subject Description</label>
+                                    <textarea name="emailDescription" id="emailDescription" class="form-control" placeholder="Description"></textarea>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="emailBody">Email Content</label>
+                                    <textarea name="emailBody" id="emailBody" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-row clearfix">
+                                <button type="submit" id="btnSendEmail" class="btn btn-primary float-end mt-3"><div class="lds-dual-ring"></div>&nbsp;Send Email</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+
+        <div class="container">
+            <div class="copyright">
+                &copy; Copyright <strong><span>Avi eCard - 2021</span></strong>. All Rights Reserved
+            </div>
+            <div class="credits">
+                <!-- All the links in the footer should remain intact. -->
+                <!-- You can delete the links only if you purchased the pro version. -->
+                <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+
+            </div>
+        </div>
+    </footer><!-- End Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="~/HomeAssets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    @Scripts.Render("~/bundles/homeLayoutJS")
+
+    <!-- Template Main JS File -->
+    <script src="~/HomeAssets/js/main.js"></script>
+
+    @Scripts.Render("~/bundles/VendorJs")
+    @Scripts.Render("~/bundles/SpecificPageJS")
+
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
+    @Scripts.Render("~/bundles/pageScriptJS")
+    <script type="text/javascript">
+        var user = new featureNotification();
+        user.init();
+    </script>
+</body>
+</html>

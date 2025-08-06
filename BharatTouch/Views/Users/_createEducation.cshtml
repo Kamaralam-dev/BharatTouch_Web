@@ -1,0 +1,65 @@
+﻿@model DataAccess.Models.UserEducationModel
+@{
+
+}
+
+
+@using (Html.BeginForm("SaveEducation", "Users", FormMethod.Post, new { id = "upsertEducationForm", @class = "php-email-form", @enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(t => t.EducationId, new { @id = "eduEducationId" })
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="Degree"><span style="color:red;">*</span>Degree</label>
+            @Html.TextBoxFor(t => t.Degree, new { @class = "form-control required-left", @placeholder = "", @id = "eduDegree" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Institute"><span style="color:red;">*</span>Institute</label>
+            @Html.TextBoxFor(t => t.Institute, new { @class = "form-control required-left", @placeholder = "", @id = "eduInstitute" })
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="StartDate">Start Date</label>
+            @if (Model != null)
+            {
+                @Html.TextBox("StartDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style11 + "}", Model.StartDate), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "", @id = "eduStartDate" })
+            }
+            else
+            {
+                @Html.TextBox("StartDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style11 + "}", ""), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "", @id = "eduStartDate" })
+            }
+
+        </div>
+        <div class="form-group col-md-6">
+            <label for="EndDate">End Date</label>
+            @if (Model != null)
+            {
+                @Html.TextBox("EndDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style11 + "}", Model.EndDate), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "", @id = "eduEndDate" })
+            }
+            else
+            {
+                @Html.TextBox("EndDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style11 + "}", ""), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "", @id = "eduEndDate" })
+            }
+
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="Specialization">Specialization</label>
+            @Html.TextBoxFor(t => t.Specialization, new { @class = "form-control required-left", @placeholder = "", @id = "eduSpecialization" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Marks">Marks</label>
+            @Html.TextBoxFor(t => t.Marks, new { @class = "form-control required-left", @placeholder = "", @id = "eduMarks" })
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <button class="btn btn-secondary btn-block" id="btnCancelEducation" type="button">Cancel</button>
+        </div>
+        <div class="form-group col-md-6">
+            <button class="btn-block share-btn" type="submit"><div class="lds-dual-ring"></div>&nbsp;@((Model == null || Model.EducationId == 0) ? "Add" : "Update") Education</button>
+        </div>
+    </div>
+    
+}

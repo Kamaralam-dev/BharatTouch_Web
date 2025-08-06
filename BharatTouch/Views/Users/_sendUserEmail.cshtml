@@ -1,0 +1,46 @@
+﻿@model string
+
+<style>
+    .ck-editor__editable {
+        min-height: 200px;
+    }
+</style>
+
+<div class="modal fade" id="userEmailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Send Email</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("SendEmailToUsers", "Users", FormMethod.Post, new { id = "emailUserForm", @class = "php-email-form" }))
+                {
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="name">&nbsp;</label>
+                            <input type="text" name="EmailSubject" id="EmailSubject" class="form-control" placeholder="Subject" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="name">&nbsp;</label>
+                            <textarea name="emailBody" id="emailBody" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row clearfix">
+                        <input type="hidden" value="@Model" name="EmailIds" id="EmailIds" />
+                        <button type="submit" id="btnSendEmail" class="btn btn-primary float-end mt-3"><div class="lds-dual-ring"></div>&nbsp;Send Email</button>
+                    </div>
+                }
+            </div>
+            @*<div class="modal-footer">
+                    <div class="my-2 d-flex justify-content-between align-items-center">
+                        <a id="btnForgotPassword_Login" href="javascript:void(0)" style="cursor:pointer;" class="auth-link text-black">Forgot password?</a>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+@*<script src="~/Content/page-scripts/Users/Index.js?v=@DateTime.Now.ToString("yyyyMMddHHmmssf")"></script>*@

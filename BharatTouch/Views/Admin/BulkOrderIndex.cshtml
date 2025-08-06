@@ -1,0 +1,80 @@
+﻿@model IEnumerable<DataAccess.ViewModels.BusinessTypeViewModel>
+@using BharatTouch.CommonHelper;
+@{
+    Layout = "~/Views/Shared/Admin/_LayoutAdmin.cshtml";
+    string weburl = System.Configuration.ConfigurationManager.AppSettings["WebUrl"];
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+</head>
+
+<body>
+    <div class="pagetitle">
+        <h1>Bulk Order</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item">Bulk Order List</li>
+            </ol>
+        </nav>
+
+    </div>
+
+    <section>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+
+                    <table class="table table-bordered table-striped" cellspacing="0" style="width:100%!important;" id="tableBulkOrder_Admin">
+                        <thead>
+
+                            <tr>
+                                <th>
+                                    #
+                                </th>
+                                <th>
+                                    Company
+                                </th>
+                                <th>
+                                    Email
+                                </th>
+                                <th>
+                                    Phone
+                                </th>
+                                <th>
+                                    Contact Person
+                                </th>
+                                <th>
+                                    Min Order
+                                </th>
+                                <th>
+                                    Message
+                                </th>
+                               
+                            </tr>
+
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+
+</html>
+
+@section scripts{
+    <script src="~/Content/page-scripts/Admin/BulkOrderIndex.js"></script>
+    <script type="text/javascript">
+    var ord = new listBulkOrder_admin();
+        ord.getBulkOrderUrl = "@Url.Action("GetAllBulkOrder", "Admin")";
+        ord.weburl = "@weburl";
+        ord.init();
+    </script>
+}

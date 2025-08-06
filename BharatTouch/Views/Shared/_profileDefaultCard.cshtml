@@ -1,0 +1,417 @@
+﻿@model DataAccess.ViewModels.UserCardThemeSettingViewModel
+@using BharatTouch.CommonHelper
+@using DataAccess
+@{
+    var user = new DataAccess.Repository.UserRepository().GetUserById(Model.UserId, "BharatTouch/EditProfile/_defaultCardPreview.cshtml");
+
+    bool isProfilePicExist = user.ProfileImage.NullToString() != "";
+
+    var linkedIn = "";
+    var Twitter = "";
+    var Facebook = "";
+    var Instagram = "";
+    var Skype = "";
+    var Youtube = "";
+    var Teams = "";
+    var Snapchat = "";
+    var socialInfo = new DataAccess.Repository.SocialRepository().GetSocialInfo(user.UserId, "BharatTouch/EditProfile/_defaultCardPreview.cshtml");
+    if (socialInfo.Count > 0)
+    {
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "LinkedIn") != null)
+        {
+            linkedIn = socialInfo.FirstOrDefault(x => x.SocialMedia == "LinkedIn").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Twitter") != null)
+        {
+            Twitter = socialInfo.FirstOrDefault(x => x.SocialMedia == "Twitter").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Facebook") != null)
+        {
+            Facebook = socialInfo.FirstOrDefault(x => x.SocialMedia == "Facebook").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Instagram") != null)
+        {
+            Instagram = socialInfo.FirstOrDefault(x => x.SocialMedia == "Instagram").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Skype") != null)
+        {
+            Skype = socialInfo.FirstOrDefault(x => x.SocialMedia == "Skype").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Youtube") != null)
+        {
+            Youtube = socialInfo.FirstOrDefault(x => x.SocialMedia == "Youtube").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Teams") != null)
+        {
+            Teams = socialInfo.FirstOrDefault(x => x.SocialMedia == "Teams").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Snapchat") != null)
+        {
+            Snapchat = socialInfo.FirstOrDefault(x => x.SocialMedia == "Snapchat").Url.NullToString();
+        }
+    }
+
+    bool isBackgroundImgExist = false;
+    if (Model.BackgroundImg.NullToString() != "")
+    {
+        isBackgroundImgExist = System.IO.File.Exists(Server.MapPath("~" + Model.BackgroundImg));
+    }
+    bool isCoverImageExist = false;
+    try
+    {
+        if (user.CoverImage != null && user.CoverImage.NullToString() != "")
+        {
+            isCoverImageExist = (user.CoverImage.StartsWith("http") || user.CoverImage.StartsWith("www")) ? true : System.IO.File.Exists(Server.MapPath("~" + user.CoverImage));
+        }
+    }
+    catch (Exception ex) { }
+
+    var defaultBgImg = "https://images.unsplash.com/photo-1540228232483-1b64a7024923?ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80";
+    var WebUrl = ConfigValues.WebUrl;
+    var backgroundImage = isBackgroundImgExist ? Model.BackgroundImg : defaultBgImg;
+    var coverImage = "/Content/images/profile_default_bg.jpg";
+    if (isCoverImageExist)
+    {
+        coverImage = user.CoverImage.NullToString();
+    }
+
+    int companyId = BharatTouch.CommonHelper.Utility.GetCookie("CompanyId_auth").ToIntOrZero();
+    if (companyId > 0)
+    {
+        coverImage = WebUrl+"/Uploads/Company/CoverImage/" + companyId + ".png";
+    }
+
+    var bestFitCoverImageStyleClass = user.BestFitCoverImage.NullToString() == "" ? "cover" : user.BestFitCoverImage.NullToString();
+
+    //DataAccess.ViewModels.UserPackageViewModel package = new DataAccess.ViewModels.UserPackageViewModel();
+    //package = new DataAccess.Repository.PackagesRepository().GetPackageByUserId(user.UserId, "BharatTouch/EditProfile/_defaultCardPreview.cshtml");
+
+    var whatsappWithCountryCode = user.WhatsappNumberCode.NullToString() + user.Whatsapp.NullToString();
+    var whatsappForLink = System.Text.RegularExpressions.Regex.Replace(whatsappWithCountryCode, @"[^0-9]", "");
+
+    var isMapAddressNotExist = user.Address1.NullToString() == "" && user.City.NullToString() == "" && user.StateName.NullToString() == "" && user.Country.NullToString() == "";
+    var mapAddress = user.Address1.NullToString().Replace(" ", "%20") + "%20" + user.City.NullToString().Replace(" ", "%20") + "%20" + user.StateName.NullToString().Replace(" ", "%20") + "%20" + user.Country.NullToString().Replace(" ", "%20");
+
+    var profilePic = isProfilePicExist ? user.ProfileImage.NullToString() + "?v=" + DateTime.Now.ToString("yyyyMMddHHmmssf") : "/FormAssets/img/blank-profile-picture.jpg";
+    if (user.ProfileImageThumbnailPath.NullToString() != "")
+    {
+        profilePic = user.ProfileImageThumbnailPath.NullToString();
+    }
+
+    @functions {
+        string EnsureUrl(string url)
+        {
+            string modifiedUrl = url;
+            if (url.NullToString() != "" && !url.StartsWith("http"))
+            {
+                modifiedUrl = "http://" + url;
+            }
+            return modifiedUrl;
+        }
+    }
+}
+
+<style>
+
+    #hero {
+        overflow: visible !important;
+        height: 40vh !important;
+    }
+
+        #hero:before {
+            height: 40vh;
+        }
+
+        #hero.stretch {
+            background-size: 100% 100%;
+        }
+
+        #hero.contain {
+            /*            background-size: contain;*/
+            /*            background-position: center;*/
+            background-size: 1300px 305px;
+            background-position: top;
+        }
+
+        #hero.cover {
+            background-size: cover;
+            background-position: center;
+        }
+
+        #hero.custom-offset-fit {
+            background-size: 120%;
+            background-position: -20px -10px;
+        }
+
+    .ico {
+        font-size: 20px;
+        color: #149ddd;
+        /*        float: left;*/
+        width: 35px;
+        height: 35px;
+        background: #dff3fc;
+        /*        display: flex;*/
+        justify-content: center;
+        align-items: center;
+        border-radius: 50px;
+        transition: all 0.3s ease-in-out;
+        margin-right: 39px;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+        .ico:hover {
+            background: #149ddd !important;
+            color: #fff !important;
+        }
+
+    .ico-mg {
+        margin-right: 2px !important;
+        margin-left: 8px !important;
+    }
+
+    /*new profile design*/
+    .profile-card {
+        background: white;
+        width: 390px;
+        /*        width: 350px;*/
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        padding: 30px;
+        position: relative;
+        /*        height: 246px;*/
+        /*        height: 260px;*/
+        /*        top: -53px;*/
+
+        top: -57px;
+        z-index: 500;
+        margin: 0 auto;
+    }
+
+    .profile-pic {
+        width: 125px;
+        height: 125px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        position: absolute;
+        top: -50px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .profile-details {
+        margin-top: 32px;
+        padding-top: 20px;
+    }
+
+    .name {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .designation {
+        font-size: 14px;
+        color: gray;
+    }
+
+    .location {
+        font-size: 13px;
+        color: #666;
+        margin-top: 6px;
+        margin-bottom: 13px;
+    }
+
+    .save-btn {
+        display: inline-block;
+        background: #1ca53b;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 0px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+    }
+
+    .share-btn {
+        display: inline-block;
+        background: #ffab00;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 0px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+    }
+
+    .save-btn:hover {
+        background: #4faf65;
+        color: white;
+    }
+
+    .share-btn:hover {
+        background: #d7ab52;
+        color: white;
+    }
+
+
+    .blank-section {
+        margin-bottom: 20px;
+    }
+
+    .social-icons-list i {
+        padding-left: 15px;
+        font-size: 20px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        transition: .5s;
+    }
+
+    /*.profile-pic-with-icon-container {
+        position: relative;*/ /* Positioning context - remains the same */
+    /*display: inline-block;*/ /* Or block, inline-flex - remains the same */
+    /*}*/
+
+    .camera-icon-overlay {
+        position: absolute; /* Position overlay over profile picture */
+        top: 43px;
+        right: 139px;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+        color: white; /* Icon color */
+        width: 30px; /* Size of the overlay area */
+        height: 30px; /* Size of the overlay area */
+        border-radius: 50%; /* Make it circular */
+        display: flex; /* Center the icon inside */
+        justify-content: center;
+        align-items: center;
+        cursor: pointer; /* Indicate it's interactive (optional) */
+    }
+
+        .camera-icon-overlay i { /* Style the icon itself */
+            font-size: 16px; /* Size of the camera icon */
+            /* You can add more styles here if needed */
+        }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <section id="hero" class="@bestFitCoverImageStyleClass d-flex flex-column justify-content-center align-items-center mb-3" style="background-image: url(@coverImage);">
+            <div class="hero-container">
+                @if (user.Tagline.NullToString() != "")
+                {
+                    <div id="preTaglineContainer" class="designation">
+                        <p style="margin-top:0;">
+                            <span class="typed" data-typed-items="@user.Tagline" id="PreTagline"></span>
+                        </p>
+                    </div>
+                }
+            </div>
+        </section>
+
+        <div class="profile-card">
+            @*<img src="@profilePic" alt="profile-picture" class="profile-pic">*@
+            <div class="profile-pic-with-icon-container">
+                <!-- Container Div remains the same -->
+                <img src="@profilePic" alt="profile-picture" class="profile-pic">
+
+                <div class="camera-icon-overlay btnChangeImage">
+                    <i class="fa fa-camera"></i>
+                </div>
+
+            </div> <!-- End Container Div -->
+            <div class="profile-details">
+                <div class="name"><span id="PreFirstName">@user.FirstName</span> <span id="PreLastName">@user.LastName</span></div>
+                @*<div class="name">@user.FirstName @user.LastName.NullToString()</div>*@
+
+                <div class="designation-tagline">&nbsp; <span id="preCurrentDesignation">@user.CurrentDesignation</span></div>
+                <div class="location" style="font-weight: 700 !important;">&nbsp; <span id="preCompanyName">@user.Company</span></div>
+                <div class="social-icon-align social-icons-list">
+                    @if (!string.IsNullOrWhiteSpace(user.Phone))
+                    {
+                        <a href="tel::@user.Phone" target="_blank" class="social-linkss">
+                            <img src="~/FormAssets/img/Icons/phone-call.png" class="ico ico-mg" />
+                            @*<i class="icofont-phone ico ico-mg"></i>*@
+                        </a>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(user.Website))
+                    {
+                        <a href="@EnsureUrl(user.Website)" target="_blank" class="social-linkss">
+                            <img src="~/FormAssets/img/Icons/website-avi.png" class="ico ico-mg" />
+                            @*<i class="icofont-web ico ico-mg"></i>*@
+                        </a>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(user.EmailId))
+                    {
+                        <a href="mailto:@user.EmailId" target="_blank" class="social-linkss">
+                            <img src="~/FormAssets/img/Icons/mail-avi.png" class="ico ico-mg" />
+                            @*<i class="icofont-envelope ico ico-mg"></i>*@
+                        </a>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(whatsappForLink))
+                    {
+                        <a href="https://api.whatsapp.com/send?phone=@whatsappForLink" target="_blank" class="social-linkss">
+                            <img src="~/FormAssets/img/Icons/whatsapp-avi.png" class="ico ico-mg" />
+                            @*<i class="bi-whatsapp ico ico-mg"></i>*@
+                        </a>
+                    }
+                    <a target="_blank" id="PreFacebookLink" class="social-linkss" href="@EnsureUrl(Facebook)" style="display: @(Facebook.NullToString() == ""? "none" : "inline");">
+                        <img src="~/FormAssets/img/Icons/facebook.png" class="ico ico-mg" />
+                    </a>
+                    <a target="_blank" id="PreInstagramLink" class="social-linkss" href="@EnsureUrl(Instagram)" style="display: @(Instagram.NullToString() == ""? "none" : "inline");">
+                        <img src="~/FormAssets/img/Icons/instagram.png" class="ico ico-mg" />
+                    </a>
+                    @if (!string.IsNullOrWhiteSpace(Youtube))
+                    {
+                        <a target="_blank" id="PreYoutubeLink" class="social-linkss" href="@Youtube" style="display: @(Youtube.NullToString() == ""? "none" : "inline");">
+                            <img src="~/FormAssets/img/Icons/youtube.png" class="ico ico-mg" />
+                        </a>
+                    }
+                    <a target="_blank" id="PreTwitterLink" class="social-linkss" href="@EnsureUrl(Twitter)" style="display: @(Twitter.NullToString() == ""? "none" : "inline");">
+                        <img src="~/FormAssets/img/Icons/twitter.png" class="ico ico-mg" />
+                    </a>
+                    <a target="_blank" id="PreLinkedInLink" class="social-linkss" href="@EnsureUrl(linkedIn)" style="display: @(linkedIn.NullToString() == ""? "none" : "inline");">
+                        <img src="~/FormAssets/img/Icons/linkedin.png" class="ico ico-mg" />
+                    </a>
+
+                    <a target="_blank" id="PreSkypeLink" class="social-linkss" href="@EnsureUrl(Skype)" style="display: @(Skype.NullToString() == ""? "none" : "inline");">
+                        <img src="~/FormAssets/img/Icons/google.png" class="ico ico-mg" />
+                    </a>
+                    <a target="_blank" id="PreTeamsLink" class="social-linkss" href="sip:@Teams" style="display: @(Teams.NullToString() == ""? "none" : "inline");">
+                        <img src="~/FormAssets/img/Icons/teams.png" class="ico ico-mg" />
+                    </a>
+                    <a target="_blank" id="PreSnapchatLink" class="social-linkss" href="@EnsureUrl(Snapchat)" style="display: @(Snapchat.NullToString() == ""? "none" : "inline");">
+                        <img src="~/FormAssets/img/Icons/snapchat_circle.png" class="ico ico-mg" />
+                    </a>
+
+                    @if (!isMapAddressNotExist && !string.IsNullOrWhiteSpace(mapAddress))
+                    {
+                        <a href="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=@mapAddress" target="_blank" class="social-linkss">
+                            <img src="~/FormAssets/img/Icons/google-maps.png" class="ico ico-mg" />
+                            @*<i class="icofont-google-map ico ico-mg"></i>*@
+                        </a>
+                    }
+
+
+                </div>
+                <div style="float:right;width:100%;margin-top: 15px;">
+                    <a href="javascript:void(0)" onclick="addtocontactvcard();" class="save-btn">Save Contact</a>
+                    <a href="javascript:void(0)" class="share-btn btnShareIt">Share Contact</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    @*<div class="col-md-12 mb-2">
+            <div id="currentPackageContainer">
+                @Html.Partial("_userCurrentPackage", package.PackageId)
+            </div>
+        </div>*@
+</div>

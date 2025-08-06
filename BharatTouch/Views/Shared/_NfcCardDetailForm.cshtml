@@ -1,0 +1,86 @@
+﻿
+@model DataAccess.ViewModels.NfcCardColorViewModel
+
+@*<div class="modal fade" id="nfcCardDetailFormModal" tabindex="-1" aria-labelledby="nfcCardDetailFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nfcCardDetailFormModalLabel">Card Print Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.Partial("_nfcCardPreview", Model)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                @using (Html.BeginForm("UpdateUserNfcDetails", "Users", FormMethod.Post, new { id = "nfcCardDetailForm", @class = "php-email-form" }))
+                                {
+                                    @Html.HiddenFor(x => x.CardColorId)
+                                    @Html.HiddenFor(x => x.UserId)
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label for="ShippingAddress1">&nbsp;</label>
+                                            @Html.TextBoxFor(t => t.NfcCardLine1, new { @class = "form-control", @placeholder = "Line 1" })
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label for="ShippingAddress2">&nbsp;</label>
+                                            @Html.TextBoxFor(t => t.NfcCardLine2, new { @class = "form-control", @placeholder = "Line 2" })
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label for="ShippingAddress3">&nbsp;</label>
+                                            @Html.TextBoxFor(t => t.NfcCardLine3, new { @class = "form-control", @placeholder = "Line 3" })
+                                        </div>
+                                    </div>
+                                    <div class="form-row clearfix">
+                                        <button type="submit" class="btn btn-orange w-100 float-end mt-3"><div class="lds-dual-ring"></div>&nbsp;Next</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+<div class="row">
+    <div class="col-md-6">
+        @Html.Partial("_nfcCardPreview", Model)
+    </div>
+    <div class="col-md-6">
+        @using (Html.BeginForm("UpdateUserNfcDetails", "Users", FormMethod.Post, new { id = "nfcCardDetailForm", @class = "php-email-form" }))
+        {
+            @Html.HiddenFor(x => x.CardColorId)
+            @Html.HiddenFor(x => x.UserId)
+        <div class="row">
+            <div class=" col-md-12">
+                <label for="NfcCardLine1">Your Name</label>
+                @Html.TextBoxFor(t => t.NfcCardLine1, new { @class = "form-control", @placeholder = "Your Name" })
+            </div>
+            <div class=" col-md-12">
+                <label for="NfcCardLine2">Designation / Job title</label>
+                @Html.TextBoxFor(t => t.NfcCardLine2, new { @class = "form-control", @placeholder = "Designation / Job title" })
+            </div>
+            <div class=" col-md-12">
+                <label for="NfcCardLine3">Phone Number Or Company Name</label>
+                @Html.TextBoxFor(t => t.NfcCardLine3, new { @class = "form-control", @placeholder = "Phone Number Or Company Name" })
+            </div>
+        </div>
+            @*<div class="form-row">
+
+            </div>
+            <div class="form-row">
+
+            </div>*@
+        }
+    </div>
+</div>

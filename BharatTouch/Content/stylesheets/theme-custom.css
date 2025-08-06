@@ -1,0 +1,338 @@
+/* Add here all your CSS customizations */
+.top-border-bar {
+    border-top: 4px solid #0088cc;
+}
+
+.required-left {
+    border-left: 3px solid red !important;
+}
+
+.a-big-delete-icon {
+    font-size: 22px;
+    color: #d2322d;
+}
+
+.no-border-radius {
+    border-radius: unset !important;
+}
+
+.mt52 {
+    margin-top: 52px !important;
+}
+
+.fixed-button-container {
+    top: 114px !important;
+    background: #ecedf0 !important;
+    box-shadow: none !important;
+    height: 51px !important;
+    padding-top: 14px !important;
+}
+
+.fixed-button-align {
+    float: right;
+    margin-right: 15px;
+}
+
+.cropper-container {
+    width: 100% !important;
+}
+
+.radio-inline {
+    float: left;
+    margin-right: 12px;
+}
+
+.checkbox-inline {
+    float: left;
+    margin-right: 14px;
+}
+
+.rght {
+    float: right;
+}
+
+.wht-bg {
+    background: white !important;
+}
+
+.no-border {
+    border: none !important;
+}
+
+.form-horizontal .control-label {
+    padding-top: 0px !important;
+}
+
+.custom-error {
+    color: #B94A48;
+    margin-top: 2px;
+}
+
+.datepicker.dropdown-menu {
+    z-index: 9999 !important;
+}
+
+li.nav-active > a {
+    color: #fdfdfd !important;
+    font-weight: 700;
+    background: #41a6d3 !important;
+}
+/*datatable search box*/
+div#tableAccounts_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+
+
+div#tableCustomFields_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableSources_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableRatings_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableIndustries_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableAccountTypes_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableLeads_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableLeadCustomFields_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableSales_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableSaleCustomFields_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableContacts_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableServices_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableContactCustomFields_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableActivityCustomFields_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableLeadStatus_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableActivityStatus_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableActivityTypes_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableActivity_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+
+div#tableSaleStages_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableSettings_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableCurrency_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableTeams_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableUser_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableTestimonials_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableFaqs_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableQuotations_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableStorys_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableAffiliates_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableContactUs_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableItems_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tableOrders_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+div#tablePayments_filter input {
+    height: 28px !important;
+    width: 284px !important;
+}
+
+table.quote-info td {
+    padding: 1px 16px 9px 0 !important;
+}
+
+.add-item {
+    margin-bottom: 16px;
+    float: right;
+}
+
+.draft-quote {
+    padding: 6px;
+    background: #736e6e;
+    color: #fdfdfd !important;
+    font-weight: 600;
+}
+
+.head-quote {
+    padding: 5px 15px 5px 15px;
+    border: 2px solid #bfbcbc;
+    color: #736e6e !important;
+    font-weight: 600;
+}
+
+.quote-note {
+    margin: 14px 0px 12px 0;
+}
+
+.hard-border {
+    border: 2px solid #ccc7c7 !important;
+}
+
+.draft-quote {
+    padding: 6px;
+    background: #736e6e;
+    color: #fdfdfd !important;
+    font-weight: 600;
+}
+
+.font600 {
+    font-weight: 600 !important;
+}
+
+.testpdf {
+    color: red;
+    font-size: 20px;
+}
+
+/*table {
+    background-color: #bdbdbd !important;
+    color: #171717 !important;
+}*/
+
+.nav > li > a:hover, .nav > li > a:focus {
+    text-decoration: none;
+    background: #41a6d3 !important;
+    color: white !important;
+}
+
+.sidebar-left .sidebar-header .sidebar-title {
+    color: white !important;
+    background: #3392c4 !important;
+}
+
+.sidebar-left {
+    background: #62c2ee !important;
+}
+
+.header .logo {
+    margin: 0px 0 0 15px !important;
+}
+
+.font20 {
+    font-size: 20px;
+}
+
+html.sidebar-left-collapsed.fixed .sidebar-left .nano {
+    background: #62c2ee !important;
+}
+
+table.dataTable tbody th, table.dataTable tbody td {
+    padding: 5px !important;
+}
+
+table.dataTable {
+    border-collapse: collapse !important;
+}
+
+.table thead {
+    background: #41a6d3;
+    color: white;
+}
+
+    .table thead tr th {
+        text-align: left !important;
+    }

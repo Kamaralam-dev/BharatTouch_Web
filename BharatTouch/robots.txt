@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+Sitemap: http://aviecard.com/sitemap.xml			
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					

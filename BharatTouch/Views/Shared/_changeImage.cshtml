@@ -1,0 +1,60 @@
+﻿@model DataAccess.Models.UserModel
+@{ //Layout = null;
+    ViewBag.Title = "Change Image";
+    var newdt = System.DateTime.Now.ToString("MMddyyyyhhmmss"); }
+@*<script src="~/Content/page-scripts/Setting/ChangeImage.js"></script>*@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/javascript-canvas-to-blob/3.16.0/js/canvas-to-blob.js" integrity="sha256-SUJhN0pToC7HVMAVypbOQ0+I2z5SO1JIRIZ8qGL8nZo=" crossorigin="anonymous"></script>
+
+<style>
+    .btn-close {
+        box-sizing: content-box;
+        width: 1em;
+        height: 1em;
+        padding: 0.25em 0.25em;
+        color: #000;
+        background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+        border: 0;
+        border-radius: 0.25rem;
+        opacity: 0.5;
+    }
+</style>
+
+<div class="modal fade" id="changeImageModal" tabindex="-1" aria-labelledby="changeImageModalLabel" aria-hidden="true">
+    @using (Html.BeginForm("SaveUserFile", "Users", FormMethod.Post, new { id = "uploadImageForm", @class = "form-horizontal form-bordered", @enctype = "multipart/form-data" }))
+    {
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changeImageModalLabel">Profile Picture</h5>
+                    <button type="button" class=" btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <section class="panel">
+                        <div class="panel-body top-border-bar mt52">
+                            <div class="form-group row">
+                               
+                                <div class="col-md-4">
+                                    <label class="control-label" for="inputPlaceholder">Select Picture</label>                                   
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="file" name="ImageUrl" id="ImageUrl" onchange="onSelectFile(this);" />
+                                </div>
+                            </div>
+                            <div class="form-group" style="text-align:center;">
+                                <span id="cropPrfLoader" class="lds-dual-ring-blue"></span>
+                                <div class="" id="cropImageContainer" style="display:none;">
+                                    <img id="croppableImage" style="height:auto;" alt="Profile Upload Picture" />
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close"> <i class="fa fa-times"></i> Cancel </button>
+                    <button type="submit" class="btn btn-primary" style="background-color: #ffab00; "> <i class="fa fa-save"></i> <div class="lds-dual-ring"></div> &nbsp; Upload</button>
+                </div>
+            </div>
+        </div>}
+</div>

@@ -1,0 +1,146 @@
+﻿@model DataAccess.ViewModels.BT_BlogViewModel
+@using BharatTouch.CommonHelper;
+@{
+    Layout = null;
+}
+
+<!-- BLOG DETAIL PAGE (blog-detail.html) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Why NFC Business Cards Are the Future</title>
+    <link rel="icon" href="/SmartTheme/images/bharattouchfavico.ico" style="border-radius: 30px;" type="image/x-icon">
+    <style>
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        th, td {
+            border: 1px solid #c3baba;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+
+        :root {
+            --primary-color: #e96115; /* orange */
+            --secondary-color: #1d9a6c; /* green */
+            --background-color: #fff;
+            --text-color: #222;
+            --light-gray: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: var(--light-gray);
+            color: var(--text-color);
+        }
+
+        header {
+            background-color: #0e0d0d;
+            color: var(--secondary-color);
+            padding: 20px 0 11px 0;
+            text-align: center;
+            border-bottom: 4px solid var(--primary-color);
+        }
+
+            header img {
+                height: 40px;
+                display: block;
+                margin: 0 auto 10px;
+            }
+
+        .container {
+            max-width: 960px;
+            margin: 30px auto;
+            padding: 20px;
+            background: var(--background-color);
+            border-radius: 10px;
+        }
+
+        .blog-title {
+            color: var(--primary-color);
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .blog-date {
+            font-size: 0.9em;
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .blog-content p {
+            line-height: 1.8;
+            margin-bottom: 18px;
+        }
+
+        .blog-content h2 {
+            color: var(--primary-color);
+            margin-top: 30px;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        a.back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/blog">  <img src="/SmartTheme/images/logo.svg" alt="" /></a>
+
+    </header>
+
+    <div class="container">
+        <h2 class="blog-title">@Model.BlogTitle</h2>
+        <p class="blog-date">
+            Published on 
+            @(Model.CreatedOn.HasValue ? Model.CreatedOn.Value.ToString("MMMM dd yyyy") : "")
+        </p>
+
+
+        <img src="@Model.BlogImage" alt="NFC Card" />
+
+        <div class="blog-content">
+            @Html.Raw(Model.BlogDescription)
+        </div>
+
+        <div>
+            <b>@Model.BlogKeywords</b>
+        </div>
+
+        <a class="back-link" href="@Url.RouteUrl(null, new { controller = "Home", action = "BT_Blog" })">← Back to Blog Listing</a>
+    </div>
+
+    <footer>
+        © 2025 BharatTouch. All rights reserved.
+    </footer>
+</body>
+</html>
+

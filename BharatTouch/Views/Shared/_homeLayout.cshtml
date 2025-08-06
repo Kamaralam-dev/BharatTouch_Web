@@ -1,0 +1,496 @@
+﻿@using DataAccess
+@using BharatTouch.CommonHelper
+@{ Layout = null;
+    int loggedUserId = BharatTouch.CommonHelper.Utility.GetCookie("UserId_auth").ToIntOrZero();
+    var loggedUsername = BharatTouch.CommonHelper.Utility.GetCookie("UserName_auth");
+    var UserUrlCode = BharatTouch.CommonHelper.Utility.GetCookie("UserUrlCode").NullToString();
+    var DisplayName = BharatTouch.CommonHelper.Utility.GetCookie("DisplayName_auth").NullToString();
+
+    var codeOrName = UserUrlCode;
+    if (!string.IsNullOrWhiteSpace(DisplayName))
+    {
+        codeOrName = DisplayName;
+    }
+
+    string actionName = this.Html.Action().ToString();
+    String imageurl = "/Uploads/Users/User_" + loggedUserId.ToString() + ".jpg";
+    //String imageurl = "/Uploads/Users/User_" + UserUrlCode + ".jpg";
+    var absolutePath = HttpContext.Current.Server.MapPath(imageurl);
+    var domain = Request.Url.Host;
+    var logo = "favicon_bharatTouch.ico";
+    //var bigLogo = "bharattouch2-removebg-preview.png";
+    var bigLogo =  "bharattouch3.PNG";
+    var baseUrl = "http://bharattouch.com/";
+    var title =  "Bharattouch";
+    var copyright =  "Bharat Touch - 2025";
+    var siteName = "Bharat Touch";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="canonical" href="@baseUrl" />
+
+    <title>@title | virtual business card</title>
+    <meta content="Forget the paper business cards, using Bharat Touch enables you to actually use the received information. You can capture contacts in full compliance and with ease of mind. " name="description">
+    <meta content="virtual, digital, business card, online business card, mini website, online presence, contact less business card" name="keywords">
+    <!-- Favicons -->
+    <!-- Favicons -->
+    <link rel="icon" href="~/Content/images/@logo" style="border-radius: 30px;" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    @*<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">*@
+
+    <!-- Vendor CSS Files -->
+    <link href="/FormAssets/vendor/icofont/icofont.min.css" rel="stylesheet">
+    <link href="~/HomeAssets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/HomeAssets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link href="~/HomeAssets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="~/Content/vendor/bootstrap-wizard/jquery.bootstrap.wizard.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/themify-icons@0.1.2/css/themify-icons.css" rel="stylesheet">
+
+
+    <script src="https://www.google.com/recaptcha/api.js" defer></script>
+
+
+    <!-- =======================================================
+    * Template Name: FlexStart - v1.2.0
+    * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+
+    @Styles.Render("~/Content/homeCss")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/bundles/homeLayoutCSS")
+
+
+    <style>
+
+    .custom {
+        background: url(@imageurl) top center;
+    }
+
+
+        select.form-control.error > option {
+            color: #495057 !important;
+        }
+
+.dynamic { background: url("/FormAssets/img/blank-profile-picture.jpg") top center; }
+    </style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script defer src="https://www.googletagmanager.com/gtag/js?id=G-LLS0FWWJS8"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-LLS0FWWJS8');
+    </script>
+    <meta name="google-site-verification" content="qNSIrMRtuf3UeGCKb9jDx-tmQqdBSy5zp4k1Y7aE6aA" />
+
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="@title | virtual business card" />
+    <meta property="og:description" content="Forget the paper business cards, using Bharat Touch enables you to actually use the received information. You can capture contacts in full compliance and with ease of mind. " />
+    <meta property="og:url" content="@baseUrl" />
+    <meta property="og:site_name" content="@title | virtual business card" />
+    <meta property="article:modified_time" content="2020-06-25T16:05:08+00:00" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:label1" content="Est. reading time">
+    <meta name="twitter:data1" content="1 minute">
+
+
+    <!-- Google Tag Manager -->
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KWZ4PWL7');</script>
+    <!-- End Google Tag Manager -->
+    <meta name="google-site-verification" content="Bxtl3yy4-p-fMpDJiZ2yWQWuk3DgF-TFqQkLDb5m8mo" />
+
+</head>
+
+<body>
+
+
+    <script>
+        context: "http://schema.org",
+            type: "Webpage",
+                headline: "@title | virtual business card",
+                    id: "@baseUrl",
+                        thumbnailUrl: "",
+                            dateCreated: "",
+                                name: "@title ",
+                                    description: "Forget the paper business cards, using Bharat Touch enables you to actually use the received information. You can capture contacts in full compliance and with ease of mind. ",
+                                        creator: [],
+                                            keywords: [virtual, digital, business card, online business card, mini website, online presence, contact less business card]
+    </script>
+
+    <script>
+
+        context: "http://schema.org",
+            type: "Organization",
+                name: "@title ",
+                    url: "@baseUrl",
+                        logo: "@baseUrl",
+                            sameAs: ["https://www.facebook.com/", "https://twitter.com/",
+                                https://www.youtube.com/
+                                https://www.instagram.com/
+                                https://www.linkedin.com/
+                            ],
+                                contactPoint: [{
+                                    type: "ContactPoint",
+                                    telephone: "+91 172 4600686",
+                                    contactType: "customer service"
+                                },
+
+                                {
+                                    type: "ContactPoint",
+                                    telephone: "+91 172 4600686",
+                                    contactType: "emergency"
+                                }
+                                ]
+
+    </script>
+
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top">
+        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+            <a href="#hero" class="logo d-flex align-items-center">
+                <img src="~/homeassets/img/@bigLogo" alt="@title">
+                @*<span>BharatTouch</span>*@
+            </a>
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link scrollto" href="#hero">Home</a></li>
+                    @*<li><a class="nav-link scrollto" href="#about">About</a></li>*@
+
+                    <li><a class="nav-link scrollto" href="#pricing">How it works</a></li>
+                    <li><a class="nav-link scrollto" href="#pricing_main">Pricing</a></li>
+                    <li><a class="nav-link scrollto" href="#services">Why Bharat Touch</a></li>
+                    <li><a class="nav-link scrollto" href="#referral">Referral</a></li>
+                    <li><a class="nav-link scrollto" href="#faq">FAQs</a></li>
+                    <li><a class="nav-link scrollto" href="#testimonials">Testimonials</a></li>
+                    <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                    @if (loggedUserId == 0)
+                    {
+                        <ele><a class="getstarted scrollto nohover" href="javascript:void(0)" id="btnLogin"><div class="lds-dual-ring"></div>&nbsp; Login</a></ele>
+                    }
+                    else
+                    {
+                        <li><a class="nav-link scrollto" href="/edit/@codeOrName">My Profile</a></li>
+                        <ele><a href="@Url.Action("Logout", "Home")" onclick='$(this).find("div.lds-dual-ring").css("display", "inline-block");' class="getstarted scrollto nohover"><div class="lds-dual-ring"></div>&nbsp; Logout</a></ele>
+                    }
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!-- .navbar -->
+
+        </div>
+    </header><!-- End Header -->
+    <!-- ======= Hero Section ======= -->
+
+    <div class="modal fade" id="termsOfServicesModal" tabindex="-1" aria-labelledby="termsOfServicesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-bold" id="termsOfServicesModalLabel">Bharat Touch - Terms Of Services</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-5">
+                    @Html.Partial("_termsAndServices")
+                </div>
+                <div class="modal-footer">
+                    <div class="my-2 d-flex justify-content-between align-items-center">
+                        <button type="button" class="btn btn-secondary align-self-end" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="privacyPolicyModal" tabindex="-1" aria-labelledby="privacyPolicyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-bold" id="privacyPolicyModalLabel">Bharat Touch - Privacy Policy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-5">
+                    @Html.Partial("_privacyPolicy")
+                </div>
+                <div class="modal-footer">
+                    <div class="my-2 d-flex justify-content-between align-items-center">
+                        <button type="button" class="btn btn-secondary align-self-end" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @RenderBody()
+
+    <!-- ======= Footer ======= -->
+    @Html.Partial("_homeLayoutFooter")
+    <!-- End Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short" style="margin-top: 5px;"></i></a>
+    <a data-id="3" class="btnPricingBookNow btn-buy-fixed" style="cursor: pointer; background: #ff5252 !important; color: white; border: 1px solid white;"><div class="lds-dual-ring"></div>&nbsp; Buy Now</a>
+    <a href="javascript:void(0)" id="btnShareIt" class="share-bottom-icon"><i class="bi-share bi text-bold"></i></a>
+    <div class="share-icon-wrap">
+        <div class="share-options">
+            <div class="close">x</div>
+            <span class="share-item">
+                <!-- \r\n -->
+                <a target="_blank" class="wa_btn wa_btn_s" href="https://api.whatsapp.com/send?&text=@ConfigValues.WebUrl">
+                    <i class="bi-whatsapp bi shareico"></i>
+                    <span class="share-label">whatsapp</span>
+                </a>
+            </span>
+
+            @*<span class="share-item">
+                    <a href="sms:?body=@profileUrl" target="_blank"><span class="fa fa-commenting-o"></span><span class="share-label">SMS</span></a>
+                </span>*@
+
+
+            <span class="share-item">
+                <a target="popup" class="wa_btn wa_btn_s" href="https://www.facebook.com/sharer/sharer.php?u=@ConfigValues.WebUrl&t=BharatTouch">
+                    <i class="bi bi-facebook shareico"></i>
+                    <span class="share-label">Facebook</span>
+                </a>
+            </span>
+
+            <span class="share-item">
+                <a href="https://twitter.com/share?url=@ConfigValues.WebUrl&via=TWITTER_HANDLE&text=BharatTouch" target="_blank">
+                    <i class="bi bi-twitter shareico"></i>
+                    <span class="share-txt">Twitter</span>
+                </a>
+            </span>
+
+            <span class="share-item">
+                <a href="https://www.linkedin.com/shareArticle?mini=true&url=@ConfigValues.WebUrl&title=BharatTouch" target="_blank">
+                    <i class="bi bi-linkedin shareico"></i>
+                    <span class="share-txt">Linkedin</span>
+                </a>
+            </span>
+            <div class="clearfix">&nbsp;</div>
+        </div>
+    </div>
+
+    <!-- Vendor JS Files -->
+    <script src="~/HomeAssets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    @Scripts.Render("~/bundles/homeLayoutJS")
+    <!-- Template Main JS File -->
+    <script src="~/HomeAssets/js/main.js"></script>
+
+    @Scripts.Render("~/bundles/VendorJs")
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="~/Content/vendor/bootstrap-wizard/jquery.bootstrap.wizard.js"></script>
+    <script defer src="https://accounts.google.com/gsi/client"></script>
+    @Scripts.Render("~/bundles/SpecificPageJS")
+    @Scripts.Render("~/bundles/pageScriptJS")
+
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        var auth = new authenticationUser();
+        auth.authUserUrl = "@Url.Action("Authenticate", "Users")";
+        auth.captchaSiteKey = "@ConfigValues.GoogleCaptchaSiteKey";
+        auth.googleClientId = "@ConfigValues.GoogleApiClientId";
+        auth.microsoftClientId = "@ConfigValues.MicrosoftClientId";
+        auth.webUrl = "@ConfigValues.WebUrl";
+        auth.razorPayApiKey = "@ConfigValues.RazorPayApiKey";
+        auth.init();
+
+        $(document).ready(function () {
+
+            $(document).on("change", "select", function () {
+                $(this).blur(); // Remove focus after selection
+            });
+
+            $('#btnShareIt').on('click', function () {
+                $('.share-icon-wrap').show();
+                if ($(document).height() > $(window).height()) {
+                    var scrollTop = ($('html').scrollTop()) ? $('html').scrollTop() : $('body').scrollTop(); // Works for Chrome, Firefox, IE...
+                    $('body').addClass('modal-shown').css('top', -scrollTop);
+                } else {
+                    $('body').addClass('modal-shown');
+                }
+
+
+                $('.share-icon-wrap .close').on('click', function () {
+                    $('.share-icon-wrap').hide();
+                    $('body').removeClass('modal-shown');
+                });
+            });
+        });
+
+    </script>
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KWZ4PWL7" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+</body>
+
+</html>
+
+
+@*<section id="imagesliders" class="imagesliders">
+
+    <div class="container" data-aos="fade-up">
+
+        <header class="section-header">
+            <h2>Testimonials</h2>
+            <p>What they are saying about us</p>
+        </header>
+
+        <div class="imagesliders-slider swiper-container" data-aos="fade-up" data-aos-delay="200">
+            <div class="swiper-wrapper">
+
+                <div class="swiper-slide">
+                    <div class="imageslider-item">
+
+                        <div class="profile mt-auto">
+                            <img src="~/homeassets/img/testimonials/testimonials-1.jpg" class="imageslider-img" alt="imageslider">
+
+                        </div>
+                    </div>
+                </div><!-- End testimonial item -->
+
+                <div class="swiper-slide">
+                    <div class="imageslider-item">
+
+                        <div class="profile mt-auto">
+                            <img src="~/homeassets/img/testimonials/testimonials-2.jpg" class="imageslider-img" alt="imageslider">
+
+                        </div>
+                    </div>
+                </div><!-- End testimonial item -->
+
+                <div class="swiper-slide">
+                    <div class="imageslider-item">
+
+                        <div class="profile mt-auto">
+                            <img src="~/homeassets/img/testimonials/testimonials-3.jpg" class="imageslider-img" alt="imageslider">
+
+                        </div>
+                    </div>
+                </div><!-- End testimonial item -->
+
+                <div class="swiper-slide">
+                    <div class="imageslider-item">
+
+                        <div class="profile mt-auto">
+                            <img src="~/homeassets/img/testimonials/testimonials-4.jpg" class="imageslider-img" alt="imageslider">
+
+                        </div>
+                    </div>
+                </div><!-- End testimonial item -->
+
+                <div class="swiper-slide">
+                    <div class="imageslider-item">
+
+                        <div class="profile mt-auto">
+                            <img src="~/homeassets/img/testimonials/testimonials-5.jpg" class="imageslider-img" alt="imageslider">
+
+                        </div>
+                    </div>
+                </div><!-- End testimonial item -->
+
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+    </div>
+
+</section><!-- End Testimonials Section -->
+<!-- ======= Contact Section ======= -->
+
+<section id="myteams" class="myteams">
+
+    <div class="container" data-aos="fade-up">
+
+        <header class="section-header">
+            <h2>Testimonials</h2>
+            <p>What they are saying about us</p>
+        </header>
+
+        <div class="myteams-slider swiper-container" data-aos="fade-up" data-aos-delay="200">
+            <div class="swiper-wrapper">
+
+                <div class="swiper-slide">
+                    <div class="myteam-item">
+
+                        <div class="profile mt-auto">
+                            <img src="~/homeassets/img/testimonials/testimonials-1.jpg" class="myteam-img" alt="myteams">
+                            <h3>Jim B</h3>
+                            <h4>Marketing</h4>
+                        </div>
+                    </div>
+                </div><!-- End testimonial item -->
+
+                <div class="swiper-slide">
+                    <div class="myteam-item">
+
+                        <div class="profile mt-auto">
+                            <img src="~/homeassets/img/testimonials/testimonials-2.jpg" class="myteam-img" alt="myteams">
+                            <h3>Raman Athwal</h3>
+                            <h4>Businessman</h4>
+                        </div>
+                    </div>
+                </div><!-- End testimonial item -->
+
+                <div class="swiper-slide">
+                    <div class="myteam-item">
+
+                        <div class="profile mt-auto">
+                            <img src="~/homeassets/img/testimonials/testimonials-3.jpg" class="myteam-img" alt="myteams">
+                            <h3>Sam</h3>
+                            <h4>Digital Store Owner</h4>
+                        </div>
+                    </div>
+                </div><!-- End testimonial item -->
+
+                <div class="swiper-slide">
+                    <div class="myteam-item">
+
+                        <div class="profile mt-auto">
+                            <img src="~/homeassets/img/testimonials/testimonials-4.jpg" class="myteam-img" alt="myteams">
+                            <h3>Setu Goyal</h3>
+                            <h4>Freelancer</h4>
+                        </div>
+                    </div>
+                </div><!-- End testimonial item -->
+
+                <div class="swiper-slide">
+                    <div class="myteam-item">
+
+                        <div class="profile mt-auto">
+                            <img src="~/homeassets/img/testimonials/testimonials-5.jpg" class="myteam-img" alt="myteams">
+                            <h3>Manminder Singh</h3>
+                            <h4>Entrepreneur</h4>
+                        </div>
+                    </div>
+                </div><!-- End testimonial item -->
+
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+    </div>
+
+</section>*@

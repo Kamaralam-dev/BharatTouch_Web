@@ -1,0 +1,145 @@
+﻿@model DataAccess.Models.LeadCommunicationModel
+
+@using (Html.BeginForm("SaveOrUpdateLeadsCommunication", "Admin", FormMethod.Post, new { id = "communicationForm", @class = "row g-3 needs-validation" }))
+{
+    @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.LeadId)
+
+    <div class="col-md-4">
+        <label for="CommunicationTypeId" class="form-label"><span style="color:red;">*</span> Communication Type</label>
+
+        @Html.DropDownListFor(x => x.CommunicationTypeId, (IEnumerable<SelectListItem>)ViewBag.CommunicationTypes, "Select Type", new { @class = "form-select ddlSelect2", required = "required" })
+    </div>
+
+    <div class="col-md-4">
+        <label for="CommunicatedBy" class="form-label"><span style="color:red;">*</span> Communicated By</label>
+        @Html.DropDownListFor(x => x.CommunicatedBy, (IEnumerable<SelectListItem>)ViewBag.Users, "Select User", new { @class = "form-select ddlSelect2", required = "required" })
+    </div>
+
+
+    <div class="col-md-4">
+        <label class="form-label">Follow-Up Type</label>
+        @Html.DropDownListFor(x => x.FollowUpCommunicationTypeId, (IEnumerable<SelectListItem>)ViewBag.FollowUpCommunicationTypes, "Select Type", new { @class = "form-select ddlSelect2" })
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Communication Date</label>
+        @Html.TextBox("CommunicatedOn", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style1 + "}", Model.CommunicatedOn), new { @class = "form-control dateSelector", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "" })
+      
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Next Follow-Up Date</label>
+        @Html.TextBox("NextFollowUpDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style1 + "}", Model.NextFollowUpDate), new { @class = "form-control dateSelector", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "" })
+        
+    </div>
+
+
+
+    <div class="col-md-12">
+        <label class="form-label">Subject</label>
+        @Html.TextBoxFor(x => x.Subject, new { @class = "form-control", placeholder = "Subject" })
+    </div>
+
+    <div class="col-md-12">
+        <label class="form-label"><span style="color:red;">*</span> Message</label>
+        @Html.TextAreaFor(x => x.Message, new { @class = "form-control", rows = "4", placeholder = "Write your message here...", required = "required" })
+    </div>
+
+
+
+}
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#modalAddEditLeadsCommunication").on('shown.bs.modal', function () {
+
+            $('.ddlSelect2').select2({
+                width: '100%',
+                dropdownParent: $('#modalAddEditLeadsCommunication')
+            });
+
+            $('.dateSelector').flatpickr({
+                //dateFormat: "d-m-Y", // Format: MM-DD-YYYY
+                dateFormat: "m-d-Y", // Format: MM-DD-YYYY
+                //defaultDate: "today", // Optional: Pre-select today
+                disableMobile: "true" // Ensure consistency on mobile devices
+            });
+
+        });
+
+    });
+
+    function onSaveLeadsCommunicationClick() {
+        debugger
+
+        $("#communicationForm").validate({
+            rules: {
+                CommunicationTypeId: { required: true },
+                CommunicatedBy: { required: true },
+                FollowUpCommunicationTypeId: { required: true },
+                CommunicatedOn: { required: true },
+                NextFollowUpDate: { required: true },
+                Message: { required: true },
+            },
+            messages: {
+                CommunicationTypeId: "Please select communication type",
+                CommunicatedBy: "Please select a user",
+                FollowUpCommunicationTypeId: "Please select follow-up type",
+                CommunicatedOn: "Please choose communication date",
+                NextFollowUpDate: "Please enter next follow-up date",
+                Message: "Message is required"
+            },
+            errorPlacement: function (error, element) {
+                if (element.hasClass("select2-hidden-accessible")) {
+                    error.insertAfter(element.next('.select2'));
+                } else if (element.hasClass("form-select")) {
+                    error.insertAfter(element);
+                } else if (element.attr("type") === "date") {
+                    error.insertAfter(element);
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            highlight: function (element) {
+                $(element).addClass("is-invalid");
+            },
+            unhighlight: function (element) {
+                $(element).removeClass("is-invalid");
+            },
+            submitHandler: function (form) {
+                var f = $(form);
+                var dataArray = f.serializeArray();
+                debugger;
+                $.ajax({
+                    type: f[0].method,
+                    url: f[0].action,
+                    data: dataArray,
+                    dataType: 'json',
+                    success: function (data, strStatus) {
+                        debugger;
+                        showMessage((data.Success ? "Success" : "Failed"), data.Data, data.Type);
+
+                        if (data.Success) {
+                            $('#modalAddEditLeadsCommunication').modal('hide');
+                            ReloadDataTable("tableLeads_Admin");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire("Error", "An unexpected error occurred: " + error, "error");
+                    }
+                });
+
+            }
+        });
+        if ($("#communicationForm").valid()) {
+            $("#communicationForm").submit();
+        }
+    }
+
+    function ReloadDataTable(tableId) {
+        $('#' + tableId).DataTable().ajax.reload(null, false);
+    }
+</script>

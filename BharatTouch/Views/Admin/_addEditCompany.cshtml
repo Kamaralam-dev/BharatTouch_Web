@@ -1,0 +1,310 @@
+﻿
+
+
+@model DataAccess.ViewModels.CompanyViewModel
+
+<style>
+    /* Ye style sabhi CKEditor instances par apply hoga */
+    .ck-editor__editable {
+        min-height: 300px;
+    }
+</style>
+
+@using (Html.BeginForm("SaveOrUpdateCompany", "Admin", FormMethod.Post, new { id = "CompanyForm", @class = "row g-3 needs-validation" }))
+{
+    <div class="col-md-6">
+        <label for="CompanyName" class="form-label"><span style="color:red;">*</span> Company</label>
+        @Html.TextBoxFor(t => t.CompanyName, new { @class = "form-control", @required = "true" })
+    </div>
+    <div class="col-md-6">
+        <label for="CompanyDisplayName" class="form-label"><span style="color:red;">*</span>Company Display Name </label>
+        @Html.TextBoxFor(t => t.CompanyDisplayName, new { @class = "form-control", @required = "true" })
+    </div>
+
+    if (Model.CompanyId == 0)
+    {
+        <div class="col-md-3">
+            <label for="AdminFirstName" class="form-label"><span style="color:red;">*</span> Admin First Name</label>
+            @Html.TextBoxFor(t => t.AdminFirstname, new { @class = "form-control", @required = "true" })
+        </div>
+        <div class="col-md-3">
+            <label for="AdminLastname" class="form-label"><span style="color:red;">*</span> Admin Last Name</label>
+            @Html.TextBoxFor(t => t.AdminLastname, new { @class = "form-control", @required = "true" })
+        </div>
+        <div class="col-md-3">
+            <label for="AdminEmail" class="form-label"><span style="color:red;">*</span> Admin Email</label>
+            @Html.TextBoxFor(t => t.AdminEmail, new { @class = "form-control", @required = "true" })
+        </div>
+        <div class="col-md-3">
+            <label for="AdminEmail" class="form-label"><span style="color:red;">*</span> Admin Display Name</label>
+            @Html.TextBoxFor(t => t.AdminDisplayName, new { @class = "form-control", @required = "true" })
+        </div>
+    }
+
+
+    <div class="col-md-6">
+        <label for="CompanyAddress1" class="form-label"> Address1</label>
+        @Html.TextBoxFor(t => t.Address1, new { @class = "form-control", })
+    </div>
+
+    <div class="col-md-6">
+        <label for="Address2" class="form-label"> Address2</label>
+        @Html.TextBoxFor(t => t.Address2, new { @class = "form-control" })
+    </div>
+
+    <div class="col-md-3">
+        <label for="City" class="form-label">City</label>
+        @Html.TextBoxFor(t => t.City, new { @class = "form-control" })
+    </div>
+
+    <div class="col-md-3">
+        <label for="State" class="form-label">State</label>
+        @Html.TextBoxFor(t => t.State, new { @class = "form-control" })
+    </div>
+
+    <div class="col-md-3">
+        <label for="Country" class="form-label">Country</label>
+        @Html.TextBoxFor(t => t.Country, new { @class = "form-control" })
+    </div>
+
+    <div class="col-md-3">
+        <label for="Zip" class="form-label">Zip</label>
+        @Html.TextBoxFor(t => t.Zip, new { @class = "form-control" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="Phone" class="form-label">Company Phone</label>
+        @Html.TextBoxFor(t => t.Phone, new { @class = "form-control" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="Email" class="form-label">Company Email</label>
+        @Html.TextBoxFor(t => t.Email, new { @class = "form-control" })
+    </div>
+
+
+    @*<div class="col-md-4">
+            <label for="Facebook" class="form-label">Facebook</label>
+            @Html.TextBoxFor(t => t.Facebook, new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-4">
+            <label for="LinkedIn" class="form-label">LinkedIn</label>
+            @Html.TextBoxFor(t => t.LinkedIn, new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-4">
+            <label for="Twitter" class="form-label">Twitter</label>
+            @Html.TextBoxFor(t => t.Twitter, new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-4">
+            <label for="Instagram" class="form-label">Instagram</label>
+            @Html.TextBoxFor(t => t.Instagram, new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-4">
+            <label for="Youtube" class="form-label">Youtube</label>
+            @Html.TextBoxFor(t => t.Youtube, new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-4">
+            <label for="Website" class="form-label">Website</label>
+            @Html.TextBoxFor(t => t.Website, new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-12">
+            <label for="Tagline" class="form-label">Tagline</label>
+            @Html.TextBoxFor(t => t.Tagline, new { @class = "form-control" })
+        </div>
+
+        <hr />
+
+        <div class="col-md-4">
+            <label for="HasBackgroundImage" class="form-label">Background Image</label>
+            @Html.CheckBoxFor(t => t.HasBackgroundImage)
+        </div>
+
+        <div class="col-md-4">
+            <label for="HasCompanyVideos" class="form-label">Company Videos</label>
+            @Html.CheckBoxFor(t => t.HasCompanyVideos)
+        </div>
+
+        <div class="col-md-4">
+            <label for="HasCompanyImages" class="form-label">Company Images</label>
+            @Html.CheckBoxFor(t => t.HasCompanyImages)
+        </div>
+
+
+        <hr />
+        <div class="col-md-4">
+            <label for="SkillName1" class="form-label">Skill1</label>
+            @Html.TextBoxFor(t => t.SkillName1, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <label for="SkillName2" class="form-label">Skill2</label>
+            @Html.TextBoxFor(t => t.SkillName2, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <label for="SkillName3" class="form-label">Skill3</label>
+            @Html.TextBoxFor(t => t.SkillName3, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <label for="SkillName4" class="form-label">Skill4</label>
+            @Html.TextBoxFor(t => t.SkillName4, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <label for="SkillName5" class="form-label">Skill5</label>
+            @Html.TextBoxFor(t => t.SkillName5, new { @class = "form-control" })
+        </div>
+        <div class="col-md-4">
+            <label for="SkillName6" class="form-label">Skill6</label>
+            @Html.TextBoxFor(t => t.SkillName6, new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-12">
+            <label for="AboutDescription" class="form-label">Description</label>
+            @Html.TextAreaFor(t => t.AboutDescription, new { @class = "form-control", @placeholder = "", @id = "AboutDescription", @rows = "10", @required = "" })
+
+        </div>*@
+
+
+    <div class="col-md-4">
+        <label for="IsActive" class="form-label">IsActive</label>
+        @Html.CheckBox("IsActive", Model.CompanyId == 0 ? true : Model.IsActive)
+    </div>
+
+    <div class="col-md-12">
+        <input type="hidden" id="CompanyId" name="CompanyId" value="@Model.CompanyId" />
+    </div>
+}
+
+<script>
+
+
+    $(document).ready(function () {
+        function updateDisplayName() {
+            debugger;
+            var firstName = $("#AdminFirstname").val().trim();
+            var lastName = $("#AdminLastname").val().trim();
+            var comDisplayName = $("#CompanyDisplayName").val().trim();
+
+            var displayName = firstName;
+
+            if (lastName !== "") {
+                displayName = firstName + "." + lastName;
+            }
+
+            var withCompany = comDisplayName + "/" + displayName;
+            validateDuplicateCompanyUserDisplayName(withCompany, displayName);
+            $("#AdminDisplayName").val(displayName);
+        }
+
+        $("#AdminFirstname, #AdminLastname").on("input", function () {
+            updateDisplayName();
+        });
+    });
+
+    var validateDuplicateCompanyUserDisplayName = function (name,displayName) {
+
+        $.ajax({
+            type: 'GET',
+            data: { name: name },
+            url: "/Admin/CheckUserDisplayNameAvailability",
+            dataType: 'json',
+            success: function (data) {
+                if (data.Data == "1") {
+                    $("#AdminDisplayName").val("");
+                    showMessage("Failed!", data.Message, "notice");
+                }
+                else {
+                    $("#AdminDisplayName").val(displayName);
+                }
+            },
+            error: handleAjaxError()
+        });
+
+    }
+
+
+
+    //var aboutEditor = "";
+    //$(document).ready(function () {
+
+    //    ClassicEditor
+    //        .create(document.querySelector('#AboutDescription'))
+    //        .then(editor => {
+    //            aboutEditor = editor;
+    //            editor.ui.view.editable.element.style.height = '300px;';
+    //            console.log('CKEditor 5 is ready.');
+    //        })
+    //        .catch(error => {
+    //            console.error('There was an error initializing CKEditor 5:', error);
+    //        });
+    //});
+
+    function onSaveCompanyClick() {
+
+        $("#CompanyForm").validate({
+            errorPlacement: function (error, element) {
+                error.appendTo(element.parent());
+            },
+            rules: {
+                CompanyName: { required: true },
+                CompanyDisplayName: { required: true }
+            },
+            submitHandler: function (form) {
+                debugger;
+                //const editorData = aboutEditor.getData();
+                //$("#AboutDescription").val(editorData);
+
+                var f = $(form);
+                var data = f.serializeArray();
+                var formData;
+                formData = new FormData();
+                $(data).each(function (index, element) {
+                    formData.append(element.name, element.value);
+                });
+
+                var $btn = $("#modalPrimaryButton");
+                var $spinner = $("#modalLoader");
+
+                $spinner.removeClass("d-none"); // Show loader
+                $btn.prop("disabled", true);
+
+                $.ajax({
+                    type: f[0].method,
+                    url: f[0].action,
+                    data: formData,
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    success: function (data, strStatus) {
+                        debugger;
+                        showMessage((data.Success ? "Success" : "Failed"), data.Data, data.Type);
+                        setTimeout(function () {
+
+                            if (data.Success) {
+                                $('#ModaladdEditCompany').modal('hide');
+                                $("#tableCompany_Admin").DataTable().ajax.reload();
+                            }
+                        }, 500)
+                        $spinner.addClass("d-none");
+                        $btn.prop("disabled", false);
+                    },
+                    error: function () {
+                        $spinner.addClass("d-none");
+                        $btn.prop("disabled", false);
+                        handleAjaxError();
+                    }
+                });
+            }
+        });
+        if ($("#CompanyForm").valid()) {
+            $("#CompanyForm").submit();
+        }
+    }
+</script>
+
+
+

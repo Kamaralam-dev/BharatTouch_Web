@@ -1,0 +1,170 @@
+﻿
+@model DataAccess.ViewModels.OrderViewModel
+@using DataAccess
+@{
+    var shippingFee = 200;
+
+    switch (Model.ShippingState.NullToString().ToLower())
+    {
+        case "punjab":
+        case "chandigarh":
+            shippingFee = 80;
+            break;
+        case "haryana":
+        case "himachal":
+        case "himanchal":
+        case "delhi":
+            shippingFee = 120;
+            break;
+        case "superdiscountrnaura":
+            shippingFee = 1;
+            break;
+        default:
+            shippingFee = 200;
+            break;
+    }
+
+}
+
+<div class="row justify-content-center">
+    <style>
+
+        :root {
+            --primaryQr: #0070f3;
+            --primaryQr-foreground: #ffffff;
+            --secondaryQr: #f5f5f5;
+            --secondaryQr-foreground: #111;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --radius: 0.5rem;
+        }
+
+        .qr-code {
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            border-top-left-radius: var(--radius);
+            border-top-right-radius: var(--radius);
+            background-color: var(--primaryQr);
+            color: var(--primaryQr-foreground);
+        }
+
+        .pricing-details {
+            background-color: var(--secondaryQr);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+        }
+
+        .line-through {
+            text-decoration: line-through !important;
+        }
+    </style>
+
+
+    <div class="pricing-details mb-4 col-md-12">
+        <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Price</span>
+            <span class="fw-bold @(Model.PackageCost != Model.DiscountedPackageCost ? "line-through" : "")" id="mainPackageCost">Rs. @Model.PackageCost</span>
+        </div>
+        @*@if (Model.PackageCost != Model.DiscountedPackageCost)
+        {
+            <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Discounted Price</span>
+                <span class="fw-bold" id="discountedPackageCostDisplay">Rs. @Model.DiscountedPackageCost</span>
+            </div>
+        }*@
+        @Html.Hidden("isDiscountHidden", Model.PackageCost == Model.DiscountedPackageCost)
+        <div class="@(Model.PackageCost != Model.DiscountedPackageCost ? "d-flex" : "") justify-content-between mb-2" id="discountPriceContainer" style="display: @(Model.PackageCost == Model.DiscountedPackageCost ? "none" : "block");">
+            <span class="text-muted">Discounted Price</span>
+            <span class="fw-bold" id="discountedPackageCostDisplay">Rs. @Model.DiscountedPackageCost</span>
+        </div>
+        <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Shipping Fee</span>
+            <span class="fw-bold">Rs. <span id="displayShippingFee">@shippingFee</span></span>
+        </div>
+        @using (Html.BeginForm("AddOrderPayment", "Users", FormMethod.Post, new { id = "orderPaymentForm", @class = "php-email-form needs-validation" }))
+        {
+            @Html.Hidden("IsRazorGateway", 1)
+            @Html.HiddenFor(x => x.UserId)
+            @Html.HiddenFor(x => x.OrderId)
+            @Html.Hidden("PaymentMethodId", 2)
+            @Html.Hidden("PaymentAmount", Model.TotalAmount + shippingFee)
+            @Html.Hidden("PaymentStatus", "Pending Verification")
+            @Html.Hidden("hdnInitialDiscountedPackageCode", Model.DiscountedPackageCost)
+            @Html.HiddenFor(x => x.DiscountedPackageCost)
+            @Html.Hidden("hdnInitialTax", Model.Tax)
+            @Html.HiddenFor(x => x.Tax)
+            @Html.Hidden("hdnShippingAmount", shippingFee)
+            @Html.Hidden("ShippingAmount", shippingFee)
+            @Html.HiddenFor(x => x.WantMetalCard)
+            @Html.Hidden("CouponDiscount", 0)
+
+            <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted d-flex" style="gap: 7px;">Pick By Self</span>
+                <span>@Html.CheckBox("IsByHandPickup", false, new { @id = "chkIsByHandPickup", @class = "form-check" })</span>
+            </div>
+
+            <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Tax</span>
+                <span class="fw-bold" id="taxDisplay">Rs. @Model.Tax</span>
+            </div>
+            if (Model.PackageId != 4)
+            {
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted d-flex" style="gap: 7px;">Want Metal Card (Rs. 2499)</span>
+                    <span>@Html.CheckBox("chkWantMetalCard", Model.WantMetalCard, new { @id = "chkWantMetalCard", @class = "form-check" })</span>
+                </div>
+            }
+
+            <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Discount Coupon</span>
+                <span class="fw-bold">@Html.TextBox("DiscountCoupon", "", new { @class = "form-control", @placeholder = "Discount Coupon" })</span>
+            </div>
+
+            @*<div class="row">
+                <div class="mb-4 col-md-12">
+                    <label for="uploadScreenshot">Upload Payment receipt screenshot</label>
+                    <input type="file" class="form-control" name="paymentScreenshot" id="paymentScreenshot" accept=".jpg, .jpeg, .png" required>
+                    <div class="invalid-feedback">
+                        Please upload your payment receipt
+                    </div>
+                </div>
+                <div class="mb-4 col-md-12">
+                    <div class="alert alert-info d-none" role="alert" id="fileInfo">
+                        Selected file: <span id="fileName"></span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="txtDiscountCoupon">&nbsp; Discount Coupon</label>
+                            @Html.TextBox("txtDiscountCoupon", "", new { @class = "form-control", @placeholder = "Discount Coupon" })
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        }
+        <hr>
+        <div class="d-flex justify-content-between">
+            <span class="h5">Total</span>
+            <span class="h5 fw-bold">Rs. <span id="totalOrderPrice">@(Model.DiscountedPackageCost + Model.Tax + shippingFee)</span></span>
+        </div>
+    </div>
+
+
+    @*<div class="qr-section mb-4 col-md-4">
+        <div class="row">
+
+            
+
+            <div class="mb-4 col-md-12 text-center">
+                <img src="/Uploads/QRCodes/QR_Firoz.Alam.png" class="qr-code" style="padding-top: 0 !important;" alt="Payment QR Code" width="200">
+                <p class="text-muted mt-2">Scan to pay with your mobile device</p>
+            </div>
+        </div>
+
+
+
+    </div>*@
+
+</div>

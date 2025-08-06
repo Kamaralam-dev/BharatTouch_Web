@@ -1,0 +1,233 @@
+﻿@model IEnumerable<DataAccess.Models.AviPdfUserModel>
+@using BharatTouch.CommonHelper;
+
+
+@{
+    Layout = null;
+    string weburl = System.Configuration.ConfigurationManager.AppSettings["WebUrl"];
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="canonical" href="http://aviecard.com/" />
+
+    <title>Aviecard | virtual business card</title>
+    <meta content="Forget the paper business cards, using Avi ecard enables you to actually use the received information. You can capture contacts in full compliance and with ease of mind. " name="description">
+    <meta content="virtual, digital, business card, online business card, mini website, online presence, contact less business card" name="keywords">
+    <!-- Favicons -->
+    <link rel="icon" href="~/Content/images/favicon_new.ico" type="image/x-icon">
+    <!-- Google Fonts -->
+    <!-- Vendor CSS Files -->
+    <link href="~/HomeAssets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/HomeAssets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <!-- =======================================================
+    * Template Name: FlexStart - v1.2.0
+    * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+
+    @Styles.Render("~/Content/homeCss")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/bundles/homeLayoutCSS")
+    <style>
+
+        .section-title {
+            padding: 14px;
+            text-align: center;
+        }
+
+        .dataTables_scroll {
+            padding-top: 20px;
+        }
+
+        .dataTables_scrollBody {
+            margin-bottom: 30px;
+        }
+
+        .section-title:after {
+            content: "";
+            display: inline-block;
+            width: 73%;
+            height: 4px;
+            background-color: #00698f;
+            margin-top: 10px auto;
+        }
+    </style>
+
+    <style>
+        .table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+            .table th, .table td {
+                padding: 12px 15px;
+                text-align: left;
+                border: 1px solid #ddd;
+                vertical-align: middle;
+            }
+
+            .table th {
+                background-color: #5B99C2;
+                color: white;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            .table tbody tr:hover {
+                background-color: #f5f5f5;
+            }
+
+        #btnSendEmail {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            #btnSendEmail:hover {
+                background-color: #0056b3;
+            }
+
+        .dataTables_paginate .paginate_button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+        }
+
+            .dataTables_paginate .paginate_button:hover {
+                background-color: #0056b3;
+            }
+
+        #tableUser_filter input {
+            border-radius: 5px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            width: 200px;
+            margin-left: 10px;
+        }
+
+        .pdf_logo {
+            max-height: 65px;
+        }
+
+        .center-logo {
+            color: #524545;
+            margin-left: 35%;
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+
+    <main id="main">
+        <section id="about" class="about">
+            <div class="container">
+
+                <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+                    <a href="/" class="logo d-flex align-items-center center-logo">
+                        <img src="~/HomeAssets/img/avipdf.jpg" class="pdf_logo" alt="Aviecard">
+                        <div class="section-title">
+                            <h1><strong>Pdf users</strong></h1>
+                        </div>
+                    </a>
+
+                </div>
+                <div class="row mycard">
+                    <div class="col-lg-12 content" data-aos="fade-left" style="padding:20px">
+                        <div class="row">
+                            <table class="table table-bordered dataTable table-condensed mb-none" cellspacing="0" style="width:100%!important;" id="tableAviPdfUsers">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>UserId</th>
+                                        <th>User Name</th>
+                                        <th>
+                                            Email
+                                        </th>
+                                        <th>Device ID</th>
+                                        <th>Device Type</th>
+                                        <th>
+                                            Active Status
+                                        </th>
+                                        <th>
+                                            Created Date
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section><!-- End About Section -->
+
+
+    </main>
+
+
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+
+        <div class="container">
+            <div class="copyright">
+                &copy; Copyright <strong><span>Avi eCard - 2021</span></strong>. All Rights Reserved
+            </div>
+            <div class="credits">
+                <!-- All the links in the footer should remain intact. -->
+                <!-- You can delete the links only if you purchased the pro version. -->
+                <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+
+            </div>
+        </div>
+    </footer><!-- End Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="~/HomeAssets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+    @Scripts.Render("~/bundles/homeLayoutJS")
+
+    <!-- Template Main JS File -->
+    <script src="~/HomeAssets/js/main.js"></script>
+
+    @Scripts.Render("~/bundles/VendorJs")
+    @Scripts.Render("~/bundles/SpecificPageJS")
+
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    @Scripts.Render("~/bundles/pageScriptJS")
+    <script type="text/javascript">
+        var user = new listAviPdfUsers();
+        user.getUserUrl = "@Url.Action("GetAllPdfUsers", "Users")";
+        user.pageSize = 10;
+        user.weburl = "@weburl";
+        user.init();
+    </script>
+</body>
+
+</html>
+
+

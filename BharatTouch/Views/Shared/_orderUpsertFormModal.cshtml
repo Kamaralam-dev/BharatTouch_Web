@@ -1,0 +1,192 @@
+﻿@model DataAccess.ViewModels.OrderViewModel
+
+@*<div class="modal fade" id="orderUpsertModal" tabindex="-1" aria-labelledby="orderUpsertModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderUpsertModalLabel">Place Order</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    @using (Html.BeginForm("UpsertOrder", "Users", FormMethod.Post, new { id = "orderUpsertForm", @class = "php-email-form" }))
+                    {
+                        @Html.HiddenFor(x => x.OrderId)
+                        @Html.HiddenFor(x => x.UserId)
+                        <p id="signUpSuccessMessageOrderModal" style="color: #ff6821 !important;">
+                            Verification email sent to your email address please verify to activate the account.
+                        </p>
+                        <h5>Shipping Details</h5>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="ShippingAddress1">&nbsp;</label>
+                                @Html.TextBoxFor(t => t.ShippingAddress1, new { @class = "form-control", @placeholder = "Shipping Address1" })
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="ShippingAddress2">&nbsp;</label>
+                                @Html.TextBoxFor(t => t.ShippingAddress2, new { @class = "form-control", @placeholder = "Shipping Address2" })
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="ShippingCity">&nbsp;</label>
+                                @Html.TextBoxFor(t => t.ShippingCity, new { @class = "form-control", @placeholder = "Shipping City" })
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="ShippingState">&nbsp;</label>
+                                @Html.TextBoxFor(t => t.ShippingState, new { @class = "form-control", @placeholder = "Shipping State" })
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="ShippingCountry">&nbsp;</label>
+                                @Html.TextBoxFor(t => t.ShippingCountry, new { @class = "form-control", @placeholder = "Shipping Country" })
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="ShippingCountry">&nbsp;</label>
+                                @Html.TextBoxFor(t => t.ShippingZip, new { @class = "form-control", @placeholder = "Shipping Zip" })
+                            </div>
+                        </div>
+
+                        <hr class="mt-3" />
+                        <h5>Billing Details</h5>
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="form-group  d-flex">
+                                    <input type="checkbox" name="chkSameShippingDetails" id="chkSameShippingDetails" class="form-check mx-2" />
+                                    <label>Same as Shipping Details</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="BillingAddress1">&nbsp;</label>
+                                @Html.TextBoxFor(t => t.BillingAddress1, new { @class = "form-control", @placeholder = "Billing Address1" })
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="BillingAddress2">&nbsp;</label>
+                                @Html.TextBoxFor(t => t.BillingAddress2, new { @class = "form-control", @placeholder = "Billing Address2" })
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="BillingCity">&nbsp;</label>
+                                @Html.TextBoxFor(t => t.BillingCity, new { @class = "form-control", @placeholder = "Billing City" })
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="BillingState">&nbsp;</label>
+                                @Html.TextBoxFor(t => t.BillingState, new { @class = "form-control", @placeholder = "Billing State" })
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="BillingCountry">&nbsp;</label>
+                                @Html.TextBoxFor(t => t.BillingCountry, new { @class = "form-control", @placeholder = "Billing Country" })
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="BillingZip">&nbsp;</label>
+                                @Html.TextBoxFor(t => t.BillingZip, new { @class = "form-control", @placeholder = "Billing Zip" })
+                            </div>
+                        </div>
+                        <div class="form-row clearfix">
+                            <button type="submit" class="btn btn-orange w-100 float-end mt-3"><div class="lds-dual-ring"></div>&nbsp;Next</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+
+
+@using (Html.BeginForm("UpsertOrder", "Users", FormMethod.Post, new { id = "orderUpsertForm", @class = "php-email-form" }))
+{
+    @Html.HiddenFor(x => x.OrderId)
+    @Html.HiddenFor(x => x.UserId)
+    <p id="signUpSuccessMessageOrderModal" style="color: #ff6821 !important;">
+        Verification email sent to your email address please verify to activate the account.
+    </p>
+
+    <div class="row">
+
+        <div class="col-md-6">
+
+            <h5 style="color:black;">Shipping Details  </h5>
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="ShippingAddress1">Address Line 1</label>
+                    @Html.TextBoxFor(t => t.ShippingAddress1, new { @class = "form-control", @placeholder = "Shipping Address1" })
+                </div>
+                <div class="col-md-12">
+                    <label for="ShippingAddress2">Adress Line 2</label>
+                    @Html.TextBoxFor(t => t.ShippingAddress2, new { @class = "form-control", @placeholder = "Shipping Address2" })
+                </div>
+
+                <div class="col-md-6">
+                    <label for="ShippingCity">City</label>
+                    @Html.TextBoxFor(t => t.ShippingCity, new { @class = "form-control", @placeholder = "Shipping City" })
+                </div>
+                <div class="col-md-6">
+                    <label for="ShippingState">State</label>
+                    @Html.TextBoxFor(t => t.ShippingState, new { @class = "form-control", @placeholder = "Shipping State" })
+                </div>
+                <div class="col-md-6">
+                    <label for="ShippingCountry">Country</label>
+                    @Html.TextBoxFor(t => t.ShippingCountry, new { @class = "form-control", @placeholder = "Shipping Country" })
+                </div>
+                <div class="col-md-6">
+                    <label for="ShippingCountry">Zip</label>
+                    @Html.TextBoxFor(t => t.ShippingZip, new { @class = "form-control", @placeholder = "Shipping Zip" })
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="col-md-6">
+            <h5 style="color:black;">Billing Details   <span style=" font-size: 14px; color: #ff6821; float: right;" class="d-flex">Same as Shipping Details <input type="checkbox" style="width: 16px; display: inline-block; margin: -7px; padding: 0; float: right;" name="chkSameShippingDetails" id="chkSameShippingDetails" class="form-check mx-2" /></span></h5>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="BillingAddress1">Address Line 1</label>
+                    @Html.TextBoxFor(t => t.BillingAddress1, new { @class = "form-control", @placeholder = "Billing Address1" })
+                </div>
+                <div class="col-md-12">
+                    <label for="BillingAddress2">Address Line 2</label>
+                    @Html.TextBoxFor(t => t.BillingAddress2, new { @class = "form-control", @placeholder = "Billing Address2" })
+                </div>
+                <div class="col-md-6">
+                    <label for="BillingCity">City</label>
+                    @Html.TextBoxFor(t => t.BillingCity, new { @class = "form-control", @placeholder = "Billing City" })
+                </div>
+                <div class="col-md-6">
+                    <label for="BillingState">State</label>
+                    @Html.TextBoxFor(t => t.BillingState, new { @class = "form-control", @placeholder = "Billing State" })
+                </div>
+                <div class="col-md-6">
+                    <label for="BillingCountry">Country</label>
+                    @Html.TextBoxFor(t => t.BillingCountry, new { @class = "form-control", @placeholder = "Billing Country" })
+                </div>
+                <div class="col-md-6">
+                    <label for="BillingZip">Zip</label>
+                    @Html.TextBoxFor(t => t.BillingZip, new { @class = "form-control", @placeholder = "Billing Zip" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+}

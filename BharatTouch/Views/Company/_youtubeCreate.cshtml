@@ -1,0 +1,35 @@
+﻿
+@model DataAccess.Models.YouTubeModel
+@{
+
+}
+
+@using (Html.BeginForm("SaveYouTube", "Company", FormMethod.Post, new { id = "upsertYouTubeCompanyForm", @class = "row g-3", @enctype = "multipart/form-data" }))
+{
+
+    @Html.HiddenFor(t => t.YouTubeId)
+    @Html.HiddenFor(t => t.UserId)
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="name"><span style="color:red;">*</span>Title</label>
+            @Html.TextBoxFor(t => t.YouTubeTitle, new { @class = "form-control required-left", @placeholder = "" })
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="name"><span style="color:red;">*</span>YouTube URL</label>
+            @Html.TextBoxFor(t => t.YouTubeUrl, new { @class = "form-control required-left", @placeholder = "" })
+        </div>
+    </div>
+    <br />
+    <div class="gap-3 d-flex">
+        <button class="btn btn-secondary btn-block w-100" id="btnCancelYouTube" type="button">Cancel</button>
+        <button class="btn btn-success w-100" id="btnYoutubeSave" type="submit"><div class="lds-dual-ring"></div>&nbsp;@((Model == null || Model.YouTubeId == 0) ? "Add" : "Update") YouTube Video</button>
+    </div>
+
+}
+
+
+
+

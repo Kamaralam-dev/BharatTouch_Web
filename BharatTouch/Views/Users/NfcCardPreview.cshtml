@@ -1,0 +1,67 @@
+﻿@model DataAccess.ViewModels.NfcCardColorViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Nfc Card Preview</title>
+    <link rel="icon" href="~/Content/images/favicon_bharatTouch.ico" style="border-radius: 30px;" type="image/x-icon">
+
+    <link href="/FormAssets/vendor/icofont/icofont.min.css" rel="stylesheet">
+    <link href="~/HomeAssets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/HomeAssets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link href="~/HomeAssets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="~/Content/vendor/bootstrap-wizard/jquery.bootstrap.wizard.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/themify-icons@0.1.2/css/themify-icons.css" rel="stylesheet">
+    @Styles.Render("~/Content/homeCss")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/bundles/homeLayoutCSS")
+
+</head>
+<body class="m-5 p-5">
+    <section class="main-panel container" >
+        @if (Model != null)
+        {
+            <div style=" display: flex; justify-content: center;">
+                @Html.Partial("_nfcCardPreview", Model)
+            </div>
+            <br />
+            <div class="container-fluid d-flex justify-content-evenly">
+                <div>
+                    <h4>Shipping Details</h4>
+                    <div class="details">
+                        <p><strong>Address 1:</strong> @Model.ShippingAddress1</p>
+                        <p><strong>Address 2:</strong> @Model.ShippingAddress2</p>
+                        <p><strong>City:</strong> @Model.ShippingCity</p>
+                        <p><strong>State:</strong> @Model.ShippingState</p>
+                        <p><strong>Country:</strong> @Model.ShippingCountry</p>
+                        <p><strong>Zip:</strong> @Model.ShippingZip</p>
+                    </div>
+                </div>
+                <div>
+                    <h4>Billing Details</h4>
+                    <div class="details">
+                        <p><strong>Address 1:</strong> @Model.BillingAddress1</p>
+                        <p><strong>Address 2:</strong> @Model.BillingAddress2</p>
+                        <p><strong>City:</strong> @Model.BillingCity</p>
+                        <p><strong>State:</strong> @Model.BillingState</p>
+                        <p><strong>Country:</strong> @Model.BillingCountry</p>
+                        <p><strong>Zip:</strong> @Model.BillingZip</p>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <h4 style=" justify-self: anchor-center;">No card to print, or Failed to Fetch Card Details.</h4>
+        }
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+</body>
+</html>

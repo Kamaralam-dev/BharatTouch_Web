@@ -1,0 +1,134 @@
+﻿@model int
+@using DataAccess
+@{
+    int totalRows = 0;
+    var list = new DataAccess.Repository.CertificationRepository().GetUserCertificationBy_UserId(Model, out totalRows, "BharatTouch/EditProfile/_userCertifications.cshtml");
+
+    @functions {
+        string EnsureUrl(string url)
+        {
+            string modifiedUrl = url;
+            if (url.NullToString() != "" && !url.StartsWith("http"))
+            {
+                modifiedUrl = "http://" + url;
+            }
+            return modifiedUrl;
+        }
+    }
+}
+
+@if (totalRows > 0)
+{
+    <div class="row mycard" style="padding-right:4px;">
+
+        <style>
+            .fix-team-size {
+                height: 213px;
+                width: 100%;
+                /*        width: 200px;*/
+            }
+
+                .fix-team-size img {
+                    /*            height: -webkit-fill-available;*/
+                    object-fit: cover;
+                    /*                        width: 200px;*/
+                    /*            width: 100%;*/
+                }
+        </style>
+        @foreach (var item in list)
+        {
+            bool isExistPic = false;
+            bool isExistPicThumb = false;
+            try
+            {
+                isExistPic = System.IO.File.Exists(Server.MapPath(item.CertificateFile));
+            }
+            catch (Exception ex) { }
+
+            <div class="col-lg-3 col-md-6" style="background-color:none">
+                <div class="teamplayer fix-team-size">
+
+                    @if (isExistPic)
+                    {
+                        <img src="@Url.Content(item.CertificateFile)" alt="@item.CertificationName">
+                    }
+                    else
+                    {
+                        <img src="/FormAssets/img/blank-profile-picture.jpg" alt="@item.CertificationName" />
+                    }
+                    <div class="name_tag">
+                        <a style="color:white;" class="btnPortfolioDelete"> @item.CertificationName</a> <br />
+                        <a style="color:white;" class="btnPortfolioDelete"> @item.IssuingOrganization</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+}
+
+
+@*@if (totalRows > 0)
+{
+    <div class="mycard">
+        @foreach (var item in list)
+        {
+            <div class="resume-item">
+
+                @if (string.IsNullOrWhiteSpace(item.CertificateURL) == false)
+                {
+                    <h4>
+                        <a href="@EnsureUrl(item.CertificateURL)" target="_blank" style="cursor: pointer;" title="Certificate url">
+                            @item.CertificationName
+                        </a>
+                    </h4>
+
+                }
+                else
+                {
+                    <h4>@item.CertificationName </h4>
+                }
+                @if (item.IssueDate != null)
+                {
+                    <h5>@string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style9 + "}", item.IssueDate) - @(item.ExpirationDate == null ? "Still Running" : string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style9 + "}", item.ExpirationDate))</h5>
+                }
+                @if (string.IsNullOrWhiteSpace(item.OrganizationURL) == false)
+                {
+                    <p>
+                        <em>
+                            <span style="font-weight: 600;">Organization: </span> <a href="@EnsureUrl(item.OrganizationURL)" target="_blank" style="cursor: pointer;" title="Organization">@item.IssuingOrganization</a>
+                        </em>
+                    </p>
+                }
+                else
+                {
+                    <p><em><span style="font-weight: 600;">Organization: </span>@item.IssuingOrganization</em></p>
+                }
+                @if (string.IsNullOrWhiteSpace(item.CertifcateNumber) == false)
+                {
+                    <p><em><span style="font-weight: 600;">Certification Number: </span>@item.CertifcateNumber</em></p>
+                }
+                @if (string.IsNullOrWhiteSpace(item.CertificateFile) == false && System.IO.File.Exists(Server.MapPath(item.CertificateFile)))
+                {
+                    <p>
+                        <em>
+                            <a class="viewUserCertificate" style="cursor: pointer;" title="Certificate file" data-path="@Url.Content(item.CertificateFile)">
+                                <div class="lds-dual-ring-blue"></div> View Certificate
+                            </a>
+                        </em>
+                    </p>
+                }
+                @if (string.IsNullOrWhiteSpace(item.Description) == false)
+                {
+                    <p>@item.Description</p>
+                }
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="mycard">
+        No details found(s)
+    </div>
+}*@

@@ -1,0 +1,113 @@
+﻿@using BharatTouch.CommonHelper
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Visitor Counter</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/websocket/1.0.34/websocket.min.js"></script>*@
+
+</head>
+<body>
+    @*<input type="hidden" id="socketUrl" value="@ConfigValues.WebSocketUrl" />
+        <h1>Current Visitors: <span id="visitorCount">@ViewBag.VisitorCount</span></h1>
+        <h3>TotalOpenTabs: <span id="Tabs"></span></h3>
+        <h3>Static Name From Server: <span id="Name"></span></h3>*@
+
+    @*<label for="file">Image</label>
+    <input type="file" name="file" id="file" />
+    <br />
+    <button type="button" id="btnSubmit">Submit</button>*@
+
+
+
+    @*<img id="uploadedimg" />*@
+    <label for="txtUserId">UserId</label>
+    <input type="number" min="0" id="txtUserId" />
+    <button type="button" id="btnReplaceUserImages">ReplaceImages</button>
+    <div id="loader"></div>
+    <div id="messageResult"></div>
+
+    <script src="~/Content/javascripts/custom/Shared.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$("#btnSubmit").click(function () {
+            //    debugger
+            //    var fileInput = $("#file")[0];
+            //    var file = fileInput.files[0];
+            //    var formData = new FormData();
+            //    formData.append("file", file);
+
+            //    $.ajax({
+            //        url: "/Test/UploadImage",
+            //        type: "POST",
+            //        data: formData,
+            //        processData: false,
+            //        contentType: false,
+            //        success: function (res) {
+            //            if (res.Success) {
+            //                $("#uploadedimg").attr("src", res.Data);
+            //            }
+            //        },
+            //        error: function (xhr, status, error) {
+            //            alert("error");
+            //        }
+            //    });
+            //});
+
+
+            $("#btnReplaceUserImages").click(replaceImages);
+        });
+
+        function replaceImages() {
+            var userId = $("#txtUserId").val();
+            if (!(parseInt(userId, 10) > 0)) {
+                alert("Please enter UserId");
+                return;
+            }
+            $("#loader").html("...Loading");
+            $.post("/Test/ReplaceImages", { UserId: userId }, function (data) {
+                console.log(data);
+                $("#loader").html("");
+                $("#messageResult").html(data.Data);
+            }).fail(function () {
+                alert("Some error occurred.");
+            });
+        }
+    </script>
+
+    @*<script>
+            var uniqueValue = getCookie("unique-identifier");
+            if (!uniqueValue) {
+                uniqueValue = randomGenerator();
+                setCookie("unique-identifier", uniqueValue, 365);
+            }
+            // Connect to the WebSocket server
+            var ws = new WebSocket(`${$("#socketUrl").val()}/visitor?page=TestIndex&UserId=4&identity=${uniqueValue}`);
+
+
+            ws.onmessage = function (event) {
+                console.log("event", event)
+
+                var data = JSON.parse(event.data);
+                $('#visitorCount').text(data.UserId);
+                $('#Name').text(data.FirstName);
+                $('#Tabs').text(data.CountryId);
+            };
+
+           // Remove data handling from onopen and onclose
+            ws.onopen = function (event) {
+                console.log("WebSocket connection opened");
+            };
+
+            ws.onclose = function (event) {
+                console.log("WebSocket connection closed");
+            };
+        </script>*@
+</body>
+</html>

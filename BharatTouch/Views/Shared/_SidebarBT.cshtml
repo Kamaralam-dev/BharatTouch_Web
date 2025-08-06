@@ -1,0 +1,189 @@
+﻿<header id="header">
+    <div class="d-flex flex-column">
+
+        <div class="profile" id="divprofile" style="text-align: center;">
+            <div id="profilecontainer">
+
+
+                @if (ViewBag.ActionName.ToLower() == "editprofile")
+                {
+                    if (ViewBag.IsProfilePictureExist==true)
+                    {
+                        <div>
+                            <img src="@ViewBag.ProfileImage?v=@DateTime.Now.ToString("yyyyMMddHHmmssf")" style="height:120px;" alt="profile-picture" class="img-fluid rounded-circle" loading="lazy">
+
+                            <div class="camera-icon-layout-pic btnChangeImage">
+                                <i class="fa fa-camera"></i>
+                            </div>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div>                          
+                            <img src="/FormAssets/img/blank-profile-picture.jpg" alt="profile-picture" class="img-fluid rounded-circle"  loading="lazy">
+
+                            <div class="camera-icon-layout-pic btnChangeImage">
+                                <i class="fa fa-camera"></i>
+                            </div>
+                        </div>
+                    }
+
+                    <button class="getstarted scrollto btn btn-sm btn-secondary btnChangeImage" style="display: none;" id="btnChangeImage">Change Image</button>
+                }
+                else
+                {
+                    if (ViewBag.IsProfilePictureExist==true)
+                    {
+                        <img src="@ViewBag.WebLinkHttps?v=@DateTime.Now.ToString("yyyyMMddHHmmssf")" style="height:120px;" alt="profile-picture" class="img-fluid rounded-circle"  loading="lazy">
+                    }
+                    else
+                    {
+                        <img src="/FormAssets/img/blank-profile-picture.jpg" alt="blank-profile-picture" class="img-fluid rounded-circle"  loading="lazy">
+                    }
+                }
+
+            </div>
+
+            <h1 class="text-light"><a href="#personal">@ViewBag.FirstName @ViewBag.LastName</a></h1>
+            
+            @if (ViewBag.ActionName.ToLower() != "editprofile" && ViewBag.LoggedUserId > 0 && ViewBag.IsProfileOwner)
+            {
+                <a href="/edit/@ViewBag.ProfileCode" style="font-size: 14px; font-weight: 800; text-decoration: underline; color: #ffab00; margin-top: 3px;">Edit Profile</a>
+            }
+            else if (ViewBag.LoggedUserId > 0 && ViewBag.ActionName.ToLower() == "editprofile")
+            {
+                <div class="d-flex flex-column">
+                    <a href="/@ViewBag.ProfileCode" style="font-size: 14px; font-weight: 800; text-decoration: underline; color: #ffab00; margin-top: 3px;">View Profile</a>
+
+                    <a class="badge badge-light badge-pill text-dark mt-3 pointer py-1" style="font-size: 14px; background-color: #149ddd; " id="copyReferalCode" data-bs-toggle="tooltip" data-bs-placement="left" title="Referal Code">
+                        <div>My Referral Code <i class="bi bi-copy text-light mx-1" style="font-size: 16px; " id="copyReferalIcon"></i></div>
+                        <div class="text-white mt-2">@ViewBag.ReferalCode</div>
+                    </a>
+
+                </div>
+            }          
+        </div>
+
+        <nav class="nav-menu">
+            <ul>
+                @if (ViewBag.ActionName.ToLower() != "editprofile")
+                {
+                    <li class="active"><a href="#hero"><i class="bx bx-user"></i> <span>Personal</span></a></li>
+                    <li class="@((ViewBag.ShowAbout  || (ViewBag.IsAboutSectionWithIcons ? ViewBag.NoAboutContent : ViewBag.NoAboutContentWithoutIcons)) ? "d-none":"")"><a href="#about"><i class="bx bx-chalkboard"></i> <span>About</span></a></li>
+
+                    if (@ViewBag.ShowSkill == false && !ViewBag.IsSkillsNotAvailable)
+                    {
+                        <li><a href="#skills"><i class="bx bxs-brain"></i> Services / Skills</a></li>
+                    }
+
+                    if (ViewBag.HideGallery == false && ViewBag.HasGalleryImages)
+                    {
+                        <li><a href="#portfolioGallery"><i class="bx bx-images"></i> Image Gallery</a></li>
+                    }
+                    if (ViewBag.HideTestimonial == false && ViewBag.ShowTestimonial)
+                    {
+                        <li><a href="#testimonials"><i class="bx bxs-star"></i> Testimonial</a></li>
+                    }
+                    if (ViewBag.ShowExperience == false && ViewBag.IsExperienceAvailable)
+                    {
+                        <li><a href="#experience"><i class="bx bx-file-blank"></i> <span>Experience</span></a></li>
+                    }
+                    if (ViewBag.ShowEducation == false && ViewBag.IsEducationListAvailable)
+                    {
+                        <li><a href="#education"><i class="bx bx-book-content"></i> Education</a></li>
+                    }
+                    if (ViewBag.ShowCertifications)
+                    {
+                        <li><a href="#userCertification"><i class="bx bx-certification"></i> User Certification</a></li>
+                    }
+                    if (ViewBag.HideTeam == false && ViewBag.HasTeam)
+                    {
+                        <li><a href="#Team"><i class="bx bxs-user-account"></i> Team</a></li>
+                    }
+                    if (ViewBag.HideYouTube == false && ViewBag.IsYoutubeListAvailable)
+                    {
+                        <li><a href="#youtube"><i class="bx bx-video"></i> Videos</a></li>
+                    }
+
+                    if (ViewBag.IsPaymentQrAvailable)
+                    {
+                        <li><a href="#payment"><i class="bx bxs-barcode"></i> Payment QR</a></li>
+                    }
+
+                    if (ViewBag.HideBlog == false && ViewBag.HasBlogs)
+                    {
+                        <li><a href="#blog"><i class="bx bx-comment"></i> Blogs</a></li>
+                    }
+                    if (ViewBag.IsAnyWeekDayOpen)
+                    {
+                        <li><a href="#meeting"><i class="bx bxs-report"></i> Meeting Request</a></li>
+                    }
+
+                    <li><a href="#contact"><i class="bx bx-envelope"></i> Contact</a></li>
+
+                    if (ViewBag.IsProfileOwner && ViewBag.TotalLeads > 0)
+                    {
+                        <li><a href="#leads"><i class="bx bx-group"></i> Leads </a></li>
+                    }
+
+                    @*if (isLoggedUser && isAdmin)
+            {
+                <li><a href="/Users/index" target="_blank"><i class="bx bx-group"></i> User List </a></li>
+            }*@
+                }
+                else
+                {
+                    <li class="active"><a href="#personal"><i class="bx bx-user"></i> <span>Personal</span></a></li>
+                    <li><a href="#about"><i class="bx bx-chalkboard"></i> <span>About</span></a></li>
+                    @*<li><a href="#ThemeSettings"><i class="bx bxs-barcode"></i> Theme Setting</a></li>*@
+                    <li><a href="#social"><i class="bx bx-badge"></i> Social Media</a></li>
+                    <li><a href="#portfolioGallery"><i class="bx bx-images"></i> Image Gallery</a></li>
+                    <li><a href="#Testimonial"><i class="bx bxs-star"></i> Client Testimonial</a></li>
+                    <li><a href="#experience"><i class="bx bx-file-blank"></i> <span>Experience</span></a></li>
+                    <li><a href="#education"><i class="bx bx-book-content"></i> Education</a></li>
+                    <li><a href="#userCertification"><i class="bx bx-certification"></i> Certification/Training</a></li>
+                    <li><a href="#Team"><i class="bx bxs-user-account"></i> My Team</a></li>
+                    <li><a href="#youtube"><i class="bx bx-video"></i> Videos</a></li>
+                    <li><a href="#payment"><i class="bx bxs-barcode"></i> Payment QR</a></li>
+                    <li><a href="#blog"><i class="bx bx-comment"> </i> Blogs</a></li>
+                    <li class="adhaarSection" style="display: @(ViewBag.CountryId == 5 ? "block": "none");"><a href="#AdhaarCard"><i class="bx bx-card"></i> Aadhaar Card</a></li>
+
+                    @*<li><a href="#news"><i class="bx bx-comment"></i> News</a></li>*@
+
+                    @*if (userData.CompanyType.NullToString() != "")
+            {
+                <li><a href="#nearbyBusiness"><i class="bx bx-comment"></i> NearBy Business</a></li>
+            }*@
+
+                    <li><a href="#meeting"><i class="bx bxs-report"></i> Meetings Request</a></li>
+
+                    <li><a href="#contact"><i class="bx bx-envelope"></i> Contact</a></li>
+
+                    if (ViewBag.TotalLeads > 0)
+                    {
+                        <li><a href="#leads"><i class="bx bx-group"></i> Leads </a></li>
+                    }
+                    <li><a href="#profileAnalytics"><i class="bx bx-bar-chart"></i> Profile Analytics</a></li>
+                    <li><a href="#changePassword"><i class="bx bx-envelope"></i> Change Password</a></li>
+
+
+                    @*if (isLoggedUser && isAdmin)
+            {
+                <li><a href="/Users/index" target="_blank"><i class="bx bx-group"></i> User List </a></li>
+                <li><a href="/Users/PdfUsers" target="_blank"><i class="bx bx-group"></i> Pdf Users </a></li>
+                <li><a href="/Users/FeatureNotification" target="_blank"><i class="bx bx-group"></i> Feature Notification </a></li>
+                <li><a href="/CardTheme/index" target="_blank"><i class="bx bx-group"></i> Template List</a></li>
+            }*@
+                }
+
+                @if (ViewBag.LoggedUserId > 0)
+                {
+                    <li><a href="@Url.Action("Logout", "Home")"><i class="bx bx-power-off"></i> Logout</a></li>
+                }
+            </ul>
+        </nav><!-- .nav-menu -->
+        @*<button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>*@
+
+    </div>
+</header>

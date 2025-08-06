@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "DiscountCouponIndex";
+    Layout = "~/Views/Shared/Admin/_LayoutAdmin.cshtml";
+}
+
+<div class="pagetitle">
+    <h1>Discount Coupons</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item">Discount Coupons list</li>
+        </ol>
+    </nav>
+</div>
+
+
+<section>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+
+                <div class="col-lg-12 content" data-aos="fade-left" style="padding:20px">
+                    <button type="button" id="btnAddDiscountCoupon" class="btn btn-primary float-end mx-2"><i class="bi bi-plus-circle-dotted me-1"></i>Add Discount Coupon</button>
+                    <br />
+                </div>
+
+                <table class="table table-bordered table-striped" cellspacing="0" style="width:100%!important;" id="tableDiscountCoupons">
+                    <thead class="mb-none">
+
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Code
+                            </th>
+                            <th>
+                                Start
+                            </th>
+                            <th>
+                                End
+                            </th>
+                            <th>
+                                PercentageOff
+                            </th>
+                            <th>
+                                AmountOff
+                            </th>
+                            <th>
+                                IsActive
+                            </th>
+                            <th>
+                                Created By
+                            </th>
+                            <th>
+                                Created On
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>
+@section scripts{
+    <script src="~/Content/page-scripts/Admin/DiscountCouponIndex.js"></script>
+    <script type="text/javascript">
+        var js = new DiscountCouponJS();
+        js.fetchDiscountCouponListUrl = "@Url.Action("GetDiscountCouponList", "Admin")";
+        js.deleteDiscountCouponUrl = "@Url.Action("DeleteDiscountCouponById", "Admin")";
+        js.OpenDiscountCouponFormModalUrl = "@Url.Action("AddEditDiscountCouponModal", "Admin")";
+        js.init();
+    </script>
+}
+
+
+@{
+    var modalModel = new DataAccess.ViewModels.ModalViewModel
+    {
+        ModalId = "ModaladdEditDiscountCoupon",
+        ModalSize = "modal-lg",
+        Title = "Add/Edit Discount Coupon",
+        CloseButtonText = "Close",
+        PrimaryButtonText = "Save",
+        PrimaryButtonOnClick = "js.SubmitDiscountCouponForm()"
+    };
+}
+@Html.Partial("~/Views/Shared/Admin/_modal.cshtml", modalModel)

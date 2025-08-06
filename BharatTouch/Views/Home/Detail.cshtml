@@ -1,0 +1,315 @@
+﻿@model DataAccess.Models.ItemModel
+@{
+
+    ViewBag.Title = "Item Detail";
+    Layout = "~/Views/Shared/_LayoutBlank.csHtml";
+}
+<style>
+    .widget-twitter-profile .profile-info .profile-stats li {        
+        padding: 0 34px!important;
+    }
+</style>
+<link rel="stylesheet" href="~/Content/vendor/owl-carousel/owl.carousel.css" />
+<link rel="stylesheet" href="~/Content/vendor/owl-carousel/owl.theme.css" />
+<header class="page-header fixed-button-container" style="margin-top:-60px;">
+    <div class="fixed-button-align">        
+        <a href="/home/index" class="mb-xs mt-xs mr-xs btn btn-danger"><i class="fa  fa-step-backward"></i>&nbsp;Back to list</a>
+    </div>
+</header>
+<section role="main" class="content-body" id="createFormContainer">
+    <section class="content-with-menu-has-toolbar media-gallery">
+        <div class="content-with-menu-container">
+           
+            <div class="row">
+                <div class="col-md-6">
+                    
+                    <section class="panel">
+                        <div class="panel-body panel-body-nopadding">
+                            <div class="owl-carousel mb-md" data-plugin-carousel data-plugin-options='{ "items": 1, "autoHeight": true }'>
+                                @{
+                                    if (Directory.Exists(Server.MapPath("~/uploads/items/" + Model.ItemId)))
+                                    {
+                                        var primaryImage = Path.GetFileName(Model.ImageUrl);
+                                        string[] files = Directory.GetFiles(Server.MapPath("~/uploads/items/" + Model.ItemId));
+                                        foreach (var file in files)
+                                        {
+                                            var fname = Path.GetFileName(file);
+                                            <div class="item">
+                                                <img alt="" class="img-responsive img-rounded" src="/uploads/items/@Model.ItemId/@fname">
+                                            </div>
+
+                                        }
+                                    }
+                                }
+
+                                @*<div class="item">
+                                        <img alt="" class="img-responsive img-rounded" src="https://colorlib.com/polygon/octopus/assets/images/blog-image-2.jpg">
+                                    </div>
+                                    <div class="item">
+                                        <img alt="" class="img-responsive img-rounded" src="https://colorlib.com/polygon/octopus/assets/images/blog-image-1.jpg">
+                                    </div>*@
+                            </div>
+                            <div class="p-md">
+                                <h4 class="text-semibold mt-none">@Model.ItemName</h4>
+                                <p>@Model.Description</p>
+                            </div>
+
+
+                        </div>
+
+                    </section>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="widget-twitter-profile">
+                                <div class="profile-info">
+                                    <ul class="profile-stats" style="float:left!important;">
+                                        <li>
+                                            <h5 class="stat text-uppercase">Item #</h5>
+                                            <h4 class="count">@Model.ItemNumber</h4>
+                                        </li>
+                                        <li>
+                                            <h5 class="stat text-uppercase">Quantity</h5>
+                                            <h4 class="count">@Model.Quantity</h4>
+                                        </li>
+                                        <li>
+                                            <h5 class="stat text-uppercase">Size</h5>
+                                            <h4 class="count">@Model.Size</h4>
+                                        </li>
+                                        <li>
+                                            <h5 class="stat text-uppercase">Color</h5>
+                                            <h4 class="count">@Model.Color</h4>
+                                        </li>
+                                        <li>
+                                            <h5 class="stat text-uppercase">Warranty Period</h5>
+                                            <h4 class="count">@Model.WarrentyPeriod</h4>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="p-md widget-summary widget-summary-sm">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon bg-primary">
+                                        <i class="fa fa-life-ring"></i>
+                                    </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">Category</h4>
+                                        <div class="info">
+                                            <strong class="amount">@Model.Category</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-md widget-summary widget-summary-sm">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon bg-primary">
+                                        <i class="fa fa-life-ring"></i>
+                                    </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">Subcategory</h4>
+                                        <div class="info">
+                                            <strong class="amount">@Model.SubCategory</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="p-md widget-summary widget-summary-sm">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon bg-primary">
+                                        <i class="fa fa-life-ring"></i>
+                                    </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">Purchase Date</h4>
+                                        <div class="info">
+                                            <strong class="amount">@string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style1 + "}", Model.PurchaseDate)</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-md widget-summary widget-summary-sm">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon bg-primary">
+                                        <i class="fa fa-life-ring"></i>
+                                    </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">Market Value</h4>
+                                        <div class="info">
+                                            <strong class="amount">$@Model.MarketValue</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    @*<div class="row">
+                        <div class="col-md-6">
+                            <div class="p-md widget-summary widget-summary-sm">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon bg-primary">
+                                        <i class="fa fa-life-ring"></i>
+                                    </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">Contact Email</h4>
+                                        <div class="info">
+                                            <strong class="amount">@Model.Email</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-md widget-summary widget-summary-sm">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon bg-primary">
+                                        <i class="fa fa-life-ring"></i>
+                                    </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">Contact Persion</h4>
+                                        <div class="info">
+                                            <strong class="amount">@Model.ContactPerson</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>*@
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="p-md widget-summary widget-summary-sm">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon bg-primary">
+                                        <i class="fa fa-life-ring"></i>
+                                    </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">Condition</h4>
+                                        <div class="info">
+                                            <strong class="amount">@Model.Condition</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-6">
+                            <div class="p-md widget-summary widget-summary-sm">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon bg-primary">
+                                        <i class="fa fa-life-ring"></i>
+                                    </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">Claim By</h4>
+                                        <div class="info">
+                                            <strong class="amount">@string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style1 + "}", Model.ClaimByDate)</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="p-md widget-summary widget-summary-sm">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon bg-primary">
+                                        <i class="fa fa-life-ring"></i>
+                                    </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">City</h4>
+                                        <div class="info">
+                                            <strong class="amount">@Model.City</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-md widget-summary widget-summary-sm">
+                                <div class="widget-summary-col widget-summary-col-icon">
+                                    <div class="summary-icon bg-primary">
+                                        <i class="fa fa-life-ring"></i>
+                                    </div>
+                                </div>
+                                <div class="widget-summary-col">
+                                    <div class="summary">
+                                        <h4 class="title">State</h4>
+                                        <div class="info">
+                                            <strong class="amount">@Model.State</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+           
+        </div>
+    </section>
+</section>
+@section scripts{
+    <script src="~/Content/vendor/owl-carousel/owl.carousel.js"></script>
+    @*<script src="~/Content/javascripts/ui-elements/examples.widgets.js"></script>*@
+
+    <!-- Theme Base, Components and Settings -->
+    <script src="~/Content/javascripts/theme.js"></script>
+
+    <!-- Theme Custom -->
+    <script src="~/Content/javascripts/theme.custom.js"></script>
+
+    <!-- Theme Initialization Files -->
+    <script src="~/Content/javascripts/theme.init.js"></script>
+
+    <script>
+
+    </script>
+}

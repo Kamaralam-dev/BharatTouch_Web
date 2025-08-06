@@ -1,0 +1,134 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/SmartTheme/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/SmartTheme/css/slick-theme.css">
+    <link rel="stylesheet" href="~/SmartTheme/css/slick.css">
+    <link rel="stylesheet" href="~/SmartTheme/font/fonts.css">
+    <link rel="stylesheet" href="~/SmartTheme/css/style.css" />
+    <link rel="stylesheet" href="~/SmartTheme/css/media.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/javascripts/custom/pnotify/pnotify.css" />
+    <title>Bharat Touch - Order Placed</title>
+    <link rel="icon" href="/SmartTheme/images/bharattouchfavico.ico" style="border-radius: 30px;" type="image/x-icon">
+
+    <style>
+        .success-container {
+            /*font-family: Arial, sans-serif;*/
+            /*border: 1px solid #d4d4d4;*/
+            /*padding: 20px;*/
+            /*max-width: 600px;*/
+            /*margin: 40px auto;*/
+            /*background-color: #f9f9f9;*/
+        }
+
+        .success-header {
+            display: flex;
+            align-items: center;
+            color: #2e7d32;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+            .success-header img {
+                width: 20px;
+                height: 20px;
+                margin-right: 10px;
+            }
+
+        .success-content p {
+            margin: 8px 0;
+            font-size: 14px;
+            color: #FFF;
+        }
+
+        .success-content a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            .success-content a:hover {
+                text-decoration: underline;
+            }
+        .timer {
+            font-weight: bold;
+            color: #d32f2f;
+        }
+    </style>
+
+</head>
+<body>
+
+
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="/"><img src="~/SmartTheme/images/logo.svg" alt="logo"></a>
+            </div>
+        </nav>
+    </header>
+
+    @*@Html.Partial("_smartHeader")*@
+    <section class="singup-form-outer">
+        <div class="container">
+            <div class="get-started-text">
+            </div>
+
+            <div class="step-form-outer">
+                <div class="step-points">
+                    <div class="sign-up-form">
+                        <div id="sign-up" class="form-step active-step">
+                            <div class="success-container">
+                                <div class="success-header">
+                                    <img src="https://img.icons8.com/color/48/000000/ok--v1.png" alt="Success">
+                                    Order Placed Successfully!
+                                </div>
+                                <div class="success-content">
+                                    <p><strong style="color: #FF6821">Thank you for your purchase!</strong></p>
+                                    <p>
+                                        We are pleased to confirm that your order has been successfully placed and payment has been received.
+                                    </p>
+                                    <p>If you haven’t already verified your email, please check your inbox and complete the verification process.</p>
+                                    <p>You will be redirected to the login page shortly. <span class="timer" id="countdown">10</span> seconds.</p>
+                                    <p>If you are not redirected automatically, <a style="color: #FF6821" href="/login">click here to login</a>.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    @*@Html.Partial("_smartFooter")*@
+    <script src="~/SmartTheme/js/jquery.min.js"></script>
+    <script src="~/SmartTheme/js/bootstrap.min.js"></script>
+    <script src="~/SmartTheme/js/slick.min.js"></script>
+    <script src="~/SmartTheme/js/custom.js"></script>
+
+    <script>
+        let seconds = 10;
+        const countdownEl = document.getElementById('countdown');
+
+        const interval = setInterval(() => {
+            seconds--;
+            countdownEl.textContent = seconds;
+            if (seconds <= 0) {
+                clearInterval(interval);
+                window.location.href = "/home/login"; // Redirect to login page
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

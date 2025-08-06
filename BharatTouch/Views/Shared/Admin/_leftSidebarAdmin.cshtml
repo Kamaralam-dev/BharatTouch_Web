@@ -1,0 +1,162 @@
+﻿
+@{
+    var userType = BharatTouch.CommonHelper.Utility.GetCookie("UserType_admin");
+
+}
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        @if (ViewBag.IsAddEditUserAction != null && (bool)ViewBag.IsAddEditUserAction)
+        {
+            var profilePic = "/FormAssets/img/blank-profile-picture.jpg";
+            if (ViewBag.UserProfilePic != null)
+            {
+                profilePic = ViewBag.UserProfilePic;
+            }
+            <li class="nav-item">
+                <div class="d-flex">
+                    <!-- Container Div remains the same -->
+                    <img src="@profilePic" alt="profile-picture" class="img-fluid rounded-circle" style="height: 50px; width: 50px;">
+
+                    <div class="camera-icon-layout-pic btnChangeImage">
+                        <i class="fa fa-camera" style=""></i>
+                    </div>
+
+                </div>
+            </li>
+        }
+
+        <!--<li class="nav-item">
+    <a data-bs-toggle="tooltip" title="Dashboard" data-bs-placement="right" class="nav-link collapsed loaderMenubar" href="#">
+        <i class="ri ri-bar-chart-box-line"></i>-->
+        @*<span>Dashboard</span>*@
+        <!--</a>
+    </li>-->
+
+        @if (userType == "SA")
+        {
+            <li class="nav-item">
+                <a data-bs-toggle="tooltip" title="User List" data-bs-placement="right" class="nav-link collapsed loaderMenubar" href="/Admin/UserIndex">
+                    <i class="fa fa-users"></i>
+                    @*<span>User</span>*@
+                </a>
+            </li>
+        }
+
+        @*Visibe to superadmin or order admin*@
+        @if (userType == "SA" || userType == "OA")
+        {
+            <li class="nav-item">
+                <a data-bs-toggle="tooltip" title="Order" data-bs-placement="right" class="nav-link collapsed loaderMenubar" href="/Admin/OrderIndex">
+                    <i class="fa fa-money-bill-1"></i>
+                </a>
+            </li>
+        }
+        @if (userType == "SA")
+        {
+            <li class="nav-item">
+                <a data-bs-toggle="tooltip" title="Discount Coupons" data-bs-placement="right" class="nav-link collapsed loaderMenubar" href="/Admin/DiscountCouponIndex">
+                    <i class="fa fa-ticket-alt"></i>
+                </a>
+            </li>
+        }
+
+        @if (userType == "SA")
+        {
+            <li class="nav-item">
+                <a data-bs-toggle="tooltip" title="Business Type" data-bs-placement="right" class="nav-link collapsed loaderMenubar" href="/Admin/BusinessTypeIndex">
+                    <i class="fa fa-briefcase"></i>
+                    @*<span>Business Type</span>*@
+                </a>
+            </li>
+        }
+        <!--<li class="nav-item">
+    <a data-bs-toggle="tooltip" title="Packages" data-bs-placement="right" class="nav-link collapsed loaderMenubar" href="/Admin/PackageIndex">
+        <i class="fa fa-inr"></i>-->
+        @*<span>Packages</span>*@
+        <!--</a>
+    </li>-->
+        @if (userType == "SA")
+        {
+            <li class="nav-item">
+                <a data-bs-toggle="tooltip" title="Country" data-bs-placement="right" class="nav-link collapsed loaderMenubar" href="/Admin/CountryIndex">
+                    <i class="fa fa-flag"></i>
+                    @*<span>Country</span>*@
+                </a>
+            </li>
+        }
+
+        @if (userType == "SA")
+        {
+            <li class="nav-item">
+                <a data-bs-toggle="tooltip" title="Bulk Order" data-bs-placement="right" class="nav-link collapsed loaderMenubar" href="/Admin/BulkOrderIndex">
+                    <i class="fa fa-money-bill-transfer"></i>
+                    @*<span>Bulk Order</span>*@
+                </a>
+            </li>
+        }
+        @if (userType == "SA")
+        {
+            <li class="nav-item">
+                <a data-bs-toggle="tooltip" title="Company" data-bs-placement="right" class="nav-link collapsed loaderMenubar" href="/Admin/CompanyIndex">
+                    <i class="fa fa-building"></i>
+                    @*<span>Bulk Order</span>*@
+                </a>
+            </li>
+        }
+
+        @*Visibe to superadmin or blog admin*@
+        @if (userType == "SA" || userType == "BA")
+        {
+            <li class="nav-item">
+                <a data-bs-toggle="tooltip" title="Blog" data-bs-placement="right" class="nav-link collapsed loaderMenubar" href="/Admin/BlogIndex">
+                    <i class="fa fa-blog"></i>
+                    @*<span>Blog</span>*@
+                </a>
+            </li>
+        }
+
+
+        @*Visibe to superadmin*@
+        @if (userType == "SA"|| userType == "LA")
+        {
+            <li class="nav-item">
+                <a data-bs-toggle="tooltip" title="Leads" data-bs-placement="right" class="nav-link collapsed loaderMenubar" href="/Admin/LeadIndex">
+                    <i class="fa fa-l"></i>
+                    @*<span>Leads</span>*@
+                </a>
+            </li>
+        }
+
+    </ul>
+
+</aside>
+<!-- End Sidebar-->
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        var currentPath = window.location.pathname;
+
+        $('#sidebar-nav li.nav-item a.nav-link').each(function () {
+            var linkPath = $(this).attr('href');
+
+            var normalizedCurrentPath = currentPath === '/' ? '/' : currentPath.replace(/\/$/, '');
+            var normalizedLinkPath = linkPath === '/' ? '/' : linkPath.replace(/\/$/, '');
+
+
+            if (normalizedCurrentPath === normalizedLinkPath) {
+                $(this).removeClass('collapsed');
+                $(this).closest('li.nav-item').addClass('active');
+            } else {
+                $(this).closest('li.nav-item').removeClass('active');
+            }
+        });
+
+    });
+</script>

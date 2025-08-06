@@ -1,0 +1,26 @@
+﻿@model int
+@{
+
+    var professionalList = new DataAccess.Repository.ProfessionalRepository().GetAllUserProfessionals(Model, "BharatTouch/Profile/_professionalReadOnly.cshtml").OrderByDescending(x => x.StartDate).ToList();
+}
+
+@if (professionalList.Count > 0)
+{
+    <div class="mycard">
+        @foreach (var professional in professionalList)
+        {
+            <div class="resume-item">
+                <h4>@professional.Title </h4>
+                <h5>@string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style9 + "}", professional.StartDate) - @(professional.EndDate == null ? "Present" : string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style9 + "}", professional.EndDate))</h5>
+                <p><em>@professional.Company (@professional.City, @professional.Country)</em></p>
+            </div>
+        }
+    </div>
+
+}
+else
+{
+    <div class="mycard">
+        No details found(s)
+    </div>
+}

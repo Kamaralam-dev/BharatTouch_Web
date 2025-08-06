@@ -1,0 +1,56 @@
+﻿
+@model int
+@{
+    //string[] filePaths = Directory.GetFiles("~/uploads/Portfolio/"+Model);
+    DirectoryInfo d = new DirectoryInfo(Server.MapPath("~/uploads/Portfolio/" + Model));//Assuming Test is your Folder
+    FileInfo[] Files = null;
+    try
+    {
+        Files = d.GetFiles("*"); //Getting Text files
+    }
+    catch (Exception ex) { }
+}
+
+<style>
+    .fix-team-size {
+        height: 18em;
+        width: 100%;
+    }
+
+        .fix-team-size img {
+            height: -webkit-fill-available;
+            object-fit: cover;
+        }
+</style>
+
+@if (Files != null)
+{
+    <div class="row w-100" style="padding-right:4px;">
+        <input type="hidden" id="galleryImagesCount" value="@Files.Length" />
+        @foreach (FileInfo file in Files)
+        {
+            <div class="col-lg-3 " style="background-color:none">
+                <div class="teamplayer fix-team-size">
+
+                    @if (System.IO.File.Exists(Server.MapPath("~/uploads/Portfolio/" + Model + "/" + file.Name)))
+                    {
+                        <img src="@Url.Content("~/uploads/Portfolio/" + Model + "/" + file.Name)" alt="@file.Name">
+                    }
+                    else
+                    {
+                        <img src="/FormAssets/img/blank-profile-picture.jpg" alt="@file.Name" />
+                    }
+                    <div class="name_tag">
+                        <a style="color:white;" class="btnPortfolioDelete" data-path="@("/uploads/Portfolio/" + Model + "/" + file.Name)"> Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+}
+else
+{
+
+    <input type="hidden" id="galleryImagesCount" value="0" />
+}

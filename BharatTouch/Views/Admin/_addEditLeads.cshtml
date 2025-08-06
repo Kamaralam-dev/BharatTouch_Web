@@ -1,0 +1,204 @@
+﻿@model DataAccess.ViewModels.LeadsAdminViewModel
+@using DataAccess;
+@{
+
+    //var loggedUserId = BharatTouch.CommonHelper.Utility.GetCookie("UserId_admin").ToIntOrZero();
+    var countriesList = new DataAccess.Repository.CountryRepository().GetCountries("BharatTouch/EditProfile/EditProfile.cshtml");
+    var countries = countriesList.Select(n => new SelectListItem()
+    {
+        Text = n.Country + " (" + n.NumberCode + ")",
+        Value = n.CountryId.ToString() + ";" + n.MinNumberLength + ";" + n.MaxNumberLength,
+        Selected = n.CountryId == Model.CountryId
+    });
+
+    var leadStatusList = ((List<DataAccess.ViewModels.LeadStatusViewModel>)ViewBag.LeadStatus)
+       .Select(n => new SelectListItem
+       {
+           Text = n.LeadStatus,
+           Value = n.LeadStatusId.ToString(),
+           Selected = n.LeadStatusId == Model.CurrentStatusId
+       });
+
+    //var assignedUserId = Model.LeadId == 0 ? loggedUserId : Model.AssignedTo;
+    var userList = ((List<DataAccess.Models.UserModel>)ViewBag.AdminUsers)
+       .Select(n => new SelectListItem
+       {
+           Text = n.FirstName + " " + n.LastName,
+           Value = n.UserId.ToString(),
+           Selected = n.UserId == Model.AssignedTo
+
+       });
+
+}
+
+
+@using (Html.BeginForm("SaveOrUpdateLeads", "Admin", FormMethod.Post, new { id = "leadForm", @class = "row g-3 needs-validation" }))
+{
+    <div class="col-md-6">
+        <label for="Firstname" class="form-label"><span style="color:red;">*</span>First Name</label>
+        @Html.TextBoxFor(x => x.Firstname, new { @class = "form-control", @placeholder = "First Name", required = "required" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="Lastname" class="form-label">Last Name</label>
+        @Html.TextBoxFor(x => x.Lastname, new { @class = "form-control", @placeholder = "Last Name" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="Email" class="form-label">Email</label>
+        @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email", type = "email" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="Company" class="form-label">Company</label>
+        @Html.TextBoxFor(x => x.Company, new { @class = "form-control", @placeholder = "Company" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="CountryId" class="form-label"><span style="color:red;">*</span>Country</label>
+        @Html.HiddenFor(x => x.CountryId)
+        @Html.DropDownList("ddlCountryId", countries, "Select Country Code", new { @class = "form-control select2", @id = "ddlCountryId" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="Phone" class="form-label"><span style="color:red;">*</span>Phone</label>
+        @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @placeholder = "Phone", required = "required" })
+    </div>
+
+    <div class="col-md-4">
+        <label for="Source" class="form-label"><span style="color:red;">*</span>Source</label>
+        @Html.TextBoxFor(x => x.Source, new { @class = "form-control", @placeholder = "Source" })
+    </div>
+
+    <div class="col-md-4">
+        <label for="CurrentStatusId" class="form-label"><span style="color:red;">*</span>Lead Status</label>
+        @Html.DropDownListFor(x => x.CurrentStatusId, leadStatusList, new { @class = "form-control select2", @required = "required" })
+    </div>
+
+    <div class="col-md-4">
+        <label for="AssignedTo" class="form-label"><span style="color:red;">*</span>Assigned To</label>
+        @Html.DropDownListFor(x => x.AssignedTo, userList, new { @class = "form-control select2", @required = "required" })
+    </div>
+
+    @Html.HiddenFor(x => x.LeadId)
+}
+
+<script>
+
+    $(document).ready(function () {
+        $("#modalAddEditLeads").on('shown.bs.modal', function () {
+
+            $('.select2').select2({
+                width: '100%',
+                dropdownParent: $('#modalAddEditLeads')
+            });
+
+        });
+    });
+
+    function onSaveLeadsClick() {
+        $("#leadForm").validate({
+            rules: {
+                FirstName: { required: true },
+                ddlCountryId: { required: true },
+                Source: { required: true },
+                Phone: {
+                    required: true,
+                    minNumberlength: { countrySelector: "#ddlCountryId" },
+                    maxNumberlength: { countrySelector: "#ddlCountryId" }
+                },
+            },
+            submitHandler: function (form) {
+                function handleCountryId(name, dropdownSelector) {
+                    debugger;
+                    var code = $(dropdownSelector).val();// countryId;10;10
+                    if (code.split(';').length == 3) {
+                        var id = code.split(';')[0];
+                        var obj = { name: name, value: id };
+                        return obj;
+                    }
+                }
+
+                var f = $(form);
+                var data = f.serializeArray();
+
+                data = data.map(function (item, i) {
+                    switch (item.name) {
+                        case "CountryId":
+                            return handleCountryId(item.name, "#ddlCountryId");
+                        default:
+                            return item;
+                    }
+                }).filter(x => x !== undefined && x !== null);
+                var isIndiaSelected = false;
+                var countryId = data.find(x => x.name == "CountryId")?.value;
+                if (countryId != null && countryId != undefined) {
+                    isIndiaSelected = parseInt(countryId, 10) == 5;
+                }
+
+                $.ajax({
+                    type: f[0].method,
+                    url: f[0].action,
+                    data: data,
+                    dataType: 'json',
+                    success: function (data, strStatus) {
+
+                        showMessage((data.Success ? "Success" : "Failed"), data.Data, data.Type);
+                        setTimeout(function () {
+
+                            if (data.Success) {
+                                $('#modalAddEditLeads').modal('hide');
+                                $("#tableLeads_Admin").DataTable().ajax.reload();
+                            }
+                        }, 500)
+                    },
+                    error: handleAjaxError()
+                });
+            }
+        });
+        if ($("#leadForm").valid()) {
+            $("#leadForm").submit();
+        }
+    }
+
+    jQuery.validator.addMethod("minNumberlength", function (value, element, params) {
+        var countryValue = $(params.countrySelector).val();
+        if (params.required != undefined && params.required == false) {
+            if (value.trim() == "") {
+                return true;
+            }
+        }
+        if (!countryValue) return false;
+        var splittedArr = countryValue.split(";");
+        var minLength = splittedArr.length > 1 ? parseInt(splittedArr[1], 10) || 10 : 10;
+
+        return value.length >= minLength;
+    }, function (params, element) {
+        var countryValue = $(params.countrySelector).val();
+        var splittedArr = countryValue.split(";");
+        var minLength = splittedArr.length > 1 ? parseInt(splittedArr[1], 10) || 10 : 10;
+
+        return `Minimum ${minLength} digits required.`;
+    });
+
+    jQuery.validator.addMethod("maxNumberlength", function (value, element, params) {
+        var countryValue = $(params.countrySelector).val();
+        if (params.required != undefined && params.required == false) {
+            if (value.trim() == "") {
+                return true;
+            }
+        }
+        if (!countryValue) return false;
+
+        var splittedArr = countryValue.split(";");
+        var maxLength = splittedArr.length > 2 ? parseInt(splittedArr[2], 10) || 10 : 10;
+
+        return value.length <= maxLength;
+    }, function (params, element) {
+        var countryValue = $(params.countrySelector).val();
+        var splittedArr = countryValue.split(";");
+        var maxLength = splittedArr.length > 2 ? parseInt(splittedArr[2], 10) || 10 : 10;
+
+        return `Maximum ${maxLength} digits required.`;
+    });
+</script>

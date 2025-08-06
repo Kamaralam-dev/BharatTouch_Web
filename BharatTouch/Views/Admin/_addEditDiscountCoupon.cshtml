@@ -1,0 +1,55 @@
+﻿@model DataAccess.Models.DiscountCouponModel
+
+
+@using (Html.BeginForm("SaveOrUpdateDiscountCoupon", "Admin", FormMethod.Post, new { id = "discountCouponForm", @class = "row g-3 needs-validation" }))
+{
+    @Html.HiddenFor(x => x.DiscountCouponId)
+    <div class="col-md-6">
+        <label for="CouponName" class="form-label"><span style="color:red;">*</span> Coupon Name</label>
+        @Html.TextBoxFor(t => t.CouponName, new { @class = "form-control", @placeholder = "Coupon Name", @required = "true" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="Code" class="form-label"><span style="color:red;">*</span> Code</label>
+        @Html.TextBoxFor(t => t.Code, new { @class = "form-control", @placeholder = "Code", @required = "true" })
+    </div>
+    
+    <div class="col-md-6">
+        <label for="StartDate" class="form-label"><span style="color:red;">*</span> Start Date</label>
+        @if (Model != null)
+        {
+            @Html.TextBox("StartDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style1 + "}", Model.StartDate), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "", @id = "dpStartDate" })
+        }
+        else
+        {
+            @Html.TextBox("StartDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style1 + "}", ""), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "", @id = "dpStartDate" })
+        }
+    </div>
+    
+    <div class="col-md-6">
+        <label for="EndDate" class="form-label"><span style="color:red;">*</span> End Date</label>
+        @if (Model != null)
+        {
+            @Html.TextBox("EndDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style1 + "}", Model.EndDate), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "", @id = "dpEndDate" })
+        }
+        else
+        {
+            @Html.TextBox("EndDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style1 + "}", ""), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "", @id = "dpEndDate" })
+        }
+    </div>
+
+    <div class="col-md-6">
+        <label for="PercentageOff" class="form-label"> Percentage Off</label>
+        @Html.TextBoxFor(t => t.PercentageOff, new { @class = "form-control", @type = "number", @placeholder = "PercentageOff", @min = "0" })
+    </div>
+
+    <div class="col-md-6">
+        <label for="AmountOff" class="form-label"> Amount Off</label>
+        @Html.TextBoxFor(t => t.AmountOff, new { @class = "form-control", @type = "number", @placeholder = "AmountOff", @min = "0" })
+    </div>
+    
+    <div class="col-md-6 d-flex gap-2">
+        @Html.CheckBoxFor(t => t.IsActive, new { @class = "form-check" })
+        <label for="IsActive"> IsActive</label>
+    </div>
+}

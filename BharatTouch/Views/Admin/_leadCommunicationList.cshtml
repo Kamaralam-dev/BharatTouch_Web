@@ -1,0 +1,92 @@
+﻿@model IEnumerable<DataAccess.ViewModels.LeadCommunicationViewModel>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var i in Model)
+    {
+        <div class="resume">
+            <div class="resume-item">
+                <div class="resume-row">
+                    <span class="resume-label">Communication Type:</span>
+                    <span class="resume-value">@i.CommunicationTypeName</span>
+                </div>
+                <div class="resume-row">
+                    <span class="resume-label">Communicated On:</span>
+                    <span class="resume-value">
+                        @(i.CommunicatedOn.HasValue ? i.CommunicatedOn.Value.ToString("dd MMMM yyyy") : "")
+                    </span>
+
+                </div>
+                <div class="resume-row">
+                    <span class="resume-label">Communicated By:</span>
+                    <span class="resume-value">@i.CommunicatedByName</span>
+                </div>
+                <div class="resume-row">
+                    <span class="resume-label">Follow-Up Type:</span>
+                    <span class="resume-value">@i.FollowUpTypeName</span>
+                </div>
+                <div class="resume-row">
+                    <span class="resume-label">Next Follow-Up Date:</span>
+                    <span class="resume-value">
+                        @(i.NextFollowUpDate.HasValue ? i.NextFollowUpDate.Value.ToString("dd MMMM yyyy") : "")
+                    </span>
+                </div>
+                <div class="resume-row">
+                    <span class="resume-label">Subject:</span>
+                    <span class="resume-value">@i.Subject</span>
+                </div>
+                <div class="resume-row">
+                    <span class="resume-label">Message:</span>
+                    <span class="resume-value">@i.Message</span>
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn btn-sm btn-danger" onclick="deleteCommunication(@i.Id)">
+                        <i class="bi bi-trash"></i> Delete
+                    </button>
+                </div>
+
+                <hr />
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p class="text-danger text-center"><b>No data available.</b></p>
+}
+
+<script>
+    function deleteCommunication(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you want to delete this communication?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/Admin/DeleteLeadCommunication',
+                    type: 'POST',
+                    data: { leadCommunicationId: id },
+                    success: function (data) {
+                        debugger;
+                        if (data.Success) {
+                            loadLeadCommunicationList();
+                            showMessage((data.Success ? "Success" : "Failed"), data.Message, data.Type);
+                        } else {
+                            showMessage("Failed", data.Message, "error");
+                        }
+                    },
+                    error: function (err) {
+                        showMessage("Failed", err.responseText, "Error");
+                    }
+                });
+            }
+        });
+    }
+
+</script>

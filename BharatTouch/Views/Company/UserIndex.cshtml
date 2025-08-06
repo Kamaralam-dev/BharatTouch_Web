@@ -1,0 +1,94 @@
+﻿@model IEnumerable<DataAccess.Models.UserModel>
+@using BharatTouch.CommonHelper;
+
+@{
+    ViewBag.Title = "UserIndex";
+    Layout = "~/Views/Shared/Company/_LayoutCompany.cshtml";
+    var loggeduserid = BharatTouch.CommonHelper.Utility.GetCookie("UserId_Company");
+    var loggedcompanyid = BharatTouch.CommonHelper.Utility.GetCookie("CompanyId_Company");
+    var loggedcompanydisplayname = BharatTouch.CommonHelper.Utility.GetCookie("CompanyDisplayName_Company");
+}
+
+@section scripts{
+    <script src="~/Content/page-scripts/Company/UserIndex.js"></script>
+
+    <script type="text/javascript">
+        var user = new listUser_Company();
+        user.getUserUrl = "@Url.Action("GetUsersByCompany", "Company")";
+        user.createUserUrl = "@Url.Action("AddEditUserByCompany", "Company")";
+        user.deleteUserUrl = "@Url.Action("DeleteUserByCompany", "Company")";
+        user.loggeduserid = "@loggeduserid";
+        user.loggedcompanyid = "@loggedcompanyid";
+        user.init();
+    </script>
+}
+
+<div class="pagetitle">
+    <h1>User</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Company/CompanyIndex">Home</a></li>
+            <li class="breadcrumb-item">User List</li>
+        </ol>
+    </nav>
+</div>
+
+<section>
+    <div class="card">
+        <div class="card-body">
+
+            <div class="row">
+                <div>
+                    <button type="button" id="btnAddNewUserByCompany" class="btn btn-success float-end mx-2"><i class="bi bi-plus-circle-dotted me-1"></i>Add New</button>
+
+                </div>
+                <br />
+                <br />
+                <table class="table table-bordered table-striped" cellspacing="0" style="width:100%!important;" id="tableUser_Company">
+                    <thead class="mb-none">
+
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Phone
+                            </th>
+                            <th>
+                                IsActive
+                            </th>
+                            <th>
+                                IsCompanyAdmin
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@{
+    var modaladdEditUser = new DataAccess.ViewModels.ModalViewModel
+    {
+        ModalId = "ModaladdEditUserByCompany",
+        ModalSize = "modal-lg",
+        Title = "Add/Edit User ( Company Display Name :- "+ @loggedcompanydisplayname+")",
+        CloseButtonText = "Close",
+        PrimaryButtonText = "Save",
+        PrimaryButtonOnClick = "onSaveUserByCompanyClick()",
+        //  ModalStyle = "style=overflow-y:scroll;height:500px;"
+    };
+}
+@Html.Partial("~/Views/Shared/Company/_modal.cshtml", modaladdEditUser)
+

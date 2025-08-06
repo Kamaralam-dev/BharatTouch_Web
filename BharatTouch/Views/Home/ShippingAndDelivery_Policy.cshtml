@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Bharat Touch - Shipping & Delivery Policy";
+    Layout = null;
+}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/SmartTheme/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/SmartTheme/css/slick-theme.css">
+    <link rel="stylesheet" href="~/SmartTheme/css/slick.css">
+    <link rel="stylesheet" href="~/SmartTheme/font/fonts.css">
+    <link rel="stylesheet" href="~/SmartTheme/css/style.css" />
+    <link rel="stylesheet" href="~/SmartTheme/css/media.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/javascripts/custom/pnotify/pnotify.css" />
+    <title>@ViewBag.Title</title>
+    <link rel="icon" href="/SmartTheme/images/bharattouchfavico.ico" style="border-radius: 30px;" type="image/x-icon">
+
+</head>
+<body>
+
+
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="/"><img src="~/SmartTheme/images/logo.svg" alt="logo"></a>
+            </div>
+        </nav>
+    </header>
+
+    @*@Html.Partial("_smartHeader")*@
+    <section class="singup-form-outer">
+        <div class="container">
+            <div class="get-started-text">
+            </div>
+
+            <div class="step-form-outer">
+                <div class="step-points">
+
+                    <div class="sign-up-form">
+                        <div id="sign-up" class="form-step active-step">
+                            <h2>Privacy Policy</h2>
+                            <h5 style="color: #FF6821 !important;">1. Order Processing</h5>
+                            <p>Orders are processed within 1-2 business days after payment confirmation. For metal cards, an additional 7 days is required for processing due to customization. You will receive an email confirmation with tracking details once your order is shipped.</p>
+
+                            <h4 style="color: #FF6821 !important;">2. Shipping Methods & Delivery Time</h4>
+                            <p>We offer the following shipping options:</p>
+                            <ul style="color: #FFF !important;">
+                                <li><strong>Standard Shipping:</strong> Estimated delivery within 5-7 business days.</li>
+                                <li><strong>Express Shipping:</strong> Estimated delivery within 2-4 business days.</li>
+                            </ul>
+                            <p><strong>Note:</strong> Delivery timelines may vary based on location, courier service, and unforeseen delays.</p>
+
+                            <h5 style="color: #FF6821 !important;">3. Shipping Charges</h5>
+                            <p>Standard shipping is free for orders above ₹4,999. A nominal fee applies for express shipping. Final shipping charges will be displayed at checkout.</p>
+
+                            <h5 style="color: #FF6821 !important;">4. Delivery Issues</h5>
+                            <p>If your order is delayed beyond the estimated delivery time, please contact us at <a href="mailto:support@bharattouch.com" style="color: #FF6821 !important;"><strong class="bharatTouchColor">support@bharattouch.com</strong></a>. If the package is lost or damaged during transit, we will assist in resolving the issue with the courier.</p>
+
+                            <h5 style="color: #FF6821 !important;">5. Address & Contact Details</h5>
+                            <p>Ensure your shipping address and contact details are correct to avoid delays. If you need to modify your shipping details, please reach out within 24 hours of placing the order.</p>
+
+                            <h5 style="color: #FF6821 !important;">6. Contact Us</h5>
+                            <p>For any shipping-related queries, email us at <a href="mailto:support@bharattouch.com" style="color: #FF6821 !important;"><strong class="bharatTouchColor">support@bharattouch.com</strong></a> or call <a href="tel:+919815548989" style="color: #FF6821 !important;"><strong class="bharatTouchColor">+91 - 9815548989</strong></a>.</p>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    @Html.Partial("_smartFooter")
+    <script src="~/Content/vendor/jquery/jquery.js"></script>
+
+
+    <script src="~/SmartTheme/js/jquery.min.js"></script>
+    <script src="~/SmartTheme/js/bootstrap.min.js"></script>
+    <script src="~/SmartTheme/js/slick.min.js"></script>
+    <script src="~/SmartTheme/js/custom.js"></script>
+
+</body>
+</html>

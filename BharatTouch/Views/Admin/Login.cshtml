@@ -1,0 +1,100 @@
+﻿@model DataAccess.Models.AdminModel
+@{
+    Layout = null;
+    ViewBag.Title = "Login";
+    var newdt = System.DateTime.Now.ToString("MMddyyyyhhmmss");
+}
+<!doctype html>
+<html class="fixed">
+<head>
+    <!-- Vendor CSS -->
+    <!--====== Required meta tags ======-->
+    <link rel="shortcut icon" href="Theme/images/favicon.png" type="image/png">
+    <!-- Favicons -->
+    <link rel="icon" href="~/SmartTheme/images/bharattouchfavico.ico" type="image/x-icon">
+    <!--====== Title ======-->
+    <title>@ViewBag.Title  | Bharat Touch</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- css -->
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @*<style type="text/css">
+            .main-panel {
+                width: 100% !important;
+            }
+        </style>*@
+    <style>
+        html {
+            font-size: 15px!important;
+         
+        }
+        .fnt-size {
+        font-size:15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="content-wrapper d-flex align-items-center auth px-0">
+                <div class="row w-100 mx-0">
+                    <div class="col-lg-6 mx-auto">
+                        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                            <div class="brand-logo">
+                                <img src="~/SmartTheme/images/logo.svg" alt="BharatTouch">
+                            </div>
+                            <h4>Hello! let's get started</h4>
+                            <h6 class="font-weight-light">Sign in to continue.</h6>
+                            @using (Html.BeginForm("AuthenticateAdmin", "Admin", FormMethod.Post, new { id = "adminloginForm", @class = "pt-3" }))
+                            {
+                                <div class="form-group">
+                                    @Html.TextBoxFor(t => t.EmailId, new { @class = "form-control form-control-lg fnt-size", @placeholder = "EmailId", @autocomplete = "off", @required="true" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(t => t.Password, new { @class = "form-control input-lg", @placeholder = "Password", @type = "password", @autocomplete = "off", @required = "true" })
+                                </div>
+                                <div class="mt-3">
+                                    <button type="submit" style="color: white; background-color: #fc7c3f; padding: 15px 13px 10px 0px;" class="btn btn-block btn-lg font-weight-medium">SIGN IN</button>
+                                </div>
+                                <div class="my-2 d-flex justify-content-between align-items-center">
+                                    <div class="form-check">
+                                        @*<label class="form-check-label text-muted">
+                                                <input type="checkbox" class="form-check-input">
+                                                Keep me signed in
+                                            </label>*@
+                                    </div>
+                                    @*<a href="~/Users/ForgotPassword" class="auth-link text-black">Forgot password?</a>*@
+                                </div>
+                                @*<div class="mb-2">
+                                        <button type="button" class="btn btn-block btn-facebook auth-form-btn">
+                                            <i class="ti-facebook mr-2"></i>Connect using facebook
+                                        </button>
+                                    </div>*@
+                                @*<div class="text-center mt-4 font-weight-light">
+                                        Don't have an account? <a href="~/users/create" class="text-primary">Create</a>
+                                    </div>*@
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @Scripts.Render("~/bundles/VendorJs")
+    @Scripts.Render("~/bundles/SpecificPageJS")
+
+    <script src="~/Content/page-scripts/Admin/AuthenticationAdmin.js"></script>
+    <script type="text/javascript">
+        var auth = new authenticationAdmin();
+        auth.authAdminUrl = "@Url.Action("AuthenticateAdmin", "Admin")";
+        auth.init();
+    </script>
+</body>
+</html>

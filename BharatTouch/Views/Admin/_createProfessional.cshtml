@@ -1,0 +1,82 @@
+﻿@model DataAccess.Models.UserProfessionalModel
+@{
+
+}
+
+@using (Html.BeginForm("SaveProfessional", "Admin", FormMethod.Post, new { id = "upsertProfessioanlForm", @class = "row g-3", @enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(t => t.ProfessionId)
+    @Html.HiddenFor(t => t.UserId)
+
+    <div class="form-group col-md-6">
+        <label for="name"><span style="color:red;">*</span>Job Title</label>
+        @Html.TextBoxFor(t => t.Title, new { @class = "form-control required-left", @placeholder = "", @id = "profTitle" })
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="name"><span style="color:red;">*</span>Company Name</label>
+        @Html.TextBoxFor(t => t.Company, new { @class = "form-control required-left", @placeholder = "", @id = "profCompany" })
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="name"><span style="color:red;">*</span>Start Date</label>
+        @if (Model != null)
+        {
+            @Html.TextBox("StartDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style10 + "}", Model.StartDate), new { @class = "form-control", @autocomplete = "off", @placeholder = "", @id = "profStartDate" })
+        }
+        else
+        {
+            @Html.TextBox("StartDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style10 + "}", ""), new { @class = "form-control", @autocomplete = "off", @placeholder = "", @id = "profStartDate" })
+        }
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="name">End Date</label>
+        @if (Model != null)
+        {
+            @Html.TextBox("EndDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style10 + "}", Model.EndDate), new { @class = "form-control", @autocomplete = "off", @placeholder = "", @id = "profEndDate" })
+        }
+        else
+        {
+            @Html.TextBox("EndDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style10 + "}", ""), new { @class = "form-control", @autocomplete = "off", @placeholder = "", @id = "profEndDate" })
+        }
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="name">Phone</label>
+        @Html.TextBoxFor(t => t.Phone, new { @class = "form-control required-left", @placeholder = "", @id = "profPhone" })
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="name">Website</label>
+        @Html.TextBoxFor(t => t.Website, new { @class = "form-control required-left", @placeholder = "", @id = "profWebsite" })
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="name"><span style="color:red;">*</span>City</label>
+        @Html.TextBoxFor(t => t.City, new { @class = "form-control required-left", @placeholder = "", @id = "profCity" })
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="name">State</label>
+        @Html.TextBoxFor(t => t.StateName, new { @class = "form-control required-left", @placeholder = "", @id = "profState" })
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="name"><span style="color:red;">*</span>Country</label>
+        @Html.TextBoxFor(t => t.Country, new { @class = "form-control required-left", @placeholder = "", @id = "profCountry" })
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="name">Zip</label>
+        @Html.TextBoxFor(t => t.Zip, new { @class = "form-control required-left", @placeholder = "", @id = "profZip" })
+    </div>
+
+    <div class="form-group d-flex gap-3">
+        <button class="btn btn-secondary btn-block w-100" id="btnCancelExperience" type="button">Cancel</button>
+        <button class="btn btn-success w-100" type="submit"><div class="lds-dual-ring"></div>&nbsp;@((Model == null || Model.ProfessionId == 0) ? "Add" : "Update") Experience</button>
+    </div>
+}
+
+
+

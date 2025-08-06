@@ -1,0 +1,48 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ImageCompressor</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <label for="txtUserId">UserId</label>
+    <input type="number" min="0" id="txtUserId" />
+    <button type="button" id="btnReplaceUserImages">ReplaceImages</button>
+    <div id="loader"></div>
+    <div id="messageResult"></div>
+
+    <script src="~/Content/javascripts/custom/Shared.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            $("#btnReplaceUserImages").click(replaceImages);
+        });
+
+        function replaceImages() {
+            var userId = $("#txtUserId").val();
+            if (!(parseInt(userId, 10) > 0)) {
+                alert("Please enter UserId");
+                return;
+            }
+            $("#loader").html("...Loading");
+            $.post("/Users/ReplaceImages", { UserId: userId }, function (data) {
+                console.log(data);
+                $("#loader").html("");
+                $("#messageResult").html(data.Data);
+            }).fail(function () {
+                alert("Some error occurred.");
+            });
+        }
+    </script>
+</body>
+</html>

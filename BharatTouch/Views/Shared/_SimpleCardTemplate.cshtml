@@ -1,0 +1,155 @@
+﻿@model DataAccess.ViewModels.UserCardThemeSettingViewModel
+@using DataAccess
+@{
+    var user = new DataAccess.Repository.UserRepository().GetUserById(Model.UserId, "BharatTouch/EditProfile/_defaultCardPreview.cshtml");
+
+    var profilePic = "/Uploads/Profile/User_" + user.UserId.ToString() + ".png";
+    bool isProfilePicExist = user.ProfileImage.NullToString() != "";
+
+    var linkedIn = "";
+    var Twitter = "";
+    var Facebook = "";
+    var Instagram = "";
+    var Skype = "";
+    var Youtube = "";
+    var socialInfo = new DataAccess.Repository.SocialRepository().GetSocialInfo(user.UserId, "BharatTouch/EditProfile/_defaultCardPreview.cshtml");
+    if (socialInfo.Count > 0)
+    {
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "LinkedIn") != null)
+        {
+            linkedIn = socialInfo.FirstOrDefault(x => x.SocialMedia == "LinkedIn").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Twitter") != null)
+        {
+            Twitter = socialInfo.FirstOrDefault(x => x.SocialMedia == "Twitter").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Facebook") != null)
+        {
+            Facebook = socialInfo.FirstOrDefault(x => x.SocialMedia == "Facebook").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Instagram") != null)
+        {
+            Instagram = socialInfo.FirstOrDefault(x => x.SocialMedia == "Instagram").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Skype") != null)
+        {
+            Skype = socialInfo.FirstOrDefault(x => x.SocialMedia == "Skype").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Youtube") != null)
+        {
+            Youtube = socialInfo.FirstOrDefault(x => x.SocialMedia == "Youtube").Url.NullToString();
+        }
+    }
+
+    bool isBackgroundImgExist = false;
+    if (Model.BackgroundImg.NullToString() != "")
+    {
+        isBackgroundImgExist = System.IO.File.Exists(Server.MapPath("~" + Model.BackgroundImg));
+    }
+
+    @functions {
+        public string EnsureUrl(string url)
+        {
+            string modifiedUrl = url;
+            if (url.NullToString() != "" && !url.StartsWith("http"))
+            {
+                modifiedUrl = "http://" + url;
+            }
+            return modifiedUrl;
+        }
+    }
+
+}
+
+<style>
+    .card-social-icon {
+        color: #173b6c;
+    }
+
+        .card-social-icon:hover {
+            color: #03bfbc;
+        }
+
+    .social-icons-list i {
+        padding-left: 15px;
+        font-size: 20px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        transition: .5s;
+    }
+</style>
+
+@*btn btn-outline-primary btn-floating mx-2 my-2*@
+
+
+
+<section>
+    <div class="container py-3 h-100">
+        <div class="justify-content-center align-items-center h-100">
+            <div class="col-md-12">
+
+                <div class="card" style="border-radius: 15px;">
+                    <div class="card-body text-center" style="border-radius: 13px; @(isBackgroundImgExist ? "background: url(" + Model.BackgroundImg + ");" : "")">
+                        <div class="mb-4">
+                            <img src="@(isProfilePicExist ? user.ProfileImage.NullToString() + "?v=" + DateTime.Now.ToString("yyyyMMddHHmmssf") : "/FormAssets/img/blank-profile-picture.jpg")"
+                                 class="rounded-circle img-fluid" style="width: 100px;" />
+                        </div>
+                        <h4>
+                            <span id="PreFirstName">@user.FirstName</span> <span id="PreLastName">@user.LastName</span>
+                        </h4>
+                        <p style="display: @(user.EmailId.NullToString() == "" ? "none" : "inline");">
+                            <span id="PreEmailId">@user.EmailId</span>
+                        </p>
+                        <p class="text-muted d-flex flex-column">
+                            <span style="display: @(user.Tagline.NullToString() == "" ? "none" : "inline");">
+                                <span id="PreTagline">@user.Tagline</span>
+                            </span>
+                            @*<span class="mx-2">|</span>*@
+                            <span style="display: @(user.Website.NullToString() == "" ? "none" : "inline");">
+                                <a id="PreWebsite" target="_blank" href="@EnsureUrl(user.Website)">@user.Website</a>
+                            </span>
+                        </p>
+                        <div class="social-icons-list">
+                            <a target="_blank" id="PreFacebookLink" href="@EnsureUrl(Facebook)" style="display: @(Facebook.NullToString() == ""? "none" : "inline");" class="card-social-icon">
+                                <i class="fa-brands fa-facebook fa-lg"></i>
+                            </a>
+                            <a target="_blank" id="PreInstagramLink" href="@EnsureUrl(Instagram)" style="display: @(Instagram.NullToString() == ""? "none" : "inline");" class="card-social-icon">
+                                <i class="fa-brands fa-instagram fa-lg"></i>
+                            </a>
+                            <a target="_blank" id="PreYoutubeLink" href="@Youtube" style="display: @(Youtube.NullToString() == ""? "none" : "inline");" class="card-social-icon">
+                                <i class="fa-brands fa-youtube fa-lg"></i>
+                            </a>
+                            <a target="_blank" id="PreTwitterLink" href="@EnsureUrl(Twitter)" style="display: @(Twitter.NullToString() == ""? "none" : "inline");" class="card-social-icon">
+                                <i class="fa-brands fa-twitter fa-lg"></i>
+                            </a>
+                            <a target="_blank" id="PreLinkedInLink" href="@EnsureUrl(linkedIn)" style="display: @(linkedIn.NullToString() == ""? "none" : "inline");" class="card-social-icon">
+                                <i class="fa-brands fa-linkedin fa-lg"></i>
+                            </a>
+                            <a target="_blank" id="PreSkypeLink" href="@EnsureUrl(Skype)" style="display: @(Skype.NullToString() == ""? "none" : "inline");" class="card-social-icon">
+                                <i class="fa-brands fa-skype fa-lg"></i>
+                            </a>
+                        </div>
+                        @*<button type="button"  class="btn btn-primary btn-rounded btn-lg">
+                                Message now
+                            </button>*@
+                        @*<div class="d-flex justify-content-between text-center mt-5 mb-2">
+                                <div>
+                                    <p class="mb-2 h5">8471</p>
+                                    <p class="text-muted mb-0">Wallets Balance</p>
+                                </div>
+                                <div class="px-3">
+                                    <p class="mb-2 h5">8512</p>
+                                    <p class="text-muted mb-0">Income amounts</p>
+                                </div>
+                                <div>
+                                    <p class="mb-2 h5">4751</p>
+                                    <p class="text-muted mb-0">Total Transactions</p>
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

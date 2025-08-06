@@ -1,0 +1,149 @@
+﻿@model DataAccess.Models.UserEducationModel
+@{
+
+}
+
+
+@using (Html.BeginForm("SaveEducation", "Admin", FormMethod.Post, new { id = "upsertEducationForm", @class = "row g-3", @enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(t => t.EducationId, new { @id = "eduEducationId" })
+    @Html.HiddenFor(t => t.UserId)
+    <div class="form-group col-md-6">
+        <label for="Degree"><span style="color:red;">*</span>Degree</label>
+        @Html.TextBoxFor(t => t.Degree, new { @class = "form-control required-left", @placeholder = "", @id = "eduDegree" })
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="Institute"><span style="color:red;">*</span>Institute</label>
+        @Html.TextBoxFor(t => t.Institute, new { @class = "form-control required-left", @placeholder = "", @id = "eduInstitute" })
+    </div>
+
+
+    <div class="form-group col-md-6">
+        <label for="StartDate"><span style="color:red;">*</span>Start Date</label>
+        @if (Model != null)
+        {
+            @Html.TextBox("StartDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style11 + "}", Model.StartDate), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "", @id = "eduStartDate" })
+        }
+        else
+        {
+            @Html.TextBox("StartDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style11 + "}", ""), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "", @id = "eduStartDate" })
+        }
+
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="EndDate">End Date</label>
+        @if (Model != null)
+        {
+            @Html.TextBox("EndDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style11 + "}", Model.EndDate), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "", @id = "eduEndDate" })
+        }
+        else
+        {
+            @Html.TextBox("EndDate", string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style11 + "}", ""), new { @class = "form-control", @data_plugin_datepicker = "data-plugin-datepicker ", @autocomplete = "off", @placeholder = "", @id = "eduEndDate" })
+        }
+
+    </div>
+
+
+    <div class="form-group col-md-6">
+        <label for="Specialization">Specialization</label>
+        @Html.TextBoxFor(t => t.Specialization, new { @class = "form-control required-left", @placeholder = "", @id = "eduSpecialization" })
+    </div>
+
+    <div class="form-group col-md-6">
+        <label for="Marks">Marks</label>
+        @Html.TextBoxFor(t => t.Marks, new { @class = "form-control required-left", @placeholder = "", @id = "eduMarks" })
+    </div>
+
+
+    <div class="form-group d-flex gap-3">
+        <button class="btn btn-secondary btn-block w-100" id="btnCancelEducation" type="button">Cancel</button>
+        <button class="btn btn-success w-100" type="submit"><div class="lds-dual-ring"></div>&nbsp;@((Model == null || Model.EducationId == 0) ? "Add" : "Update") Education</button>
+    </div>
+
+}
+
+
+
+
+@*<div id="AddEducationModal" class="modal-block modal-block-primary mfp-hide">
+        <section class="panel">
+            <header class="panel-heading">
+                <h2 class="panel-title">Add New Education</h2>
+            </header>
+            @using (Html.BeginForm("SaveEducation", "Users", FormMethod.Post, new { id = "upsertEducationForm", @class = "form-horizontal mb-lg", @enctype = "multipart/form-data" }))
+            {
+                <div class="panel-body no-border-radius" id="upsertEducationFormContainer">
+                    <div class="form-group mt-lg">
+                        <label class="col-sm-3 control-label">Institute</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="controlColor fa fa-info-circle"></i>
+                                </span>
+                                @Html.TextBoxFor(t => t.Institute, new { @class = "form-control required-left", @placeholder = "Institute" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">University</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="controlColor fa fa-puzzle-piece"></i>
+                                </span>
+                                @Html.TextBoxFor(t => t.University, new { @class = "form-control required-left", @placeholder = "University" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Degree</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="controlColor fa fa-keyboard-o"></i>
+                                </span>
+                                @Html.TextBoxFor(t => t.Degree, new { @class = "form-control required-left", @placeholder = "Degree" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Marks</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="controlColor fa fa-gears"></i>
+                                </span>
+                                @Html.TextBoxFor(t => t.Marks, new { @class = "form-control required-left", @placeholder = "Marks" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Pass Year</label>
+                        <div class="col-sm-9">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="controlColor fa fa-gears"></i>
+                                </span>
+                                @Html.TextBoxFor(t => t.PassYear, new { @class = "form-control required-left", @placeholder = "Pass Year" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            @Html.HiddenFor(t => t.EducationId)
+                            <button type="submit" class="btn btn-primary modal-confirm">Save</button>
+                            <button type="button" class="btn btn-default modal-dismiss" onclick="CloseModal()">Cancel</button>
+                        </div>
+                    </div>
+                </footer>
+            }
+        </section>
+    </div>*@
+
+
+
+

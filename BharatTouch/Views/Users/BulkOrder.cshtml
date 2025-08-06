@@ -1,0 +1,255 @@
+﻿
+@using BharatTouch.CommonHelper
+@{
+    Layout = null;
+
+}
+@model DataAccess.Models.BulkOrderModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/SmartTheme/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/SmartTheme/css/slick-theme.css">
+    <link rel="stylesheet" href="~/SmartTheme/css/slick.css">
+    <link rel="stylesheet" href="~/SmartTheme/font/fonts.css">
+    <link rel="stylesheet" href="~/SmartTheme/css/style.css" />
+    <link rel="stylesheet" href="~/SmartTheme/css/media.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/javascripts/custom/pnotify/pnotify.css" />
+    <title>Bharat Touch</title>
+    <link rel="icon" href="/SmartTheme/images/bharattouchfavico.ico" style="border-radius: 30px;" type="image/x-icon">
+
+    <style>
+        .modal-body ul {
+            color: #353131;
+        }
+
+        .modal-body h5 {
+            color: #FF6821 !important;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="modal fade" id="termsOfServicesModal" tabindex="-1" aria-labelledby="termsOfServicesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-bold" id="termsOfServicesModalLabel">Bharat Touch - Terms Of Services</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-5">
+                    @Html.Partial("_termsAndServices")
+                </div>
+                <div class="modal-footer">
+                    <div class="my-2 d-flex justify-content-between align-items-center">
+                        <button type="button" class="btn btn-secondary align-self-end" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="privacyPolicyModal" tabindex="-1" aria-labelledby="privacyPolicyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-bold" id="privacyPolicyModalLabel">Bharat Touch - Privacy Policy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-5">
+                    @Html.Partial("_privacyPolicy")
+                </div>
+                <div class="modal-footer">
+                    <div class="my-2 d-flex justify-content-between align-items-center">
+                        <button type="button" class="btn btn-secondary align-self-end" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="/"><img src="~/SmartTheme/images/logo.svg" alt="logo"></a>
+                <div class="navigation-main-outer">
+                    <div class="navigation-inner">
+                        <button type="button" class="navbar-toggle" style="display:none;">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <div class="pushmenu-push" style="display:none;">
+                            <ul>
+                                <li><a href="#banner">Home</a></li>
+                                <li><a href="#process">How it Works</a></li>
+                                <li><a href="#pricing">Pricing</a></li>
+                                <li><a href="#why-choose">Why Bharat Touch</a></li>
+                                <li><a href="#Referral">Referral</a></li>
+                                <li><a href="#faq">Faq</a></li>
+                            </ul>
+
+                            <div class="header-right" style="display:none;">
+                                @*<a class="contact-btn" href="#contact">Contact Us</a>*@
+                                <a id="btnAdminIco" class="admin-icon" style="cursor:pointer;"><img src="~/SmartTheme/images/admin-icon.svg" alt="icon"></a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </nav>
+    </header>
+
+    <section class="singup-form-outer">
+
+        <div class="container">
+            <div class="get-started-text">
+                <h1 class="title-44">Get Started with Bharat Touch</h1>
+                <p>
+                    Create your account, customize your card, and place your order in just a few easy steps.
+                    Secure, personalized, and designed to grow your digital identity.
+                </p>
+            </div>
+
+            <div class="step-form-outer">
+                <div class="step-points">
+
+                    <div class="sign-up-form">
+                        <div id="sign-up" class="form-step active-step">
+                            <h2>Bulk Order</h2>
+                            @using (Html.BeginForm("SaveUpdateBulkOrder", "Users", FormMethod.Post, new { id = "CreateBulkOrderForm", @class = "row g-3 needs-validation" }))
+                            {
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Company</label>
+                                        @Html.TextBoxFor(t => t.CompanyName, new { @class = "form-control", @placeholder = "Company Name", @required = "true" })
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Email</label>
+                                        @Html.TextBoxFor(t => t.Email, new { @class = "form-control", @placeholder = "Email", @required = "true" })
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Phone</label>
+                                        @Html.TextBoxFor(t => t.PhoneNo, new { @class = "form-control", @placeholder = "Phone", @required = "true" })
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Contact Person</label>
+                                        @Html.TextBoxFor(t => t.ContactPerson, new { @class = "form-control", @placeholder = "Contact Person", @required = "true" })
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Min Order</label>
+                                        @Html.TextBoxFor(t => t.MinOrder, new { @class = "form-control", @placeholder = "Min Order", @required = "true", type = "number", @min = "1" })
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Message</label>
+                                        @Html.TextBoxFor(t => t.Message, new { @class = "form-control", @placeholder = "Message" })
+
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div id="grecaptchaOrder"></div>
+                                        <input type="hidden" name="hdngrecaptchaResponseOrder" id="hdngrecaptchaResponseOrder" value="" />
+                                    </div>
+
+                                    <div class="col-md-12 text-center">
+                                        <button type="submit" class="btn-gradient next">Submit</button>
+                                    </div>
+                                    <br />
+                                    <hr style="color: white; height: 4px; margin-top: 15px; " />
+                                    <h2 style="font-size: 20px;">Corporate Bulk Order Pricing</h2>
+
+                                    <table style="width:100%; border-collapse: collapse; text-align: left;">
+                                        <thead>
+                                            <tr style="background-color: #f2f2f2;">
+                                                <th style="border: 1px solid #ddd; padding: 8px;">Number of Cards</th>
+                                                <th style="border: 1px solid #ddd; padding: 8px;">Discount Code</th>
+                                                <th style="border: 1px solid #ddd; padding: 8px;">Discount Price (per card)</th>
+                                                <th style="border: 1px solid #ddd; padding: 8px;">Final Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="color: white;">
+                                                <td style="border: 1px solid #ddd; padding: 8px;">0 - 9 Cards</td>
+                                                <td style="border: 1px solid #ddd; padding: 8px;"></td>
+                                                <td style="border: 1px solid #ddd; padding: 8px;">₹0.00</td>
+                                                <td style="border: 1px solid #ddd; padding: 8px;">₹1999.00</td>
+                                            </tr>
+                                            <tr style="color: white;">
+                                                <td style="border: 1px solid #ddd; padding: 8px;">10 - 99 Cards</td>
+                                                <td style="border: 1px solid #ddd; padding: 8px;">CORP199</td>
+                                                <td style="border: 1px solid #ddd; padding: 8px;">₹199.00</td>
+                                                <td style="border: 1px solid #ddd; padding: 8px;">₹1800.00</td>
+                                            </tr>
+                                            <tr style="color: white;">
+                                                <td style="border: 1px solid #ddd; padding: 8px;">100 - 499 Cards</td>
+                                                <td style="border: 1px solid #ddd; padding: 8px;">CORP299</td>
+                                                <td style="border: 1px solid #ddd; padding: 8px;">₹299.00</td>
+                                                <td style="border: 1px solid #ddd; padding: 8px;">₹1700.00</td>
+                                            </tr>
+                                            <tr style="color: white;">
+                                                <td style="border: 1px solid #ddd; padding: 8px;">500+ Cards</td>
+                                                <td style="border: 1px solid #ddd; padding: 8px;">CORP499</td>
+                                                <td style="border: 1px solid #ddd; padding: 8px;">₹499.00</td>
+                                                <td style="border: 1px solid #ddd; padding: 8px;">₹1500.00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    @Html.Partial("_smartFooter")
+
+    <script src="~/Content/vendor/jquery/jquery.js"></script>
+
+
+    <script src="~/SmartTheme/js/jquery.min.js"></script>
+    <script src="~/SmartTheme/js/bootstrap.min.js"></script>
+    <script src="~/SmartTheme/js/slick.min.js"></script>
+    <script src="~/SmartTheme/js/custom.js"></script>
+
+    <script src="~/Content/vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
+    <script src="~/Content/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script defer src="https://accounts.google.com/gsi/client"></script>
+    <script src="~/Content/javascripts/custom/pnotify/pnotify.js"></script>
+    <script src="~/Content/javascripts/custom/pnotify/PNotifyStyleMaterial.js"></script>
+    <script src="~/Content/javascripts/custom/pnotify/PNotifyButtons.js"></script>
+    <script src="~/Content/javascripts/custom/pnotify/PNotifyConfirm.js"></script>
+    <script src="~/Content/javascripts/custom/pnotify/PNotifyMobile.js"></script>
+    <script src="~/Content/javascripts/custom/jquery.validate.min.js"></script>
+    <script src="~/Content/javascripts/custom/Shared.js"></script>
+
+    <script src="https://www.google.com/recaptcha/api.js" defer></script>
+    <script src="~/Content/page-scripts/Users/upsertBulkOrder.js"></script>
+    <script type="text/javascript">
+        var js = new bulkOrderUpsert();
+        js.captchaSiteKey = "@ConfigValues.GoogleCaptchaSiteKey";
+        js.init();
+    </script>
+</body>
+</html>

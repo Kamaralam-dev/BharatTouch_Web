@@ -1,0 +1,65 @@
+﻿
+
+@model int
+@{
+    int totalRows = 0;
+    var testimonials = new DataAccess.Repository.CLientTestimonialRepository().GetClientTestimonialBy_UserId(Model, out totalRows, "BharatTouch/EditProfile/_clientTestimonial.cshtml");
+
+}
+
+@if (totalRows > 0)
+{
+    <section id="testimonials" class="testimonials">
+        <style>
+            .client-testimonialSliders .swiper-slide.swiper-slide-active {
+                opacity: 1 !important;
+            }
+            .client-testimonialSliders .swiper-slide.swiper-slide-next {
+                opacity: .3 !important;
+            }
+        </style>
+        <div class="container">
+            <div class="section-title">
+                <h2>Client Testimonials</h2>
+            </div>
+
+            <div class="testimonials-slider swiper-container client-testimonialSliders">
+                <div class="swiper-wrapper">
+
+                    @foreach (var item in testimonials)
+                    {
+                        var isExitPic = false;
+                        try
+                        {
+                            isExitPic = !string.IsNullOrWhiteSpace(item.PicOfClient) && System.IO.File.Exists(Server.MapPath(item.PicOfClient));
+                        }
+                        catch (Exception ex) { }
+                        var picPath = isExitPic ? item.PicOfClient : "/FormAssets/img/blank-profile-picture.jpg";
+
+                        <div class="swiper-slide">
+                            <div class="testimonial-item">
+                                <div class="stars">
+                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                                </div>
+                                <span>
+                                    @item.Testimonial
+                                </span>
+                                <div class="profile mt-auto">
+                                    <img src="@picPath" class="testimonial-img" alt="@item.ClientName">
+                                    <h3>@item.ClientName</h3>
+                                    <h4 style="font-weight: bold;">@item.CompanyName</h4>
+                                    <h4>@item.Designation</h4>
+                                </div>
+                            </div>
+                        </div><!-- End testimonial item -->
+                    }
+
+
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+
+        </div>
+
+    </section>
+}
