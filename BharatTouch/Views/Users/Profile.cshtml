@@ -188,11 +188,11 @@
             @{
                 if (!string.IsNullOrWhiteSpace(ViewBag.Swiggy))
                 {
-                    <a target="_blank" href="@ViewBag.Swiggy" style="width: 110px;" class="btn btn-warning text-white mr-5">Swiggy</a>
+                        <a target="_blank" href="@ViewBag.Swiggy" style="display: inline-block; background: #ffc107; color: white; padding: 10px 15px; border-radius: 20px; text-decoration: none; font-size: 14px; font-weight: bold; margin-top: 0px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); cursor: pointer; " class="mr-5">Order On Swiggy</a>
                 }
                 if (!string.IsNullOrWhiteSpace(ViewBag.Zomato))
                 {
-                    <a target="_blank" href="@ViewBag.Zomato" style="width: 110px;" class="btn btn-danger mr-5">Zomato</a>
+                    <a target="_blank" href="@ViewBag.Zomato" style="display: inline-block; background: #dc3545; color: white; padding: 10px 15px; border-radius: 20px; text-decoration: none; font-size: 14px; font-weight: bold; margin-top: 0px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); cursor: pointer; " class="mr-5">Order On Zomato</a>
                 }
             }
         </div>
