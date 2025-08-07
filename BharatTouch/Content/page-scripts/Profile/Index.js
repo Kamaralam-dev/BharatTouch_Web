@@ -1033,17 +1033,27 @@
         var title = $("#multipleModalTitle");
         var phoneContainer = $("#multipleModelPhoneContainer");
         var locationContainer = $("#multipleModelLocationContainer");
+        var whatsAppContainer = $("#multipleModelWhatsAppContainer");
         switch (type) {
             case 'phone':
                 title.html("Contacts");
                 locationContainer.hide();
+                whatsAppContainer.hide();
                 phoneContainer.show();
                 modal.modal("show");
                 break;
             case 'location':
                 title.html("Location");
                 phoneContainer.hide();
+                whatsAppContainer.hide();
                 locationContainer.show();
+                modal.modal("show");
+                break;
+            case 'whatsapp':
+                title.html("WhatsApp");
+                phoneContainer.hide();
+                locationContainer.hide();
+                whatsAppContainer.show();
                 modal.modal("show");
                 break;
         }
@@ -1053,6 +1063,7 @@
 
         $("#openMultiContactModalLocation").on('click', OpenMultipleContactModel);
         $("#openMultiContactModalPhone").on('click', OpenMultipleContactModel);
+        $("#openMultiContactModalWhatsApp").on('click', OpenMultipleContactModel);
 
         //var isProduction = window.location.hostname !== "localhost";
 

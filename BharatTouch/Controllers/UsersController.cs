@@ -1,38 +1,33 @@
-﻿using QRCoder;
-using DataAccess.Models;
-using DataAccess.Repository;
-using BharatTouch.CommonHelper;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
+using BharatTouch.CommonHelper;
+using BharatTouch.JwtTokens;
 using DataAccess;
 using DataAccess.ApiHelper;
-using System.IO;
+using DataAccess.Models;
+using DataAccess.Repository;
 using DataAccess.ViewModels;
-using System.Configuration;
-using System.Drawing;
-using static QRCoder.PayloadGenerator;
-using System.Drawing.Imaging;
-using System.Web.UI;
-using System.Net.Http;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
-using SautinSoft.Document;
-using System.Text.RegularExpressions;
-using Razorpay.Api;
-using BharatTouch.CommonHelper;
-using System.Web.Hosting;
-using System.Diagnostics;
-using System.Net.Mail;
-using BharatTouch.JwtTokens;
-using System.ComponentModel.Design;
-using Microsoft.Extensions.Logging;
 using GroopGo.Api.WebHelper;
 using Hangfire;
 using Microsoft.Office.Interop.Word;
+using Newtonsoft.Json;
+using QRCoder;
+using Razorpay.Api;
+using SautinSoft.Document;
+using static QRCoder.PayloadGenerator;
 
 namespace BharatTouch.Controllers
 {
@@ -365,7 +360,7 @@ namespace BharatTouch.Controllers
         }
 
         [HttpPost]
-        public ActionResult SocialInfo(string LinkedIn, string Twitter, string Facebook, string Instagram, string Skype, string Youtube, string Teams, string Snapchat)
+        public ActionResult SocialInfo(string LinkedIn, string Twitter, string Facebook, string Instagram, string Skype, string Youtube, string Teams, string Snapchat, string Swiggy, string Zomato)
         {
             try
             {
@@ -396,6 +391,12 @@ namespace BharatTouch.Controllers
 
                 if (!string.IsNullOrWhiteSpace(Snapchat))
                     _socialMediaRepo.UpsertUserSocial(userId, "Snapchat", Snapchat, "BharatTouch/EditProfile/SocialInfo");
+
+                if (!string.IsNullOrWhiteSpace(Swiggy))
+                    _socialMediaRepo.UpsertUserSocial(userId, "Swiggy", Swiggy, "BharatTouch/EditProfile/SocialInfo");
+
+                if (!string.IsNullOrWhiteSpace(Zomato))
+                    _socialMediaRepo.UpsertUserSocial(userId, "Zomato", Zomato, "BharatTouch/EditProfile/SocialInfo");
 
                 return new ActionState { Message = "Done!", Data = "Social media info updated successfully!", Success = true, OptionalValue = "", Type = ActionState.SuccessType }.ToActionResult(HttpStatusCode.OK);
             }
@@ -498,6 +499,8 @@ namespace BharatTouch.Controllers
             var Youtube = "";
             var Teams = "";
             var Snapchat = "";
+            var Swiggy = "";
+            var Zomato = "";
             var fullCode = "";
 
             var countries = new DataAccess.Repository.CountryRepository().GetCountries("Bharattouch/Profile/Profile.cshtml").Select(n => new SelectListItem
@@ -585,6 +588,16 @@ namespace BharatTouch.Controllers
                 {
                     Snapchat = socialDetails.FirstOrDefault(x => x.SocialMedia == "Snapchat").Url.NullToString();
                     ViewBag.Snapchat = Snapchat;
+                }
+                if (socialDetails.FirstOrDefault(x => x.SocialMedia == "Swiggy") != null)
+                {
+                    Swiggy = socialDetails.FirstOrDefault(x => x.SocialMedia == "Swiggy").Url.NullToString();
+                    ViewBag.Swiggy = Swiggy;
+                }
+                if (socialDetails.FirstOrDefault(x => x.SocialMedia == "Zomato") != null)
+                {
+                    Zomato = socialDetails.FirstOrDefault(x => x.SocialMedia == "Zomato").Url.NullToString();
+                    ViewBag.Zomato = Zomato;
                 }
             }
 
@@ -711,6 +724,9 @@ namespace BharatTouch.Controllers
             var whatsappWithCountryCode = profileDetail.WhatsappNumberCode.NullToString() + profileDetail.Whatsapp.NullToString();
             ViewBag.WhatsappWithCountryCode = whatsappWithCountryCode;
             ViewBag.WhatsappForLink = Regex.Replace(whatsappWithCountryCode, @"[^0-9]", "");
+            var whatsapp2WithCountryCode = profileDetail.OtherPhoneNumberCode.NullToString() + profileDetail.OtherPhone.NullToString();
+            ViewBag.Whatsapp2WithCountryCode = whatsapp2WithCountryCode;
+            ViewBag.Whatsapp2ForLink = Regex.Replace(whatsapp2WithCountryCode, @"[^0-9]", "");
             var phoneNumberWithCountryCode = profileDetail.NumberCode.NullToString() + profileDetail.Phone.NullToString();
             ViewBag.PhoneNumberWithCountryCode = phoneNumberWithCountryCode;
 
@@ -809,6 +825,8 @@ namespace BharatTouch.Controllers
             var Youtube = "";
             var Teams = "";
             var Snapchat = "";
+            var Swiggy = "";
+            var Zomato = "";
             var fullCode = "";
 
             //  ViewBag.ProfileCode = Url.RequestContext.RouteData.Values["code"].NullToString();//codeorname
@@ -893,6 +911,16 @@ namespace BharatTouch.Controllers
                 {
                     Snapchat = socialDetails.FirstOrDefault(x => x.SocialMedia == "Snapchat").Url.NullToString();
                     ViewBag.Snapchat = Snapchat;
+                }
+                if (socialDetails.FirstOrDefault(x => x.SocialMedia == "Swiggy") != null)
+                {
+                    Swiggy = socialDetails.FirstOrDefault(x => x.SocialMedia == "Swiggy").Url.NullToString();
+                    ViewBag.Swiggy = Swiggy;
+                }
+                if (socialDetails.FirstOrDefault(x => x.SocialMedia == "Zomato") != null)
+                {
+                    Zomato = socialDetails.FirstOrDefault(x => x.SocialMedia == "Zomato").Url.NullToString();
+                    ViewBag.Zomato = Zomato;
                 }
             }
 
@@ -1020,6 +1048,9 @@ namespace BharatTouch.Controllers
             var whatsappWithCountryCode = profileDetail.WhatsappNumberCode.NullToString() + profileDetail.Whatsapp.NullToString();
             ViewBag.WhatsappWithCountryCode = whatsappWithCountryCode;
             ViewBag.WhatsappForLink = Regex.Replace(whatsappWithCountryCode, @"[^0-9]", "");
+            var whatsapp2WithCountryCode = profileDetail.OtherPhoneNumberCode.NullToString() + profileDetail.OtherPhone.NullToString();
+            ViewBag.Whatsapp2WithCountryCode = whatsapp2WithCountryCode;
+            ViewBag.Whatsapp2ForLink = Regex.Replace(whatsapp2WithCountryCode, @"[^0-9]", "");
 
             string modifiedWebsiteUrl = profileDetail.Website;
             if (modifiedWebsiteUrl.NullToString() != "" && !modifiedWebsiteUrl.StartsWith("http"))
@@ -1126,16 +1157,16 @@ namespace BharatTouch.Controllers
 
                         try
                         {
-                          var res=  await QueueVerificationEmailAsync(model.EmailId, model.FirstName + " " + model.LastName.NullToString(), model.Password, model.Displayname, "Signup");
+                            var res = await QueueVerificationEmailAsync(model.EmailId, model.FirstName + " " + model.LastName.NullToString(), model.Password, model.Displayname, "Signup");
                         }
                         catch (Exception ex)
                         {
                         }
 
-                       
+
                         try
                         {
-                         var a= await SignUpEmailToAdmin(model.FirstName + " " + model.LastName.NullToString(), model.EmailId, model.UserType, model.Displayname, newUserId, "Signup Modal Home");
+                            var a = await SignUpEmailToAdmin(model.FirstName + " " + model.LastName.NullToString(), model.EmailId, model.UserType, model.Displayname, newUserId, "Signup Modal Home");
                         }
                         catch (Exception ex)
                         {
@@ -2126,7 +2157,7 @@ namespace BharatTouch.Controllers
 
             System.Threading.Thread.Sleep(2000);
 
-            var isSuccess = Utility.SendEmail(toEmail, "Bharat Touch - Email verification.", body,out outMessage,adminEmails);
+            var isSuccess = Utility.SendEmail(toEmail, "Bharat Touch - Email verification.", body, out outMessage, adminEmails);
 
             //var isSuccess = await Utility.SendEmailAsync(toEmail, "Bharat Touch - Email verification.", body, "", adminEmails);
 
@@ -2224,7 +2255,7 @@ namespace BharatTouch.Controllers
                             //BackgroundJob.Enqueue(() => 
                             Utility.SendEmail(adminUser.EmailId, "BharatTouch - New Signup.", body, out outMessage, "", "", "", 0);
                             //);
-                            
+
                             //var isSuccess = Utility.SendEmail(adminUser.EmailId, "BharatTouch - New Signup.", body,out outMessage);
 
                             // commente for test

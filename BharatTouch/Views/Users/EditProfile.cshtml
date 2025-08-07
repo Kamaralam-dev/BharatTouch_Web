@@ -31,6 +31,8 @@
     var Youtube = "";
     var Teams = "";
     var Snapchat = "";
+    var Swiggy = "";
+    var Zomato = "";
     var socialInfo = new DataAccess.Repository.SocialRepository().GetSocialInfo(userid, "BharatTouch/EditProfile/EditProfile");
     if (socialInfo.Count > 0)
     {
@@ -65,6 +67,14 @@
         if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Snapchat") != null)
         {
             Snapchat = socialInfo.FirstOrDefault(x => x.SocialMedia == "Snapchat").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Swiggy") != null)
+        {
+            Swiggy = socialInfo.FirstOrDefault(x => x.SocialMedia == "Swiggy").Url.NullToString();
+        }
+        if (socialInfo.FirstOrDefault(x => x.SocialMedia == "Zomato") != null)
+        {
+            Zomato = socialInfo.FirstOrDefault(x => x.SocialMedia == "Zomato").Url.NullToString();
         }
     }
 
@@ -685,12 +695,12 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
                                         @Html.HiddenFor(x => x.OtherPhoneCountryId)
-                                        <label for="name">Other Phone</label>
+                                        <label for="name">Work WhatsApp</label>
                                         @Html.DropDownList("ddlOtherPhoneCountryId", OtherPhoneCountries, "Select Country Code", new { @class = "form-control", @id = "ddlOtherPhoneCountryId" })
                                     </div>
                                     <div class="form-group col-md-8">
                                         <label for="name">&nbsp; </label>
-                                        @Html.TextBoxFor(t => t.OtherPhone, new { @class = "form-control digitonly", @placeholder = "Other Phone" })
+                                        @Html.TextBoxFor(t => t.OtherPhone, new { @class = "form-control digitonly", @placeholder = "Work WhatsApp" })
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -866,6 +876,17 @@
                                         <div class="form-group col-md-6">
                                             <label for="name">Snapchat</label>
                                             <input type="text" name="Snapchat" value="@Snapchat" disabled="@disableCompanyManagedSections" autocomplete="off" class="form-control" id="Snapchat" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="name">Swiggy</label>
+                                            <input type="text" name="Swiggy" value="@Swiggy" disabled="@disableCompanyManagedSections" autocomplete="off" class="form-control" id="Swiggy" />
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="name">Zomato</label>
+                                            <input type="text" name="Zomato" value="@Zomato" disabled="@disableCompanyManagedSections" autocomplete="off" class="form-control" id="Zomato" />
                                         </div>
                                     </div>
                                     if (!disableCompanyManagedSections)

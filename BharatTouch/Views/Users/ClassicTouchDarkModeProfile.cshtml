@@ -129,13 +129,22 @@
                         @*<i class="icofont-envelope ico ico-mg"></i>*@
                     </a>
                 }
-                @if (!string.IsNullOrWhiteSpace(ViewBag.WhatsappForLink))
+
+                @if (!string.IsNullOrWhiteSpace(ViewBag.WhatsappForLink) && !string.IsNullOrWhiteSpace(ViewBag.Whatsapp2ForLink))
                 {
-                    <a href="https://api.whatsapp.com/send?phone=@ViewBag.WhatsappForLink" target="_blank" class="social-linkss">
+                    <a class="social-linkss" id="openMultiContactModalWhatsApp" data-type="whatsapp">
                         <img src="~/FormAssets/img/Icons/whatsapp-avi.png" class="ico ico-mg" loading="lazy" />
-                        @*<i class="bi-whatsapp ico ico-mg"></i>*@
                     </a>
                 }
+                else if (!string.IsNullOrWhiteSpace(ViewBag.WhatsappForLink) && string.IsNullOrWhiteSpace(ViewBag.Whatsapp2ForLink) || string.IsNullOrWhiteSpace(ViewBag.WhatsappForLink) && !string.IsNullOrWhiteSpace(ViewBag.Whatsapp2ForLink))
+                {
+                    var existWhatsApp = !string.IsNullOrWhiteSpace(ViewBag.WhatsappForLink) ? ViewBag.WhatsappForLink : ViewBag.Whatsapp2ForLink;
+
+                    <a href="https://api.whatsapp.com/send?phone=@existWhatsApp" target="_blank" class="social-linkss">
+                        <img src="~/FormAssets/img/Icons/whatsapp-avi.png" class="ico ico-mg" loading="lazy" />
+                    </a>
+                }
+
                 @if (!string.IsNullOrWhiteSpace(ViewBag.Youtube))
                 {
                     <a href="@ViewBag.Youtube" target="_blank" class="social-linkss">
@@ -172,8 +181,19 @@
             </div>
         </div>
     </div>
-    <div class="blank-section">
-
+    <div class="blank-section w-100">
+        <div class="d-flex justify-content-center w-100">
+            @{
+                if (!string.IsNullOrWhiteSpace(ViewBag.Swiggy))
+                {
+                    <a target="_blank" href="@ViewBag.Swiggy" style="width: 110px;" class="btn btn-warning text-white mr-5">Swiggy</a>
+                }
+                if (!string.IsNullOrWhiteSpace(ViewBag.Zomato))
+                {
+                    <a target="_blank" href="@ViewBag.Zomato" style="width: 110px;" class="btn btn-danger mr-5">Zomato</a>
+                }
+            }
+        </div>
     </div>
     <!-- ======= About Section ======= -->
     <section id="about" class="about  @((Model.ShowAbout || ViewBag.NoAboutContent) ? "d-none":"")">
@@ -838,10 +858,21 @@
                                     <i class="icofont-phone"></i>&nbsp; @WorkPhoneWithCountryCode
                                 </a>
                             }
-                            if (!string.IsNullOrWhiteSpace(Model.OtherPhone))
+                        }
+                    </div>
+
+                    <div id="multipleModelWhatsAppContainer">
+                        @{
+                            if (!string.IsNullOrWhiteSpace(ViewBag.WhatsappForLink))
                             {
-                                <a href="tel::@OtherPhoneWithCountryCode" target="_blank" class="btn btn-block bg-success text-white">
-                                    <i class="icofont-phone"></i>&nbsp; @OtherPhoneWithCountryCode
+                                <a href="https://api.whatsapp.com/send?phone=@ViewBag.WhatsappForLink" target="_blank" class="btn btn-block bg-info text-white">
+                                    <i class="icofont-whatsapp"></i>&nbsp; @ViewBag.WhatsappForLink
+                                </a>
+                            }
+                            if (!string.IsNullOrWhiteSpace(ViewBag.Whatsapp2ForLink))
+                            {
+                                <a href="https://api.whatsapp.com/send?phone=@ViewBag.Whatsapp2ForLink" target="_blank" class="btn btn-block bg-warning text-white">
+                                    <i class="icofont-whatsapp"></i>&nbsp; @ViewBag.Whatsapp2ForLink
                                 </a>
                             }
                         }
