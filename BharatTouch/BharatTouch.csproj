@@ -3464,6 +3464,7 @@
     <Content Include="admin_theme\vendor\tinymce\package.json" />
     <Content Include="admin_theme\vendor\tinymce\README.md" />
     <Content Include="FirebaseTokenHelper\bharattouch-62578-firebase-adminsdk-fbsvc-3c19f91889.json" />
+    <Content Include="FirebaseTokenHelper\bharattouch-62578-firebase-adminsdk-fbsvc-596a07cc26.json" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

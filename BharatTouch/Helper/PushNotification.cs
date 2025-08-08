@@ -22,7 +22,8 @@ namespace GroopGo.Api.WebHelper
         {
             //----------Generating Bearer token for FCM---------------
             //Download from Firebase Console ServiceAccount
-            string fileName = System.Web.Hosting.HostingEnvironment.MapPath("~/FirebaseTokenHelper/bharattouch-62578-firebase-adminsdk-fbsvc-3c19f91889.json");
+            string fileName = System.Web.Hosting.HostingEnvironment.MapPath("~/FirebaseTokenHelper/bharattouch-62578-firebase-adminsdk-fbsvc-596a07cc26.json"); // 08 aug 2025 added
+           // string fileName = System.Web.Hosting.HostingEnvironment.MapPath("~/FirebaseTokenHelper/bharattouch-62578-firebase-adminsdk-fbsvc-3c19f91889.json");
             // string fileName = System.Web.Hosting.HostingEnvironment.MapPath("~/FirebaseTokenHelper/eagle-eye-car-rentals-3987c-firebase-adminsdk-kbob7-c3c938d21e.json");
 
 
