@@ -4517,6 +4517,28 @@ namespace BharatTouch.Controllers
         }
 
         #endregion
+
+
+        public ActionResult DeleteUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteUserById(string userId)
+        {
+            var status = new UserRepository().DeleteUser(userId.ToIntOrZero());
+
+            if (status)
+            {
+                return Json(new { Success = true, Message = "User Deleted Successfully" });
+
+            }
+
+            return Json(new { Success = false, Message = "Some Error Occuried" });
+        }
+
+
     }
     public class PaymentOrderResponse
     {

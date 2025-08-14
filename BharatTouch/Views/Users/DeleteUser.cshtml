@@ -1,0 +1,141 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete User By UserId</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            max-width: 400px;
+            width: 100%;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            background-color: #fff;
+        }
+
+        h3 {
+            margin-bottom: 25px;
+            color: #dc3545;
+            font-weight: 700;
+        }
+
+        #dvLoading {
+            margin-top: 15px;
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        .btn-danger {
+            width: 100%;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+            .btn-danger:hover {
+                background-color: #b02a37;
+            }
+
+        input.form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        @using (Html.BeginForm("DeleteUserById", "Users", FormMethod.Post, new { id = "DeleteUserByIdForm", @class = "needs-validation" }))
+        {
+            <h3 class="text-center">Delete User</h3>
+            <div class="mb-3">
+                @Html.TextBox("UserId", "", new { @class = "form-control", required = "required", @type = "number" })
+                <label style="color:red;">You can delete user from userid.</label>
+            </div>
+            <button type="submit" class="btn btn-danger">Delete</button>
+
+            <div id="dvLoading" style="display:none;">...Loading, Please Wait</div>
+        }
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            $("#DeleteUserByIdForm").validate({
+                errorPlacement: function (error, element) {
+                    error.addClass('text-danger small');
+                    error.appendTo(element.parent());
+                },
+                rules: {
+                    UserId: {
+                        required: true
+                    }
+                },
+                submitHandler: function (form) {
+                    var f = $(form);
+                    var data = f.serializeArray();
+                    f.find(":submit").prop('disabled', true);
+                    $("#dvLoading").show();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: f.attr('action'),
+                        data: data,
+                        dataType: 'json',
+                        success: function (data) {
+
+
+                            Swal.fire({
+                                icon: data.Success ? 'success' : 'error',
+                                title: data.Success ? 'Success' : 'Failed',
+                                text: data.Message,
+                                confirmButtonText: 'OK'
+                            });
+
+                            $("#dvLoading").hide();
+                            f.find(":submit").prop('disabled', false);
+                            f[0].reset();
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'An error occurred while processing your request.',
+                                confirmButtonText: 'OK'
+                            });
+
+                            $("#dvLoading").hide();
+                            f.find(":submit").prop('disabled', false);
+
+
+                        }
+                    });
+                }
+            });
+        });
+
+    </script>
+
+</body>
+</html>
