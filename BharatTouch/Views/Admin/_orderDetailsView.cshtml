@@ -1,0 +1,24 @@
+﻿
+@model DataAccess.ViewModels.OrderViewModel
+
+
+<div class="container">
+    <div class="row">
+        <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Order Date</span>
+            <span class="fw-bold">@string.Format("{0:" + BharatTouch.CommonHelper.DateTimeFormatter.Style1 + "}", Model.OrderDate)</span>
+        </div>
+        <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Order Status</span>
+            <span class="fw-bold">@Model.OrderStatus</span>
+        </div>
+        <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Total Amount</span>
+            <span class="fw-bold">@Model.TotalAmount</span>
+        </div>
+        <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Payment Method</span>
+            <span class="fw-bold">@Model.PaymentMethod</span>
+        </div>
+    </div>
+</div>

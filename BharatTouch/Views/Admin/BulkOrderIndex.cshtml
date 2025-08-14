@@ -54,7 +54,9 @@
                                 <th>
                                     Message
                                 </th>
-                               
+                                <th>
+                                    Action
+                                </th>
                             </tr>
 
                         </thead>
@@ -74,6 +76,7 @@
     <script type="text/javascript">
     var ord = new listBulkOrder_admin();
         ord.getBulkOrderUrl = "@Url.Action("GetAllBulkOrder", "Admin")";
+        ord.saveLeadConvertFromBulkOrder = "@Url.Action("SaveLeadConvertFromBulkOrder", "Admin")";
         ord.weburl = "@weburl";
         ord.init();
     </script>

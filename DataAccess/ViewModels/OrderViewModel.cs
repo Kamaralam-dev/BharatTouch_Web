@@ -24,6 +24,8 @@ namespace DataAccess.ViewModels
         public decimal TotalAmount { get; set; }
         public string Currency { get; set; }
         public int PaymentId { get; set; }
+        public int PaymentMethodId { get; set; }
+        public string PaymentMethod { get; set; }
         public string DeliveryType { get; set; }
         public string ShippingAddress1 { get; set; }
         public string ShippingAddress2 { get; set; }

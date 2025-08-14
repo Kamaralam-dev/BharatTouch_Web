@@ -215,6 +215,17 @@ namespace BharatTouch.Controllers
             return Json(new { recordsFiltered = totRows, recordsTotal = totRows, data = users }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetOrderDetailsByOrderNo(string orderNo)
+        {
+            var orderModel = new OrderRepository().GetOrderByOrderNo(orderNo);
+            if (orderModel == null)
+            {
+                orderModel = new OrderViewModel();
+            }
+
+            return PartialView("_orderDetailsView", orderModel);
+        }
+
         [HttpPost]
         public ActionResult Delete_User(int id)
         {
@@ -2994,6 +3005,32 @@ namespace BharatTouch.Controllers
                 var userId = Utility.GetCookie("UserId_admin").ToIntOrZero();
 
                 _adminRepo.Lead_ConvertFromOrder(orderId, userId, out outFlag, out outMessage);
+                return new ActionState()
+                {
+                    Success = outFlag == 0,
+                    Message = outFlag == 0 ? "Success" : "Error",
+                    Data = outMessage,
+                    Type = outFlag == 0 ? ActionState.SuccessType : ActionState.ErrorType
+                }.ToActionResult(HttpStatusCode.OK);
+
+            }
+            catch (Exception ex)
+            {
+                return new ActionState() { Success = false, Message = "Failed!", Data = ex.Message ?? "Some error occurred.", Type = ActionState.ErrorType }.ToActionResult(HttpStatusCode.OK);
+            }
+        }
+        
+        [HttpPost]
+        public ActionResult SaveLeadConvertFromBulkOrder(int orderRequestId)
+        {
+            try
+            {
+                int outFlag;
+                string outMessage;
+
+                var userId = Utility.GetCookie("UserId_admin").ToIntOrZero();
+
+                _adminRepo.Lead_ConvertFromBulkOrder(orderRequestId, userId, out outFlag, out outMessage);
                 return new ActionState()
                 {
                     Success = outFlag == 0,

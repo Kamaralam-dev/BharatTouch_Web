@@ -172,6 +172,25 @@ namespace DataAccess.Repository
                 throw exe;
             }
         }
+        
+        public OrderViewModel GetOrderByOrderNo(string OrderNo)
+        {
+            try
+            {
+                DynamicParameters param = new DynamicParameters();
+                param.Add("OrderNo", OrderNo);
+                connection();
+                con.Open();
+                OrderViewModel model = con.Query<OrderViewModel>("Order_Fetch_By_OrderNo", param, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                con.Close();
+
+                return model;
+            }
+            catch (Exception exe)
+            {
+                throw exe;
+            }
+        }
 
         public OrderViewModel GetOrderAmountDetialsForFinalPayment(int OrderId, int UserId, out int OutFlag, string actionName = "")
         {

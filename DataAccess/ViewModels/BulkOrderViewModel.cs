@@ -15,5 +15,6 @@ namespace DataAccess.ViewModels
         public string ContactPerson { get; set; }
         public int MinOrder { get; set; }
         public string Message { get; set; }
+        public bool IsConvertedToLead { get; set; }
     }
 }

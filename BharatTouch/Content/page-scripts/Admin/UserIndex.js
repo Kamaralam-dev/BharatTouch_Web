@@ -10,6 +10,7 @@
     this.getPackageHistoryByUserId = null;
     this.weburl = null;
     this.paymentDetailsModalUrl = null;
+    this.orderDetailsModalUrl = null;
     this.GenerateInvoiceUrl = null;
     this.SendInvoiceEmailToUser = null;
     this.SaveInvoicePdf = null;
@@ -77,6 +78,23 @@
                     "sorting": false,
                     render: function (data, type, row) {
                         return ' <a href="javascript:void(0)" style="cursor:pointer;text-decoration:underline;" data-action="referal" data-referalcode="' + data.ReferalCode + '" >' + data.ReferredUserCount + '</a> &nbsp;'
+
+                    }
+                },
+                { "data": "ReferredByUserName", "name": "ReferredByUserName", "autoWidth": true, "sorting": false, "className": "dt-body-left" },
+                { "data": "City", "name": "City", "autoWidth": true, "sorting": false, "className": "dt-body-left" },
+                {
+                    "data": null,
+                    "name": "OrderNo",
+                    "width": "10%",
+                    "visible": true,
+                    "className": "dt-body-left",
+                    "sorting": false,
+                    render: function (data, type, row) {
+                        if (data.OrderNo == null || data.OrderNo == "")
+                            return "";
+
+                        return ' <a href="javascript:void(0)" style="cursor:pointer;text-decoration:underline;" data-action="order-details" data-order-no="' + data.OrderNo + '" >' + data.OrderNo + '</a> &nbsp;'
 
                     }
                 },
@@ -424,6 +442,25 @@
             }
         });
     }
+    
+    function orderDetailsModal(orderNo) {
+        $.ajax({
+            type: 'GET',
+            cache: false,
+            data: { orderNo: orderNo },
+            url: me.orderDetailsModalUrl,
+            dataType: 'html',
+            success: function (data, strStatus) {
+                debugger
+                $("#orderDetailsContainer").html('');
+                $("#orderDetailsContainer").append(data);
+                $("#orderDetailsModal").modal("show");
+            },
+            error: function () {
+                console.error("Error while opening order details modal");
+            }
+        });
+    }
 
     function showHidePassword(obj) {
         const type = obj.data('type');
@@ -682,6 +719,10 @@
                     break;
                 case "latest-invoice":
                     openInvoice(id);
+                    break;
+                case "order-details":
+                    var orderNo = $(this).data('order-no');
+                    orderDetailsModal(orderNo);
                     break;
             }
         });

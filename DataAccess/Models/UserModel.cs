@@ -136,5 +136,8 @@ namespace DataAccess.Models
         public string CompanyDisplayName { get; set; }
         public bool IsCompanyAdmin { get; set; }
         public int OrderId { get; set; }
+        public string OrderNo { get; set; }
+        public string ReferredByUserName { get; set; }
+        public string ReferredByEmail { get; set; }
     }
 }

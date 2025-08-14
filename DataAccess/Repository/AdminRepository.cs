@@ -803,6 +803,32 @@ namespace DataAccess.Repository
                 throw ex;
             }
         }
+        
+        public bool Lead_ConvertFromBulkOrder(int orderRequestId, int createdBy, out int outFlag, out string outMessage)
+        {
+            try
+            {
+                DynamicParameters param = new DynamicParameters();
+
+                param.Add("OrderRequestId", orderRequestId);
+                param.Add("CreatedBy", createdBy);
+
+                param.Add("OutFlag", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                param.Add("OutMessage", dbType: DbType.String, size: 250, direction: ParameterDirection.Output);
+
+                connection();
+                con.Open();
+                con.Execute("Lead_ConvertFromBulkOrder", param, commandType: CommandType.StoredProcedure);
+                outFlag = param.Get<int>("OutFlag");
+                outMessage = param.Get<string>("OutMessage");
+                con.Close();
+                return outFlag == 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public List<LeadsAdminViewModel> GetAllLeads_Admin(string actionName)
         {
