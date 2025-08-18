@@ -348,7 +348,7 @@ namespace BharatTouch.Controllers
         {
             try
             {
-                var model = _userRepo.GetUserById(id, "BharatTouch/AdminUsersApi/GetUserDetails");                
+                var model = _userRepo.GetUserById(id, "BharatTouch/AdminUsersApi/GetUserDetails");
                 if (model == null)
                 {
                     return new ResponseModel() { IsSuccess = false, Message = "User not found.", Data = null };
@@ -360,7 +360,7 @@ namespace BharatTouch.Controllers
                 model.WorkPhone = CryptoHelper.IsEncrypted(model.WorkPhone) ? CryptoHelper.Decrypt(model.WorkPhone) : model.WorkPhone;
                 model.Whatsapp = CryptoHelper.IsEncrypted(model.Whatsapp) ? CryptoHelper.Decrypt(model.Whatsapp) : model.Whatsapp;
                 model.OtherPhone = CryptoHelper.IsEncrypted(model.OtherPhone) ? CryptoHelper.Decrypt(model.OtherPhone) : model.OtherPhone;
-                
+
                 return new ResponseModel() { IsSuccess = true, Message = "Operation successful.", Data = model };
             }
             catch (Exception ex)
@@ -438,7 +438,7 @@ namespace BharatTouch.Controllers
 
                 var encryptPassword = CryptoHelper.Encrypt(body.Password);
 
-                
+
                 body.EmailId = encryptEmail;
                 body.Password = encryptPassword;
 
@@ -506,7 +506,7 @@ namespace BharatTouch.Controllers
                 }
 
                 user.EmailId = CryptoHelper.IsEncrypted(user.EmailId) ? CryptoHelper.Decrypt(user.EmailId) : user.EmailId;
-               
+
                 AdminModel adminModel = new AdminModel();
                 adminModel.EmailId = user.EmailId;
                 adminModel.FirstName = user.FirstName;
@@ -716,7 +716,7 @@ namespace BharatTouch.Controllers
                     return new ResponseModel() { IsSuccess = false, Message = "UserId not found.", Data = null };
                 }
 
-                
+
                 model.PersonalEmail = CryptoHelper.IsEncrypted(model.PersonalEmail) ? CryptoHelper.Decrypt(model.PersonalEmail) : model.PersonalEmail;
                 model.Phone = CryptoHelper.IsEncrypted(model.Phone) ? CryptoHelper.Decrypt(model.Phone) : model.Phone;
                 model.WorkPhone = CryptoHelper.IsEncrypted(model.WorkPhone) ? CryptoHelper.Decrypt(model.WorkPhone) : model.WorkPhone;
@@ -2569,6 +2569,17 @@ namespace BharatTouch.Controllers
             try
             {
                 var dt = _userRepo.GetAdminUsers();
+
+                foreach (var u in dt)
+                {
+                    u.EmailId = CryptoHelper.IsEncrypted(u.EmailId) ? CryptoHelper.Decrypt(u.EmailId) : u.EmailId;
+                    u.PersonalEmail = CryptoHelper.IsEncrypted(u.PersonalEmail) ? CryptoHelper.Decrypt(u.PersonalEmail) : u.PersonalEmail;
+                    u.Phone = CryptoHelper.IsEncrypted(u.Phone) ? CryptoHelper.Decrypt(u.Phone) : u.Phone;
+                    u.WorkPhone = CryptoHelper.IsEncrypted(u.WorkPhone) ? CryptoHelper.Decrypt(u.WorkPhone) : u.WorkPhone;
+                    u.Whatsapp = CryptoHelper.IsEncrypted(u.Whatsapp) ? CryptoHelper.Decrypt(u.Whatsapp) : u.Whatsapp;
+                    u.OtherPhone = CryptoHelper.IsEncrypted(u.OtherPhone) ? CryptoHelper.Decrypt(u.OtherPhone) : u.OtherPhone;
+                }
+
                 return new ResponseModel { IsSuccess = true, Message = "Admin User fetched successfully", Data = dt };
             }
             catch (Exception ex)
@@ -2589,6 +2600,17 @@ namespace BharatTouch.Controllers
                 var dt = users
             .Where(u => u.UserType == "SA" || u.UserType == "LA")
             .ToList();
+
+                foreach (var u in dt)
+                {
+                    u.EmailId = CryptoHelper.IsEncrypted(u.EmailId) ? CryptoHelper.Decrypt(u.EmailId) : u.EmailId;
+                    u.PersonalEmail = CryptoHelper.IsEncrypted(u.PersonalEmail) ? CryptoHelper.Decrypt(u.PersonalEmail) : u.PersonalEmail;
+                    u.Phone = CryptoHelper.IsEncrypted(u.Phone) ? CryptoHelper.Decrypt(u.Phone) : u.Phone;
+                    u.WorkPhone = CryptoHelper.IsEncrypted(u.WorkPhone) ? CryptoHelper.Decrypt(u.WorkPhone) : u.WorkPhone;
+                    u.Whatsapp = CryptoHelper.IsEncrypted(u.Whatsapp) ? CryptoHelper.Decrypt(u.Whatsapp) : u.Whatsapp;
+                    u.OtherPhone = CryptoHelper.IsEncrypted(u.OtherPhone) ? CryptoHelper.Decrypt(u.OtherPhone) : u.OtherPhone;
+                }
+
                 return new ResponseModel { IsSuccess = true, Message = "User fetched successfully", Data = dt };
             }
             catch (Exception ex)
@@ -2621,6 +2643,11 @@ namespace BharatTouch.Controllers
             try
             {
                 var dt = _adminRepo.GetOrderByOrderId(orderId);
+
+
+                dt.EmailId = CryptoHelper.IsEncrypted(dt.EmailId) ? CryptoHelper.Decrypt(dt.EmailId) : dt.EmailId;
+                dt.Phone = CryptoHelper.IsEncrypted(dt.Phone) ? CryptoHelper.Decrypt(dt.Phone) : dt.Phone;
+
                 return new ResponseModel { IsSuccess = true, Message = "Order Detail fetched successfully", Data = dt };
             }
             catch (Exception ex)
