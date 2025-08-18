@@ -322,6 +322,17 @@ namespace BharatTouch.Controllers
             {
                 int TotalRow;
                 var list = _adminRepo.GetAllUsers_Admin(pagination.Page, pagination.Size, pagination.SortBy, pagination.SortOrder, pagination.SearchText, out TotalRow, "BharatTouch/AdminUsersApi/Get_all_users");
+
+                foreach (var u in list)
+                {
+                    u.EmailId = CryptoHelper.IsEncrypted(u.EmailId) ? CryptoHelper.Decrypt(u.EmailId) : u.EmailId;
+                    u.PersonalEmail = CryptoHelper.IsEncrypted(u.PersonalEmail) ? CryptoHelper.Decrypt(u.PersonalEmail) : u.PersonalEmail;
+                    u.Phone = CryptoHelper.IsEncrypted(u.Phone) ? CryptoHelper.Decrypt(u.Phone) : u.Phone;
+                    u.WorkPhone = CryptoHelper.IsEncrypted(u.WorkPhone) ? CryptoHelper.Decrypt(u.WorkPhone) : u.WorkPhone;
+                    u.Whatsapp = CryptoHelper.IsEncrypted(u.Whatsapp) ? CryptoHelper.Decrypt(u.Whatsapp) : u.Whatsapp;
+                    u.OtherPhone = CryptoHelper.IsEncrypted(u.OtherPhone) ? CryptoHelper.Decrypt(u.OtherPhone) : u.OtherPhone;
+                }
+
                 return new ResponseModel() { IsSuccess = true, Message = "Operation successful.", Data = list, outParam = list.Count };
             }
             catch (Exception ex)
@@ -337,11 +348,19 @@ namespace BharatTouch.Controllers
         {
             try
             {
-                var model = _userRepo.GetUserById(id, "BharatTouch/AdminUsersApi/GetUserDetails");
+                var model = _userRepo.GetUserById(id, "BharatTouch/AdminUsersApi/GetUserDetails");                
                 if (model == null)
                 {
                     return new ResponseModel() { IsSuccess = false, Message = "User not found.", Data = null };
                 }
+
+                model.EmailId = CryptoHelper.IsEncrypted(model.EmailId) ? CryptoHelper.Decrypt(model.EmailId) : model.EmailId;
+                model.PersonalEmail = CryptoHelper.IsEncrypted(model.PersonalEmail) ? CryptoHelper.Decrypt(model.PersonalEmail) : model.PersonalEmail;
+                model.Phone = CryptoHelper.IsEncrypted(model.Phone) ? CryptoHelper.Decrypt(model.Phone) : model.Phone;
+                model.WorkPhone = CryptoHelper.IsEncrypted(model.WorkPhone) ? CryptoHelper.Decrypt(model.WorkPhone) : model.WorkPhone;
+                model.Whatsapp = CryptoHelper.IsEncrypted(model.Whatsapp) ? CryptoHelper.Decrypt(model.Whatsapp) : model.Whatsapp;
+                model.OtherPhone = CryptoHelper.IsEncrypted(model.OtherPhone) ? CryptoHelper.Decrypt(model.OtherPhone) : model.OtherPhone;
+                
                 return new ResponseModel() { IsSuccess = true, Message = "Operation successful.", Data = model };
             }
             catch (Exception ex)
@@ -395,6 +414,34 @@ namespace BharatTouch.Controllers
         {
             try
             {
+                // check with plain credentials
+                var userPlainDetails = _adminRepo.AuthenticateAdminMobile(body, "BharatTouch/AdminUsersApi/AuthenticateUser");
+
+                if (userPlainDetails != null)
+                {
+                    if (BharatTouch.CommonHelper.CryptoHelper.IsEncrypted(userPlainDetails.EmailId) == false)
+                    {
+                        UserModel userAllData = new UserModel();
+                        userAllData = _userRepo.GetUserByCodeOrName(userPlainDetails.Displayname, "BharatTouch/EditProfile/EditProfile");
+
+                        //update as encrypted
+                        var useremail = CryptoHelper.Encrypt(body.EmailId);
+
+                        var userPassword = CryptoHelper.Encrypt(body.Password);
+
+                        _userRepo.UpdateUserEncryptDetail(userPlainDetails.UserId, useremail, userPassword, CryptoHelper.Encrypt(userAllData.PersonalEmail), CryptoHelper.Encrypt(userAllData.Phone), CryptoHelper.Encrypt(userAllData.Whatsapp), CryptoHelper.Encrypt(userAllData.WorkPhone), CryptoHelper.Encrypt(userAllData.OtherPhone));
+                    }
+                }
+
+                //if user not exists with plain details then check agaian with encrypted details
+                var encryptEmail = CryptoHelper.Encrypt(body.EmailId);
+
+                var encryptPassword = CryptoHelper.Encrypt(body.Password);
+
+                
+                body.EmailId = encryptEmail;
+                body.Password = encryptPassword;
+
                 //var model = new AdminModel() { EmailId = body.EmailId, Password = body.Password };
                 var user = _adminRepo.AuthenticateAdminMobile(body, "BharatTouch/AdminUsersApi/AuthenticateUser");
                 if (user == null)
@@ -423,6 +470,34 @@ namespace BharatTouch.Controllers
         {
             try
             {
+                // check with plain credentials
+                var userPlainDetails = _adminRepo.AuthenticateAppUser(body, "BharatTouch/AdminUsersApi/AuthenticateUser");
+
+                if (userPlainDetails != null)
+                {
+                    if (BharatTouch.CommonHelper.CryptoHelper.IsEncrypted(userPlainDetails.EmailId) == false)
+                    {
+                        UserModel userAllData = new UserModel();
+                        userAllData = _userRepo.GetUserByCodeOrName(userPlainDetails.Displayname, "BharatTouch/EditProfile/EditProfile");
+
+                        //update as encrypted
+                        var useremail = CryptoHelper.Encrypt(body.EmailId);
+
+                        var userPassword = CryptoHelper.Encrypt(body.Password);
+
+                        _userRepo.UpdateUserEncryptDetail(userPlainDetails.UserId, useremail, userPassword, CryptoHelper.Encrypt(userAllData.PersonalEmail), CryptoHelper.Encrypt(userAllData.Phone), CryptoHelper.Encrypt(userAllData.Whatsapp), CryptoHelper.Encrypt(userAllData.WorkPhone), CryptoHelper.Encrypt(userAllData.OtherPhone));
+                    }
+                }
+
+                //if user not exists with plain details then check agaian with encrypted details
+                var encryptEmail = CryptoHelper.Encrypt(body.EmailId);
+
+                var encryptPassword = CryptoHelper.Encrypt(body.Password);
+
+
+                body.EmailId = encryptEmail;
+                body.Password = encryptPassword;
+
                 //var model = new AdminModel() { EmailId = body.EmailId, Password = body.Password };
                 var user = _adminRepo.AuthenticateAppUser(body, "BharatTouch/AdminUsersApi/AuthenticateUser");
                 if (user == null)
@@ -430,6 +505,8 @@ namespace BharatTouch.Controllers
                     return new ResponseModel() { IsSuccess = false, Message = "Email or password was wrong.", Data = null };
                 }
 
+                user.EmailId = CryptoHelper.IsEncrypted(user.EmailId) ? CryptoHelper.Decrypt(user.EmailId) : user.EmailId;
+               
                 AdminModel adminModel = new AdminModel();
                 adminModel.EmailId = user.EmailId;
                 adminModel.FirstName = user.FirstName;
@@ -638,6 +715,14 @@ namespace BharatTouch.Controllers
                 {
                     return new ResponseModel() { IsSuccess = false, Message = "UserId not found.", Data = null };
                 }
+
+                
+                model.PersonalEmail = CryptoHelper.IsEncrypted(model.PersonalEmail) ? CryptoHelper.Decrypt(model.PersonalEmail) : model.PersonalEmail;
+                model.Phone = CryptoHelper.IsEncrypted(model.Phone) ? CryptoHelper.Decrypt(model.Phone) : model.Phone;
+                model.WorkPhone = CryptoHelper.IsEncrypted(model.WorkPhone) ? CryptoHelper.Decrypt(model.WorkPhone) : model.WorkPhone;
+                model.Whatsapp = CryptoHelper.IsEncrypted(model.Whatsapp) ? CryptoHelper.Decrypt(model.Whatsapp) : model.Whatsapp;
+                model.OtherPhone = CryptoHelper.IsEncrypted(model.OtherPhone) ? CryptoHelper.Decrypt(model.OtherPhone) : model.OtherPhone;
+
                 var user = new UserModel()
                 {
                     UserId = model.UserId,
@@ -1038,6 +1123,7 @@ namespace BharatTouch.Controllers
             {
                 int outFlag;
                 string outMessage;
+
 
                 var result = _adminRepo.SaveOrUpdateUserByAdmin_Admin(model, out outFlag, out outMessage, "api/v1/Admin/Users/UpsertUserByAdmin");
                 if (result == false)
@@ -2479,7 +2565,7 @@ namespace BharatTouch.Controllers
         [HttpGet]
         [Route("api/v1/Admin/User/GetAdminUsers")]
         public ResponseModel GetAdminUsers()
-        {
+        { //alam
             try
             {
                 var dt = _userRepo.GetAdminUsers();
