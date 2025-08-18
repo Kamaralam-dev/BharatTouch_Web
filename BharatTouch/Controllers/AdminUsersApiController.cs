@@ -78,9 +78,9 @@ namespace BharatTouch.Controllers
                 user.UserType = model.UserType;
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
-                user.EmailId = model.EmailId;
-                user.Phone = model.Phone;
-                user.Password = model.Password;
+                user.EmailId = CryptoHelper.Encrypt(model.EmailId);
+                user.Phone = CryptoHelper.Encrypt(model.Phone);
+                user.Password = CryptoHelper.Encrypt(model.Password);
                 user.CountryId = model.CountryId;
                 user.Displayname = model.Displayname;
                 user.ReferredByCode = model.ReferredByCode;
@@ -92,6 +92,10 @@ namespace BharatTouch.Controllers
                 }
                 else
                 {
+                    user.EmailId = CryptoHelper.Decrypt(model.EmailId);
+                    user.Phone = CryptoHelper.Decrypt(model.Phone);
+                    user.Password = CryptoHelper.Decrypt(model.Password);
+
                     try
                     {
                         var res = QueueVerificationSignupEmailAsync(model.EmailId, model.FirstName + " " + model.LastName.NullToString(), model.Password, model.Displayname, "Signup");

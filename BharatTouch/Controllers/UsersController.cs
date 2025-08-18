@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -287,6 +288,12 @@ namespace BharatTouch.Controllers
                 try
                 {
                     int OutFlag;
+                    model.PersonalEmail = CryptoHelper.Encrypt(model.PersonalEmail);
+                    model.Phone = CryptoHelper.Encrypt(model.Phone);
+                    model.Whatsapp= CryptoHelper.Encrypt(model.Whatsapp);
+                    model.OtherPhone= CryptoHelper.Encrypt(model.OtherPhone);
+                    model.WorkPhone = CryptoHelper.Encrypt(model.WorkPhone);
+
                     _userRepo.UpdateContactInfo(model, out OutFlag, "BharatTouch/EditProfile/ContactInfo");
                     if (OutFlag == 1)
                     {
@@ -471,6 +478,31 @@ namespace BharatTouch.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            if (CryptoHelper.IsEncrypted(user.EmailId))
+            {
+                user.EmailId = CryptoHelper.Decrypt(user.EmailId);
+            }
+          
+            if (CryptoHelper.IsEncrypted(user.PersonalEmail))
+            {
+                user.PersonalEmail = CryptoHelper.Decrypt(user.PersonalEmail);
+            }
+            if (CryptoHelper.IsEncrypted(user.Phone))
+            {
+                user.Phone = CryptoHelper.Decrypt(user.Phone);
+            }
+            if (CryptoHelper.IsEncrypted(user.Whatsapp))
+            {
+                user.Whatsapp = CryptoHelper.Decrypt(user.Whatsapp);
+            }
+            if (CryptoHelper.IsEncrypted(user.WorkPhone))
+            {
+                user.WorkPhone = CryptoHelper.Decrypt(user.WorkPhone);
+            }
+            if (CryptoHelper.IsEncrypted(user.OtherPhone))
+            {
+                user.OtherPhone = CryptoHelper.Decrypt(user.OtherPhone);
+            }
             ViewBag.UserId = user.UserId;
             ViewBag.BusinessTypeParentList = new SelectList(businessTypeParentList, "BusinessTypeId", "BusinessType", user.CompanyTypeParentId);
             ViewBag.IsNotCompanyUser = user.CompanyId == 0;
@@ -528,6 +560,32 @@ namespace BharatTouch.Controllers
             var profilePermissionData = new UserRepository().GetProfilePermissionDetails(fullCode);
 
             var profileDetail = profilePermissionData.ProfileDetails;
+
+            if (CryptoHelper.IsEncrypted(profileDetail.EmailId))
+            {
+                profileDetail.EmailId = CryptoHelper.Decrypt(profileDetail.EmailId);
+            }
+
+            //if (CryptoHelper.IsEncrypted(profileDetail.PersonalEmail))
+            //{
+            //    profileDetail.PersonalEmail = CryptoHelper.Decrypt(profileDetail.PersonalEmail);
+            //}
+            if (CryptoHelper.IsEncrypted(profileDetail.Phone))
+            {
+                profileDetail.Phone = CryptoHelper.Decrypt(profileDetail.Phone);
+            }
+            if (CryptoHelper.IsEncrypted(profileDetail.Whatsapp))
+            {
+                profileDetail.Whatsapp = CryptoHelper.Decrypt(profileDetail.Whatsapp);
+            }
+            if (CryptoHelper.IsEncrypted(profileDetail.WorkPhone))
+            {
+                profileDetail.WorkPhone = CryptoHelper.Decrypt(profileDetail.WorkPhone);
+            }
+            if (CryptoHelper.IsEncrypted(profileDetail.OtherPhone))
+            {
+                profileDetail.OtherPhone = CryptoHelper.Decrypt(profileDetail.OtherPhone);
+            }
 
             if (profileDetail == null)
                 return RedirectToAction("Index", "Home", new { area = "" });
@@ -1133,10 +1191,20 @@ namespace BharatTouch.Controllers
                     }
 
                     UserModel user = new UserModel();
+
+
+                    model.EmailId = CryptoHelper.Encrypt(model.EmailId);
+                    model.Phone = CryptoHelper.Encrypt(model.Phone);
+                    model.Password = CryptoHelper.Encrypt(model.Password);
+
                     if (_userRepo.UpsertUser_V2(model, out newUserId, out newOrderId, "BharatTouch/SignupModal/Create") == 1)
                     {
                         return new ActionState { Message = "Email already exists!", Data = null, Success = false, Type = ActionState.ErrorType }.ToActionResult(HttpStatusCode.OK);
                     }
+
+                    model.EmailId = CryptoHelper.Decrypt(model.EmailId);
+                    model.Phone = CryptoHelper.Decrypt(model.Phone);
+                    model.Password = CryptoHelper.Decrypt(model.Password);
 
                     if (model.UserId == 0)
                     {
@@ -1634,9 +1702,39 @@ namespace BharatTouch.Controllers
         {
             try
             {
-                var user = _userRepo.AuthenticateUser(model, "BharatTouch/loginModal/authenticate");
+
+                // check with plain credentials
+                var userPlainDetails = _userRepo.AuthenticateUser(model, "BharatTouch/loginModal/authenticate");
+
+                if (userPlainDetails != null)
+                {
+                    if (BharatTouch.CommonHelper.CryptoHelper.IsEncrypted(userPlainDetails.EmailId)==false)
+                    {
+                        UserModel userAllData = new UserModel();
+                        userAllData = _userRepo.GetUserByCodeOrName(userPlainDetails.Displayname, "BharatTouch/EditProfile/EditProfile");
+
+                        //update as encrypted
+                        var useremail = CryptoHelper.Encrypt(model.EmailId);
+
+                        var userPassword = CryptoHelper.Encrypt(model.Password);
+
+                        _userRepo.UpdateUserEncryptDetail(userPlainDetails.UserId, useremail, userPassword, CryptoHelper.Encrypt(userAllData.PersonalEmail), CryptoHelper.Encrypt(userAllData.Phone), CryptoHelper.Encrypt(userAllData.Whatsapp),CryptoHelper.Encrypt(userAllData.WorkPhone),CryptoHelper.Encrypt(userAllData.OtherPhone));  
+                    }
+                }
+
+                //if user not exists with plain details then check agaian with encrypted details
+                var encryptEmail = CryptoHelper.Encrypt(model.EmailId);
+
+                var encryptPassword = CryptoHelper.Encrypt(model.Password);
+
+                UserModel encryptedModel=new UserModel ();
+                encryptedModel.EmailId = encryptEmail;
+                encryptedModel.Password = encryptPassword;
+
+                var user = _userRepo.AuthenticateUser(encryptedModel, "BharatTouch/loginModal/authenticate");
                 if (user != null)
                 {
+
                     //if(user.CheckUserPaymentStatus == 2)
                     //{
                     //    return new ActionState { Message = "Info!", Data = "Your payment is pending, please complete your payment.", Success = false, Type = ActionState.InfoType, OptionalValue = user.UserId + ";" + user.CheckUserPaymentStatus.ToString() }.ToActionResult(HttpStatusCode.OK);
@@ -1649,7 +1747,7 @@ namespace BharatTouch.Controllers
 
                     Utility.SetCookie("UserId_auth", user.UserId.ToString());
                     Utility.SetCookie("UserName_auth", user.FirstName.NullToString() + " " + user.LastName.NullToString());
-                    Utility.SetCookie("EmailId_auth", user.EmailId);
+                    Utility.SetCookie("EmailId_auth",CryptoHelper.Decrypt(user.EmailId));
                     Utility.SetCookie("UserUrlCode", user.UrlCode.NullToString());
                     Utility.SetCookie("UserType_auth", user.UserType.NullToString());
                     Utility.SetCookie("DisplayName_auth", user.Displayname.NullToString());

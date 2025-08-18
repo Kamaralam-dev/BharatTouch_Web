@@ -179,7 +179,35 @@ namespace BharatTouch.Controllers
         {
             try
             {
-                var user = _adminRepo.Authenticate_Admin(model, "BharatTouch/loginModal/authenticate");
+                // check with plain credentials
+                var adminPlainDetails = _adminRepo.Authenticate_Admin(model, "BharatTouch/loginModal/authenticate");
+
+                if (adminPlainDetails != null)
+                {
+                    if (BharatTouch.CommonHelper.CryptoHelper.IsEncrypted(adminPlainDetails.EmailId) == false)
+                    {
+                        UserModel userAllData = new UserModel();
+                        userAllData = _userRepo.GetUserByCodeOrName(adminPlainDetails.Displayname, "BharatTouch/EditProfile/EditProfile");
+
+                        //update as encrypted
+                        var useremail = CryptoHelper.Encrypt(model.EmailId);
+
+                        var userPassword = CryptoHelper.Encrypt(model.Password);
+
+                        _userRepo.UpdateUserEncryptDetail(adminPlainDetails.UserId, useremail, userPassword, CryptoHelper.Encrypt(userAllData.PersonalEmail), CryptoHelper.Encrypt(userAllData.Phone), CryptoHelper.Encrypt(userAllData.Whatsapp), CryptoHelper.Encrypt(userAllData.WorkPhone), CryptoHelper.Encrypt(userAllData.OtherPhone));
+                    }
+                }
+
+                //if user not exists with plain details then check agaian with encrypted details
+                var encryptEmail = CryptoHelper.Encrypt(model.EmailId);
+
+                var encryptPassword = CryptoHelper.Encrypt(model.Password);
+
+                AdminModel encryptedModel = new AdminModel();
+                encryptedModel.EmailId = encryptEmail;
+                encryptedModel.Password = encryptPassword;
+
+                var user = _adminRepo.Authenticate_Admin(encryptedModel, "BharatTouch/loginModal/authenticate");
                 if (user != null)
                 {
                     Utility.SetCookie("UserId_admin", user.UserId.ToString());
@@ -210,7 +238,15 @@ namespace BharatTouch.Controllers
         public ActionResult GetUsers()
         {
             int totRows = 0;
-            var users = _adminRepo.GetAllUsers_Admin(Utility.StartIndex(), Utility.PageSize(), Utility.SortBy(), Utility.SortDesc(), Utility.FilterText(), out totRows, "BharatTouch/Index/GetUsers");
+            
+            var  users = _adminRepo.GetAllUsers_Admin(Utility.StartIndex(), Utility.PageSize(), Utility.SortBy(), Utility.SortDesc(), Utility.FilterText(), out totRows, "BharatTouch/Index/GetUsers");
+
+            foreach (var u in users)
+            {
+                u.EmailId =CryptoHelper.IsEncrypted(u.EmailId)?CryptoHelper.Decrypt(u.EmailId):u.EmailId;
+                u.Password = CryptoHelper.IsEncrypted(u.Password) ? CryptoHelper.Decrypt(u.Password) : u.Password;
+                u.Phone = CryptoHelper.IsEncrypted(u.Phone) ? CryptoHelper.Decrypt(u.Phone) : u.Phone;
+            }
 
             return Json(new { recordsFiltered = totRows, recordsTotal = totRows, data = users }, JsonRequestBehavior.AllowGet);
         }
@@ -1339,6 +1375,33 @@ namespace BharatTouch.Controllers
             //{
             //    return RedirectToAction("Index", "Home");
             //}
+
+            if (CryptoHelper.IsEncrypted(user.EmailId))
+            {
+                user.EmailId = CryptoHelper.Decrypt(user.EmailId);
+            }
+
+            if (CryptoHelper.IsEncrypted(user.PersonalEmail))
+            {
+                user.PersonalEmail = CryptoHelper.Decrypt(user.PersonalEmail);
+            }
+            if (CryptoHelper.IsEncrypted(user.Phone))
+            {
+                user.Phone = CryptoHelper.Decrypt(user.Phone);
+            }
+            if (CryptoHelper.IsEncrypted(user.Whatsapp))
+            {
+                user.Whatsapp = CryptoHelper.Decrypt(user.Whatsapp);
+            }
+            if (CryptoHelper.IsEncrypted(user.WorkPhone))
+            {
+                user.WorkPhone = CryptoHelper.Decrypt(user.WorkPhone);
+            }
+            if (CryptoHelper.IsEncrypted(user.OtherPhone))
+            {
+                user.OtherPhone = CryptoHelper.Decrypt(user.OtherPhone);
+            }
+
             ViewBag.UserProfilePic = user.ProfileImage.NullToString() != "" ? user.ProfileImage.NullToString() : "/FormAssets/img/blank-profile-picture.jpg";
             ViewBag.BusinessTypeParentList = new SelectList(businessTypeParentList, "BusinessTypeId", "BusinessType", user.CompanyTypeParentId);
             return View(user);
@@ -2336,6 +2399,12 @@ namespace BharatTouch.Controllers
         {
             var orders = _adminRepo.GetAllOrder_Admin();
 
+            foreach (var u in orders)
+            {
+                u.EmailId = CryptoHelper.IsEncrypted(u.EmailId) ? CryptoHelper.Decrypt(u.EmailId) : u.EmailId;
+                u.Phone = CryptoHelper.IsEncrypted(u.Phone) ? CryptoHelper.Decrypt(u.Phone) : u.Phone;
+            }
+
             return Json(new { recordsFiltered = orders.Count, recordsTotal = orders.Count, data = orders }, JsonRequestBehavior.AllowGet);
         }
 
@@ -2584,6 +2653,12 @@ namespace BharatTouch.Controllers
         public ActionResult GetAllBulkOrder()
         {
             var orders = _adminRepo.GetAllBulkOrder_Admin("getAllBulkOrder");
+
+            foreach (var u in orders)
+            {
+                u.Email = CryptoHelper.IsEncrypted(u.Email) ? CryptoHelper.Decrypt(u.Email) : u.Email;
+                u.PhoneNo = CryptoHelper.IsEncrypted(u.PhoneNo) ? CryptoHelper.Decrypt(u.PhoneNo) : u.PhoneNo;
+            }
 
             return Json(new { recordsFiltered = orders.Count, recordsTotal = orders.Count, data = orders }, JsonRequestBehavior.AllowGet);
         }

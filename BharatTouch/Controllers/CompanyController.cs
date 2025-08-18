@@ -120,7 +120,35 @@ namespace BharatTouch.Controllers
         {
             try
             {
-                var user = _compRepo.AuthenticateCompanyAdmin(model, "BharatTouch/company/login/authenticate");
+                // check with plain credentials
+                var companyPlainDetails = _compRepo.AuthenticateCompanyAdmin(model, "BharatTouch/company/login/authenticate");
+
+                if (companyPlainDetails != null)
+                {
+                    if (BharatTouch.CommonHelper.CryptoHelper.IsEncrypted(companyPlainDetails.EmailId) == false)
+                    {
+                        UserModel userAllData = new UserModel();
+                        userAllData = _userRepo.GetUserByCodeOrName(companyPlainDetails.Displayname, "BharatTouch/EditProfile/EditProfile");
+
+                        //update as encrypted
+                        var useremail = CryptoHelper.Encrypt(model.EmailId);
+
+                        var userPassword = CryptoHelper.Encrypt(model.Password);
+
+                        _userRepo.UpdateUserEncryptDetail(companyPlainDetails.UserId, useremail, userPassword, CryptoHelper.Encrypt(userAllData.PersonalEmail), CryptoHelper.Encrypt(userAllData.Phone), CryptoHelper.Encrypt(userAllData.Whatsapp), CryptoHelper.Encrypt(userAllData.WorkPhone), CryptoHelper.Encrypt(userAllData.OtherPhone));
+                    }
+                }
+
+                //if user not exists with plain details then check agaian with encrypted details
+                var encryptEmail = CryptoHelper.Encrypt(model.EmailId);
+
+                var encryptPassword = CryptoHelper.Encrypt(model.Password);
+
+                AdminModel encryptedModel = new AdminModel();
+                encryptedModel.EmailId = encryptEmail;
+                encryptedModel.Password = encryptPassword;
+
+                var user = _compRepo.AuthenticateCompanyAdmin(encryptedModel, "BharatTouch/company/login/authenticate");
                 if (user != null)
                 {
                     Utility.SetCookie("UserId_Company", user.UserId.ToString());

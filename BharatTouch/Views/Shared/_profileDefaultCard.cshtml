@@ -78,7 +78,7 @@
     int companyId = BharatTouch.CommonHelper.Utility.GetCookie("CompanyId_auth").ToIntOrZero();
     if (companyId > 0)
     {
-        coverImage = WebUrl+"/Uploads/Company/CoverImage/" + companyId + ".png";
+        coverImage = WebUrl + "/Uploads/Company/CoverImage/" + companyId + ".png";
     }
 
     var bestFitCoverImageStyleClass = user.BestFitCoverImage.NullToString() == "" ? "cover" : user.BestFitCoverImage.NullToString();
@@ -86,7 +86,12 @@
     //DataAccess.ViewModels.UserPackageViewModel package = new DataAccess.ViewModels.UserPackageViewModel();
     //package = new DataAccess.Repository.PackagesRepository().GetPackageByUserId(user.UserId, "BharatTouch/EditProfile/_defaultCardPreview.cshtml");
 
-    var whatsappWithCountryCode = user.WhatsappNumberCode.NullToString() + user.Whatsapp.NullToString();
+    string whatsappno = "";
+    if (user.Whatsapp.NullToString() != "" && CryptoHelper.IsEncrypted(user.Whatsapp.NullToString()))
+    {
+        whatsappno =CryptoHelper.Decrypt(user.Whatsapp.NullToString());
+    }
+    var whatsappWithCountryCode = user.WhatsappNumberCode.NullToString() + whatsappno;
     var whatsappForLink = System.Text.RegularExpressions.Regex.Replace(whatsappWithCountryCode, @"[^0-9]", "");
 
     var isMapAddressNotExist = user.Address1.NullToString() == "" && user.City.NullToString() == "" && user.StateName.NullToString() == "" && user.Country.NullToString() == "";
@@ -336,7 +341,16 @@
                 <div class="social-icon-align social-icons-list">
                     @if (!string.IsNullOrWhiteSpace(user.Phone))
                     {
-                        <a href="tel::@user.Phone" target="_blank" class="social-linkss">
+
+                        string decryptPhone = user.Phone;
+
+                        if (CryptoHelper.IsEncrypted(user.Phone))
+                        {
+                            decryptPhone = CryptoHelper.Decrypt(user.Phone);
+                        }
+
+
+                        <a href="tel::@decryptPhone" target="_blank" class="social-linkss">
                             <img src="~/FormAssets/img/Icons/phone-call.png" class="ico ico-mg" />
                             @*<i class="icofont-phone ico ico-mg"></i>*@
                         </a>
@@ -350,13 +364,23 @@
                     }
                     @if (!string.IsNullOrWhiteSpace(user.EmailId))
                     {
-                        <a href="mailto:@user.EmailId" target="_blank" class="social-linkss">
+                        string decryptPhoneEmail= user.EmailId;
+
+                        if (CryptoHelper.IsEncrypted(user.EmailId))
+                        {
+                            decryptPhoneEmail = CryptoHelper.Decrypt(user.EmailId);
+                        }
+
+
+                        <a href="mailto:@decryptPhoneEmail" target="_blank" class="social-linkss">
                             <img src="~/FormAssets/img/Icons/mail-avi.png" class="ico ico-mg" />
                             @*<i class="icofont-envelope ico ico-mg"></i>*@
                         </a>
                     }
                     @if (!string.IsNullOrWhiteSpace(whatsappForLink))
                     {
+                       
+
                         <a href="https://api.whatsapp.com/send?phone=@whatsappForLink" target="_blank" class="social-linkss">
                             <img src="~/FormAssets/img/Icons/whatsapp-avi.png" class="ico ico-mg" />
                             @*<i class="bi-whatsapp ico ico-mg"></i>*@

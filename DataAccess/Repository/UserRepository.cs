@@ -86,7 +86,7 @@ namespace DataAccess.Repository
                 _params.Add("CompanyType", user.CompanyType);
                 _params.Add("FirstName", user.FirstName);
                 _params.Add("LastName", user.LastName);
-                _params.Add("Tagline", user.Tagline);
+                _params.Add("Tagline", user.Tagline);                
                 _params.Add("EmailID", user.EmailId);
                 _params.Add("Password", user.Password);
                 _params.Add("Phone", user.Phone);
@@ -1062,6 +1062,33 @@ namespace DataAccess.Repository
             }
         }
 
+        public int UpdateUserEncryptDetail(int userId,string encryptEmailId,string encryptPassword,string EncryptPersonalEmail,string EncryptPhone,string EncryptWhatsapp,string encryptWorkPhone,string encryptOtherPhone)
+        {
+            int result = 0;
+            try
+            {
+                connection();
+                con.Open();
+                DynamicParameters _params = new DynamicParameters();
+                _params.Add("UserId", userId);
+                _params.Add("EncryptEmailId", encryptEmailId);
+                _params.Add("EncryptPassword", encryptPassword);
+                _params.Add("EncryptPersonalEmail", EncryptPersonalEmail); //not updating this in proc
+                _params.Add("EncryptPhone", EncryptPhone);
+                _params.Add("EncryptWhatsapp", EncryptWhatsapp);//not updating this in proc
+                _params.Add("EncryptWorkPhone", encryptWorkPhone);
+                _params.Add("EncryptOtherPhone", encryptOtherPhone);
+                _params.Add("OutFlag", DbType.Int32, direction: ParameterDirection.Output);
+                con.Execute("User_EncryptDetail", _params, commandType: CommandType.StoredProcedure);
+                result = _params.Get<int>("OutFlag");
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
 
 
         #region User Upi Details

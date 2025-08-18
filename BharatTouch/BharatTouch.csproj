@@ -419,6 +419,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="CommonHelper\ActionState.cs" />
     <Compile Include="CommonHelper\ConfigValues.cs" />
+    <Compile Include="CommonHelper\CryptoHelper.cs" />
     <Compile Include="CommonHelper\DateTimeFormatter.cs" />
     <Compile Include="CommonHelper\Enumerations.cs" />
     <Compile Include="CommonHelper\HelperExtensions.cs" />
