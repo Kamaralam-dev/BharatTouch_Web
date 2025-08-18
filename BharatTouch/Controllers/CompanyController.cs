@@ -85,6 +85,13 @@ namespace BharatTouch.Controllers
             int totRows = 0;
             var users = _compRepo.GetAllUsersByCompany(com, out totRows, "BharatTouch/Company/LeadIndex/GetUsersByCompany");
 
+            foreach (var u in users)
+            {
+                u.EmailId = CryptoHelper.IsEncrypted(u.EmailId) ? CryptoHelper.Decrypt(u.EmailId) : u.EmailId;
+                u.Password = CryptoHelper.IsEncrypted(u.Password) ? CryptoHelper.Decrypt(u.Password) : u.Password;
+                u.Phone = CryptoHelper.IsEncrypted(u.Phone) ? CryptoHelper.Decrypt(u.Phone) : u.Phone;
+            }
+
             ViewBag.AllUsersByCompanyData = users;
             return View();
         }
@@ -691,6 +698,12 @@ namespace BharatTouch.Controllers
             var com = Utility.GetCookie("CompanyId_Company").ToIntOrZero();
             int totRows = 0;
             var users = _compRepo.GetAllUsersByCompany(com, out totRows, "BharatTouch/Company/UserIndex/GetUsersByCompany");
+            foreach (var u in users)
+            {
+                u.EmailId = CryptoHelper.IsEncrypted(u.EmailId) ? CryptoHelper.Decrypt(u.EmailId) : u.EmailId;
+                u.Password = CryptoHelper.IsEncrypted(u.Password) ? CryptoHelper.Decrypt(u.Password) : u.Password;
+                u.Phone = CryptoHelper.IsEncrypted(u.Phone) ? CryptoHelper.Decrypt(u.Phone) : u.Phone;
+            }
 
             return Json(new { recordsFiltered = totRows, recordsTotal = totRows, data = users }, JsonRequestBehavior.AllowGet);
         }
@@ -739,6 +752,9 @@ namespace BharatTouch.Controllers
                 var CompanyName = Utility.GetCookie("CompanyName_Company").NullToString();
 
                 model.CompanyId = com;
+                model.EmailId = CryptoHelper.Encrypt(model.EmailId);
+                model.Phone = CryptoHelper.Encrypt(model.Phone);
+
                 _compRepo.Company_User_Upsert(model, out outFlag, out outMessage, out OutUserId);
 
                 if (outFlag == 0)

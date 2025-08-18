@@ -2628,6 +2628,10 @@ namespace BharatTouch.Controllers
                 {
                     model.DiscountCouponIdText = model.DiscountCouponIdText.Split(',')[0];
                 }
+
+               
+                model.EmailID=CryptoHelper.Encrypt(model.EmailID);
+
                 var result = _adminRepo.SaveOrUpdateUserByAdmin_Admin(model, out outFlag, out outMessage, "UserUpsert");
                 if (result == false)
                 {
