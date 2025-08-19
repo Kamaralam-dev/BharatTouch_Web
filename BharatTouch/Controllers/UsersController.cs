@@ -2203,6 +2203,7 @@ namespace BharatTouch.Controllers
         {
             try
             {
+                user.Password = CryptoHelper.Encrypt(user.Password);
                 var result = _userRepo.ChangePassword(user, "Bharattouch/EditProfile/ChangePassword");
                 if (result == 1)
                 {

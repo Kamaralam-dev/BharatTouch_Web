@@ -601,6 +601,7 @@ namespace BharatTouch.Controllers
                 var com = Utility.GetCookie("CompanyId_Company").ToIntOrZero();
                 user.UserId = userId;
                 user.CompanyId = com;
+                user.Password = CryptoHelper.Encrypt(user.Password);
                 var result = _compRepo.ChangeCompanyAdminPassword(user, "Bharattouch/CompanyIndex/ChangePassword");
                 if (result == 1)
                 {
