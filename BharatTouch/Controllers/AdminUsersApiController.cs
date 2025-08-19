@@ -1188,7 +1188,7 @@ namespace BharatTouch.Controllers
             {
                 UserModel model = new UserModel();
                 model.UserId = userId;
-                model.Password = password;
+                model.Password = CryptoHelper.Encrypt(password);
 
                 var status = _userRepo.ChangePassword(model);
                 if (status == 1)

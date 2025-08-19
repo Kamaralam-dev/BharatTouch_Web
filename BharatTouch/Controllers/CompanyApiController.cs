@@ -765,6 +765,7 @@ namespace BharatTouch.Controllers
         [Route("api/v1/Company/ChangeCompanyAdminPassword")]
         public ResponseModel ChangeCompanyAdminPassword([FromBody] UserModel model)
         {
+            model.Password = CryptoHelper.Encrypt(model.Password);
             var result = _compRepo.ChangeCompanyAdminPassword(model, "api/v1/Company/ChangeCompanyAdminPassword");
             if (result == 1)
             {
