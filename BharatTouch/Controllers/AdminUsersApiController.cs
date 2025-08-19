@@ -1179,6 +1179,30 @@ namespace BharatTouch.Controllers
             }
         }
 
+        [Authorization]
+        [HttpGet]
+        [Route("api/v1/Admin/Users/ChangePassword")]
+        public ResponseModel ChangePassword(int userId,string password)
+        {
+            try
+            {
+                UserModel model = new UserModel();
+                model.UserId = userId;
+                model.Password = password;
+
+                var status = _userRepo.ChangePassword(model);
+                if (status == 1)
+                {
+                    return new ResponseModel() { IsSuccess = true, Message = "Password updated successfully.", Data = null };
+                }
+                return new ResponseModel() { IsSuccess = false, Message = "Some error ouccuried." };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseModel() { IsSuccess = false, Message = ex.Message, Data = null };
+            }
+        }
+
 
         #endregion
 
