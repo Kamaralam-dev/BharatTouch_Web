@@ -1182,7 +1182,7 @@ namespace BharatTouch.Controllers
         [Authorization]
         [HttpGet]
         [Route("api/v1/Admin/Users/ChangePassword")]
-        public ResponseModel ChangePassword(int userId,string password)
+        public ResponseModel ChangePassword(int userId, string password)
         {
             try
             {
@@ -2679,5 +2679,180 @@ namespace BharatTouch.Controllers
                 return new ResponseModel { IsSuccess = false, Message = ex.Message };
             }
         }
+
+        #region Blog
+
+        [Authorization]
+        [HttpGet]
+        [Route("api/v1/Admin/BTBlog/GetAllBTBlogs")]
+        public ResponseModel GetAllBTBlogs()
+        {
+            try
+            {
+                var dt = _adminRepo.GetAllBT_Blogs_Admin();
+                return new ResponseModel { IsSuccess = true, Message = "Blog fetched successfully", Data = dt };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseModel { IsSuccess = false, Message = ex.Message };
+            }
+        }
+
+        [Authorization]
+        [HttpGet]
+        [Route("api/v1/Admin/BTBlog/GetBTBlogDetail/{blogId}")]
+        public ResponseModel GetBTBlogDetail(int blogId)
+        {
+            try
+            {
+                var model = new BT_BlogViewModel();
+
+                model = _adminRepo.GetBT_BlogsById_Admin(blogId);
+
+                var imagePath = ConfigValues.ImagePath.Substring(1) + "/BT_Blog/" + model.BlogId + ".png";
+                var path = HttpContext.Current.Server.MapPath(imagePath);
+                if (System.IO.File.Exists(path))
+                {
+                    model.BlogImage = imagePath;
+                }
+                return new ResponseModel { IsSuccess = true, Message = "Blog Detail fetched successfully", Data = model };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseModel { IsSuccess = false, Message = ex.Message };
+            }
+        }
+
+        [Authorization]
+        [HttpGet]
+        [Route("api/v1/Admin/BTBlog/DeleteBTBlogImage/{blogId}")]
+        public ResponseModel DeleteBTBlogImage(int blogId)
+        {
+            try
+            {
+                var imagePath = ConfigValues.ImagePath.Substring(1) + "/BT_Blog/" + blogId + ".png";
+                if (string.IsNullOrEmpty(imagePath))
+                {
+                    return new ResponseModel { IsSuccess = false, Message = "No image specified." };
+                }
+
+                var physicalPath = HttpContext.Current.Server.MapPath(imagePath);
+
+                if (System.IO.File.Exists(physicalPath))
+                {
+                    System.IO.File.Delete(physicalPath);
+                    return new ResponseModel { IsSuccess = true, Message = "Image deleted successfully." };
+
+                }
+                else
+                {
+                    return new ResponseModel { IsSuccess = false, Message = "Image file not found." };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ResponseModel { IsSuccess = false, Message = ex.Message };
+            }
+        }
+
+        [Authorization]
+        [HttpGet]
+        [Route("api/v1/Admin/BTBlog/DeleteBTBlog/{blogId}")]
+        public ResponseModel DeleteBTBlog(int blogId)
+        {
+            try
+            {
+
+                int outFlag;
+                string outMessage;
+                _adminRepo.BlogDelete_Admin(blogId, out outFlag, out outMessage);
+                if (outFlag == 0)
+                {
+                    var imagePath = ConfigValues.ImagePath.Substring(1) + "/BT_Blog/" + blogId + ".png";
+
+                    var physicalPath = HttpContext.Current.Server.MapPath(imagePath);
+
+                    if (System.IO.File.Exists(physicalPath))
+                    {
+                        System.IO.File.Delete(physicalPath);
+                    }
+                    return new ResponseModel { IsSuccess = true, Message = outMessage };
+                }
+                else
+                {
+                    return new ResponseModel { IsSuccess = false, Message = outMessage };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ResponseModel { IsSuccess = false, Message = ex.Message };
+            }
+        }
+
+        [Authorization]
+        [HttpPost]
+        [Route("api/v1/Admin/BTBlog/UpsertBTBlog")]
+        public ResponseModel UpsertBTBlog()
+        {
+            try
+            {
+                var request = HttpContext.Current.Request;
+
+                var model = new BT_BlogModel
+                {
+                    BlogId = request.Form["BlogId"].ToIntOrZero(),
+                    BlogTitle = request.Form["BlogTitle"],
+                    BlogDescription = request.Form["BlogDescription"],
+                    BlogKeywords = request.Form["BlogKeywords"],
+                    IsActive = request.Form["IsActive"].ToBoolean(),
+                    BlogTagLine = request.Form["BlogTagLine"],
+                    CreatedBy = request.Form["CreatedBy"].ToIntOrZero()
+                };
+
+                int outBlogId;
+                int outFlag;
+                string outMessage;
+
+                var file = request.Files["BlogImage"];
+
+                if (file != null && file.ContentLength > 0)
+                {
+                    var fileExtension = Path.GetExtension(file.FileName)?.ToLower();
+
+                    if (fileExtension != ".jpg" && fileExtension != ".jpeg" && fileExtension != ".png")
+                    {
+                        return new ResponseModel() { IsSuccess = false, Message = "Only JPG, JPEG, and PNG files are allowed.", Data = null };
+                    }
+                }
+
+                _adminRepo.SaveOrUpdateBT_Blog_Admin(model, out outFlag, out outMessage, out outBlogId);
+
+                if (outFlag == 0)
+                {
+                    if (outBlogId > 0)
+                    {
+
+                        if (file != null && file.ContentLength > 0)
+                        {
+
+                            Utility.SaveCompressImages(file, outBlogId.ToString(), ConfigValues.ImagePath.Substring(1) + "/BT_Blog/", 200);
+
+
+                            return new ResponseModel() { IsSuccess = true, Message = outMessage, Data = null };
+                        }
+
+                    }
+
+                }
+
+                return new ResponseModel() { IsSuccess = outFlag == 0, Message = outMessage, Data = null };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseModel() { IsSuccess = false, Message = ex.Message, Data = null };
+            }
+        }
+
+        #endregion
     }
 }
