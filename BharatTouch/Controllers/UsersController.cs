@@ -2179,7 +2179,7 @@ namespace BharatTouch.Controllers
                 var adminUsers = _userRepo.GetAdminUsers(pageName);
                 if (adminUsers.Count > 0)
                 {
-                    adminEmails = string.Join(",", adminUsers.Select(x => x.EmailId));
+                    adminEmails = string.Join(",", adminUsers.Select(x => (CryptoHelper.IsEncrypted(x.EmailId) ? CryptoHelper.Decrypt(x.EmailId) : x.EmailId)));
                 }
                 var domain = Request.Url.Host;
                 var body = LeadsEmailTemplate(model, "User", "Profile");
