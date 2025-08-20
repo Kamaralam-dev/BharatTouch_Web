@@ -103,6 +103,7 @@
                 <thead class="mb-none">
                     <tr>
                         <th>#</th>
+                        <th>Date</th>
                         <th>IP Address</th>
                         <th>Browser Name</th>
                         <th>Browser Version</th>
@@ -217,7 +218,16 @@
                 }
             },
             "columns": [
-                { "data": "ViewHistoryId", "name": "ViewHistoryId", "autoWidth": true, "visible": true },
+                { "data": "ViewHistoryId", "name": "ViewHistoryId", "autoWidth": true, "visible": false },
+                {
+                    "data": "ViewDate",
+                    "name": "ViewDate",
+                    "autoWidth": true,
+                    "visible": true,
+                    render: function (data, type, row) {
+                        return momentDateFormatter(row.ViewDate, "MM/DD/YYYY");
+                    }
+                },
                 {
                     "data": "IPAddress",
                     "name": "IPAddress",

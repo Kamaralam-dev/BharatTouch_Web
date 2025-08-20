@@ -157,7 +157,7 @@
                 }
             },
             "columns": [
-                { "data": "LeadId", "name": "LeadId", "autoWidth": true, "visible": true },
+                { "data": "LeadId", "name": "LeadId", "autoWidth": true, "visible": false },
                 {
                     "data": "Name",
                     "name": "Name",
@@ -174,7 +174,7 @@
                 {
                     "data": "LeadType",
                     "name": "LeadType",
-                    "autoWidth": true,
+                    "autoWidth": false,
                     "className": "dt-body-left",
                 },
                 {
@@ -191,7 +191,7 @@
                     "visible": true,
                     "className": "dt-body-left",
                     render: function (data, type, row) {
-                        return momentDateFormatter(row.Date, "MM/DD/YYYY");
+                        return momentDateFormatter(row.CreatedOn, "MM/DD/YYYY");
                     }
                 },
 

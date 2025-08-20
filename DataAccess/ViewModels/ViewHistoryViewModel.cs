@@ -23,5 +23,6 @@ namespace DataAccess.ViewModels
         public string Country { get; set; }
         public string UserAgent { get; set; }
         public int PageViewed { get; set; }
+        public DateTime? ViewDate { get; set; }
     }
 }
