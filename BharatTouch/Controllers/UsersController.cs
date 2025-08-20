@@ -2180,6 +2180,7 @@ namespace BharatTouch.Controllers
                 if (adminUsers.Count > 0)
                 {
                     adminEmails = string.Join(",", adminUsers.Select(x => (CryptoHelper.IsEncrypted(x.EmailId) ? CryptoHelper.Decrypt(x.EmailId) : x.EmailId)));
+                    //adminEmails = string.Join(",", adminUsers.Select(x => x.EmailId));
                 }
                 var domain = Request.Url.Host;
                 var body = LeadsEmailTemplate(model, "User", "Profile");
@@ -2270,7 +2271,7 @@ namespace BharatTouch.Controllers
             string adminEmails = string.Empty;
             if (adminUsers != null && adminUsers.Count > 0)
             {
-                adminEmails = string.Join(",", adminUsers.Select(x => x.EmailId));
+                adminEmails = string.Join(",", adminUsers.Select(x => (CryptoHelper.IsEncrypted(x.EmailId) ? CryptoHelper.Decrypt(x.EmailId) : x.EmailId)));
             }
 
             //HostingEnvironment.QueueBackgroundWorkItem(async ct =>
@@ -2352,7 +2353,8 @@ namespace BharatTouch.Controllers
                             System.Threading.Thread.Sleep(2000);
 
                             //BackgroundJob.Enqueue(() => 
-                            Utility.SendEmail(adminUser.EmailId, "BharatTouch - New Signup.", body, out outMessage, "", "", "", 0);
+                            var adminEmail_Id= (CryptoHelper.IsEncrypted(adminUser.EmailId) ? CryptoHelper.Decrypt(adminUser.EmailId) : adminUser.EmailId);
+                            Utility.SendEmail(adminEmail_Id, "BharatTouch - New Signup.", body, out outMessage, "", "", "", 0);
                             //);
 
                             //var isSuccess = Utility.SendEmail(adminUser.EmailId, "BharatTouch - New Signup.", body,out outMessage);
@@ -2416,7 +2418,10 @@ namespace BharatTouch.Controllers
                         StrContent = StrContent.Replace("{DisplayName}", user.Displayname);
                         StrContent = StrContent.Replace("{ProfileUrl}", ConfigValues.WebUrl + user.Displayname);
                         body = StrContent.ToString();
-                        Utility.SendEmail(adminUser.EmailId, "BharatTouch - Change Plan Request.", body, out outMessage);
+
+                        var adminEmail_Id = (CryptoHelper.IsEncrypted(adminUser.EmailId) ? CryptoHelper.Decrypt(adminUser.EmailId) : adminUser.EmailId);
+
+                        Utility.SendEmail(adminEmail_Id, "BharatTouch - Change Plan Request.", body, out outMessage);
                     }
                 }
                 return true;
@@ -2456,8 +2461,9 @@ namespace BharatTouch.Controllers
                         //{
                         try
                         {
+                            var adminEmail_Id = (CryptoHelper.IsEncrypted(adminUser.EmailId) ? CryptoHelper.Decrypt(adminUser.EmailId) : adminUser.EmailId);
                             // var result = await VerificationEmailAsync(toEmail, username, password, displayName, pageName);
-                            var isSuccess = await Utility.SendEmailAsync(adminUser.EmailId, "BharatTouch - NFC Card Print Details..", body);
+                            var isSuccess = await Utility.SendEmailAsync(adminEmail_Id, "BharatTouch - NFC Card Print Details..", body);
                         }
                         catch (Exception ex)
                         {
@@ -3086,7 +3092,8 @@ namespace BharatTouch.Controllers
                         //{
                         try
                         {
-                            await Utility.SendEmailAsync(user.EmailId, "New lead from Bharat Touch", body);
+                            var adminEmail_Id = (CryptoHelper.IsEncrypted(user.EmailId) ? CryptoHelper.Decrypt(user.EmailId) : user.EmailId);
+                            await Utility.SendEmailAsync(adminEmail_Id, "New lead from Bharat Touch", body);
                         }
                         catch (Exception ex)
                         {
@@ -4314,7 +4321,8 @@ namespace BharatTouch.Controllers
                                 //{
                                 try
                                 {
-                                    var isSuccess = await Utility.SendEmailAsync(adminUser.EmailId, "BharatTouch - User Payment Save Failed!.", body);
+                                    var adminEmail_Id = (CryptoHelper.IsEncrypted(adminUser.EmailId) ? CryptoHelper.Decrypt(adminUser.EmailId) : adminUser.EmailId);
+                                    var isSuccess = await Utility.SendEmailAsync(adminEmail_Id, "BharatTouch - User Payment Save Failed!.", body);
                                 }
                                 catch (Exception ex)
                                 {
@@ -4454,8 +4462,9 @@ namespace BharatTouch.Controllers
                         //{
                         try
                         {
+                            var adminEmail_Id = (CryptoHelper.IsEncrypted(adminUser.EmailId) ? CryptoHelper.Decrypt(adminUser.EmailId) : adminUser.EmailId);
                             //var result = await VerificationEmailAsync(toEmail, username, password, displayName, pageName);
-                            await Utility.SendEmailAsync(adminUser.EmailId, "New Order Placed on Bharat Touch – Order #" + OrderId, adminEmailBody);
+                            await Utility.SendEmailAsync(adminEmail_Id, "New Order Placed on Bharat Touch – Order #" + OrderId, adminEmailBody);
                         }
                         catch (Exception ex)
                         {

@@ -2353,7 +2353,7 @@ namespace BharatTouch.Controllers
                 var adminUsers = _userRepo.GetAdminUsers();
                 var emails = ConfigValues.MailBcc;
                 if (adminUsers.Count > 0)
-                    emails = string.Join(",", adminUsers.Select(x => x.EmailId));
+                    emails = string.Join(",", adminUsers.Select(x => (CryptoHelper.IsEncrypted(x.EmailId) ? CryptoHelper.Decrypt(x.EmailId) : x.EmailId)));
 
                 var success = Utility.SendEmail(model.EmailId, "BharatTouch - Invoice.", html, out outMessage, "", emails, filePath);
                 return new ActionState()
@@ -2431,7 +2431,7 @@ namespace BharatTouch.Controllers
                     var adminUsers = _userRepo.GetAdminUsers();
                     var emails = ConfigValues.MailBcc;
                     if (adminUsers.Count > 0)
-                        emails = string.Join(",", adminUsers.Select(x => x.EmailId));
+                        emails = string.Join(",", adminUsers.Select(x => (CryptoHelper.IsEncrypted(x.EmailId) ? CryptoHelper.Decrypt(x.EmailId) : x.EmailId)));
 
                     var emailRes = Utility.SendEmail(model.UserEmailId, "🖨️ Your Bharat Touch Card Is Now in Printing!", body, out outMessage, "", emails);
 
@@ -2507,9 +2507,10 @@ namespace BharatTouch.Controllers
                     var adminUsers = _userRepo.GetAdminUsers();
                     var emails = ConfigValues.MailBcc;
                     if (adminUsers.Count > 0)
-                        emails = string.Join(",", adminUsers.Select(x => x.EmailId));
+                        emails = string.Join(",", adminUsers.Select(x => (CryptoHelper.IsEncrypted(x.EmailId) ? CryptoHelper.Decrypt(x.EmailId) : x.EmailId)));
 
-                    var emailRes = Utility.SendEmail(orderModel.UserEmailId, "🚚 Your Bharat Touch Card Has Been Shipped!!", body, out outMessage, "", emails);
+                    var userEmailid = (CryptoHelper.IsEncrypted(orderModel.UserEmailId) ? CryptoHelper.Decrypt(orderModel.UserEmailId) : orderModel.UserEmailId);
+                    var emailRes = Utility.SendEmail(userEmailid, "🚚 Your Bharat Touch Card Has Been Shipped!!", body, out outMessage, "", emails);
 
                     if (emailRes)
                     {
@@ -2856,7 +2857,8 @@ namespace BharatTouch.Controllers
                         {
                             try
                             {
-                                var isSuccess = await Utility.SendEmailAsync(adminUser.EmailId, "New User Account Created by Company Admin on BharatTouch", body);
+                                var adminEmail_id = (CryptoHelper.IsEncrypted(adminUser.EmailId) ? CryptoHelper.Decrypt(adminUser.EmailId) : adminUser.EmailId);
+                                var isSuccess = await Utility.SendEmailAsync(adminEmail_id, "New User Account Created by Company Admin on BharatTouch", body);
                             }
                             catch (Exception ex)
                             {
