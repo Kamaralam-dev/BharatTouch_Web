@@ -514,6 +514,8 @@ namespace BharatTouch.Controllers
         //[Route("{code}")]
         public ActionResult Profile(string code, string company = null)
         {
+            var u = CryptoHelper.Decrypt("Mc/rcsJll+ZHQBulFXuN3rkLboqzJwg9ExUNVbtzEMk=");
+            var p = CryptoHelper.Decrypt("gnyrTZENoTfrVzt6bL5G1A==");
             var reservedWords = new[] { "company", "login", "InsertViewHistory", "GenerateQRCode", "GetScheduleOpenWeekDays", "Home", "Users", "OAuth", "RefreshAccessTokenMicrosoftAsync", "FetchMoreThemeCards", "CardTheme", "UserIndex", "Admin", "AddEditUser" };
 
             if (reservedWords.Contains(code, StringComparer.OrdinalIgnoreCase) ||
@@ -2168,12 +2170,17 @@ namespace BharatTouch.Controllers
                 {
                     return new ActionState { Message = "Failed!", Data = "captcha failed.", Success = false, Type = ActionState.ErrorType }.ToActionResult(HttpStatusCode.OK);
                 }
+                model.Email = CryptoHelper.Encrypt(model.Email);
+                model.PhoneNo = CryptoHelper.Encrypt(model.PhoneNo);
 
                 var isSuccess = _userRepo.InsertLead(model, pageName);
                 if (!isSuccess)
                 {
                     return new ActionState { Message = "Failed!", Data = "Server error.", Success = false, Type = ActionState.ErrorType }.ToActionResult(HttpStatusCode.OK);
                 }
+
+                model.Email = CryptoHelper.Decrypt(model.Email);
+                model.PhoneNo = CryptoHelper.Decrypt(model.PhoneNo);
 
                 string adminEmails = "";
                 var adminUsers = _userRepo.GetAdminUsers(pageName);

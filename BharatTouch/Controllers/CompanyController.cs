@@ -904,6 +904,13 @@ namespace BharatTouch.Controllers
             int totRows = 0;
             var leads = _userRepo.FetchLeadsByUserId(userId, Utility.StartIndex(), Utility.PageSize(), Utility.SortBy(), Utility.SortDesc(), Utility.FilterText(), out totRows, "BharatTouch/Company/LeadIndex/GetLeadsByUser");
 
+            
+            foreach (var u in leads)
+            {
+                u.Email = CryptoHelper.IsEncrypted(u.Email) ? CryptoHelper.Decrypt(u.Email) : u.Email;
+                u.PhoneNo = CryptoHelper.IsEncrypted(u.PhoneNo) ? CryptoHelper.Decrypt(u.PhoneNo) : u.PhoneNo;
+            }
+
             return Json(new { recordsFiltered = totRows, recordsTotal = totRows, data = leads }, JsonRequestBehavior.AllowGet);
         }
 
